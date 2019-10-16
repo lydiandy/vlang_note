@@ -29,6 +29,8 @@
 
 * [结构体](content/struct.md)
 
+* [访问控制](content/access_controll.md)
+
 * [方法](content/method.md)
 
 * [接口](content/interface.md)
