@@ -105,8 +105,8 @@ for的四种形式：
 3. 无限循环：for {}
 
 
-   ```
-   mut num := 0
+```
+mut num := 0
    for {
    	num++
    	if num >= 10 {
@@ -114,7 +114,7 @@ for的四种形式：
    	}
    }
    println(num) // "10"
-   ```
+```
 
 4. 遍历：for i in xxx {}
 

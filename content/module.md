@@ -122,7 +122,46 @@ fn main() {
 }
 ```
 
-​	
+### 模块的初始化函数
+
+如果在模块中定义了init函数,当模块被导入时,init函数会被自动调用
+
+mymodule.v
+
+```
+module mymodule
+
+fn init() {
+    println('from init')
+}
+
+pub fn my_fn() {
+    println('from my_fn')
+}
+```
+
+main.v
+
+```
+module main
+
+import mymodule
+
+fn main() {
+    mymodule.my_fn()
+}
+```
+
+执行结果是:
+
+```
+from init2
+from my_fn
+```
+
+同一个模块内只能定义一个init函数,如果在模块中定义了多个init函数,编译会不通过
+
+### 模块目录中的源文件
 
 在模块目录中
 

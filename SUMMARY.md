@@ -49,7 +49,9 @@
 
 * [跨平台编译](content/crossplatform.md)
 
-* [系统脚本](content/shell.md)
+* [单个V文件](content/singlev.md)
+
+* [shell脚本](content/shell.md)
 
 * [调用C代码](content/c.md)
 
