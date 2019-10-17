@@ -52,4 +52,4 @@ v script.vsh && ./script
 v run script.vsh
 ```
 
-具体的os模块常用的函数可以参考[标准库](stdlibary.md)章节的介绍
+具体的os模块常用的函数可以参考[标准库](stdlibrary.md)章节的介绍

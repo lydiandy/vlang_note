@@ -69,9 +69,33 @@
 
   
 
-* [常用标准库](content/stdlibrary.md)
+* [常用标准库](content/std_builtin.md)
 
-  ------
+  - [builtin](content/std_builtin.md)
+
+  - [strings](content/std_strings.md)
+
+  - [os](content/std_os.md)
+
+  - [time](content/std_time.md)
+
+  - [math](content/std_math.md)
+
+  - [json](content/std_json.md)
+
+  - encoding
+
+  - flag
+
+  - log
+
+  - net
+
+  - http
+
+    
+
+------
 
   
 
