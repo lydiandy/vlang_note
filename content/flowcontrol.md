@@ -123,10 +123,9 @@ mut num := 0
    遍历数组:
 
    ```
-   mut numbers := [1, 2, 3, 4, 5]
-   for i, num in numbers {
-   	println(num)
-   	numbers[i] = 0
+   numbers := [1, 2, 3, 4, 5]
+   for num in numbers {
+   	println('i:$i,num:$num')
    }
    ```
 
