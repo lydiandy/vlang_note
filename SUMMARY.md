@@ -81,16 +81,20 @@
 
   - [json](content/std_json.md)
 
-  - encoding
+  - [encoding](content/std_encoding.md)
 
-  - flag
+  - [flag](content/std_flag.md)
 
-  - log
+  - [term](content/std_term.md)
 
-  - net
+  - [log](content/std_log.md)
 
-  - http
+  - [net](content/std_net.md)
 
+  - [http](content/std_http.md)
+  
+    
+    
     
 
 ------
