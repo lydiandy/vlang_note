@@ -19,9 +19,7 @@
 
 * [枚举](content/enum.md)
 
-* [内置类型](content/type.md)
-
-* [内置数据结构](content/datastruct.md)
+* [内置类型](content/builtintype.md)
 
 * [流程控制](content/flowcontrol.md)
 
