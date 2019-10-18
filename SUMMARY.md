@@ -37,6 +37,8 @@
 
 * [错误处理](content/error.md)
 
+* [运算符重载](content/operator_overloading.md)
+
 * [并发](content/concurrent.md)
 
 * [内存管理](content/memory.md)
@@ -45,7 +47,9 @@
 
 * [代码文档](content/doc.md)
 
-* [跨平台编译](content/crossplatform.md)
+* [条件编译/跨平台编译](content/crossplatform.md)
+
+* [包管理器](content/package.md)
 
 * [单个V文件](content/singlev.md)
 
