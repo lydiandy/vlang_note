@@ -12,6 +12,24 @@ true,false
 
 ------
 
+bool从定义的C代码看，是C的一个int类型别名,true是常量1，false是常量0
+
+通过使用sizeof(bool)，64位上的bool是4个字节，32位上的应该是2个字节
+
+sizeof(bool)的结果是1个字节，有点奇怪
+
+1. ```
+   #ifndef bool
+   	typedef int bool;
+   	#define true 1
+   	#define false 0
+   #endif
+   ```
+
+   
+
+------
+
 
 
 ### 字符串类型
@@ -73,6 +91,18 @@ for s in str {
 //遍历index和value
 for i,s in str {
     println('index:$i,value:${s.str()}')
+}
+```
+
+------
+
+字符串从定义的v代码看，也是一个struct
+
+```v
+struct string {
+pub:
+	str byteptr //一个byte类型的指针
+	len int  //字符串的长度
 }
 ```
 
@@ -177,8 +207,8 @@ f64
 
 byteptr
 
-字节指针
+字节指针,指针指向的内存是byte类型
 
 voidptr
 
-通用指针
+通用指针,指向任何类型

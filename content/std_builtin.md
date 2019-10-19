@@ -1,6 +1,48 @@
 ## builtin内置模块
 
+#### 内置函数
+
+vlib/builtin/builtin.v
+
+- print(string) 
+
+- println(string)
+
+- eprintln(string)
+
+  
+
+- exit(int)
+
+- isnil(ptr voidptr) //判断C指针是否是空指针
+
+  
+
+- panic(s string)
+
+- on_panic(f fn(int) int) //尚未实现
+
+  
+
+- malloc(int) byteptr //分配内存
+
+- calloc(int) byteptr //分配内存
+
+- free(ptr voidptr) //释放
+
+- realloc(byteptr,int) //重新调整内存大小
+
+- memcpy(byteptr,byteptr,int) //内存拷贝
+
+- memmove(byteptr,byteptr,int) //内存移动
+
+  ------
+
+  
+
 #### 字符串
+
+vlib/builtin/string.v
 
 ends_with(string) bool
 
@@ -222,13 +264,23 @@ ge(string) bool
 
 比较字符串是否大约等于参数的字符串
 
-------
+    字符串比较大小: < > == != ≠
 
+   比较的规则是:字符串的大小是由左边开始最前面的字符决定的,跟长度没有关系,比较的时候，从字符串左边开始，一次比较每个字符，直接出现差异、或者其中一个串结束为止
 
+   每一次字符的比较大小,实际是字符表中字符对应的整数的大小
+
+   ASCII字符表:
+
+   http://ascii.911cha.com/
+
+   至今为止共定义了128个字符，其中33个字符无法显示
+
+   在33个字符之外的是95个可显示的字符
 
 #### 数组
 
-
+vlib/builtin/array.v
 
 
 
@@ -238,7 +290,7 @@ ge(string) bool
 
 #### 字典
 
-
+vlib/builtin/map.v
 
 
 
@@ -248,3 +300,10 @@ ge(string) bool
 
 ------
 
+#### 错误处理
+
+vlib/builtin/option.v
+
+
+
+error(string) Option //错误处理,返回Option变量
