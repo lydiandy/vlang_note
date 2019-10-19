@@ -18,13 +18,13 @@ bool从定义的C代码看，是C的一个int类型别名,true是常量1，false
 
 sizeof(bool)的结果是1个字节，有点奇怪
 
-1. ```
+```
    #ifndef bool
    	typedef int bool;
    	#define true 1
    	#define false 0
    #endif
-   ```
+```
 
    
 
