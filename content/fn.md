@@ -55,6 +55,20 @@ my_fn(mut nums) //参数定义也要是可变的
 println(nums) // ==> "[2, 4, 6]" //函数执行后,传进来的参数被改变了
 ```
 
+不确定个数参数也是支持的:
+
+```
+fn main() {
+    my_fn(1,'abc','d','e','f','g')
+}
+
+fn my_fn(i int,s string, others ...string) {
+    println(i)
+    println(s)
+    println(others)
+}
+```
+
 
 
 ### 函数返回值
