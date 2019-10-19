@@ -39,6 +39,10 @@
 
 * [运算符重载](content/operator_overloading.md)
 
+* [内置json支持](content/json.md)
+
+* [内置sql支持](content/sql.md)
+
 * [并发](content/concurrent.md)
 
 * [内存管理](content/memory.md)
