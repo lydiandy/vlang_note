@@ -38,7 +38,7 @@ V的语法真的看着，写着都很舒服，比go和rust都好
 
 ------
 
-### [目录](summary.md)
+### [目录](https://github.com/lydiandy/vlang_note/blob/master/SUMMARY.md)
 
 
 
