@@ -1,7 +1,7 @@
 # 目录
 
 
-* [为什么喜欢V](content/preface.md)
+* [V语言学习笔记](README.md)
 
   ------
 
