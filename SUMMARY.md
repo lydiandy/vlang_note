@@ -107,7 +107,7 @@
 
 ------
 
--   V[编译器源代码](content/compiler.md)
+-   [V编译器源代码](content/compiler.md)
 
 
 * [附录1 关键字](content/appendix-keyword.md)
