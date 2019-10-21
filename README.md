@@ -5,14 +5,17 @@
 github地址:https://github.com/lydiandy/vlang_note
 
 gitbook阅读地址:https://lydiandylin.gitbook.io/vlang/
-		
+
+
+
+------
+
+
 
 **记录V语言学习过程中的知识点**
 	
 
 **为什么喜欢V**
-
-​	
 
 V感觉就是**go+rust+c**的结合体，吸收了这三者的优点,不过像go更多一点
 
