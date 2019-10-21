@@ -36,9 +36,7 @@ V的语法真的看着，写着都很舒服，比go和rust都好
 
 即使1.0发布了,也有挺长的路要走,毕竟一门编译语言的发展是按年来计算的
 
-------
-
-### [目录](https://github.com/lydiandy/vlang_note/blob/master/SUMMARY.md)
+### 
 
 
 
