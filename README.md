@@ -6,11 +6,11 @@
 
 gitbook电子书阅读地址:https://lydiandylin.gitbook.io/vlang/
 
- 	
+​		
 
 ---
 
-记录V语言学习过程中的知识点
+**记录V语言学习过程中的知识点**
 
 ​	
 
