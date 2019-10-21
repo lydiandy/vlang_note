@@ -2,18 +2,15 @@
 
 ## V语言学习笔记
 
+**记录V语言学习过程中的知识点**
+
 github地址:https://github.com/lydiandy/vlang_note
 
 gitbook阅读地址:https://lydiandylin.gitbook.io/vlang/
 
-
-
 ------
 
 
-
-**记录V语言学习过程中的知识点**
-	
 
 **为什么喜欢V**
 
