@@ -2,25 +2,35 @@
 
 #### 内置函数
 
+```
 vlib/builtin/builtin.v
+```
 
-- print(string) 
 
-- println(string)
 
-- eprintln(string)
+- print(string)  //打印字符串,不换行
+
+- println(string) //打印字符串,换行
+
+- eprintln(string) //打印错误,控制台是红色字
+
+  ------
 
   
 
-- exit(int)
+- exit(int) 退出程序
 
 - isnil(ptr voidptr) //判断C指针是否是空指针
 
+  ------
+
   
 
-- panic(s string)
+- panic(s string) //报错
 
 - on_panic(f fn(int) int) //尚未实现
+
+  ------
 
   
 
@@ -42,7 +52,9 @@ vlib/builtin/builtin.v
 
 #### 字符串
 
+```
 vlib/builtin/string.v
+```
 
 ends_with(string) bool
 

@@ -89,7 +89,7 @@
 	- [log](content/std_log.md)
 	- [net](content/std_net.md)
 	- [http](content/std_http.md)
-	- [compiler](content/std_compiler)
+	- [compiler](content/std_compiler.md)
 
 ------
 
