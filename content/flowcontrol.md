@@ -78,7 +78,7 @@ for的四种形式：
 
 1. 传统的：for i=0;i<100;i++ {}
 
-   ```
+```
    for i := 0; i < 10; i++ { 
    	//跳过6
    	if i == 6 {
@@ -86,13 +86,13 @@ for的四种形式：
    	}
    	println(i)
    }
-   ```
+```
 
    为了简洁的目的,for里面的i默认就是mut可变的
 
 2. 替代while：for i<100 {}
 
-   ```
+```
    mut sum := 0
    mut i := 0
    for i <= 100 {
@@ -100,7 +100,7 @@ for的四种形式：
    	i++
    }
    println(sum) // 输出"5050"
-   ```
+```
 
 3. 无限循环：for {}
 
@@ -122,12 +122,12 @@ mut num := 0
 
    遍历数组:
 
-   ```
+```
    numbers := [1, 2, 3, 4, 5]
    for num in numbers {
    	println('i:$i,num:$num')
    }
-   ```
+```
 
 ​	遍历字符串:
 
