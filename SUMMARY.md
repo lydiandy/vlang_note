@@ -59,6 +59,8 @@
 
 * [shell脚本](content/shell.md)
 
+* [不安全代码](content/unsafe.md)
+
 * [调用C代码](content/c.md)
 
 * [调用汇编代码](content/asm.md)

@@ -6,8 +6,6 @@
 vlib/builtin/builtin.v
 ```
 
-
-
 - print(string)  //打印字符串,不换行
 
 - println(string) //打印字符串,换行
