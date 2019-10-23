@@ -49,6 +49,23 @@ match os {
 }
 ```
 
+匹配的值也可以多个,用逗号分隔:
+
+```
+os:='macos'
+match os {
+	'windows' {
+    	println('windows')
+	}
+	'macos','linux' {
+    	println('macos or linux')
+	}
+	else  {
+   	 println('unknow')
+	}
+}
+```
+
 match表达式:
 
 ```
