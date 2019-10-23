@@ -34,16 +34,16 @@ println(s) // "odd"
 ```
 os:='macos'
 match os {
-	'windows'=> {
+	'windows' {
     	println('windows')
 	}
-	'linux' => {
+	'linux' {
     	println('linux')
 	}
-	'macos' => {
+	'macos' {
     	println('macos')
 	}
-	else => {
+	else  {
    	 println('unknow')
 	}
 }
@@ -54,16 +54,16 @@ match表达式:
 ```
 os:='macos'
 price:=match os {
-    'windows'=> {
+    'windows' {
         100
     }
-    'linux' => {
+    'linux' {
         120
     }
-    'macos' => {
+    'macos' {
         150
     }
-    else => {
+    else {
         0
     }
 }
