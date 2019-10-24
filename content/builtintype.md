@@ -1,5 +1,7 @@
 ## 内置类型
 
+除了内置的基本类型外,数组和字典也是内置类型
+
 ### 数组array
 
 **数组实现:**
@@ -97,57 +99,68 @@ fn main() {
 
 **数组常用函数:**
 
-str()
+str()  	//数组转字符串
 
-数组转字符串
+first() 	//返回数组的第一个元素
 
-first()
+last()	//返回数组的最后一个元素
 
-返回数组的第一个元素
+delete(int)	//删除数组的第几个元素
 
-last()
+left(int) array	//返回从左边开始,到第几个元素的子数组
 
-返回数组的最后一个元素
+right(int) array	//返回从左边开始第几个之后,  右边的所有元素的子数组
 
-delete(int)
+slice(start,end)	//返回给定位置区间的子数组,左闭右开
 
-删除数组的第几个元素
+reverse()	//数组反转
 
-left(int) array
+clone()	//克隆数组
 
-返回从左边开始,到第几个元素的子数组
+insert(int,voidptr)	//在数组的第几个位置插入新的元素,第二个参数是指针类型
 
-right(int) array
+prepend(voidptr)	//在数组的第一个位置插入新的元素
 
-返回从左边开始第几个之后,  右边的所有元素的子数组
+free()	//释放数组的内存
 
-slice(start,end)
+[ ]int.sort() 	//针对整型数组的排序
 
-返回给定位置区间的子数组,左闭右开
+filter()	//针对int和string数组进行过滤,返回满足条件的元素数组
 
-reverse()
+​	it是参数表达式中,约定的iterator迭代器,表示每一次迭代时,数组的元素,满足过滤器表达式的元素会被返回
 
-数组反转
+```
+	a := [1, 2, 3, 4, 5, 6]
+	b := a.filter(it % 2 == 0) //b的结果为:[2,4,6]
+	c := ['v', 'is', 'awesome']
+	d := c.filter(it.len > 1) //d的结果为:['is','awesome']
+```
 
-clone()
+filter2()	//针对int和string数组进行过滤,返回满足条件的元素数组
 
-克隆数组
+​	int类型数组中:filter2参数为函数类型,函数签名为: fn(p_val, p_i int, p_arr []int) bool
 
-insert(int,voidptr)
+​	string类型数组中:filter2参数为函数类型,函数签名为:fn(p_val string, p_i int, p_arr []string) bool
 
-在数组的第几个位置插入新的元素,第二个参数是指针类型
+```
+fn callback_1(val int, index int, arr []int) bool {
+	return val >= 2
+}
 
-prepend(voidptr)
+fn callback_2(val string, index int, arr []string) bool {
+	return val.len >= 2
+}
 
-在数组的第一个位置插入新的元素
+fn test_filter2() {
+	a := [1, 2, 3, 4, 5, 6]
+	b := a.filter2(callback_1) //b的结果为:[2,4,6]
 
-free()
+	c := ['v', 'is', 'awesome']
+	d := c.filter2(callback_2) //d的结果为:['is','awesome']
+}
+```
 
-释放数组的内存
 
-[ ]int.sort() 
-
-针对整型数组的排序
 
 ------
 
@@ -255,19 +268,11 @@ fn main() {
 
 **map常用函数:**
 
-m.keys() 
+m.keys() 	//获取map的所有key,返回keys数组
 
-获取map的所有key,返回keys数组
+m.delete(key)	//删除map的某一个key
 
-m.delete(key)
+m.str()	//map转成字符串输出
 
-删除map的某一个key
-
-m.str()
-
-map转成字符串输出
-
-m.free()
-
-释放map的内存
+m.free()	//释放map的内存
 
