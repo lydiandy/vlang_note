@@ -50,23 +50,21 @@ const (
 
 ### 常量名的大小写规则
 
-目前版本的V语言没有限制常量是否要全部大写,或者首字母大写,或者小写加下划线,都可以全部编译通过
-
-V源代码里面的常量用的是大骆驼峰风格
+V语言限制常量名必须是小写加下划线
 
 ```
 module main
 
 const (
-    PI=3.14
+    PI=3.14 //编译不通过
     num=3
     built_mode='mode'
-    Version='1.1.1'
+    Version='1.1.1' //编译不通过
 )
 
 fn main() {
     println(PI)
-    println()
+    println(num)
     println(built_mode)
     println(Version)
 }

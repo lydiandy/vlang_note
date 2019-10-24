@@ -1,14 +1,39 @@
 ## 访问控制
 
+### 模块一级成员访问控制
+
+目前模块的一级成员有:const,enum,fn,struct,interface,type
+
+默认是模块级别,只有在模块内部才能访问
+
+加了pub以后,就是公共级别
+
+```
+pub const (
+	pi=3.14
+)
+pub enum Color {
+	blue
+	green
+	red
+}
+pub fn my_fn() {
+	println('my_fn is public')
+}
+pub struct Point {
+	x int
+	y int
+}
+pub interface MyReader { //目前版本未实现pub
+	read() int
+}
+pub type myint int //目前版本未实现pub
+
+```
 
 
-目前版本只有函数可以通过pub来控制是在模块级别,还是公共级别可以调用
 
-const,enum目前默认就是公共级别的
-
-struct,interface目前默认也是公共级别的,但是应该也要有pub的控制才合理
-
-
+### 结构体字段访问控制
 
 结构体字段默认是:私有且不可变
 
