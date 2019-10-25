@@ -1,10 +1,18 @@
 ## V语言编译器源代码
 
+新版本的V代码中,编译器已经从主模块被移到了vlib/compiler模块中
+
+V编译器的入口文件已经变为根目录的v.v
+
+编译器的主模块,主函数都在v.v里面,编译成v可执行文件
+
+------
+
 源代码结构介绍文档:https://github.com/vlang/v/blob/master/CONTRIBUTING.md
 
-编译器目录一共17个v源文件,编译后生成V编译器执行文件
+vlib/compiler编译器目录:
 
-1. main.v  --入口文件
+1. main.v  --编译器模块主文件
 
 - 识别出编译模式
 - 构造编译器对象(struct V)
@@ -53,33 +61,40 @@
 
 ### 编译器源代码文件说明
 
-编译器的源代码位于compiler目录中
+编译器的源代码位于compiler目录中,29个V源文件:
 
-| 源代码文件名 | 功能说明                |
-| ------------ | ----------------------- |
-| main.v       | 编译器的入口主文件      |
-| vhelp.v      | 定义v编译器帮助文本常量 |
-| vfmt.v       | 实现代码格式化,未实现   |
-| token.v      | 词法单元                |
-| table.v      | 符号表                  |
-| scanner.v    | 扫描                    |
-| repl.v       | 交互式模式              |
-| query.v      |                         |
-| parser.v     | 解析语法                |
-| msvc.v       | 使用微软VC编译器        |
-| modules.v    | 模块                    |
-| live.v       | 实时热更新              |
-| jsgen.v      |                         |
-| gen_js.v     | 生成js代码              |
-| gen_c.v      | 生成C代码               |
-| fn.v         | 函数                    |
-| depgraph.v   | 模块依赖图              |
-| comptime.v   |                         |
-| cc.v         |                         |
-| cflags.v     |                         |
-| cheaders.v   |                         |
-|              |                         |
-|              |                         |
+| 源代码文件名      | 功能说明                                                     |
+| ----------------- | ------------------------------------------------------------ |
+| main.v            | 编译器的主文件,定义v.v所需的各种函数,以及new_v()创建V变量    |
+| vhelp.v           | 定义v编译器帮助文本常量                                      |
+| vfmt.v            | 实现代码格式化,未实现                                        |
+| token.v           | 词法单元                                                     |
+| table.v           | 符号表,存放要编译的源代码中:所有的模块,导入,常量,函数,方法,类型(结构体) |
+| scanner.v         | 扫描                                                         |
+| repl.v            | 交互式模式                                                   |
+| query.v           |                                                              |
+| parser.v          | 解析语法                                                     |
+| parser2.v         |                                                              |
+| optimization.v    |                                                              |
+| msvc.v            | 使用微软VC编译器                                             |
+| modules.v         | 模块                                                         |
+| module_header.v   | 生成.vh相关                                                  |
+| live.v            | 实时热更新                                                   |
+| jsgen.v           |                                                              |
+| gen_js.v          | 生成js代码                                                   |
+| gen_c.v           | 生成C代码                                                    |
+| struct.v          | 结构体相关                                                   |
+| fn.v              | 函数相关                                                     |
+| depgraph.v        | 模块依赖图                                                   |
+| comptime.v        |                                                              |
+| cc.v              |                                                              |
+| cflags.v          |                                                              |
+| cgen.v            | 生成C代码                                                    |
+| cheaders.v        | 统一存放V编译器所需的所有C代码的头文件,包括V所有的基本类型定义 |
+| enum.v            | 解析器结构体处理枚举的代码                                   |
+| vtest.v           |                                                              |
+| compiles_errors.v | 编译器错误处理相关                                           |
+| test目录          | 编译器的各种测试文件,可以从这里看到很多V基本功能的使用代码   |
 
 ### 编译器代码中的核心类型
 
@@ -93,9 +108,17 @@
 
   一个CGen代码生成,
 
-  一个解析器数组[]Parser, 应该是一个文件一个解析器
+  一个解析器数组[]Parser, 一个文件对应一个解析器,一个解析器里包含一个扫描器
+
+  ------
+
+  
 
 - struct Preferences //编译参数配置类型,用来保存编译的相关参数
+
+  ------
+
+  
 
 - struct Table //符号表,包含了整个程序所有的一级元素
 
@@ -111,6 +134,8 @@
 
   file_imports 一个应用导入的所有文件
 
+  ------
+
   
 
 - struct Parser //解析器,一个文件一个解析器,一个解析器包含一个扫描器
@@ -123,9 +148,33 @@
 
   scanner  //解析器包含一个扫描器
 
+  
+
+  
+
+  
+
+  
+
+  ------
+
+  
+
 - struct Scanner //扫描器
 
   一个源文件一个扫描器
+
+  
+
+  
+
+  
+
+  
+
+  ------
+
+  
 
 - struct Var //变量
 
@@ -143,6 +192,10 @@
 
   ...
 
+  ------
+
+  
+
 - struct Fn //函数
 
   name //函数名
@@ -158,6 +211,10 @@
   is_mothod
 
   ...
+
+  ------
+
+  
 
 - struct Type //类型
 
@@ -177,26 +234,41 @@
 
   ...
 
+  ------
+
   
 
 - struct TypeCategory //类型分类
+
+  ------
 
   
 
 - struct GenTable //泛型表
 
+  ------
+
   
 
 - struct FileImportTable //源文件导入的文件/模块信息
+
+  ------
 
   
 
 - struct CGen // 生成C代码
 
+  ------
+
   
 
 - enum Token   //词法单元枚举,所有的语言基本词法单元,运算符,关键字都在这里用枚举进行对应
 
+  ------
+
   
 
 - enum AcessMod //5种访问控制
+
+------
+

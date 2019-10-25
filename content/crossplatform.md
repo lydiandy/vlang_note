@@ -26,7 +26,7 @@ $if debug {
 v run main.v -debug
 ```
 
-源文件跨平台的编译:
+## 源文件跨平台的编译
 
 源文件后缀为 _nix 的表示linux,unix,mac下才会编译,
 

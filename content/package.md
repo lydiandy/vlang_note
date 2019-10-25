@@ -13,11 +13,13 @@ v install nedpals.args
 v install regex
 ```
 
-执行完毕后,会把包下载到
+执行完毕后,会把包下载到~/.vmodules目录中
 
+```
 ~/.vmodules/nedpals/args
 
 ~/.vmodules/regex
+```
 
 使用的时候import regex就可以了,v会到.vmodules中查找对应的包
 

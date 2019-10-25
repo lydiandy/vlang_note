@@ -95,3 +95,6 @@
 
 - get_lines_joined() string //获取控制台输入的多行字符串,空行时换行结束,返回连接后的字符串
 
+### 常量
+
+os.path_separator	//不同平台的路径分隔符
