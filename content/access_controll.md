@@ -2,32 +2,36 @@
 
 ### 模块一级成员访问控制
 
-目前模块的一级成员有:const,enum,fn,struct,interface,type
+目前模块的一级成员有7个:const,enum,fn,struct,method,interface,type
 
 默认是模块级别,只有在模块内部才能访问
 
 加了pub以后,就是公共级别
 
 ```
-pub const (
+pub const ( //公共常量
 	pi=3.14
 )
-pub enum Color {
+pub enum Color { //公共枚举
 	blue
 	green
 	red
 }
-pub fn my_fn() {
+pub fn my_fn() { //公共函数
 	println('my_fn is public')
 }
-pub struct Point {
+pub struct Point { //公共结构体
 	x int
 	y int
 }
-pub interface MyReader { //目前版本未实现pub
+pub fn (p mut Point) move(x,y int) {  //公共方法
+	p.x+=x
+	p.u+=y
+}
+pub interface MyReader { //公共接口,目前版本未实现pub
 	read() int
 }
-pub type myint int //目前版本未实现pub
+pub type myint int //公共类型别名,目前版本未实现pub
 
 ```
 
