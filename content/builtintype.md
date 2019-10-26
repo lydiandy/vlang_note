@@ -125,7 +125,11 @@ free()	//释放数组的内存
 
 [ ]int.sort() 	//针对整型数组的排序
 
+------
+
 filter()	//针对int和string数组进行过滤,返回满足条件的元素数组
+
+​	filter函数有点特殊,是在编译器中实现的,而不是builtin库中,因为有it这个特殊的迭代器参数
 
 ​	it是参数表达式中,约定的iterator迭代器,表示每一次迭代时,数组的元素,满足过滤器表达式的元素会被返回
 
@@ -136,27 +140,48 @@ filter()	//针对int和string数组进行过滤,返回满足条件的元素数�
 	d := c.filter(it.len > 1) //d的结果为:['is','awesome']
 ```
 
-filter2()	//针对int和string数组进行过滤,返回满足条件的元素数组
+------
 
-​	int类型数组中:filter2参数为函数类型,函数签名为: fn(p_val, p_i int, p_arr []int) bool
+map() 	//针对int和string数组的每一个元素进行一个运算,返回运算后的新数组
 
-​	string类型数组中:filter2参数为函数类型,函数签名为:fn(p_val string, p_i int, p_arr []string) bool
+map函数有点特殊,是在编译器中实现的,而不是builtin库中,因为有it这个特殊的迭代器参数
+
+​	it是参数表达式中,约定的iterator迭代器,表示每一次迭代时,数组的元素
 
 ```
-fn callback_1(val int, index int, arr []int) bool {
-	return val >= 2
+a := [1, 2, 3, 4, 5, 6]
+b := a.map(it * 10)
+println(b)
+```
+
+------
+
+reduce(iter fn (accum, curr int) int, accum_start int) int	//针对int数组,给定一个初始的累计值accum_start,以及累计值与数组元素的累加关系,返回最终的累加结果
+
+```
+module main
+
+fn sum(accum int, curr int) int {
+	return accum + curr
 }
 
-fn callback_2(val string, index int, arr []string) bool {
-	return val.len >= 2
+fn sub(accum int, curr int) int {
+	return accum - curr
 }
 
-fn test_filter2() {
-	a := [1, 2, 3, 4, 5, 6]
-	b := a.filter2(callback_1) //b的结果为:[2,4,6]
-
-	c := ['v', 'is', 'awesome']
-	d := c.filter2(callback_2) //d的结果为:['is','awesome']
+fn main() {
+	a := [1, 2, 3, 4, 5]
+	b := a.reduce(sum, 0)
+	c := a.reduce(sum, 5)
+	d := a.reduce(sum, -1)
+	println(b) //返回15
+	println(c) //返回20
+	println(d) //返回14
+	e := [1, 2, 3]
+    f := e.reduce(sub, 0)
+    g := e.reduce(sub, -1)
+    println(f) //返回-6
+    println(g) //返回-7
 }
 ```
 
