@@ -14,6 +14,8 @@ vlib/builtin/builtin.v
 
 - eprintln(string) //打印错误,控制台是红色字
 
+  ​		
+
   ------
 
   
@@ -22,6 +24,8 @@ vlib/builtin/builtin.v
 
 - isnil(ptr voidptr) //判断C指针是否是空指针
 
+  ​		
+
   ------
 
   
@@ -29,6 +33,8 @@ vlib/builtin/builtin.v
 - panic(s string) //恐慌,报错
 
 - on_panic(f fn(int) int) //尚未实现,应该是恐慌后的回调处理
+
+  ​		
 
   ------
 
@@ -42,13 +48,13 @@ vlib/builtin/builtin.v
 
   对C标准库的calloc的简单封装,不一样的是C的calloc有2个参数,V简化为1个size参数,成为内置函数,用途一样
 
-- free(ptr voidptr) //释放
+- free(ptr voidptr) //释放内存
 
   对C标准库free的简单封装,成为内置函数,用途一样
 
-  ​	
+  ​		
 
-  以下3个常用的C分配内存函数没有定义成为内置函数,还需要通过C.xxx来使用:
+以下3个常用的C分配内存函数没有定义成为内置函数,还需要通过C.xxx来使用:
 
 - C.realloc(byteptr,int) //重新调整内存大小
 
