@@ -1,5 +1,7 @@
 ## builtin内置模块
 
+在builtin内置模块中定义的函数,结构体等,编译器在编译代码时会默认加载builtin模块,可以直接使用
+
 #### 内置函数
 
 ```
@@ -24,9 +26,9 @@ vlib/builtin/builtin.v
 
   
 
-- panic(s string) //报错
+- panic(s string) //恐慌,报错
 
-- on_panic(f fn(int) int) //尚未实现
+- on_panic(f fn(int) int) //尚未实现,应该是恐慌后的回调处理
 
   ------
 
@@ -34,15 +36,27 @@ vlib/builtin/builtin.v
 
 - malloc(int) byteptr //分配内存
 
+  对C标准库的malloc的简单封装,成为内置函数,用途一样
+
 - calloc(int) byteptr //分配内存
+
+  对C标准库的calloc的简单封装,不一样的是C的calloc有2个参数,V简化为1个size参数,成为内置函数,用途一样
 
 - free(ptr voidptr) //释放
 
-- realloc(byteptr,int) //重新调整内存大小
+  对C标准库free的简单封装,成为内置函数,用途一样
 
-- memcpy(byteptr,byteptr,int) //内存拷贝
+  ​	
 
-- memmove(byteptr,byteptr,int) //内存移动
+  以下3个常用的C分配内存函数没有定义成为内置函数,还需要通过C.xxx来使用:
+
+- C.realloc(byteptr,int) //重新调整内存大小
+
+- C.memcpy(byteptr,byteptr,int) //内存拷贝
+
+- C.memmove(byteptr,byteptr,int) //内存移动
+
+  基本上V代码中,都是使用这几个函数来实现内存分配和内存控制
 
   ------
 
