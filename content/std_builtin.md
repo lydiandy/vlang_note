@@ -1,6 +1,8 @@
 ## builtin内置模块
 
-在builtin内置模块中定义的函数,结构体等,编译器在编译代码时会默认加载builtin模块,可以直接使用
+在builtin内置模块中定义的函数,结构体等,编译器在编译代码时会默认加载builtin模块,
+
+可以在任何模块中直接使用,并且不用带buitlit前缀,就是内置
 
 #### 内置函数
 
@@ -53,9 +55,9 @@ vlib/builtin/builtin.v
   对C标准库free的简单封装,成为内置函数,用途一样
 
   ​		
-
-以下3个常用的C分配内存函数没有定义成为内置函数,还需要通过C.xxx来使用:
-
+  
+  以下3个常用的C分配内存函数没有定义成为内置函数,还需要通过C.xxx来使用:
+  
 - C.realloc(byteptr,int) //重新调整内存大小
 
 - C.memcpy(byteptr,byteptr,int) //内存拷贝
