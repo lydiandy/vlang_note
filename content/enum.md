@@ -10,15 +10,15 @@ enum Color {
 	black
 }
 fn main() {
-    mut c:=Color.green
+    mut c:=Color.green //第一次定义要使用：枚举名称.枚举值
     println(c) //目前只能输出枚举值1,还没有办法返回枚举值的名称
 
-    c=Color.blue
+    c=.blue //第二次修改赋值，直接使用.枚举值就可以了
     println(c) //输出0
 }
 ```
 
-可以指定枚举值的值
+也可以指定枚举值的值
 
 ```
 enum Color {
@@ -29,9 +29,9 @@ enum Color {
 }
 fn main() {
     mut c:=Color.green
-    println(c) //目前只能输出枚举值1,还没有办法返回枚举值的名称
+    println(c) //输出4
 
-    c=Color.blue
+    c=.blue
     println(c) //输出3
 }
 ```
