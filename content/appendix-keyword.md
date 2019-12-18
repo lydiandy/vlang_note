@@ -1,6 +1,6 @@
 ## 附录1 关键字
 
-V语言目前有23个关键字:
+V语言目前有25个关键字:
 
 ```
 break 
@@ -25,7 +25,9 @@ or
 pub
 return
 struct
+union
 type
+select //db.select使用到
 ```
 
 
