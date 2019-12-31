@@ -20,7 +20,8 @@ Options/commands:   选项/命令
   -o <file>.js      编译生成js源文件
   -prod             生产优化模式编译,生成更小的可执行文件
   -v, version       显示编译器的版本信息
-  -live             启用代码热更新编译(只会对标注为[live]的函数生效,当修改了函数内的内容会实时编译)
+  -verbose          编译的同时生成log，显示编译器正在进行的内容
+  -live             启用代码热更新编译(只对标注为[live]的函数生效,修改函数内容会实时编译)
   -os <OS>          跨平台交叉编译,编译生成指定os的可执行文件
                     OS可以是:linux, mac, windows, msvc
   -shared           编译生成共享库
@@ -29,6 +30,7 @@ Options/commands:   选项/命令
   -cache            启用预编译模块的缓存,这样在第二次编译时,编译速度会显著加快
 
   -obf              混淆编译生成可执行文件
+  -compress         调用upx，压缩加壳生成二进制文件
   -                 进入交互式模式
 
 Commands:           子命令:
@@ -41,9 +43,10 @@ Commands:           子命令:
   install <module>  从https://vpm.vlang.io/,安装指定的一个或多个模块
   test v            执行V编译器源代码中的所有测试文件和V example
   test folder/      运行指定目录及子目录中的所有测试文件,也可执行指定的某一个测试文件
-  fmt               执行vfmt工具,进行代码格式化[开发中]
+  fmt               执行vfmt工具,进行代码格式化
   doc               执行vdoc文档工具,生成源代码文档[开发中]
   translate         把C源代码翻译成V源代码[开发中,估计0.3版本才可以使用]
+  create            以交互方式创建一个v项目,生成v.mod项目文件以及主文件
 
 
 Options for debugging/troubleshooting v programs:
@@ -59,3 +62,39 @@ Options for debugging/troubleshooting v programs:
   -cflags <flags>   Pass additional C flags to the C backend compiler.
                     Example: -cflags `sdl2-config --cflags`
 ```
+
+常用命令例子：
+
+```shell
+v main.v //编译当前目录中的main.v源文件,生成同名的main可执行文件
+v run main.v //编译当前目录中的main.v源文件，生成同名的main可执行文件，并运行
+
+v -o myexe main.v //编译当前目录中的main.v源文件，生成的可执行文件名为myexe
+v -o myexe.c mani.v //编译当前目录中的main.v源文件，生成对应的C源文件，而不是可执行文件
+v -o myexe.js main.v //编译当前目录中的main.v源文件，生成对应的js源文件，而不是可执行文件
+
+v -prod main.v //生产模式编译当前目录中的main.v源文件，生成更小的可执行文件
+
+v -h //查看编译器帮助文本
+v help //查看编译器帮助文本
+
+v -v
+v version //查看编译器版本
+
+v    //进入交互模式
+v -  //进入交互模式
+
+v build mymodule //编译mymodule模块（当前位置要在mymodule的上级目录）
+
+v up //升级V编译器到最新版本
+
+v install xxx模块 //从https://vpm.vlang.io/安装指定的模块
+
+v fmt main.v //统一格式化指定源文件或目录中的代码
+
+v test mymodule //执行mymodule中的测试文件
+
+v test v  //执行v源代码中所有的测试文件
+
+```
+
