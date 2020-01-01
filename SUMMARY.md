@@ -84,6 +84,7 @@
 	- [builtin](content/std_builtin.md)
 	- [strings](content/std_strings.md)
 	- [os](content/std_os.md)
+	- [filepath](content/std_filepath.md)
 	- [time](content/std_time.md)
 	- [math](content/std_math.md)
 	- [json](content/std_json.md)

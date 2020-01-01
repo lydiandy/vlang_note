@@ -1,5 +1,7 @@
 ## V工具链使用
 
+V编译器文件大小就700多K,实在是小巧得很
+
 V语言的编译器和命令行使用说明:
 
 执行v help就可以查看到下面的命令行使用说明
@@ -86,7 +88,7 @@ v -  //进入交互模式
 
 v build mymodule //编译mymodule模块（当前位置要在mymodule的上级目录）
 
-v up //升级V编译器到最新版本
+v up //升级V编译器到最新版本,等价于git pull && make
 
 v install xxx模块 //从https://vpm.vlang.io/安装指定的模块
 
