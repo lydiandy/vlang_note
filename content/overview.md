@@ -14,7 +14,7 @@
 
 - 提供跟go一样的并发
 
-- 7个1级元素:常量,枚举,函数,结构体,方法,接口,类型
+- 7个1级元素:const常量,enum枚举,function函数,struct结构体,method方法,interface接口,type类型
 
   ​	
 
@@ -38,7 +38,7 @@
 
   
 
-- V script可以像python脚本那样简单,方便地写系统shell
+- Vscript可以像python脚本那样简单,方便地写系统shell
 
 - 内置json支持,非运行时反射实现,性能更好
 
@@ -70,7 +70,9 @@
 
 有些未实现的特性好得让人感觉不真实,拭目以待吧,毕竟语言的发展周期都是按年来计算的
 
-未实现的功能正在逐步实现,计划在2019年12月份发布1.0版本,希望作者和开发团队能持续下去,周边生态能起来
+未实现的功能正在逐步实现,计划在2020年1月份发布0.2版本,相对完善一些，稳定一些
+
+希望作者和开发团队能持续下去,周边生态能起来
 
 ​	
 
@@ -95,10 +97,10 @@ import ( //分组导入模块
 )
 
 fn main() {  //主函数,程序运行入口
-    println('say hello world')
+    println('say hello world')  //语句结尾不需要分号
 }
 
-//模块内7个主要1级元素:常量,枚举,函数,结构体,方法,接口,类型
+//模块内7个主要一级元素:常量,枚举,函数,结构体,方法,接口,类型
 
 //1.常量
 pub const (
@@ -113,9 +115,9 @@ pub enum OS {
 	windows
 }
 
-//3.函数,函数的定义风格基本跟go一样,只是关键字改为更简短的fn
-pub fn my_fn(x,y int) int {
-    i:=1 //类型推断
+//3.函数,函数的定义风格基本跟go一样,只是关键字改为更简短的fn，支持不确定个数参数，支持多返回值
+pub fn my_fn(x,y int) int { 
+    i:=1 //强类型，类型推断
     s:='abc' //变量默认不可变
     mut a:=3 //可变用mut
     a=5
@@ -133,7 +135,7 @@ mut:
 	y int
 }
 
-//5.方法,方法只是指定了接收者的函数
+//5.方法,方法只是指定了接收者的函数，跟go一样
 pub fn (p mut Point) move(x,y int) {
     p.x+=x
     p.y+=y
@@ -143,12 +145,14 @@ pub interface Walker {
     walk(int,int)
 }
 
-//7.类型-别名
+//7.类型-类型别名
 pub type myint int
 
-//7.类型-函数类型
+//7.类型-函数类型，表示这一类相同签名的函数
 pub type fn_type fn(int) int
 
+//7.类型-联合类型，跟typescript类似，表示类型Expr可以是这几种类型的其中一种
+pub type Expr = Foo | BoolExpr |  BinExpr | UnaryExpr
 
 ```
 
