@@ -28,10 +28,10 @@ pub fn (p mut Point) move(x,y int) {  //公共方法
 	p.x+=x
 	p.u+=y
 }
-pub interface MyReader { //公共接口,目前版本未实现pub
+pub interface MyReader { //公共接口
 	read() int
 }
-pub type myint int //公共类型别名,目前版本未实现pub
+pub type myint int //公共类型别名
 
 ```
 
