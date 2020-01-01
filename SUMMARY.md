@@ -69,6 +69,8 @@
 
 * [调用汇编代码](content/asm.md)
 
+* [裸机环境](content/bare_metal.md)
+
 * [GUI](content/gui.md)
 
 * [web框架](content/vweb.md)
