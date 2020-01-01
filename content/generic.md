@@ -1,38 +1,45 @@
 ## 泛型
 
-目前泛型函数,泛型方法已经开发完成
+目前的泛型主要有这三种：泛型结构体,泛型函数,泛型方法
 
-泛型结构体还未开发完成
+### 泛型结构体
 
-```
+```c
+struct DB {
+    driver string
+}
+
+struct User {
+	db DB
+mut:
+	name string
+}
+
 struct Repo<T> {
 	db DB
+mut:
+	model  T
 }
 
-fn new_repo<T>(db DB) Repo<T> {
-	return Repo<T>{db: db}
+fn new_repo<U>(db DB) Repo<U> {
+	return Repo<U>{db: db}
 }
 
-// This is a generic function. V will generate it for every type it's used with.
-fn (r Repo<T>) find_by_id(id int) ?T {
-	table_name := T.name // in this example getting the name of the type gives us the table name
-	return r.db.query_one<T>('select * from $table_name where id = ?', id)
+fn test_generic_struct() {
+	mut a :=  new_repo<User>(DB{})
+	a.model.name = 'joe'
+	mut b := Repo<User>{db: DB{}}
+	b.model.name = 'joe'
+	assert a.model.name == 'joe'
+	assert b.model.name == 'joe'
 }
-
-db := new_db()
-users_repo := new_repo<User>(db)
-posts_repo := new_repo<Post>(db)
-user := users_repo.find_by_id(1)?
-post := posts_repo.find_by_id(1)?
 ```
-
-
 
 ### 泛型函数
 
 判断2个数组是否相等的泛型函数
 
-```
+```c
 //vlib/builtin/array.v
 fn array_eq<T>(a1, a2 []T) bool {
    if a1.len != a2.len {
@@ -49,6 +56,22 @@ fn array_eq<T>(a1, a2 []T) bool {
 
 ### 泛型方法
 
+```c
+struct Point {
+mut:
+    x f64
+    y f64
+}
 
+fn (p mut Point) translate<T>(x, y T) {
+    p.x += x
+    p.y += y
+}
 
-### 泛型结构体
+fn test_generic_method() {
+    mut p := Point{}
+    p.translate(2, 1.0)
+    assert p.x == 2.0 && p.y == 1.0
+}
+```
+
