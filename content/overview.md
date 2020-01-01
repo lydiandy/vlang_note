@@ -101,13 +101,13 @@ fn main() {  //主函数,程序运行入口
 //模块内7个主要1级元素:常量,枚举,函数,结构体,方法,接口,类型
 
 //1.常量
-const (
+pub const (
 	Version = '0.1.21'
 	supported_platforms = ['windows', 'mac', 'linux']
 )
 
 //2.枚举
-enum OS {
+pub enum OS {
 	mac
 	linux
 	windows
@@ -122,32 +122,32 @@ pub fn my_fn(x,y int) int {
     return a
 }
 //3.函数-泛型函数
-fn g_fn<T>(p T) T {
+pub fn g_fn<T>(p T) T {
     return p
 }
 
 //4.结构体
-struct Point {
+pub struct Point {
 mut:
 	x int
 	y int
 }
 
 //5.方法,方法只是指定了接收者的函数
-fn (p mut Point) move(x,y int) {
+pub fn (p mut Point) move(x,y int) {
     p.x+=x
     p.y+=y
 }
 //6.接口,接口无须显示声明实现,鸭子类型
-interface Walker {
+pub interface Walker {
     walk(int,int)
 }
 
 //7.类型-别名
-type myint int
+pub type myint int
 
 //7.类型-函数类型
-type fn_type fn(int) int
+pub type fn_type fn(int) int
 
 
 ```
