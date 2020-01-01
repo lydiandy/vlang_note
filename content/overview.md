@@ -115,8 +115,9 @@ pub enum OS {
 	windows
 }
 
-//3.函数,函数的定义风格基本跟go一样,只是关键字改为更简短的fn，支持不确定个数参数，支持多返回值
-pub fn my_fn(x,y int) int { 
+//3.函数-函数的定义风格基本跟go一样,只是关键字改为更简短的fn，支持不确定个数参数，支持多返回值
+//pub表示公共级别的访问控制，可以被模块外使用，否则只能在模块内使用
+pub fn my_fn(x,y int) int {
     i:=1 //强类型，类型推断
     s:='abc' //变量默认不可变
     mut a:=3 //可变用mut
@@ -128,11 +129,21 @@ pub fn g_fn<T>(p T) T {
     return p
 }
 
-//4.结构体
-pub struct Point {
-mut:
+//4.结构体-结构体定义
+pub struct Point { //结构体字段一共有5种访问控制
+  a int  //默认私有且不可变
+mut:     //私有，但可变
 	x int
 	y int
+pub:    //公共，但不可变
+	d int 
+}
+
+//4.结构体-泛型结构体
+struct Repo<T> {
+	db DB
+mut:
+	model  T
 }
 
 //5.方法,方法只是指定了接收者的函数，跟go一样
