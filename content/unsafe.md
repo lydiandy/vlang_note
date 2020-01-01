@@ -29,3 +29,36 @@ fn my_fn() {
 }
 ```
 
+
+
+在不安全代码块中进行指针运算和多级指针,编译器啥都不管，自己掌控
+
+```c
+fn test_pointer_arithmetic() {
+	arr := [1,2,3,4]
+	unsafe {
+		mut parr := *int(arr.data)
+		parr++
+		assert 2 == *parr
+		parr++
+		assert 3 == *parr
+		assert *(parr + 1) == 4
+	}
+}
+
+fn test_multi_level_pointer_dereferencing() {
+	n := 100
+	pn := &n
+	ppn := &pn
+
+	unsafe {
+		mut pppn := &ppn
+		***pppn = 300
+		pppa := ***int(pppn)
+		assert 300 == ***pppa
+	}
+
+	assert n == 300 // updated by the unsafe pointer manipulation
+}
+```
+

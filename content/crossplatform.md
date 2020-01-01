@@ -4,7 +4,9 @@
 
 按照作者的说法,为了保持V的简单,不会加入预处理的部分,通过这个来实现条件编译
 
-```
+判断不同的操作系统平台
+
+```c
 $if windows {
 	println('windows')
 }
@@ -16,7 +18,7 @@ $if mac {
 }
 ```
 
-另一个用途,判读是否使用了-debug
+判断是否使用了-debug
 
 ```c
 $if debug {
@@ -25,6 +27,42 @@ $if debug {
 执行:
 v run main.v -debug
 ```
+
+判断平台是32位还是64位
+
+```c
+fn test_bitness(){
+  mut x := 0
+  $if x32 {
+    println('system is 32 bit')
+    x = 1
+  }
+  $if x64 {
+    println('system is 64 bit')
+    x = 2
+  }
+  assert x > 0
+}
+```
+
+判断平台使用的字节序是小字节序，还是大字节序
+
+```c
+fn test_endianness(){
+  mut x := 0
+  $if little_endian {
+    println('system is little endian')
+    x = 1
+  }
+  $if big_endian {
+    println('system is big endian')
+    x = 2
+  }
+  assert x > 0
+}
+```
+
+
 
 ## 源文件跨平台的编译
 

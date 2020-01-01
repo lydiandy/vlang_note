@@ -69,13 +69,15 @@ fn my_fn(i int,s string, others ...string) {
 }
 ```
 
+函数的参数目前还没有【参数默认值】这个特性，其他的特性基本都有了
+
 
 
 ### 函数返回值
 
 函数的返回值除了可以是单返回值外,也可以是多返回值
 
-```
+```c
 fn bar() int { //单返回值
 	return 2
 }
@@ -84,9 +86,29 @@ fn foo() (int, int) { //多返回值
 	return 2, 3
 }
 
+fn some_multiret_fn(a int, b int) (int, int) {
+	return a+1, b+1 //可以返回表达式
+}
+
 a, b := foo()
 println(a) // 2
 println(b) // 3
+```
+
+返回值也可以返回指针类型
+
+```c
+fn get_the_dao_way() voidptr { //返回通用指针
+	return voidptr(0)
+}
+
+fn multi_voidptr_ret() (voidptr, bool) { //返回通用指针
+	return voidptr(0), true
+}
+
+fn multi_byteptr_ret() (byteptr, bool) { //返回字节指针
+	return byteptr(0), true
+}
 ```
 
 
