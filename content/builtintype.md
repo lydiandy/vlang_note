@@ -82,12 +82,11 @@ for num in numbers {
 **数组切片/区间:**
 
 ```c
-	n := [1,2,3,4]
-  println(n)
-	println(n[..2]) 
-	println(n[2..])
- 	println(n[2..4])
-	
+n := [1,2,3,4]
+println(n)
+println(n[..2]) 
+println(n[2..])
+println(n[2..4])
 ```
 
 
