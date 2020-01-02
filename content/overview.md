@@ -146,12 +146,12 @@ mut:
 	model  T
 }
 
-//5.方法,方法只是指定了接收者的函数，跟go一样
+//5.方法-方法只是指定了接收者的函数，跟go一样
 pub fn (p mut Point) move(x,y int) {
     p.x+=x
     p.y+=y
 }
-//6.接口,接口无须显示声明实现,鸭子类型
+//6.接口-接口无须显示声明实现,鸭子类型,跟go一样
 pub interface Walker {
     walk(int,int)
 }
