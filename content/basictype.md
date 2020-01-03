@@ -1,24 +1,26 @@
 ## 基本类型
 
-
-
 ### 布尔类型
 
 bool
 
 true,false
 
-没啥好说的
-
 ------
+
+```c
+	x:=true
+  y:=false
+  println(x) //true
+  println(y) //false
+  println(sizeof(bool)) //4
+```
 
 bool从定义的C代码看，是C的一个int类型别名,true是常量1，false是常量0
 
-通过使用sizeof(bool)，64位上的bool是4个字节，32位上的应该是2个字节
+使用sizeof(bool)，可以看到bool的长度是4个字节
 
-sizeof(bool)的结果是1个字节，有点奇怪
-
-```
+```c
    #ifndef bool
    	typedef int bool;
    	#define true 1
