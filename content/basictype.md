@@ -9,11 +9,11 @@ true,false
 ------
 
 ```c
-	x:=true
-  y:=false
-  println(x) //true
-  println(y) //false
-  println(sizeof(bool)) //4
+x:=true
+y:=false
+println(x) //true
+println(y) //false
+println(sizeof(bool)) //4
 ```
 
 bool从定义的C代码看，是C的一个int类型别名,true是常量1，false是常量0
@@ -21,14 +21,14 @@ bool从定义的C代码看，是C的一个int类型别名,true是常量1，false
 使用sizeof(bool)，可以看到bool的长度是4个字节
 
 ```c
-   #ifndef bool
-   	typedef int bool;
-   	#define true 1
-   	#define false 0
-   #endif
+#ifndef bool
+	typedef int bool;
+	#define true 1
+	#define false 0
+#endif
 ```
 
-   
+
 
 ------
 
@@ -102,9 +102,9 @@ for i,s in str {
 
 ```c
 s:='hello_world'
-println(s[..3])
-println(s[2..])
-println(s[2..5])
+println(s[..3]) //输出hel
+println(s[2..]) //输出llo_world
+println(s[2..5]) //输出llo
 ```
 
 
@@ -115,8 +115,8 @@ println(s[2..5])
 
 ```c
 struct string {
-pub:
-	str byteptr //一个byte类型的指针
+pub: 					 //pub表示这两个字符串的属性都是：公共且只读的
+	str byteptr //一个byte类型的指针,指向字符串的首字节地址
 	len int  //字符串的长度
 }
 ```
@@ -127,15 +127,19 @@ pub:
 
 ### 单字符类型
 
-用反引号来表示单字符类型,跟字符串不是同一个类型
+用反引号来表示单字符类型,跟字符串不是同一个类型,单字符类型对应的是byte类型
 
 ```c
-s1:='a' //字符串类型
-s2:=`a` //字符类型,单字符
-//s3:=`aa` //编译不通过,报错,只能是单字符
+s1:='a' //单引号，字符串类型
+s2:="aa" //双引号，也是字符串类型
+
+c1:=`a` //反引号，字符类型,单字符
+// c2:=`aa` //编译不通过,报错,只能是单字符
+// c2:=`中` //编译不通过,报错,只能是单字符
 println(s1) //输出a
-println(s2) //输出97
-println(s2.str()) //通过str()函数转换后,输出a
+println(s2) //输出aa
+println(c1) //输出97
+println(c1.str()) //通过str()函数转换为字符串后,输出a
 ```
 
 
@@ -160,9 +164,7 @@ i16
 
 int  
 
-32位整数
-
-之前的V版本还有i32,int是i32的别名,后来干脆被作者去掉i32了,只留更简单
+32位整数(之前的V版本还有i32,int是i32的别名,后来干脆被作者去掉i32了,只保留了int，坚持one way的思路)
 
 不像C和go,int类型总是32位整数
 
@@ -170,17 +172,15 @@ i64
 
 64位整数
 
-i128 (soon)
+i128 (未实现)
 
-
+128位整数
 
 **无符号:**
 
 byte  
 
-无符号8位整数
-
-之前的V版本还有u8,byte是u8的别名,后来干脆被作者去掉u8了,只留一个，更简单
+无符号8位整数（之前的V版本还有u8,byte是u8的别名,后来干脆被作者去掉u8了,只保留了byte，坚持one way的思路）
 
  u16  
 
@@ -194,7 +194,9 @@ u64
 
 无符号64位整数
 
-u128 (soon)
+u128 (未实现)
+
+无符号128位整数
 
 **unicode:**
 
@@ -222,8 +224,21 @@ f64
 
 byteptr
 
-字节指针,指针指向的内存是byte类型
+字节指针：指针指向的内存是byte类型
 
 voidptr
 
-通用指针,指向任何类型
+通用指针：可以指向任何类型
+
+
+
+### sizeof() 内置函数
+
+可以通过内置的sizeof(T)来返回各种类型占用的内存大小
+
+```c
+println(sizeof(int)) //4
+println(sizeof(byte)) //1
+println(sizeof(bool)) //4
+```
+
