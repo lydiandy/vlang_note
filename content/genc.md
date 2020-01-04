@@ -40,7 +40,7 @@ v -o main.c ./main.v
   typedef float f32;
   typedef double f64;
   typedef unsigned char* byteptr; //字节指针
-  typedef int* intptr; //整数指针
+  typedef int* intptr; //整型指针
   typedef void* voidptr; //通用指针
   typedef struct array array;
   typedef struct map map;
@@ -52,7 +52,7 @@ v -o main.c ./main.v
   typedef map map_int;
   typedef map map_string;
   #ifndef bool
-  	typedef int bool; //布尔类型在C里面通过int类型来实现,32位系统是2字节,64位系统是4字节
+  	typedef int bool; //布尔类型在C里面通过int类型来实现,4字节
   	#define true 1 //true是整数常量1
   	#define false 0 //false是整数常量0
   #endif
@@ -105,10 +105,6 @@ v -o main.c ./main.v
   - if
 
     生成C的if语句
-
-  - switch
-
-    生成C的 if-else if-else语句
 
   - match
 
