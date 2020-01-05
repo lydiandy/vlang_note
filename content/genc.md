@@ -82,7 +82,7 @@ v -o main.c ./main.v
 
   通过C的宏定义#define来实现,常量名字的规则是:"模块名__ 枚举名__值名"
 
-  ```C
+  ```c
   #define main__myenum_x 0
   #define main__myenum_y 1
   #define main__myenum_z 2

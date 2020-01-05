@@ -2,9 +2,11 @@
 
 ### 定义枚举
 
-```
-enum Color {
-	blue
+枚举默认是模块内访问，通过pub关键字来定义公共枚举
+
+```c
+pub enum Color {
+	blue 			//如果没有指定初始值，默认从0开始，然后往下递增1
 	green
 	white
 	black
@@ -20,9 +22,15 @@ fn main() {
 
 也可以指定枚举值的值，枚举值也可以是负数
 
-```
-enum Color {
-	blue=3
+```c
+enum Color2 {
+	blue =2 //可以指定初始值
+	green
+	white
+	black
+}
+enum Color3 {
+	blue =-4  //初始值也可以是负数
 	green
 	white
 	black
