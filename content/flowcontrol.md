@@ -2,7 +2,7 @@
 
 ### if 条件语句
 
-```
+```c
 a := 10
 b := 20
 if a < b {
@@ -16,7 +16,7 @@ if a < b {
 
 if表达式:
 
-```
+```c
 num := 777
 s := if num % 2 == 0 {
 	'even'
@@ -31,7 +31,7 @@ println(s) // "odd"
 
 ### match 分支/匹配语句
 
-```
+```c
 os:='macos'
 match os {
 	'windows' {
@@ -51,7 +51,7 @@ match os {
 
 匹配的值也可以多个,用逗号分隔:
 
-```
+```c
 os:='macos'
 match os {
 	'windows' {
@@ -68,7 +68,7 @@ match os {
 
 match表达式:
 
-```
+```c
 os:='macos'
 price:=match os {
     'windows' {
@@ -95,7 +95,7 @@ for的四种形式：
 
 1. 传统的：for i=0;i<100;i++ {}
 
-```
+```c
    for i := 0; i < 10; i++ { 
    	//跳过6
    	if i == 6 {
@@ -109,7 +109,7 @@ for的四种形式：
 
 2. 替代while：for i<100 {}
 
-```
+```c
    mut sum := 0
    mut i := 0
    for i <= 100 {
@@ -122,7 +122,7 @@ for的四种形式：
 3. 无限循环：for {}
 
 
-```
+```c
 mut num := 0
    for {
    	num++
@@ -135,34 +135,34 @@ mut num := 0
 
 4. 遍历：for i in xxx {}
 
-    for in可以用来遍历数组，字符串，字典这三种类型
+    for in可以用来遍历字符串,数组,字典这三种类型
 
-   遍历数组:
-
-```
-   numbers := [1, 2, 3, 4, 5]
-   for num in numbers {
-   	println('i:$i,num:$num')
+   遍历字符串:
+   
+```go
+   str:='abcdef'
+   //遍历value
+   for s in str {
+       println(s.str())
    }
+   //遍历index和value
+   for i,s in str {
+       println('index:$i,value:${s.str()}')
+   }   
 ```
 
-​	遍历字符串:
+   	遍历数组:
 
-```
-str:='abcdef'
-//遍历value
-for s in str {
-    println(s.str())
+```c
+numbers := [1, 2, 3, 4, 5]
+for num in numbers {
+   println('i:$i,num:$num')
 }
-//遍历index和value
-for i,s in str {
-    println('index:$i,value:${s.str()}')
-}
 ```
 
-​	遍历字典:
+​		遍历字典:
 
-```
+```c
 m:={"name":"jack","age":"20","desc":"good man"}
 
 for key,value in m {

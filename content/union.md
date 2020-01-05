@@ -1,6 +1,6 @@
 # 联合类型
 
-联合类型:union types,sum types
+联合类型:union types或sum types
 
 ### 定义联合类型
 
