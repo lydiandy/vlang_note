@@ -2,7 +2,7 @@
 
 目前主要针对不同平台,实现条件编译
 
-按照作者的说法,为了保持V的简单,不会加入预处理的部分,通过这个来实现条件编译
+按照作者的说法,为了保持V的简单,不会加入预处理的部分,但是增加这个来实现条件编译
 
 判断不同的操作系统平台
 
@@ -24,8 +24,8 @@ $if mac {
 $if debug {
 	println('from debug')
 }
-执行:
-v run main.v -debug
+//执行:
+//v run main.v -debug
 ```
 
 判断平台是32位还是64位
@@ -41,7 +41,6 @@ fn test_bitness(){
     println('system is 64 bit')
     x = 2
   }
-  assert x > 0
 }
 ```
 
@@ -58,7 +57,6 @@ fn test_endianness(){
     println('system is big endian')
     x = 2
   }
-  assert x > 0
 }
 ```
 
@@ -66,9 +64,13 @@ fn test_endianness(){
 
 ## 源文件跨平台的编译
 
-源文件后缀为 _nix 的表示linux,unix,mac下才会编译,
+后缀为 _nix 的表示linux,unix,mac下才会编译
 
-后缀为 _win的表示在windows下才会编译
+后缀为_darwin的在mac下才会编译
+
+后缀为_linux的在linux下才会编译
+
+后缀为 _windows的表示在windows下才会编译
 
 ------
 
