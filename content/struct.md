@@ -4,7 +4,9 @@
 
 ### 结构体定义
 
-```
+v限制结构体的名字必须是大写字母开头,如果是小写字母开头会编译报错
+
+```c
 struct Point {
 	x int
 	y int
@@ -21,38 +23,95 @@ println(p.x) // 结构体字段通过点号来访问
 
 取结构体地址:&
 
-```
+```c
 p := &Point{10, 10}
 println(p.x)
 ```
 
 空结构体:
 
-```
-struct {}
+```c
+struct Empty {}
+
+fn main() {
+	println(sizeof(Empty)) //空结构体占用内存的大小为0
+}
 ```
 
 结构体占用内存:
 
 sizeof( )可以返回结构体占用内存字节大小
 
-### 结构体字段
+### 字段
 
-结构体字段默认也是不可变
+结构体字段默认也是不可变,使用mut为可变
 
 结构体字段的可变性和访问控制,参考[访问控制](access_controll.md)章节
 
-### 结构体访问控制
+如果结构体字段名需要是关键字,可以通过使用@作为前缀也可以编译通过
 
-结构体目前默认都是pub公共的,不支持模块级别的结构体
+```c
+struct Foo {
+	@type string
+}
 
-### 结构体的组合
+fn main() {
+	foo := Foo{ @type: 'test' }
+	println(foo.@type)
+}
+```
+
+结构体字段支持默认值
+
+```c
+struct Foo {
+	a int
+	b int = 7 //默认值7
+}
+fn main() {
+	foo := Foo{a:1}
+	println(foo.a) //输出1
+	println(foo.b) //输出默认值7
+	foo2:= Foo{a:1,b:2}
+	println(foo2.b) //输出2
+}
+```
+
+结构体变量基于另一个变量创建,同时合并新的字段值
+
+```c
+struct Foo {
+	a int
+	b int = 7 //默认值7
+}
+fn main() {
+	foo := Foo{a:1}
+	foo2 := { foo | a: 42 }  //foo2是在foo的基础上,通过|合并新的字段值
+	println(foo2.a) //输出合并后的新值42
+	println(foo2.b) //输出未改变的值7
+}
+```
+
+
+
+### 访问控制
+
+结构体默认是模块级别的,使用pub关键字定义公共级别
+
+```c
+pub struct Point { //公共级别,可以被别的模块使用
+	x int
+	y int
+}
+```
+
+### 组合
 
 struct 可以组合, 用来实现继承的效果(目前还没有实现)
 
-```
+```c
 struct Button {
-	Widget
+	Widget //组合
 	title string
 }
 
@@ -62,43 +121,4 @@ button.set_pos(x, y)
 
 ### 泛型结构体
 
-有计划要实现,目前还没有实现全:
-
-```
-struct Repo<T> {
-	db DB
-}
-
-fn new_repo<T>(db DB) Repo<T> {
-	return Repo<T>{db: db}
-}
-
-// This is a generic function. V will generate it for every type it's used with.
-fn (r Repo<T>) find_by_id(id int) ?T {
-	table_name := T.name // in this example getting the name of the type gives us the table name
-	return r.db.query_one<T>('select * from $table_name where id = ?', id)
-}
-
-db := new_db()
-users_repo := new_repo<User>(db)
-posts_repo := new_repo<Post>(db)
-user := users_repo.find_by_id(1)?
-post := posts_repo.find_by_id(1)?
-```
-
-### 类型别名
-
-自定义类型别名
-
-```
-type myint int
-```
-
-函数类型:
-
-相同的函数签名,表示同一类函数,可以定义为函数类型
-
-```
-type mid_fn fn(int) int
-```
-
+参考[泛型章节](generic.md)
