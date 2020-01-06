@@ -22,7 +22,7 @@ encode(object)    //object是要编码的变量
 
 [raw]         // 解码的时候,该字段不解析,直接保留原始的字符串返回
 
-```
+```c
 import json //导入json包
 
 struct User { //定义结构体模板
@@ -50,7 +50,7 @@ println(user.age)
 
 另一个例子:
 
-```
+```c
 import json
 
 struct User {
