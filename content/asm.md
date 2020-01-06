@@ -6,7 +6,7 @@ vlib/builtin/bare/linuxsys_bare.v相关行内汇编代码
 
 inline asm代码必须被包含在unsafe代码块中
 
-```go
+```c
 fn test_inline_asm() {
 	a := 10
 	b := 0
