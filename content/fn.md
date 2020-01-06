@@ -2,7 +2,9 @@
 
 ### 函数定义
 
-```
+使用fn关键字定义函数
+
+```c
 fn main() {
 	println(add(77, 33))
 	println(sub(100, 50))
@@ -27,7 +29,7 @@ V语言的函数定义(函数签名)基本跟go一样
 
 默认模块内部访问,使用pub才可以被模块外部访问
 
-```
+```c
 module mymodule
 fn private_fn() { //模块内部可以访问,模块外部不可以访问
 
@@ -43,39 +45,41 @@ pub public_fn(){  //模块内部和外部都可以访问
 
 函数的参数默认是不可变的,如果在函数内部要改变传进来的参数,要加上mut
 
-```
-fn my_fn(arr mut []int) {
+```c
+fn my_fn(arr mut []int) { //1.参数定义也要是可变的
 	for i := 0; i < arr.len; i++ {
 		arr[i] *= 2
 	}
 }
 
-mut nums := [1, 2, 3] //传进来的参数要是可变的
-my_fn(mut nums) //参数定义也要是可变的
-println(nums) // ==> "[2, 4, 6]" //函数执行后,传进来的参数被改变了
-```
-
-不确定个数参数也是支持的:
-
-```
 fn main() {
-    my_fn(1,'abc','d','e','f','g')
+	mut nums := [1, 2, 3] //2.传进来的参数要是可变的
+	my_fn(nums)
+	println(nums) // 返回[2, 4, 6],函数执行后,传进来的参数被改变了
 }
+```
 
+不确定个数参数也是支持的,不确定参数要放在参数的最后一个
+
+```c
 fn my_fn(i int,s string, others ...string) {
     println(i)
     println(s)
-    println(others)
+    println(others[0])
+    println(others[1])
+    println(others[2])
+}
+
+fn main() {
+    my_fn(1,'abc','de','fg','hi')
 }
 ```
-
-函数的参数目前还没有【参数默认值】这个特性，其他的特性基本都有了
 
 
 
 ### 函数返回值
 
-函数的返回值除了可以是单返回值外,也可以是多返回值
+函数的返回值可以是单返回值,也可以是多返回值
 
 ```c
 fn bar() int { //单返回值
@@ -89,10 +93,11 @@ fn foo() (int, int) { //多返回值
 fn some_multiret_fn(a int, b int) (int, int) {
 	return a+1, b+1 //可以返回表达式
 }
-
-a, b := foo()
-println(a) // 2
-println(b) // 3
+fn main() {
+	a, b := foo()
+	println(a) // 2
+	println(b) // 3
+}
 ```
 
 返回值也可以返回指针类型
@@ -119,7 +124,7 @@ fn multi_byteptr_ret() (byteptr, bool) { //返回字节指针
 
 一个函数可以有多个defer代码块,采用后定义先执行的原则
 
-```
+```c
 fn main(){
     println('main start')
     
@@ -153,7 +158,7 @@ from defer_fn1
 
 相同的函数签名,表示同一类函数,可以用type定义为函数类型
 
-```
+```c
 type mid_fn fn(int,string) int
 ```
 
@@ -161,7 +166,7 @@ type mid_fn fn(int,string) int
 
 函数是first class,可以将函数作为参数,作为返回值
 
-```
+```c
 fn sqr(n int) int {
         return n * n
 }
@@ -181,8 +186,26 @@ fn main()  {
 
 函数也是可以递归调用的
 
-
-
 ### 泛型函数
 
-也是支持的,目前感觉还不是太成熟
+参考[泛型章节](generic.md)
+
+### 函数重载
+
+v不会有函数重载
+
+### 函数默认值
+
+函数的参数目前还没有参数默认值这个特性,
+
+看了issue中有人提问了作者,作者明确回复:v将不会有函数重载和函数参数的默认值
+
+但是考虑有这个特性,还未实现:
+
+```c
+fn foo(args struct {bar int, baz int = 10}) { //参数是一个结构体,结构体的字段有默认值
+	...
+}
+foo({bar:1}) //调用的时候,如果结构体的字段没有明确赋值,则采用字段的默认值
+```
+
