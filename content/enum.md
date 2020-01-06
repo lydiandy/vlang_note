@@ -44,5 +44,20 @@ fn main() {
 }
 ```
 
+也可以指定枚举的值为16进制
+
+```c
+enum w_hex {
+	a = 0x001 //枚举值也支持16进制
+	b = 0x010
+	c = 0x100
+}
+fn main() {
+	println(w_hex.a) //输出1
+	println(w_hex.b) //输出16
+	println(w_hex.c) //输出256
+}
+```
+
 枚举值的名称限制必须是小写加下划线
 

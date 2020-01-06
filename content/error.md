@@ -1,12 +1,12 @@
 ## 错误处理
 
-**错误定义:**
+### 错误定义
 
 函数定义时,返回类型前面加?,表示这个函数可能返回一个错误
 
 在函数代码中根据逻辑丢出错误:return error('error message') 或者return none
 
-**错误处理:**
+### 错误处理
 
 函数调用时,使用or代码块来处理错误,默认会传递err参数给or代码块,包含错误信息,
 
@@ -14,7 +14,7 @@
 
 or代码块必须以:return/panic/exit/continue/break结尾
 
-```
+```c
 fn my_fn(i int) ?int {
 	if i==0 {
 		return error('Not ok!')
@@ -56,7 +56,7 @@ fn main() {
 
 error函数是内置函数,定义在:vlib/builtin/option.v
 
-```
+```c
 module builtin
 
 struct Option {
@@ -95,7 +95,7 @@ pub fn error(s string) Option {
 
 以下错误处理代码:
 
-```
+```c
 resp := http.get(url)? //在调用函数后加上?,可以向上抛转错误
 println(resp.body)
 ```
@@ -108,7 +108,7 @@ http.get函数中,定义的返回值是:?Response
 
 类似以下的代码:
 
-```
+```go
 resp := http.get(url) or {
 	panic(err)
 }
