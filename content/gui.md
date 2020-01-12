@@ -2,7 +2,30 @@
 
 按照目前作者的想法是:基于openGL,glad,glfw来创建一个比较轻量的GUI
 
-具体的库代码还没有开发出来,计划是10月出第一个版本
+vui库已经发布,代码库:https://github.com/vlang/ui
+
+使用前先安装依赖:
+
+```
+macOS:
+brew install glfw freetype openssl
+
+Debian/Ubuntu:
+sudo apt install libglfw3 libglfw3-dev libfreetype6-dev libssl-dev
+
+Arch/Manjaro:
+sudo pacman -S glfw-x11 freetype2
+
+Fedora:
+sudo dnf install glfw glfw-devel freetype-devel
+
+Windows:
+git clone --depth=1 https://github.com/ubawurinna/freetype-windows-binaries [path to v repo]/thirdparty/freetype/
+```
+
+
+
+
 
 
 
