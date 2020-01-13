@@ -34,7 +34,7 @@ ln -s /path/to/ui ~/.vmodules/ui
 
 ### vui涉及到的标准模块
 
-**gx模块:**
+#### gx模块
 
 源代码位置:vlib/gx
 
@@ -48,7 +48,7 @@ Image结构体
 
 TextCfg结构体
 
-**gl模块:**
+#### gl模块
 
 源代码位置:vlib/gl
 
@@ -60,7 +60,7 @@ glad的缩写,GLAD是继GL3W，GLEW之后，当前最新的用来访问OpenGL规
 
 gl模块就是glad库主要的C函数简单封装后,成为V函数
 
-**glm模块:**
+#### glm模块
 
 源代码位置:vlib/glm
 
@@ -72,7 +72,7 @@ OpenGl中在进行图形变换的时候需要使用几何数学库
 
 代码:https://github.com/g-truc/glm
 
-**freetype模块:**
+#### freetype模块
 
 源代码位置:vlib/freetype
 
@@ -80,13 +80,15 @@ FreeType是一个完全开源的、可扩展、可定制且可移植的字体引
 
 官网:https://www.freetype.org/
 
-**gg模块:**
+#### stbi模块
 
-源代码位置:vlib/gg
+源代码位置:vlib/stbi
 
-V 2D/3D graphics library with an OpenGL backend (DirectX, Vulkan, Metal coming soon)
+图像库
 
-**glfm模块:**
+源代码:https://github.com/nothings/stb
+
+#### glfm模块
 
 源代码位置:vlib/glfm
 
@@ -99,6 +101,14 @@ GLFW官网链接:https://www.glfw.org/
 GLFW使用感受：轻量，简单，好使
 
 glfm模块基本是对C函数进行对应的V函数封装,提供给ui模块使用
+
+#### gg模块
+
+源代码位置:vlib/gg
+
+V 2D/3D graphics library with an OpenGL backend (DirectX, Vulkan, Metal coming soon)
+
+绘图库
 
 ### 背景资料参考
 
