@@ -83,7 +83,7 @@
 
   
 
-  - [常用标准库]:(content/std_builtin.md)
+  - [常用标准库:](content/std_builtin.md)
 
   - [builtin](content/std_builtin.md)
   - [strings](content/std_strings.md)
