@@ -54,6 +54,8 @@ TextCfg结构体
 
 glad的缩写,GLAD是继GL3W，GLEW之后，当前最新的用来访问OpenGL规范接口的第三方库
 
+OpenGL loading libraries
+
 官方网址为https://glad.dav1d.de/
 
 源代码:https://github.com/Dav1dde/glad
@@ -65,6 +67,8 @@ gl模块就是glad库主要的C函数简单封装后,成为V函数
 源代码位置:vlib/glm
 
 OpenGL Mathematics（GLM） - 几何数学库
+
+Math Libraries
 
 OpenGl中在进行图形变换的时候需要使用几何数学库
 
@@ -98,6 +102,8 @@ GLFW官网链接:https://www.glfw.org/
 
 **GLFW** 是一个专门针对 OpenGL 的 C 语言库，它允许用户创建 OpenGL 上下文并显示窗口，它提供了一些渲染物体所需的最低限度的接口。其用来代替之前的 GLUT 库
 
+Context/Window Toolkits
+
 GLFW使用感受：轻量，简单，好使
 
 glfm模块基本是对C函数进行对应的V函数封装,提供给ui模块使用
@@ -127,7 +133,13 @@ OpenGL并非一个能够直接安装的库或包，它只是一个规范。我�
 
 ### 组件
 
-刚发布的版本,目前的组件还比较少:
+刚发布的版本,目前的组件还比较少
+
+除了最基本的window组件是基于glfw window外,其他组件都是自行绘制的,可以在所有组件代码的draw()函数中看到自行绘制的代码
+
+因为都是采用自行绘制的,所以才有可能同一套UI代码,除了win,linux,mac外,以后也可以自行绘制成js前端组件,wasm组件
+
+才有可能自行完全控制,实现响应式UI,监控代码修改,然后实时更新UI,类似swiftUI
 
 #### window
 
