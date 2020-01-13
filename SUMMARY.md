@@ -104,30 +104,24 @@
   - [crypto](content/crypto.md)
   - [compiler](content/std_compiler.md)
 
-  数据库相关库:
+  [数据库相关库:](content/pg.md)
 
   - [pg](content/pg.md)
   - [mysql](content/mysql.md)
   - [sqlite](content/sqlite.md)
   - [orm](content/orm.md)
 
-  GUI相关库:
-
-  - [clipboard](content/clipboard.md)
+  [GUI相关库:](content/freetype.md)
 
   - [freetype](content/freetype.md)
-
+- [clipboard](content/clipboard.md)
   - [gx](content/gx.md)
-
-  - [glm](content/glm.md)
-
+- [glm](content/glm.md)
   - [stbi](content/stbi.md)
-
-  - [glfw](content/glfw.md)
-
+- [glfw](content/glfw.md)
   - [gg](content/gg.md)
 
-  web框架:
+  [web框架:](content/vweb.md)
 
   - [vweb](content/vweb.md)
 
