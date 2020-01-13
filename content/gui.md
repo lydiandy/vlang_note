@@ -1,6 +1,6 @@
 ## GUI
 
-按照目前作者的想法是:基于openGL,glfw来创建一个比较轻量的GUI
+按照目前作者的想法是:基于openGL,glad,glfw来创建一个比较轻量的GUI
 
 vui库已经发布,代码库:https://github.com/vlang/ui
 
@@ -108,9 +108,11 @@ glfm模块基本是对C函数进行对应的V函数封装,提供给ui模块使�
 
 V 2D/3D graphics library with an OpenGL backend (DirectX, Vulkan, Metal coming soon)
 
-绘图库
+V绘图库,用来在窗体上绘制各种图形
 
-### 背景资料参考
+gg是glad和glfw的缩写
+
+#### 资料参考
 
 OpenGL**（英语：*Open Graphics Library*，译名：**开放图形库**或者“开放式图形库”）是用于[渲染](https://baike.baidu.com/item/渲染)[2D](https://baike.baidu.com/item/2D)、[3D](https://baike.baidu.com/item/3D)[矢量图形](https://baike.baidu.com/item/矢量图形)的跨[语言](https://baike.baidu.com/item/语言)、[跨平台](https://baike.baidu.com/item/跨平台)的[应用程序编程接口](https://baike.baidu.com/item/应用程序编程接口)（API）。这个接口由近350个不同的函数调用组成，用来绘制从简单的图形比特到复杂的三维景象。而另一种程序接口系统是仅用于[Microsoft Windows](https://baike.baidu.com/item/Microsoft Windows)上的[Direct3D](https://baike.baidu.com/item/Direct3D)。OpenGL常用于[CAD](https://baike.baidu.com/item/CAD)、[虚拟现实](https://baike.baidu.com/item/虚拟现实)、科学可视化程序和电子游戏开发。
 
@@ -122,4 +124,46 @@ GPU的硬件开发商则需要提供满足OpenGL规范的实现，这些实现�
 OpenGL并非一个能够直接安装的库或包，它只是一个规范。我们只需要安装显卡的驱动即可，因为显卡驱动中就包括了对OpenGL规范的实现
 
 由于 OpenGL 只是一个标准/规范，具体的实现是由驱动开发商针对特定显卡实现的。而 OpenGL 驱动版本众多，它大多数函数的位置都无法在编译时确定下来，需要在运行时查询。所以任务就落在了开发者身上，开发者需要在运行时获取函数地址并将其保存在一个函数指针中供以后使用。但这样写出的代码复杂繁琐，因此我们需要 GLAD,GLAD 是目前最流行的开源库，能帮我们简化这个流程
+
+### 组件
+
+刚发布的版本,目前的组件还比较少:
+
+#### window
+
+
+
+#### label
+
+
+
+#### button
+
+
+
+#### textbox
+
+
+
+#### checkbox
+
+
+
+#### radio
+
+
+
+#### progressbar
+
+
+
+#### picture
+
+
+
+#### pngs
+
+
+
+
 
