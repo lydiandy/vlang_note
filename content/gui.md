@@ -148,9 +148,9 @@ OpenGL并非一个能够直接安装的库或包，它只是一个规范。我�
 5. 使用window的context,也就是UI结构体的实例来进行绘制
 6. 最后调用ur.run(window ui.Window)函数,进入for{}无限循环,然后循环调用window中所有children[]中每一个组件的draw()函数,渲染组件,最后调用window.ctx.gg.render()函数,完成渲染,并监听事件
 
-因为都是采用自行绘制的,所以才有可能同一套UI代码,除了win,linux,mac外,以后也可以自行绘制成js前端组件,wasm组件
+因为都是采用自行绘制的,所以才有可能同一套UI代码,除了win,linux,mac外,以后也可以自行绘制成js前端组件,wasm组件,才有可能自行完全控制,实现响应式UI,监控代码修改,然后实时更新UI,类似swiftUI
 
-才有可能自行完全控制,实现响应式UI,监控代码修改,然后实时更新UI,类似swiftUI
+也因为是采用自行绘制的,组件和组件的各种属性,方法,时间都要基于glfm重新定义
 
 #### UI结构体
 
@@ -166,43 +166,43 @@ window中的context就是UI结构体的实例,用来进行绘制图形,绘制文
 
 所有的组件都实现了该接口
 
-#### window窗体
+#### Window窗体
 
 
 
-#### canvas画布
+#### Canvas画布
 
 
 
-#### label标签
+#### Label标签
 
 
 
-#### button按钮
+#### Button按钮
 
 
 
-#### textbox文本框
+#### Textbox文本框
 
 
 
-#### checkbox复选框
+#### Checkbox复选框
 
 
 
-#### radio单选框
+#### Radio单选框
 
 
 
-#### progressbar进度条
+#### Progressbar进度条
 
 
 
-#### picture图像
+#### Picture图像
 
 
 
-#### menu菜单
+#### Menu菜单
 
 
 
