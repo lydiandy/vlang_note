@@ -10,10 +10,10 @@ vui库已经发布,代码库:https://github.com/vlang/ui
 
 ```
 macOS:
-brew install glfw freetype openssl
+brew install glfw freetype
 
 Debian/Ubuntu:
-sudo apt install libglfw3 libglfw3-dev libfreetype6-dev libssl-dev
+sudo apt install libglfw3 libglfw3-dev libfreetype6-dev
 
 Arch/Manjaro:
 sudo pacman -S glfw-x11 freetype2
@@ -25,7 +25,7 @@ Windows:
 git clone --depth=1 https://github.com/ubawurinna/freetype-windows-binaries [path to v repo]/thirdparty/freetype/
 ```
 
-目前还是早期版本
+目前ui还是早期版本,更新较快,建议用安装方式1,可以用到最新更新的ui代码
 
 安装方式1:直接从git代码库下载代码,链接到~/.vmodules/ui
 
