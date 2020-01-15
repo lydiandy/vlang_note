@@ -25,12 +25,22 @@ Windows:
 git clone --depth=1 https://github.com/ubawurinna/freetype-windows-binaries [path to v repo]/thirdparty/freetype/
 ```
 
-目前还是早期版本,安装步骤:
+目前还是早期版本
+
+安装方式1:直接从git代码库下载代码,链接到~/.vmodules/ui
 
 ```
 git clone https://github.com/vlang/ui
 ln -s /path/to/ui ~/.vmodules/ui
 ```
+
+安装方式2:使用vpm安装
+
+```
+v install ui
+```
+
+
 
 ### vui涉及到的标准模块
 
@@ -150,7 +160,7 @@ OpenGL并非一个能够直接安装的库或包，它只是一个规范。我�
 
 因为都是采用自行绘制的,所以才有可能同一套UI代码,除了win,linux,mac外,以后也可以自行绘制成js前端组件,wasm组件,才有可能自行完全控制,实现响应式UI,监控代码修改,然后实时更新UI,类似swiftUI
 
-也因为是采用自行绘制的,组件和组件的各种属性,方法,时间都要基于glfm重新定义
+也因为是采用自行绘制的,组件和组件的各种属性,方法,事件都要基于glfm重新定义
 
 #### UI结构体
 
