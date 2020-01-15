@@ -2,6 +2,8 @@
 
 按照目前作者的想法是:基于openGL,glad,glfw来创建一个比较轻量的GUI
 
+也有可能采用https://github.com/floooh/sokol来进行GUI以及绘图的开发,等待作者更新ui模块
+
 vui库已经发布,代码库:https://github.com/vlang/ui
 
 ### 安装
