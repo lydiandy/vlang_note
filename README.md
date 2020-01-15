@@ -16,7 +16,7 @@ gitbook阅读地址:https://lydiandylin.gitbook.io/vlang/
 
 V感觉就是**go+rust+c**的结合体，吸收了这三者的优点,不过像go更多一点
 
-V目前实现了自举，编译器把V代码生成C代码，然后再调用gcc或者clang来编译生成的C代码
+V实现了自举，编译器把V代码生成C代码，然后再调用gcc或者clang来编译生成的C代码
 
 V的语法真的看着，写着都很舒服，比go和rust都好
 
