@@ -114,7 +114,7 @@ glfm模块基本是对C函数进行对应的V函数封装,提供给ui模块使�
 
 V 2D/3D graphics library with an OpenGL backend (DirectX, Vulkan, Metal coming soon)
 
-V绘图库,用来在窗体上绘制各种图形
+V绘图模块,用来在窗体上绘制各种图形
 
 gg是glad和glfw的缩写
 
@@ -137,47 +137,72 @@ OpenGL并非一个能够直接安装的库或包，它只是一个规范。我�
 
 除了最基本的window组件是基于glfw window外,其他组件都是自行绘制的,可以在所有组件代码的draw()函数中看到自行绘制的代码
 
+基本的思路是:使用glfw的window,context,event,然后在窗体上自行绘制所有组件:
+
+以window组件为例,显示通用的组件创建过程
+
+1. 定义window结构体
+2. 通过new_window(cfg WindowConfig) window 创建窗体,其中WindowConfig是配置类
+3. 在每一个组件中定义draw()函数,包含绘制组件代码
+4. 把每一个窗体内的组件都添加到window的children[]中
+5. 使用window的context,也就是UI结构体的实例来进行绘制
+6. 最后调用ur.run(window ui.Window)函数,进入for{}无限循环,然后循环调用window中所有children[]中每一个组件的draw()函数,渲染组件,最后调用window.ctx.gg.render()函数,完成渲染,并监听事件
+
 因为都是采用自行绘制的,所以才有可能同一套UI代码,除了win,linux,mac外,以后也可以自行绘制成js前端组件,wasm组件
 
 才有可能自行完全控制,实现响应式UI,监控代码修改,然后实时更新UI,类似swiftUI
 
-#### window
+#### UI结构体
+
+UI结构体主要包含了:绘制图形的gg,绘制文字的ft,系统剪贴板clipboard
+
+window中的context就是UI结构体的实例,用来进行绘制图形,绘制文字,处理剪贴板
+
+一般来说全局只有:1个glfm.window实例,1个ui.window实例,1个ui.UI实例即context
+
+干嘛不把UI结构体,直接命名为Context,更清楚一些
+
+#### Widget接口
+
+所有的组件都实现了该接口
+
+#### window窗体
 
 
 
-#### canvas
+#### canvas画布
 
 
 
-#### label
+#### label标签
 
 
 
-#### button
+#### button按钮
 
 
 
-#### textbox
+#### textbox文本框
 
 
 
-#### checkbox
+#### checkbox复选框
 
 
 
-#### radio
+#### radio单选框
 
 
 
-#### progressbar
+#### progressbar进度条
 
 
 
-#### picture
+#### picture图像
 
 
 
-#### pngs
+#### menu菜单
 
 
 
