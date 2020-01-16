@@ -130,6 +130,26 @@ V绘图模块,用来在窗体上绘制各种图形
 
 gg是glad和glfw的缩写
 
+gg其实就是绘图部分的context的作用,觉得可以直接命名为Context更好理解
+
+gg结构体提供进行绘制的相关方法,给全局使用,特别是组件的draw()
+
+gg.draw_triangle() //绘制三角形
+
+gg.draw_triangle_tex() //绘制三角形纹理
+
+gg.draw_rect()	//绘制实心矩形
+
+gg.draw_empty_rect()	绘制空矩形
+
+gg.draw_circle()	//绘制圆形
+
+gg.draw_line()	//绘制直线
+
+...还有好多绘制的功能没有实现
+
+
+
 #### 资料参考
 
 OpenGL**（英语：*Open Graphics Library*，译名：**开放图形库**或者“开放式图形库”）是用于[渲染](https://baike.baidu.com/item/渲染)[2D](https://baike.baidu.com/item/2D)、[3D](https://baike.baidu.com/item/3D)[矢量图形](https://baike.baidu.com/item/矢量图形)的跨[语言](https://baike.baidu.com/item/语言)、[跨平台](https://baike.baidu.com/item/跨平台)的[应用程序编程接口](https://baike.baidu.com/item/应用程序编程接口)（API）。这个接口由近350个不同的函数调用组成，用来绘制从简单的图形比特到复杂的三维景象。而另一种程序接口系统是仅用于[Microsoft Windows](https://baike.baidu.com/item/Microsoft Windows)上的[Direct3D](https://baike.baidu.com/item/Direct3D)。OpenGL常用于[CAD](https://baike.baidu.com/item/CAD)、[虚拟现实](https://baike.baidu.com/item/虚拟现实)、科学可视化程序和电子游戏开发。
@@ -158,9 +178,13 @@ OpenGL并非一个能够直接安装的库或包，它只是一个规范。我�
 3. 在每一个组件中定义draw()函数,包含绘制组件代码
 4. 把每一个窗体内的组件都添加到window的children[]中
 5. 使用window的ui,也就是UI结构体的实例来进行绘制
-6. 最后调用ui.run(window ui.Window)函数,进入for{}无限循环,然后循环调用window中所有children[]中每一个组件的draw()函数,渲染组件,最后调用window.ui.gg.render()函数,完成渲染,并监听事件
+6. 最后调用ui.run(window ui.Window)函数,进入for{}无限循环,然后循环调用window中所有children[]中每一个组件的draw()函数,渲染组件,类似实时绘制的效果,最后调用window.ui.gg.render()函数,完成渲染,并监听事件
 
-因为都是采用自行绘制的,所以才有可能同一套UI代码,除了win,linux,mac外,以后也可以自行绘制成js前端组件,wasm组件,才有可能自行完全控制,实现响应式UI,监控代码修改,然后实时更新UI,类似swiftUI
+因为都是采用自行绘制的,所以
+
+才有可能同一套UI代码,除了win,linux,mac外,以后也可以自行绘制成js前端组件,wasm组件,才有可能自行完全控制
+
+才有可能实现响应式UI,监控代码修改,然后实时更新UI,类似swiftUI,响应式UI的实现也挺简单的,因为所有界面上的组件都是实时绘制的
 
 也因为是采用自行绘制的,组件和组件的各种属性,方法,事件都要基于glfm重新定义
 
