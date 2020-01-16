@@ -2,21 +2,20 @@
 
 ### 环境变量相关
 
-- home_dir() string          //返回当前用户的主目录
-
 - getenv(string) string    //获取环境变量
 
 - setenv(name string, value string,overwrite bool) int //设置环境变量
 
 - unsetenv(name string) int //清空环境变量
 
+### 操作系统相关
+
+- os.args 			//os模块常量,运行后只读,返回命令行的参数数组
+- executable()     //返回当前可执行文件的全路径和文件名
 - user_os() string   //返回当前操作系统名字
+- home_dir() string          //返回当前用户的主目录
 
-- os.args //os模块常量,运行后只读,返回命令行的参数数组
-
-- executable() //返回当前可执行文件的全路径和文件名
-
-  
+### 执行命令
 
 - exec(string) ?Result //执行命令,然后等待执行结果,根据返回的exit_code和output进行处理
 
