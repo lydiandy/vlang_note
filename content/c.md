@@ -74,38 +74,54 @@ pub fn connect(server, user, passwd, dbname string) ?DB {
 }
 ```
 
-
-
 其实,直接在V代码中使用C函数或者结构体也是可以的,不过,由于命名方式不一致的原因,习惯上也可以对C函数或结构体,进行一层简单封装,名字可以重新改为V风格,或者更为简短的名字
 
-以下代码是GUI代码库中引用了glfm后,进行的简单封装:
+以下代码是GUI代码库中引用了sokol C代码库后,进行的简单封装:
 
-vlib/glfm/glfm.v部分代码:
+vlib/sokol/sokol.v部分代码:
 
 ```c
-#flag darwin -L/opt/local/lib
+//只要在同模块中的任何一个V源文件中引入,该模块的其他源文件就可以直接使用C代码库内容
+#define SOKOL_IMPL
+#define SOKOL_NO_ENTRY
+#include "sokol_app.h"
 
-#flag darwin -lglfw
-#flag freebsd -I/usr/local/include
-#flag freebsd -Wl,-L/usr/local/lib,-lglfw
-#flag linux -lglfw
-#flag windows -lgdi32 -lshell32 -lglfw3
-#include <GLFW/glfw3.h>
+#define SOKOL_IMPL
+#define SOKOL_NO_DEPRECATED
+#include "sokol_gfx.h"
 
-//可以直接使用
-pub fn init_glfw() {
-	C.glfwInit()
-	C.glfwWindowHint(C.GLFW_CONTEXT_VERSION_MAJOR, 3)
-	C.glfwWindowHint(C.GLFW_CONTEXT_VERSION_MINOR, 3)
-	C.glfwWindowHint(C.GLFW_OPENGL_FORWARD_COMPAT, C.GL_TRUE)
-	C.glfwWindowHint(C.GLFW_OPENGL_PROFILE, C.GLFW_OPENGL_CORE_PROFILE)
+//可以直接使用,函数以C.作为前缀
+pub fn init_sokol() {
+	C.sapp_isvalid()
+	C.sapp_width()
 }
 //也可以进行简单的封装
-pub fn terminate() {
-	C.glfwTerminate()
+module sapp
+
+[inline] //可以给函数添加inline标注,变为内联函数
+pub fn isvalid() bool {
+	return C.sapp_isvalid()
 }
-pub fn window_hint(key, val int) {
-	C.glfwWindowHint(key, val)
+
+[inline]
+pub fn width() int {
+	return C.sapp_width()
+}
+
+```
+
+结构体的[inline]标注:
+
+对C函数进行简单的封装时,可以给函数添加inline标注,编译生成C代码的时候,这个函数就会变成C语言里面的static inline函数,内联函数有些类似于宏,内联函数的代码会被直接嵌入在它被调用的地方，调用几次就嵌入几次，没有使用call指令。这样省去了函数调用时的一些额外开销,不过调用次数多的话，会使可执行文件变大，这样会降低速度
+
+像上面那个简单的封装,函数只有1行代码,嵌入到被调用的地方也还是1还代码,既能省去函数调用时的额外开销,提升性能,又不会使可执行文件变大
+
+同时也可以统一和简化C函数的命名,变为V风格的简短命名,一举多得
+
+```c
+[inline]
+pub fn width() int {
+	return C.sapp_width()
 }
 ```
 
