@@ -228,6 +228,10 @@ window中的ui用来进行绘制图形,绘制文字,处理剪贴板
 
 
 
+#### Slider滑竿
+
+
+
 #### Progressbar进度条
 
 
@@ -247,6 +251,10 @@ window中的ui用来进行绘制图形,绘制文字,处理剪贴板
 sokel是vui依赖的C图形库
 
 官方网址:https://github.com/floooh/sokol
+
+官方DEMO:https://floooh.github.io/sokol-html5/index.html (WASM版本)
+
+官方DEMO源代码:https://github.com/floooh/sokol-samples
 
 官方简介:简单,单文件,跨平台库,可供C/C++使用,C写的
 
@@ -273,7 +281,7 @@ vui目前使用了这4个,主要是前两个核心文件,已包含在V源代码�
 **sokol_gfx.h**
 
 - 简单,现代地封装了GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 和 Metal
-- buffers, images, shaders, pipeline-state-objects 和 render-passes
+- 提供buffers, images, shaders, pipeline-state-objects 和 render-passes
 - 无需控制窗体的创建或者3D API的上下文初始化
 - 无需提供着色器方言交叉翻译
 
