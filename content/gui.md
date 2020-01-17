@@ -246,15 +246,17 @@ window中的ui用来进行绘制图形,绘制文字,处理剪贴板
 
 ------
 
-### sokel图形库参考
+### sokol图形库参考
 
-sokel是vui依赖的C图形库
+sokol是ui依赖的C图形库,如果想要更清楚理解ui是如何运作的,得掌握一下所依赖的sokol图形库:
 
 官方网址:https://github.com/floooh/sokol
 
 官方DEMO:https://floooh.github.io/sokol-html5/index.html (WASM版本)
 
 官方DEMO源代码:https://github.com/floooh/sokol-samples
+
+作者整体思路文档:https://floooh.github.io/2017/07/29/sokol-gfx-tour.html
 
 官方简介:简单,单文件,跨平台库,可供C/C++使用,C写的
 
