@@ -240,5 +240,56 @@ window中的ui用来进行绘制图形,绘制文字,处理剪贴板
 
 
 
+------
 
+### sokel图形库参考
 
+sokel是vui依赖的C图形库
+
+官方网址:https://github.com/floooh/sokol
+
+官方简介:简单,单文件,跨平台库,可供C/C++使用,C写的
+
+整个库包含这几个C文件,每个C文件可以单独使用:
+
+Cross-platform libraries:
+
+- **sokol_gfx.h**: 3D-API wrapper (GL + Metal + D3D11)
+- **sokol_app.h**: app framework wrapper (entry + window + 3D-context + input)
+- **sokol_time.h**: time measurement
+- **sokol_audio.h**: minimal buffer-streaming audio playback
+- **sokol_fetch.h**: asynchronous data streaming from HTTP and local filesystem
+- **sokol_args.h**: unified cmdline/URL arg parser for web and native apps
+
+Utility libraries:
+
+- **sokol_imgui.h**: sokol_gfx.h rendering backend for [Dear ImGui](https://github.com/ocornut/imgui)
+- **sokol_gl.h**: OpenGL 1.x style immediate-mode rendering API on top of sokol_gfx.h
+- **sokol_fontstash.h**: sokol_gl.h rendering backend for [fontstash](https://github.com/memononen/fontstash)
+- **sokol_gfx_imgui.h**: debug-inspection UI for sokol_gfx.h (implemented with Dear ImGui)
+
+vui目前使用了这4个,主要是前两个核心文件,已包含在V源代码的thirdparth/sokol中,无需单独下载
+
+**sokol_gfx.h**
+
+- 简单,现代地封装了GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 和 Metal
+- buffers, images, shaders, pipeline-state-objects 和 render-passes
+- 无需控制窗体的创建或者3D API的上下文初始化
+- 无需提供着色器方言交叉翻译
+
+**sokol_app.h**
+
+-  统一的应用入口
+- 单窗体或画布提供3D渲染
+- 3D上下文初始化
+- 事件驱动的键盘,鼠标,触摸板输入
+- 支持的平台: Win32, MacOS, Linux (X11), iOS, WASM/asm.js, Android (planned: RaspberryPi)
+- 支持的3D-APIs: GL3.3 (GLX/WGL), Metal, D3D11, GLES2/WebGL, GLES3/WebGL2
+
+**sokol_gl.h**
+
+OpenGL 1.x样式的立即模式渲染API,基于sokol_gfx.h
+
+**sokol_fontstash.h**
+
+为[fontstash](https://github.com/memononen/fontstash)渲染后端
