@@ -163,6 +163,18 @@ OpenGL并非一个能够直接安装的库或包，它只是一个规范。我�
 
 由于 OpenGL 只是一个标准/规范，具体的实现是由驱动开发商针对特定显卡实现的。而 OpenGL 驱动版本众多，它大多数函数的位置都无法在编译时确定下来，需要在运行时查询。所以任务就落在了开发者身上，开发者需要在运行时获取函数地址并将其保存在一个函数指针中供以后使用。但这样写出的代码复杂繁琐，因此我们需要 GLAD,GLAD 是目前最流行的开源库，能帮我们简化这个流程
 
+简写全称
+
+GL:graphics library,open graphics library
+
+GLAD: gl + load
+
+glew: gl + Extension Wrangler
+
+GLFW:gl + frame windows
+
+
+
 ### 组件
 
 刚发布的版本,目前的组件还比较少
@@ -248,6 +260,12 @@ window中的ui用来进行绘制图形,绘制文字,处理剪贴板
 
 
 
+#### TransitionValue动画
+
+
+
+
+
 ------
 
 ### sokol图形库参考
@@ -306,7 +324,7 @@ OpenGL 1.x样式的立即模式渲染API,基于sokol_gfx.h
 
 **sokol_fontstash.h**
 
-为[fontstash](https://github.com/memononen/fontstash)渲染后端
+为[fontstash](https://github.com/memononen/fontstash)提供渲染后端
 
 ------
 
