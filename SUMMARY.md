@@ -19,7 +19,9 @@
 
 * [枚举](content/enum.md)
 
-* [内置类型](content/builtintype.md)
+* [数组](content/array.md)
+
+* [字典](content/map.md)
 
 * [流程控制](content/flowcontrol.md)
 
