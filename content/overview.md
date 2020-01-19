@@ -155,7 +155,7 @@ pub fn (p mut Point) move(x,y int) {
     p.x+=x
     p.y+=y
 }
-//6.接口-接口无须显示声明实现,鸭子类型,跟go一样
+//6.接口-接口无须显式声明实现,鸭子类型,跟go一样
 pub interface Walker {
     walk(int,int) int
 }
