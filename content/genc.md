@@ -14,6 +14,8 @@ V语言的开发重点在编译器前端,C就是编译器后端
 
 ------
 
+### 查看生成的C代码
+
 想要查看V代码生成的C代码,只要增加-o参数就可以了,编译器只会生成C代码
 
 比如,想把当前目录的main.v代码生成main.c代码,执行以下命令就可以:
@@ -24,136 +26,451 @@ v -o main.c ./main.v
 
 通过查看V代码生成的C代码,可以更容易理解V编译器是如何编译的
 
-- 基本类型对应
+### 基本类型对应
 
-  v的基本类型通过C的类型别名typedef来实现
+v的基本类型通过C的类型别名typedef来实现
 
-  ```C
-  typedef int64_t i64;
-  typedef int16_t i16;
-  typedef int8_t i8;
-  typedef uint64_t u64;
-  typedef uint32_t u32;
-  typedef uint16_t u16;
-  typedef uint8_t byte;
-  typedef uint32_t rune;
-  typedef float f32;
-  typedef double f64;
-  typedef unsigned char* byteptr; //字节指针
-  typedef int* intptr; //整型指针
-  typedef void* voidptr; //通用指针
-  typedef struct array array;
-  typedef struct map map;
-  typedef array array_string;
-  typedef array array_int;
-  typedef array array_byte;
-  typedef array array_f32;
-  typedef array array_f64;
-  typedef map map_int;
-  typedef map map_string;
-  #ifndef bool
-  	typedef int bool; //布尔类型在C里面通过int类型来实现,4字节
-  	#define true 1 //true是整数常量1
-  	#define false 0 //false是整数常量0
-  #endif
-  ```
+```C
+//int类型没有类型别名,直接就是C的int类型
+typedef int64_t i64;
+typedef int16_t i16;
+typedef int8_t i8;
+typedef uint64_t u64;
+typedef uint32_t u32;
+typedef uint16_t u16;
+typedef uint8_t byte;
+typedef uint32_t rune;
+typedef float f32;
+typedef double f64;
+typedef unsigned char* byteptr; //字节指针
+typedef int* intptr; //整型指针
+typedef void* voidptr; //通用指针
+typedef struct array array;
+typedef struct map map;
+typedef array array_string;
+typedef array array_int;
+typedef array array_byte;
+typedef array array_f32;
+typedef array array_f64;
+typedef map map_int;
+typedef map map_string;
+#ifndef bool
+	typedef int bool; //布尔类型在C里面通过int类型来实现,4字节
+	#define true 1 //true是整数常量1
+	#define false 0 //false是整数常量0
+#endif
 
-- 模块
+```
 
-  V的模块,在生成对应C代码后,只是对应元素名称的前缀,毕竟C语言中没有模块的概念
+### V代码=>C代码对照表
 
-  常量,结构体,接口,类型等一级元素生成C代码后的名称规则是:"模块名__名称",用双下划线区隔
+#### 常量
 
-  例如主模块中的add()函数生成C代码后的名称为:main__add()
+int,bool类型,生成C中的宏定义:
 
-  结构体的方法等二级元素生成C代码后的名称规则是:"模块名 __ 类名 _ 方法名",用单下划线区隔
+```c
+//V代码
+const (
+	i=1 //int类型的常量
+    b=1 //booll类型的常量
+)
 
-  例主模块中的Color结构体的str()方法生成C代码后的名称为:main__Color_str()
+//C代码
+#define main__i  1
+#define main__b  1
+```
 
-- 函数
+其他类型生成C中的全局变量:
 
-  生成对应的c的函数
+```c
+//V代码
+const (
+	a=i8(11)
+	b=i16(12)
+	c=i64(13)
+	d=byte(14)
+	e=u16(15)
+	f=u32(16)
+	g=u64(17)
+	h=f32(1.1)
+	i=f64(1.2)
+)
+//C代码
+i8 main__a;
+i16 main__b;
+i64 main__c;
+byte main__d;
+u16 main__e;
+u32 main__f;
+u64 main__g;
+f32 main__h;
+f64 main__i;
+main__a =  ((i8)( 11 ) );
+main__b =  ((i16)( 12 ) );
+main__c =  ((i64)( 13 ) );
+main__d =  ((byte)( 14 ) );
+main__e =  ((u16)( 15 ) );
+main__f =  ((u32)( 16 ) );
+main__g =  ((u64)( 17 ) );
+main__h =  ((f32)( 1.1 ) );
+main__i =  ((f64)( 1.2 ) );
+```
 
-- 数组
+#### 枚举
 
-  V的数组是用struct来实现的,生成C代码也是struct
+```c
+//V代码
+enum Color {
+	blue = 1
+	green
+	red
+}
+c := Color.blue
+//C代码
+typedef int Color;
 
-- 字符串
+#define main__Color_blue 1
+#define main__Color_green 2
+#define main__Color_red 3
 
-  V的字符串是用struct来实现的,生成C代码也是struct
+Color c= main__Color_blue ;
+```
 
-- 字典
+#### 模块
 
-  V的字典是用struct来实现的,生成C代码也是struct
+V的模块,在生成对应C代码后,只是对应元素名称的前缀,毕竟C语言中没有模块的概念
 
-- 常量
+常量,结构体,接口,类型等一级元素生成C代码后的名称规则是:"模块名__名称",用双下划线区隔
 
-  整数类型的常量通过C的宏定义#define来实现,其他类型常量生成C的变量
+例如主模块中的add()函数生成C代码后的名称为:main__add()
 
-- 枚举
+结构体的方法等二级元素生成C代码后的名称规则是:"模块名 __ 类名 _ 方法名",用单下划线区隔
 
-  通过C的宏定义#define来实现,常量名字的规则是:"模块名__ 枚举名__值名"
+例主模块中的Color结构体的str()方法生成C代码后的名称为:main__Color_str()
 
-  ```c
-  #define main__myenum_x 0
-  #define main__myenum_y 1
-  #define main__myenum_z 2
-  ```
+#### 函数
 
-- 结构体
+生成等价的C的函数
 
-  生成对应的C结构体
+```c
+//V代码
+pub fn add(x,y int) int { //pub的模块访问控制由V编译器负责检查,C没有pub的对应
+	if x>0 {
+		return x+y
+	} else {
+		return x+y
+	}
+}
+//C代码
+int main__add (int x, int y); //函数声明
 
-- 结构体方法
+int main__add(int x, int y) {
+  if (x > 0) {
+    return x + y;
+  } else {
+    return x + y;
+  };
+}
+```
 
-  生成对应的C函数,函数的第一个参数是对应的结构体类型,生成的C函数的命名规则是:"结构体名__方法名"
+///todo:函数的其他特性,待展开
 
-- 接口
 
-  具体实现方式还没有细看,不过也是通过结构体,函数,指针来实现的
 
-- 流程控制语句
+#### 数组
 
-  - if
+V的数组是用struct来实现的,生成C代码也是struct
 
-    生成C的if语句
+```c
+//V代码
+fn main() {
+	a:=[1,3,5]
+	b:=['a','b','c']
+	println(a)
+	println(b)
+}
+//C代码
+//第一部分: 从内置的vlib/built/array.v生成
+struct array {
+	void* data;
+	int len;
+	int cap;
+	int element_size;
+};
+//第二部分:从内置的vlib/built/array.v生成
+typedef struct array array;
+typedef array array_string;
+typedef array array_int;
+typedef array array_byte;
+typedef array array_f32;
+typedef array array_f64;
+typedef array array_u16;
+typedef array array_u32;
+typedef array array_u64;
+//第三部分:数组使用的代码,字面量方式创建
+array_int a=new_array_from_c_array(3, 3, sizeof(int), EMPTY_ARRAY_OF_ELEMS( int, 3 ) {  1 ,  3 ,  5  }) ;
+array_string b=new_array_from_c_array(3, 3, sizeof(string), EMPTY_ARRAY_OF_ELEMS( string, 3 ) {  tos3("a") ,  tos3("b") ,  tos3("c")  }) ;
+ println (array_int_str( a ) ) ;
+ println (array_string_str( b ) ) ;
+ }
+```
 
-  - match
 
-    生成C的 if-else if-else语句
 
-  - for
+#### 字符串
 
-    for i:=0;i<10;i++{} 生成对应C的for循环
+V的字符串是用struct来实现的,生成C代码也是struct
 
-    for in {}  生成C的for循环
+```c
+//V代码
+//vlib/builtin/string.v
+pub struct string {
+	// mut:
+	// hash_cache int
+pub:
+	str byteptr // points to a C style 0 terminated string of bytes.
+	len int // the length of the .str field, excluding the ending 0 byte. It is always equal to strlen(.str).
+}
+//string的各种内置方法:
+...
+//使用代码:
+fn main(){
+	mystr:='abc'
+	mystr2:="def"
+	println(mystr)
+	println(mystr2)
+}
 
-    for x<10 {}  生成C的while循环
+//C代码
+//第一部分:vlib/builtin/string.v生成:
+typedef struct string string;
+struct string {
+	byte* str;
+	int len;
+};
+//string的各种内置方法生成:
+string string_left (string s, int n);
+string string_right (string s, int n);
+string string_substr2 (string s, int start, int _end, bool end_max);
+string string_substr (string s, int start, int end);
 
-    for {} 无限循环  生成C的while(1)无限循环
+//第二部分,使用代码:
+void main__main () {
+string mystr= tos3("abc") ;
+string mystr2= tos3("def") ;
+ println ( mystr ) ;
+ println ( mystr2 ) ;
+ }
+```
 
-    
 
-- 类型定义type
 
-  类型定义type通过C的类型别名typedef来实现
+#### 字典
+
+V的字典是用struct来实现的,生成C代码也是struct
+
+```c
+//V代码
+//第一部分:定义map
+pub struct map {
+	element_size int
+	root         &mapnode
+pub:
+	size         int
+}
+
+struct mapnode {
+	left     &mapnode
+	right    &mapnode
+	is_empty bool // set by delete()
+	key      string
+	val      voidptr
+}
+//其他map内置方法
+...
+//第二部分:使用map
+fn main() {
+    mut m := map[string]int
+    m['one'] = 1
+    m['two'] = 2
+    println(m['one']) 
+    println(m['bad_key'])
+}
+
+//C代码
+//第一部分:定义map
+typedef struct map map;
+typedef struct mapnode mapnode;
+
+typedef map map_int;
+typedef map map_string;
+
+struct map {
+	int element_size;
+	mapnode* root;
+	int size;
+};
+struct mapnode {
+	mapnode* left;
+	mapnode* right;
+	bool is_empty;
+	string key;
+	void* val;
+};
+
+//map的各种内置方法
+...
+//第二部分:使用map:
+void main__main () {
+	map_int m= new_map(1, sizeof(int)) ;
+	map_set(& m , tos3("one") , & (int []) {  1 }) ;
+	map_set(& m , tos3("two") , & (int []) {  2 }) ; 
+ 	int tmp1 = 0; bool tmp2 = map_get(m , tos3("one"), & tmp1); 
+
+ 	printf ("%d\n",  tmp1 ) ; 
+ 	int tmp3 = 0; bool tmp4 = map_get(m , tos3("bad_key"), & tmp3); 
+
+ 	printf ("%d\n",  tmp3 ) ;
+ }
+
+```
+
+
+
+#### 结构体
+
+生成对应的C结构体
+
+```c
+//V代码
+pub struct Point {
+	x int
+	y int
+}
+
+pub fn (p Point) str() string {
+	return 'x is ${p.x},y is:${p.y}'
+}
+
+fn main() {
+	p := Point{
+		x: 1
+		y: 3
+	}
+	println(p)
+}
+
+//C代码
+struct Point {
+	int x;
+	int y;
+};
+string Point_str (Point p); //函数声明
+
+string Point_str (Point p) { //函数定义,默认第一个参数是自己
+	return  _STR("x is %d,y is:%d", p .x, p .y) ;
+}
+void main__main () {
+	Point p= (Point) { .x =  1 , .y =  3 } ;
+ 	println (Point_str( p ) ) ;
+}
+```
+
+#### 结构体方法
+
+生成对应的C函数,默认第一个参数是对应的结构体类型的指针
+
+生成的C函数的命名规则是:"结构体名_方法名"
+
+```c
+//V代码
+pub fn (a mut array) insert(i int, val voidptr) {
+	if i < 0 || i > a.len {
+		panic('array.insert: index out of range (i == $i, a.len == $a.len)')
+	}
+	a.ensure_cap(a.len + 1)
+	size := a.element_size
+	C.memmove(a.data + (i + 1) * size, a.data + i * size, (a.len - i) * size)
+	C.memcpy(a.data + i * size, val, size)
+	a.len++
+}
+//C代码
+void array_insert(array *a, int i, void *val) { //默认第一个参数是对应类型指针
+  if (i < 0 || i > a->len) {
+    v_panic(_STR("array.insert: index out of range (i == %d, a.len == %d)", i,
+                 a->len));
+  };
+  array_ensure_cap(a, a->len + 1);
+  int size = a->element_size;
+  memmove((byte *)a->data + (i + 1) * size, (byte *)a->data + i * size,
+          (a->len - i) * size);
+  memcpy((byte *)a->data + i * size, val, size);
+  a->len++;
+}
+```
+
+
+
+#### 接口
+
+```
+
+```
+
+
+
+#### 流程控制语句
+
+```c
+
+```
+
+
+
+- if
+
+  生成C的if语句
+
+- match
+
+  生成C的 if-else if-else语句
+
+- for
+
+  for i:=0;i<10;i++{} 生成对应C的for循环
+
+  for in {}  生成C的for循环
+
+  for x<10 {}  生成C的while循环
+
+  for {} 无限循环  生成C的while(1)无限循环
 
   
 
-- 模块及模块导入的C代码对应
+#### 类型定义type
 
-  
+类型定义type生成C的类型别名typedef
 
-- 访问控制的C代码对应
+```c
+//V代码
+pub struct Point {
+	x int
+	y int
+}
+type myint int
+type myPoint Point
+   
+//C代码
+struct Point {
+	int x;
+	int y;
+};
+typedef  int myint;
+typedef  Point myPoint;
+```
 
-  
+#### 泛型的C代码对应
 
-- 泛型的C代码对应
 
-  
 
-- 错误处理的C代码对应
-
-  
-
-  除了以上比较大块的对应关系,每一个V语言的详细语法,都可以在C代码中找到对应的实现方式
+#### 错误处理的C代码对应
