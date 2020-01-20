@@ -192,8 +192,6 @@ pub fn width() int {
 }
 ```
 
-
-
 ### 结构体简单封装
 
 定义C结构体等价的V版本结构体,V版本结构体名称以C.做前缀
@@ -251,7 +249,13 @@ pub:
     framebuffer_width int
     framebuffer_height int
 }
+```
 
+### 枚举简单封装
+
+其实就是定义一个跟C版本枚举一样的枚举,枚举名和枚举值一样
+
+```c
 pub enum MouseButton {
     invalid = -1
     left = 0
