@@ -421,31 +421,241 @@ void array_insert(array *a, int i, void *val) { //默认第一个参数是对应
 
 #### 流程控制语句
 
-```c
+if语句,生成C if语句
 
+```c
+//V代码
+fn main() {
+	a := 10
+	b := 20
+	if a < b {
+		println('$a < $b')
+	}
+	else if a > b {
+		println('$a > $b')
+	}
+	else {
+		println('$a == $b')
+	}
+}
+
+//C代码
+void main__main () {
+	int a= 10 ;
+	int b= 20 ;
+	 if ( a < b ) {
+		printf( "%d < %d\n", a, b ) ;
+ 	}
+ 	 else  if ( a > b ) {
+		printf( "%d > %d\n", a, b ) ;
+	 }
+ 	 else { 
+		printf( "%d == %d\n", a, b ) ;
+}
+```
+
+if表达式语句,生成C的三元运算符 ? :
+
+```c
+//V代码
+fn main() {
+	num := 777
+	s := if num % 2 == 0 {
+	'even'
+	}
+	else {
+	'odd'
+	}
+	println(s) // "odd"
+}
+//C代码
+void main__main() {
+  int num = 777;
+  string s = ((num % 2 == 0) ? (tos3("even")) : (tos3("odd")));
+  println(s);
+}
+```
+
+match语句
+
+```c
+//V代码
+fn main() {
+os:='macos'
+match os {
+	'windows' {
+    	println('windows')
+	}
+	'linux' {
+    	println('linux')
+	}
+	'macos' {
+    	println('macos')
+	}
+	else  {
+   	 println('unknow')
+	}
+}
+}
+//C代码
+void main__main() {
+  string os = tos3("macos");
+  string tmp1 = os;
+
+  if (string_eq(tmp1, tos3("windows"))) {
+    println(tos3("windows"));
+  } else if (string_eq(tmp1, tos3("linux"))) {
+    println(tos3("linux"));
+  } else if (string_eq(tmp1, tos3("macos"))) {
+    println(tos3("macos"));
+  } else // default:
+  {
+    println(tos3("unknow"));
+  };
+}
+```
+
+match表达式语句
+
+```c
+//V代码
+fn main() {
+os:='macos'
+price:=match os {
+    'windows' {
+        100
+    }
+    'linux' {
+        120
+    }
+    'macos' {
+        150
+    }
+    else {
+        0
+    }
+}
+println(price) //输出150
+}
+
+//C代码 
+//生成嵌套的三元表达式
+void main__main() {
+  string os = tos3("macos");
+  string tmp1 = os;
+
+  int price = ((string_eq(tmp1, tos3("windows")))
+                   ? (100)
+                   : ((string_eq(tmp1, tos3("linux")))
+                          ? (120)
+                          : ((string_eq(tmp1, tos3("macos"))) ? (150) : (0))));
+  /*opt*/ printf("%d\n", price);
+}
+```
+
+for循环
+
+传统的：for i=0;i<100;i++ {}
+
+```c
+//V代码
+fn main() {
+  for i := 0; i < 10; i++ { 
+   	//跳过6
+   	if i == 6 {
+   		continue
+   	}
+   	println(i)
+   }
+}
+
+//C代码
+void main__main() {
+  for (int i = 0; i < 10; i++) {
+
+    if (i == 6) {
+      continue;
+    };
+    /*opt*/ printf("%d\n", i);
+  };
+}
+```
+
+替代while：for i<100 {}
+
+```c
+//V代码
+fn main() {
+   mut sum := 0
+   mut i := 0
+   for i <= 100 {
+   	sum += i
+   	i++
+   }
+   println(sum) // 输出"5050"
+}
+//C代码
+void main__main () {
+	int sum= 0 ;
+	int i= 0 ;
+	 while ( i <= 100 ) {
+ 
+ 	sum  +=  i ;
+ 	i ++ ;
+ }
+```
+
+无限循环：for {}
+
+```c
+//V代码
+fn main() {
+	mut num := 0
+	for {
+		num++
+		if num >= 10 {
+			break
+		}
+	}
+	println(num) // "10"
+}
+//C代码
+ void main__main() {
+   int num = 0;
+   while (1) {
+     num++;
+     if (num >= 10) {
+       break;
+     };
+   };
+   /*opt*/ printf("%d\n", num);
+ }
+```
+
+遍历：for i in xxx {}
+
+```c
+//V代码
+fn main() {
+	numbers := [1, 2, 3, 4, 5]
+	for i,num in numbers {
+		println('i:$i,num:$num')
+	}
+}
+//C代码
+void main__main() {
+   array_int numbers = new_array_from_c_array(
+       5, 5, sizeof(int), EMPTY_ARRAY_OF_ELEMS(int, 5){1, 2, 3, 4, 5});
+   array_int tmp1 = numbers;
+   for (int i = 0; i < tmp1.len; i++) {
+     int num = ((int *)tmp1.data)[i];
+
+     printf("i:%d,num:%d\n", i, num);
+   };
+ }
 ```
 
 
-
-- if
-
-  生成C的if语句
-
-- match
-
-  生成C的 if-else if-else语句
-
-- for
-
-  for i:=0;i<10;i++{} 生成对应C的for循环
-
-  for in {}  生成C的for循环
-
-  for x<10 {}  生成C的while循环
-
-  for {} 无限循环  生成C的while(1)无限循环
-
-  
 
 #### 类型定义type
 
@@ -471,6 +681,15 @@ typedef  Point myPoint;
 
 #### 泛型的C代码对应
 
+```c
+
+```
+
 
 
 #### 错误处理的C代码对应
+
+```c
+
+```
+

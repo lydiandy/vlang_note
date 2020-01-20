@@ -155,7 +155,7 @@ mut num := 0
 
 ```c
 numbers := [1, 2, 3, 4, 5]
-for num in numbers {
+for i,num in numbers {
    println('i:$i,num:$num')
 }
 ```
