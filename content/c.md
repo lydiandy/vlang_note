@@ -14,13 +14,68 @@ V的代码库很多都直接调用C标准库函数来实现，对C标准库的�
 
 在V代码里调用C代码也非常简单,在V标准库里随处可见:
 
-1.在V代码中使用C的宏,比如#include宏,编译时这些宏会被原封不动地搬到生成的C代码中
+1.先定义#flag,#flag的定义要放在C语言宏之前
 
-2.然后用V的函数或结构体语法,定义要使用的C函数或C结构体声明,函数名或结构体名一定要以C.开头
+2在V代码中使用C语言宏,比如#include宏或#define宏,编译时这些宏会被原封不动地搬到生成的C代码中
 
-3.就可以在后续的V代码中使用C函数或结构体,调用的时候,名称前可以使用C.作为前缀,也可以不使用,不过还是建议统一使用C.前缀,代码更清晰,哪些是调用C函数或结构体
+3.然后用V的函数或结构体语法,定义要使用的C函数或C结构体声明,函数名或结构体名一定要以C.开头
+
+4.就可以在后续的V代码中使用C函数或结构体,调用的时候,名称前可以使用C.作为前缀,也可以不使用,不过还是建议统一使用C.前缀,代码更清晰,哪些是调用C函数或结构体
 
 其实V编译的时候,会统一把函数和结构体名称前面的C.统一去掉,这样在C代码里面就可以正常调用了
+
+
+
+**关于#flag标记:**
+
+这个#flag标记跟v编译器的-cflags选项的用法是一样的,用于传递额外的flag参数给C编译器
+
+关于C编译器的flag参数可以参考:
+
+https://colobu.com/2018/08/28/15-Most-Frequently-Used-GCC-Compiler-Command-Line-Options/
+
+1.要在使用C宏之前先定义#flag
+
+2. -l	表示在库文件的搜索路径列表中添加指定的路径
+
+​	  -I	表示在头文件的搜索路径中添加指定的路径
+
+​	  -D	表示设置编译时变量
+
+3.还可以在#flag后增加平台标识,针对不同的平台配置不同的flag,目前支持的平台有:linux,darwin,windows
+
+下面是实际的例子,提供参考:
+
+```c
+//#flag文档里面的:
+#flag linux -lsdl2
+#flag linux -Ivig
+#flag linux -DCIMGUI_DEFINE_ENUMS_AND_STRUCTS=1
+#flag linux -DIMGUI_DISABLE_OBSOLETE_FUNCTIONS=1
+#flag linux -DIMGUI_IMPL_API=
+```
+
+```c
+//mysql包里面的:
+#flag -lmysqlclient //-l开头,表示在库文件的搜索路径中添加mysqlclient
+#flag linux -I /usr/include/mysql //-I开头,在头文件的搜索路径中添加指定的路径, 针对linux平台,这样才可以搜索到下面的mysql.h头文件
+#include <mysql.h>
+
+//sokol包里面的:
+#flag -I @VROOT/thirdparty/sokol 
+#flag -I @VROOT/thirdparty/sokol/util
+
+#flag darwin -fobjc-arc  //针对mac平台,提供额外的flag参数:-fobjc-arc
+#flag linux -lX11 -lGL	//针对linux平台,提供额外的flag参数
+
+#flag windows -lgdi32 //针对window平台,提供额外的flag参数:-l开头,表示链接gdi32
+
+// OPENGL
+#flag -DSOKOL_GLCORE33 //提供额外的flag参数:-DSOKOL_GLCORE33
+#flag darwin -framework OpenGL -framework Cocoa -framework QuartzCore
+```
+
+
 
 ```c
 module main
