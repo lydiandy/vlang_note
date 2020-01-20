@@ -21,7 +21,10 @@ pub interface Speaker {
 鸭子类型:只要结构体实现了接口定义的方法,就满足该接口的使用
 
 ```c
+module main
+
 struct Dog {}
+
 struct Cat {}
 
 fn (d Dog) speak() string {
@@ -29,21 +32,24 @@ fn (d Dog) speak() string {
 }
 
 fn (c Cat) speak() string {
-	return 'meow' 
+	return 'meow'
 }
 
 interface Speaker {
-	speak() string
+	speak()string
 }
 
 fn perform(s Speaker) {
 	println(s.speak())
 }
 
-dog := Dog{}
-cat := Cat{}
-perform(dog) // "woof" 
-perform(cat) // "meow" 
+fn main() {
+	dog := Dog{}
+	cat := Cat{}
+	perform(dog) // "woof"
+	perform(cat) // "meow"
+}
+
 ```
 
 接口可以作为结构体字段类型使用:

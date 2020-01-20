@@ -175,8 +175,6 @@ int main__add(int x, int y) {
 
 ///todo:函数的其他特性,待展开
 
-
-
 #### 数组
 
 V的数组是用struct来实现的,生成C代码也是struct
@@ -214,8 +212,6 @@ array_string b=new_array_from_c_array(3, 3, sizeof(string), EMPTY_ARRAY_OF_ELEMS
  println (array_string_str( b ) ) ;
  }
 ```
-
-
 
 #### 字符串
 
@@ -262,8 +258,6 @@ string mystr2= tos3("def") ;
  println ( mystr2 ) ;
  }
 ```
-
-
 
 #### 字典
 
@@ -334,8 +328,6 @@ void main__main () {
  }
 
 ```
-
-
 
 #### 结构体
 
@@ -409,15 +401,49 @@ void array_insert(array *a, int i, void *val) { //默认第一个参数是对应
 }
 ```
 
+#### 结构体访问控制
 
+访问控制在C代码中没有体现,全部在V编译器中控制
 
-#### 接口
+```c
+//V代码
+struct Foo {
+	a int     //私有,不可变(默认).在模块内部可访问,不可修改;模块外不可访问,不可修改
+mut: 
+	b int     // 私有,可变.在模块内部可访问,可修改,模块外部不可访问,不可修改
+	c int     // (相同访问控制的字段可以放在一起)   
+pub: 
+	d int   // 公共,不可变,只读.在模块内部和外部都可以访问,但是不可修改
+pub mut: 
+	e int  //公共,模块内部可访问,可修改;模块外部可访问,但是不可修改
+__global:
+	f int // 全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用
+}    
 
+fn main() {
+	f:=Foo{}
+	println(f)
+}
+
+//C代码
+typedef struct Foo Foo;
+struct Foo {
+	int a;
+	int b;
+	int c;
+	int d;
+	int e;
+	int f;
+};
+string Foo_str();
+void main__main() {
+   Foo f = (Foo){.a = 0, .b = 0, .c = 0, .d = 0, .e = 0, .f = 0};
+   println(Foo_str(f));
+ }
+string Foo_str(Foo a) {
+   return _STR("{\n	a: %d\n	b: %d\n	c: %d\n	d: %d\n	e: %d\n	f: %d\n}", a.a,a.b, a.c, a.d, a.e, a.f);
+ }
 ```
-
-```
-
-
 
 #### 流程控制语句
 
@@ -655,9 +681,7 @@ void main__main() {
  }
 ```
 
-
-
-#### 类型定义type
+#### 类型定义
 
 类型定义type生成C的类型别名typedef
 
@@ -679,17 +703,43 @@ typedef  int myint;
 typedef  Point myPoint;
 ```
 
-#### 泛型的C代码对应
+#### 接口
 
 ```c
+//V代码
 
+//C代码
 ```
 
-
-
-#### 错误处理的C代码对应
+#### 泛型
 
 ```c
+//V代码
 
+//C代码
+```
+
+#### 错误处理
+
+```c
+//V代码
+
+//C代码
+```
+
+#### 联合类型
+
+```c
+//V代码
+
+//C代码
+```
+
+#### 运算符重载
+
+```c
+//V代码
+
+//C代码
 ```
 
