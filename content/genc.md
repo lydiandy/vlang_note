@@ -66,13 +66,13 @@ typedef map map_string;
 
 #### 常量
 
-int,bool类型,生成C中的宏定义:
+int,bool类型,生成C的宏定义:
 
 ```c
 //V代码
 const (
 	i=1 //int类型的常量
-    b=1 //booll类型的常量
+    b=true //booll类型的常量
 )
 
 //C代码
@@ -80,7 +80,7 @@ const (
 #define main__b  1
 ```
 
-其他类型生成C中的全局变量:
+其他类型生成C的全局变量,常量的不可修改,由V编译器负责检查
 
 ```c
 //V代码
@@ -129,7 +129,7 @@ c := Color.blue
 //C代码
 typedef int Color;
 
-#define main__Color_blue 1
+#define main__Color_blue 1 
 #define main__Color_green 2
 #define main__Color_red 3
 
@@ -174,6 +174,114 @@ int main__add(int x, int y) {
 ```
 
 ///todo:函数的其他特性,待展开
+
+函数defer语句
+
+C没有defer语句,V编译的时候就是把函数中的defer语句去掉,然后按后进先出的顺序放在函数末尾,有各自独立的代码块
+
+```c
+//V代码
+fn main(){
+    println('main start')
+    
+    defer {defer_fn1()} 
+    defer {defer_fn2()}
+    
+    println('main end')
+}
+
+fn defer_fn1(){
+    println('from defer_fn1')
+}
+
+fn defer_fn2(){
+    println('from defer_fn2')
+}
+//C代码
+ void main__main() {
+   println(tos3("main start"));
+   println(tos3("main end"));
+   { main__defer_fn2(); }
+   { main__defer_fn1(); }
+ }
+ void main__defer_fn1() { println(tos3("from defer_fn1")); }
+ void main__defer_fn2() { println(tos3("from defer_fn2")); }
+```
+
+函数不确定个数参数
+
+不确定参数就是把最后一个参数变为指针类型,指向最后一个数组参数
+
+```c
+//V代码
+fn my_fn(i int,s string, others ...string) {
+    println(i)
+    println(s)
+    println(others[0])
+    println(others[1])
+    println(others[2])
+}
+
+fn main() {
+    my_fn(1,'abc','de','fg','hi')
+}
+//C代码
+ void main__my_fn(int i, string s, varg_string *others) {
+   printf("%d\n", i);
+   println(s);
+   println(others->args[0]);
+   println(others->args[1]);
+   println(others->args[2]);
+ }
+
+ void main__main() {
+   main__my_fn(
+       1, tos3("abc"),
+       &(varg_string){.len = 3, .args = {tos3("de"), tos3("fg"), 				tos3("hi")}});
+ }
+```
+
+函数多返回值
+
+C的函数返回值只有1个,V的函数多返回值,就是把多返回值的组合,生成一个结构体,然后返回结构体
+
+```c
+//V代码
+fn foo() (int, int) { //多返回值
+	return 2, 3
+}
+
+fn some_multiret_fn(a int, b int) (int, int) {
+	return a+1, b+1 //可以返回表达式
+}
+fn main() {
+	a, b := foo()
+	println(a) // 2
+	println(b) // 3
+}
+//C代码
+typedef struct _V_MulRet_int_V_int _V_MulRet_int_V_int;
+struct _V_MulRet_int_V_int { //生成的返回值组合的结构体,还可以给其他函数共用
+	int var_0;
+	int var_1;
+};
+
+ _V_MulRet_int_V_int main__foo() {
+   return (_V_MulRet_int_V_int){.var_0 = 2, .var_1 = 3};
+ }
+ _V_MulRet_int_V_int main__some_multiret_fn(int a, int b) {
+   return (_V_MulRet_int_V_int){.var_0 = a + 1, .var_1 = b + 1};
+ }
+ void main__main() {
+   _V_MulRet_int_V_int _V_mret_49_a_b = main__foo();
+   int a = _V_mret_49_a_b.var_0;
+   int b = _V_mret_49_a_b.var_1;
+   /*opt*/ printf("%d\n", a);
+   /*opt*/ printf("%d\n", b);
+ }
+```
+
+
 
 #### 数组
 
