@@ -13,7 +13,7 @@ $if windows {
 $if linux {
 	println('linux')
 }
-$if mac {
+$if macos {
 	println('mac')
 }
 ```
@@ -31,32 +31,32 @@ $if debug {
 判断平台是32位还是64位
 
 ```c
-fn test_bitness(){
-  mut x := 0
-  $if x32 {
-    println('system is 32 bit')
-    x = 1
-  }
-  $if x64 {
-    println('system is 64 bit')
-    x = 2
-  }
+fn main() {
+	mut x := 0
+	$if x32 {
+		println('system is 32 bit')
+		x = 1
+	}
+	$if x64 {
+		println('system is 64 bit')
+		x = 2
+	}
 }
 ```
 
 判断平台使用的字节序是小字节序，还是大字节序
 
 ```c
-fn test_endianness(){
-  mut x := 0
-  $if little_endian {
-    println('system is little endian')
-    x = 1
-  }
-  $if big_endian {
-    println('system is big endian')
-    x = 2
-  }
+fn main() {
+	mut x := 0
+	$if little_endian {
+		println('system is little endian')
+		x = 1
+	}
+	$if big_endian {
+		println('system is big endian')
+		x = 2
+	}
 }
 ```
 

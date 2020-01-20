@@ -849,3 +849,93 @@ typedef  Point myPoint;
 //C代码
 ```
 
+#### 条件编译
+
+生成等价的C宏定义
+
+```c
+//V代码
+fn main() {
+	$if windows {
+		println('windows')
+	}
+	$if linux {
+		println('linux')
+	}
+	$if macos {
+		println('mac')
+	}
+}
+//C代码
+void main__main() {
+#ifdef _WIN32
+#endif
+   ;
+#ifdef __linux__
+#endif
+   ;
+#ifdef __APPLE__
+   println(tos3("mac"));
+#endif
+   ;
+ }
+```
+
+```c
+//V代码
+fn main() {
+	mut x := 0
+	$if x32 {
+		println('system is 32 bit')
+		x = 1
+	}
+	$if x64 {
+		println('system is 64 bit')
+		x = 2
+	}
+}
+
+//C代码
+void main__main() {
+   int x = 0;
+	#ifdef TARGET_IS_32BIT
+  	 println(tos3("system is 32 bit"));
+   	x = 1;
+	#endif
+   	;
+	#ifdef TARGET_IS_64BIT
+   	println(tos3("system is 64 bit"));
+   	x = 2;
+	#endif
+   	;
+```
+
+```c
+//V代码
+fn main() {
+	mut x := 0
+	$if little_endian {
+		println('system is little endian')
+		x = 1
+	}
+	$if big_endian {
+		println('system is big endian')
+		x = 2
+	}
+}
+
+//C代码
+ void main__main() {
+   int x = 0;
+	#ifdef TARGET_ORDER_IS_LITTLE
+   println(tos3("system is little endian"));
+   x = 1;
+	#endif
+   ;
+	#ifdef TARGET_ORDER_IS_BIG
+   println(tos3("system is big endian"));
+   x = 2;
+	#endif
+   ;
+```
+
