@@ -22,9 +22,9 @@ vlib/builtin/builtin.v
 
   
 
-- exit(int) 退出程序
+- exit(code int)     //退出程序
 
-- isnil(ptr voidptr) //判断C指针是否是空指针
+- isnil(ptr voidptr) //正常由V创建的变量都会有初始值,所以不存在空指针,这个只用来集成C代码库时,判断C指针是否是空指针
 
   ​		
 
@@ -32,7 +32,7 @@ vlib/builtin/builtin.v
 
   
 
-- panic(s string) //恐慌,报错
+- panic(s string) //程序报错,然后终止进程,退出码为1
 
 - on_panic(f fn(int) int) //尚未实现,应该是恐慌后的回调处理
 
