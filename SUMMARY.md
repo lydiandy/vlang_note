@@ -67,9 +67,9 @@
 
 * [不安全代码](content/unsafe.md)
 
-* [调用C代码库](content/c.md)
+* [集成C代码库](content/c.md)
 
-* [调用汇编代码](content/asm.md)
+* [集成汇编代码](content/asm.md)
 
 * [裸机环境](content/bare_metal.md)
 
