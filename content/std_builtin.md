@@ -64,7 +64,7 @@
 
 #### 手动分配内存
 
-- isnil(ptr voidptr)     
+- isnil(ptr voidptr) bool
 
     正常由V创建的变量都会有初始值,所以不存在空指针,这个只用来集成C代码库或手动分配内存时,判断生成的C指针是否是空指针
 
@@ -96,20 +96,20 @@
 
 以下3个常用的C分配内存函数没有定义成为内置函数,还需要通过C.xxx来使用:
 
-- C.realloc(byteptr,int) 
+- C.realloc(byteptr,int) voidptr
 
     重新调整内存大小
 
 ------
 
 
-- C.memcpy(byteptr,byteptr,int) 
+- C.memcpy(byteptr,byteptr,int)  voidptr
 
     内存拷贝
 
 ------
 
-- C.memmove(byteptr,byteptr,int) 
+- C.memmove(byteptr,byteptr,int) voidptr
 
   内存移动
 
@@ -126,184 +126,210 @@
 
 源代码位置:vlib/builtin/string.v
 
-- ends_with(string) bool	
+**字符串函数:**
+
+- vstrlen(s byteptr) int
+    传入字节指针,计算指针指向的字符串的长度,一般用于C指针指向的字符串
+- tos(s byteptr,len int) string
+    传入字节指针和长度,转换成字符串,一般用于C指针转换成V字符串
+- tos2(s byteptr) string
+
+    传入字节指针,转换成字符串,字符串的长度自动识别,一般用于C指针转换成V字符串
+
+- tos3(s charptr) string
+
+    传入字符指针,转换成字符串,一般用于C指针转换成V字符串
+
+- tos_clone(s byteptr) string
+
+    传入字节指针,通过克隆的方式,生成新的字符串,内容跟字节指针指向的字符串一致
+
+**字符串方法:**
+
+- s.ends_with(string) bool	
 
     判断字符串是否以给定的字符串结尾
 
 ------
 
-- starts_with(string) bool	
+- s.starts_with(string) bool	
 
     判断字符串是否以给定的字符串开始
 
 ------
 
-- find_between('[',']') string
+- s.find_between('[',']') string
 
     返回字符串中包在这两个字符中间的子字符串
 
 ------
 
-- index(string) int
+- s.index(string) int
 
     返回子字符串在字符串中的位置,如果没有包含,则返回-1
 
 ------
 
-- last_index(string) int 
+- s.last_index(string) int 
 
     返回子字符串在字符串中,最后出现的位置
 
 ------
 
-- index_any(string) int 
+- s.index_any(string) int 
 
     返回子字符串中的任意单个字符,在字符串中出现的位置,如果没有包含,则返回-1
 
 ------
 
-- index_after(str,n) int
+- s.index_after(str,n) int
 
     从字符串第n个开始查找起,返回子字符串在整个字符串中的位置,如果没有包含,则返回-1	
 
 ------
 
-- at(int) byte
+- s.at(int) byte
 
     返回字符串第几个位置的字符串
 
 ------
 
-- split(string) [ ]string
+- s.split(string) [ ]string
 
     按照给定的分割符,把字符串分割,形成数组
 
 ------
 
-- trim_space() string
+- s.trim_space() string
 
     去掉字符串左右两边的空格,中间的空格不去掉
 
 ------
 
-- trim(string) string
+- s.trim(string) string
 
     去掉字符串中包含子字符串中的字符
 
 ------
 
-- trim_left(string) string
+- s.trim_left(string) string
 
     去掉字符串中,左边包含参数字符的字符,如果参数是空格,就是去掉左边的空格
 
 ------
 
-- trim_right(string) string
+- s.trim_right(string) string
 
     去掉字符串中,包含参数字符的字符,如果参数是空格,就是去掉右边的空格
 
 ------
 
-- all_before(string) string
+- s.all_before(string) string
 
     提取字符串中,包含参数字符串前面的所有内容
 
 ------
 
-- all_after(string) string
+- s.all_after(string) string
 
     提取字符串中,包含参数字符串后面的所有内容
 
 ------
 
-- limit(int) string
+- s.limit(int) string
 
     返回字符串的前几个字符串
 
 ------
 
-- reverse() string
+- s.reverse() string
 
     反转字符串
 
 ------
 
-- clone()
+- s.clone() string
 
-    复制字符串
-
-------
-
-- replace(string,string) string
-
-    替换字符串中指定的子字符串替换为新的字符串
+    复制字符串,生成新的字符串
 
 ------
 
-- to_lower()
+- s.replace(rep string,with string) string
+
+    替换字符串中所有的子字符串rep,替换为新的子字符串with
+
+------
+
+- s.replace_once(rep string,with string) string
+
+    替换字符串中第一次出现的子字符串rep,替换为新的字符串with
+    
+------
+
+- s.to_lower()
 
     转小写
 
 ------
 
-- to_upper()
+- s.to_upper()
 
     转大写
 
 ------
 
-- left(int) string
+- s.left(int) string
 
     取字符串从左边开始,到第几个字符的部分
 
 ------
 
-- right(int) string
+- s.right(int) string
 
     取字符串从左边开始第几个字符开始,所有右边的部分
 
 ------
 
-- containis(string) bool
+- s.containis(string) bool
 
     判断字符串是否包含参数中的子字符串
 
 ------
 
-- substr(int,int) string
+- s.substr(int,int) string
 
     取给定开始和结束位置的子字符串
 
 ------
 
-- int() int
+- s.int() int
 
 
-- u32() u32
+- s.u32() u32
 
 
-- f32() f32
+- s.f32() f32
 
 
-- f64() f64
+- s.f64() f64
 
     把字符串转换为整数,函数会尝试从左边开始逐个字符尝试转换成整数,碰到非数字的字符,则返回转换成功的部分,如果第一个字符就不能转换,则返回0
 
 ------
 
-- count(string) int
+- s.count(string) int
 
     计算字符串中出现参数字符串的次数
 
 ------
 
-- capitalize()
+- s.capitalize()
 
     把字符串的首字母大写
 
 ------
 
-- title()
+- s.title()
 
     把字符串中的每个单词的首字母大写,用空格区分单词
 

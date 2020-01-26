@@ -170,6 +170,10 @@ intptr:  整型类型指针
 
 charptr: 字符类型指针
 
+V代码中使用的最多的是byteptr和voidptr
+
+V代码中比较少用intptr,charptr,只有在跟C代码集成时或底层代码用得多,C的很多字符串都是charptr指针
+
 以下是4种指针类型,生成C代码对应的类型定义:
 
 ```c
