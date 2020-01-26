@@ -939,3 +939,57 @@ fn main() {
    ;
 ```
 
+#### 内联汇编代码
+
+生成等价的C内联汇编的代码
+
+```c
+//V代码
+fn main() {
+	a := 10
+	b := 0
+	unsafe {	//unsafe代码块
+		asm {	//asm代码块,里面可以直接写汇编代码
+			"movl %1, %%eax;"
+			"movl %%eax, %0;"
+			:"=r"(b)
+			:"r"(a)
+			:"%eax"
+		}
+	}
+	println(a) //返回10
+	println(b) //返回10,直接通过汇编代码修改了b的值
+
+	e := 0
+	unsafe {
+		asm {
+			"movl $5, %0"
+			:"=a"(e)
+		}
+	}
+	println(e) //返回5,直接通过汇编代码修改了e的值
+}
+
+//C代码
+ void main__main() {
+   int a = 10;
+   int b = 0;
+   {
+     asm("movl %1, %%eax;"
+         "movl %%eax, %0;"
+         : "=r"(b)
+         : "r"(a)
+         : "%eax");
+     ;
+   };
+   /*opt*/ printf("%d\n", a);
+   /*opt*/ printf("%d\n", b);
+   int e = 0;
+   {
+     asm("movl $5, %0" : "=a"(e));
+     ;
+   };
+   /*opt*/ printf("%d\n", e);
+ }
+```
+
