@@ -1,80 +1,81 @@
 ## builtin内置模块
 
-在builtin内置模块中定义的函数,结构体等,编译器在编译代码时会默认加载builtin模块,
+在builtin内置模块中定义的函数,结构体等,编译器在编译代码前会默认加载vlib/builtin目录,
 
-可以在任何模块中直接使用,并且不用带buitlit前缀,就是内置
+内置模块中的所有函数,结构体可以在任何模块中直接使用,并且不用带buitlin前缀
 
-#### 内置函数
+### 内置函数
 
-```
-vlib/builtin/builtin.v
-```
+源代码位置:vlib/builtin/builtin.v
 
-- print(string)  //打印字符串,不换行
+#### 打印输出
 
-- println(string) //打印字符串,换行
+- print(s string)  //打印字符串,不换行
 
-- eprintln(string) //打印错误,控制台是红色字
+- println(s string) //打印字符串,换行
 
-  ​		
+- eprint(s string) //打印错误,不换行,控制台是红色字
 
-  ------
+- eprintln(s string) //打印错误,换行,控制台是红色字
+	
 
-  
+#### 退出进程/报错
 
 - exit(code int)     //退出程序
-
-- isnil(ptr voidptr) //正常由V创建的变量都会有初始值,所以不存在空指针,这个只用来集成C代码库时,判断C指针是否是空指针
-
-  ​		
-
-  ------
-
-  
-
 - panic(s string) //程序报错,然后终止进程,退出码为1
-
 - on_panic(f fn(int) int) //尚未实现,应该是恐慌后的回调处理
+- is_atty(fd int) int //判断程序是否在终端执行,一般是is_atty(1) **>** 0,如果返回1,即>0,则表示在终端中执行,返回0则不是在终端中执行
 
-  ​		
 
-  ------
+#### 手动分配内存
 
-  
+- isnil(ptr voidptr)     //正常由V创建的变量都会有初始值,所以不存在空指针,这个只用来集成C代码库或手动分配内存时,判断生成的C指针是否是空指针
 
-- malloc(int) byteptr //分配内存
+    
+
+- malloc(n int) byteptr     //分配所需的内存空间，并返回一个指向它的指针
 
   对C标准库的malloc的简单封装,成为内置函数,用途一样
 
-- calloc(int) byteptr //分配内存
+  
+
+- calloc(n int) byteptr      //分配所需的内存空间，并返回一个指向它的指针
 
   对C标准库的calloc的简单封装,不一样的是C的calloc有2个参数,V简化为1个size参数,成为内置函数,用途一样
+
+  malloc 和 calloc 之间的不同点是，malloc 不会设置内存为零，而 calloc 会设置分配的内存为零
+
+  
+
+- memdup(src voidptr, sz int) voidptr   //内存拷贝
+
+  
 
 - free(ptr voidptr) //释放内存
 
   对C标准库free的简单封装,成为内置函数,用途一样
 
-  ​		
   
-  以下3个常用的C分配内存函数没有定义成为内置函数,还需要通过C.xxx来使用:
-  
+
+以下3个常用的C分配内存函数没有定义成为内置函数,还需要通过C.xxx来使用:
+
 - C.realloc(byteptr,int) //重新调整内存大小
 
 - C.memcpy(byteptr,byteptr,int) //内存拷贝
 
 - C.memmove(byteptr,byteptr,int) //内存移动
 
-  基本上V代码中,都是使用这几个函数来实现内存分配和内存控制
+  基本上V代码中,都是使用这几个函数来实现手动内存分配,实现跟C一样的内存控制
+
+  参考:[内存管理章节](memory.md)
 
   ------
-
+  
   
 
-#### 字符串
+### 字符串
 
-```
-vlib/builtin/string.v
-```
+源代码位置:vlib/builtin/string.v
 
 ends_with(string) bool
 
@@ -310,25 +311,111 @@ ge(string) bool
 
    在33个字符之外的是95个可显示的字符
 
-#### 数组
+### 数组
 
+源代码位置:vlib/builtin/array.v
+
+str()  	//数组转字符串
+
+first() 	//返回数组的第一个元素
+
+last()	//返回数组的最后一个元素
+
+delete(int)	//删除数组的第几个元素
+
+left(int) array	//返回从左边开始,到第几个元素的子数组
+
+right(int) array	//返回从左边开始第几个之后,  右边的所有元素的子数组
+
+slice(start,end)	//返回给定位置区间的子数组,左闭右开
+
+reverse()	//数组反转
+
+clone()	//克隆数组
+
+insert(int,voidptr)	//在数组的第几个位置插入新的元素,第二个参数是指针类型
+
+prepend(voidptr)	//在数组的第一个位置插入新的元素
+
+free()	//释放数组的内存
+
+[ ]int.sort() 	//针对整型数组的排序
+
+------
+
+filter()	//针对int和string数组进行过滤,返回满足条件的元素数组
+
+​	filter函数有点特殊,是在编译器中实现的,而不是builtin库中,因为有it这个特殊的迭代器参数
+
+​	it是参数表达式中,约定的iterator迭代器,表示每一次迭代时,数组的元素,满足过滤器表达式的元素会被返回
+
+```c
+	a := [1, 2, 3, 4, 5, 6]
+	b := a.filter(it % 2 == 0) //b的结果为:[2,4,6]
+	c := ['v', 'is', 'awesome']
+	d := c.filter(it.len > 1) //d的结果为:['is','awesome']
 ```
-vlib/builtin/array.v
+
+------
+
+map() 	//针对int和string数组的每一个元素进行一个运算,返回运算后的新数组
+
+map函数有点特殊,是在编译器中实现的,而不是builtin库中,因为有it这个特殊的迭代器参数
+
+​	it是参数表达式中,约定的iterator迭代器,表示每一次迭代时,数组的元素
+
+```c
+a := [1, 2, 3, 4, 5, 6]
+b := a.map(it * 10)
+println(b)
+```
+
+------
+
+reduce(iter fn (accum, curr int) int, accum_start int) int	//针对int数组,给定一个初始的累计值accum_start,以及累计值与数组元素的累加关系,返回最终的累加结果
+
+```c
+module main
+
+fn sum(accum int, curr int) int {
+	return accum + curr
+}
+
+fn sub(accum int, curr int) int {
+	return accum - curr
+}
+
+fn main() {
+	a := [1, 2, 3, 4, 5]
+	b := a.reduce(sum, 0)
+	c := a.reduce(sum, 5)
+	d := a.reduce(sum, -1)
+	println(b) //返回15
+	println(c) //返回20
+	println(d) //返回14
+	e := [1, 2, 3]
+    f := e.reduce(sub, 0)
+    g := e.reduce(sub, -1)
+    println(f) //返回-6
+    println(g) //返回-7
+}
 ```
 
 
 
 ------
 
+### 字典
 
+源代码位置:vlib/builtin/map.v
 
-#### 字典
+m.keys() 	//获取map的所有key,返回keys数组
 
-```
-vlib/builtin/map.v
-```
+m.delete(key)	//删除map的某一个key
 
+m.str()	//map转成字符串输出
 
+m.free()	//释放map的内存
 
 
 
@@ -336,11 +423,9 @@ vlib/builtin/map.v
 
 ------
 
-#### 错误处理
+### 错误处理
 
-```
-vlib/builtin/option.v
-```
+源代码位置:vlib/builtin/option.v
 
 
 

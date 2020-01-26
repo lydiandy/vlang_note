@@ -44,6 +44,9 @@ $if windows {
 } $else { //用来处理$if以外,其他平台的代码
     
 }
+$if !windows { //还可以使用!,取否
+    
+}
 ```
 
 判断是否使用了-debug

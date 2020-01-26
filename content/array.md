@@ -2,8 +2,6 @@
 
 除了内置的基本类型外,数组和字典也是内置类型
 
-内置类型相关的源代码可以参考v源代码中的： vlib/builtin目录
-
 ### 数组实现
 
 从数组的源代码实现看，也是一个struct
@@ -12,7 +10,7 @@ vlib/builtin/array.v
 
 ```c
 struct array {
-pub:
+pub: //公共只读
 	data voidptr //数组的起始指针
 	len int //数组的长度
 	cap int //数组的容量
@@ -158,98 +156,6 @@ fn main() {
 }
 ```
 
-****
+数组相关的源代码可以参考v源代码中的： vlib/builtin/array.v
 
-### 数组常用函数
-
-str()  	//数组转字符串
-
-first() 	//返回数组的第一个元素
-
-last()	//返回数组的最后一个元素
-
-delete(int)	//删除数组的第几个元素
-
-left(int) array	//返回从左边开始,到第几个元素的子数组
-
-right(int) array	//返回从左边开始第几个之后,  右边的所有元素的子数组
-
-slice(start,end)	//返回给定位置区间的子数组,左闭右开
-
-reverse()	//数组反转
-
-clone()	//克隆数组
-
-insert(int,voidptr)	//在数组的第几个位置插入新的元素,第二个参数是指针类型
-
-prepend(voidptr)	//在数组的第一个位置插入新的元素
-
-free()	//释放数组的内存
-
-[ ]int.sort() 	//针对整型数组的排序
-
-------
-
-filter()	//针对int和string数组进行过滤,返回满足条件的元素数组
-
-​	filter函数有点特殊,是在编译器中实现的,而不是builtin库中,因为有it这个特殊的迭代器参数
-
-​	it是参数表达式中,约定的iterator迭代器,表示每一次迭代时,数组的元素,满足过滤器表达式的元素会被返回
-
-```c
-	a := [1, 2, 3, 4, 5, 6]
-	b := a.filter(it % 2 == 0) //b的结果为:[2,4,6]
-	c := ['v', 'is', 'awesome']
-	d := c.filter(it.len > 1) //d的结果为:['is','awesome']
-```
-
-------
-
-map() 	//针对int和string数组的每一个元素进行一个运算,返回运算后的新数组
-
-map函数有点特殊,是在编译器中实现的,而不是builtin库中,因为有it这个特殊的迭代器参数
-
-​	it是参数表达式中,约定的iterator迭代器,表示每一次迭代时,数组的元素
-
-```c
-a := [1, 2, 3, 4, 5, 6]
-b := a.map(it * 10)
-println(b)
-```
-
-------
-
-reduce(iter fn (accum, curr int) int, accum_start int) int	//针对int数组,给定一个初始的累计值accum_start,以及累计值与数组元素的累加关系,返回最终的累加结果
-
-```c
-module main
-
-fn sum(accum int, curr int) int {
-	return accum + curr
-}
-
-fn sub(accum int, curr int) int {
-	return accum - curr
-}
-
-fn main() {
-	a := [1, 2, 3, 4, 5]
-	b := a.reduce(sum, 0)
-	c := a.reduce(sum, 5)
-	d := a.reduce(sum, -1)
-	println(b) //返回15
-	println(c) //返回20
-	println(d) //返回14
-	e := [1, 2, 3]
-    f := e.reduce(sub, 0)
-    g := e.reduce(sub, -1)
-    println(f) //返回-6
-    println(g) //返回-7
-}
-```
-
-
-
-------
-
-
+更多数组相关的函数,参考[标准库章节](std_builtin.md)

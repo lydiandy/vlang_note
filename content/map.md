@@ -1,5 +1,7 @@
 ## 字典
 
+除了内置的基本类型外,数组和字典也是内置类型
+
 ### map实现
 
 从map的源代码定义看,map是通过2个struct实现的
@@ -98,13 +100,7 @@ fn main() {
 
 ------
 
-### map常用函数
+字典相关的源代码可以参考v源代码中的： vlib/builtin/map.v
 
-m.keys() 	//获取map的所有key,返回keys数组
-
-m.delete(key)	//删除map的某一个key
-
-m.str()	//map转成字符串输出
-
-m.free()	//释放map的内存
+更多字典相关的函数,参考[标准库章节](std_builtin.md)
 

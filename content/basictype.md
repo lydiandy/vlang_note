@@ -60,7 +60,7 @@ string
 
 单引号和双引号都可以
 
-习惯上都还是使用单引号,V编译器中的代码都是统一使用的单引号,按作者的说法是可以少按一个shift键,更自然简单一些
+习惯上都还是使用单引号,V编译器中的代码都是统一使用的单引号,按作者的说法是可以少按一个shift键,更自然简单一些,不过打破了之前C的使用习惯,让人一开始有些不习惯
 
 当使用双引号的时候,编译器会自动把双引号自动替换为单引号
 
@@ -127,8 +127,6 @@ println(s[2..5]) //输出llo
 
 
 
-------
-
 字符串从定义的v代码看，也是一个struct
 
 ```c
@@ -164,13 +162,22 @@ println(c1.str()) //通过str()函数转换为字符串后,输出a
 
 ### 指针类型
 
-byteptr 字节指针：指针指向的地址是byte类型
+byteptr: 字节类型指针
 
-voidptr通用指针：可以指向任何类型
+voidptr: 通用指针,可以指向任何类型
 
-intptr i32指针:指针指向的地址是int类型,不过很少使用
+intptr:  整型类型指针
 
+charptr: 字符类型指针
 
+以下是4种指针类型,生成C代码对应的类型定义:
+
+```c
+typedef unsigned char* byteptr;
+typedef int* intptr;
+typedef void* voidptr;
+typedef char* charptr;
+```
 
 变量前加&表示取地址,返回指针类型
 
@@ -187,14 +194,14 @@ fn main() {
 
 正常情况下,由V创建的变量,因为声明和初始化一定是同时进行的,所以变量一定会有初始值,所以V指针一定不会有空值,即0值
 
-内置函数中的isnil(ptr),是用来判断由C代码生成的指针,是否存在空值
+内置函数中的isnil(ptr),是用来判断由C代码生成的指针,是否是空指针
 
 ```c
 fn main() {
 	a := 1
 	println(isnil(&a)) //返回false,变量只能通过:=来初始化,一定会有初始值
         
-	f := C.popen(cmd.str, 'r') //但是通过调用C代码返回的指针,有可能会返回nil,所以在使用前可以用isnil函数来判断一下
+	f := C.popen(cmd.str, 'r') //但是通过调用C代码返回的指针,有可能是空指针,所以在使用前可以用isnil函数来判断一下
 	if isnil(f) {
 		println(sframe)
 		continue
