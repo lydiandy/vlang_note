@@ -10,65 +10,81 @@
 
 #### 打印输出
 
-- print(s string)  //打印字符串,不换行
+- print(s string)  
 
-- println(s string) //打印字符串,换行
+    打印字符串,不换行
 
-- eprint(s string) //打印错误,不换行,控制台是红色字
+- println(s string) 
 
-- eprintln(s string) //打印错误,换行,控制台是红色字
+    打印字符串,换行
+
+- eprint(s string) 
+
+    打印错误,不换行,控制台是红色字
+
+- eprintln(s string) 
 	
+	打印错误,换行,控制台是红色字
 
 #### 退出进程/报错
 
-- exit(code int)     //退出程序
-- panic(s string) //程序报错,然后终止进程,退出码为1
-- on_panic(f fn(int) int) //尚未实现,应该是恐慌后的回调处理
-- is_atty(fd int) int //判断程序是否在终端执行,一般是is_atty(1) **>** 0,如果返回1,即>0,则表示在终端中执行,返回0则不是在终端中执行
+- exit(code int)     
+
+    退出程序
+
+- panic(s string) 
+
+    程序报错,然后终止进程,退出码为1
+
+- on_panic(f fn(int) int) 
+
+    尚未实现,应该是恐慌后的回调处理
+
+- is_atty(fd int) int 
+
+    判断程序是否在终端执行,一般是is_atty(1) **>** 0,如果返回1,即>0,则表示在终端中执行,返回0则不是在终端中执行
 
 
 #### 手动分配内存
 
-- isnil(ptr voidptr)     //正常由V创建的变量都会有初始值,所以不存在空指针,这个只用来集成C代码库或手动分配内存时,判断生成的C指针是否是空指针
+- isnil(ptr voidptr)     
 
-    
+    正常由V创建的变量都会有初始值,所以不存在空指针,这个只用来集成C代码库或手动分配内存时,判断生成的C指针是否是空指针
 
-- malloc(n int) byteptr     //分配所需的内存空间，并返回一个指向它的指针
+- malloc(n int) byteptr    
 
-  对C标准库的malloc的简单封装,成为内置函数,用途一样
+  分配所需的内存空间，并返回一个指向它的指针,对C标准库的malloc的简单封装,成为内置函数,用途一样
 
-  
+- calloc(n int) byteptr      
 
-- calloc(n int) byteptr      //分配所需的内存空间，并返回一个指向它的指针
+  分配所需的内存空间，并返回一个指向它的指针,对C标准库的calloc的简单封装,不一样的是C的calloc有2个参数,V简化为1个size参数,成为内置函数,用途一样.malloc 和 calloc 之间的不同点是，malloc 不会设置内存为零，而 calloc 会设置分配的内存为零
 
-  对C标准库的calloc的简单封装,不一样的是C的calloc有2个参数,V简化为1个size参数,成为内置函数,用途一样
+- memdup(src voidptr, sz int) voidptr   
 
-  malloc 和 calloc 之间的不同点是，malloc 不会设置内存为零，而 calloc 会设置分配的内存为零
+    内存拷贝
 
-  
+- free(ptr voidptr) 
 
-- memdup(src voidptr, sz int) voidptr   //内存拷贝
-
-  
-
-- free(ptr voidptr) //释放内存
-
-  对C标准库free的简单封装,成为内置函数,用途一样
-
-  
+  释放内存,对C标准库free的简单封装,成为内置函数,用途一样
 
 以下3个常用的C分配内存函数没有定义成为内置函数,还需要通过C.xxx来使用:
 
-- C.realloc(byteptr,int) //重新调整内存大小
+- C.realloc(byteptr,int) 
 
-- C.memcpy(byteptr,byteptr,int) //内存拷贝
+    重新调整内存大小
 
-- C.memmove(byteptr,byteptr,int) //内存移动
+- C.memcpy(byteptr,byteptr,int) 
+
+    内存拷贝
+
+- C.memmove(byteptr,byteptr,int) 
+
+  内存移动
 
   基本上V代码中,都是使用这几个函数来实现手动内存分配,实现跟C一样的内存控制
 
   参考:[内存管理章节](memory.md)
-
+  
   ------
   
   
@@ -77,223 +93,245 @@
 
 源代码位置:vlib/builtin/string.v
 
-ends_with(string) bool	//判断字符串是否以给定的字符串结尾
+- ends_with(string) bool	
+
+    判断字符串是否以给定的字符串结尾
 
 ------
 
-starts_with(string) bool
+- starts_with(string) bool	
 
-判断字符串是否以给定的字符串开始
-
-------
-
-find_between('[',']') string
-
-返回字符串中包在这两个字符中间的子字符串
+    判断字符串是否以给定的字符串开始
 
 ------
 
-index(string) int
+- find_between('[',']') string
 
-返回子字符串在字符串中的位置,如果没有包含,则返回-1
-
-------
-
-last_index(string) int 
-
-返回子字符串在字符串中,最后出现的位置
+    返回字符串中包在这两个字符中间的子字符串
 
 ------
 
-index_any(string) int 
+- index(string) int
 
-返回子字符串中的任意单个字符,在字符串中出现的位置,如果没有包含,则返回-1
-
-------
-
-index_after(str,n) int
-
-从字符串第n个开始查找起,返回子字符串在整个字符串中的位置,如果没有包含,则返回-1	
+    返回子字符串在字符串中的位置,如果没有包含,则返回-1
 
 ------
 
-at(int) byte
+- last_index(string) int 
 
-返回字符串第几个位置的字符串
-
-------
-
-split(string) [ ]string
-
-按照给定的分割符,把字符串分割,形成数组
+    返回子字符串在字符串中,最后出现的位置
 
 ------
 
-trim_space() string
+- index_any(string) int 
 
-去掉字符串左右两边的空格,中间的空格不去掉
 
-------
-
-trim(string) string
-
-去掉字符串中包含子字符串中的字符
+​	返回子字符串中的任意单个字符,在字符串中出现的位置,如果没有包含,则返回-1
 
 ------
 
-trim_left(string) string
+- index_after(str,n) int
 
-去掉字符串中,左边包含参数字符的字符,如果参数是空格,就是去掉左边的空格
-
-------
-
-trim_right(string) string
-
-去掉字符串中,包含参数字符的字符,如果参数是空格,就是去掉右边的空格
+    从字符串第n个开始查找起,返回子字符串在整个字符串中的位置,如果没有包含,则返回-1	
 
 ------
 
-all_before(string) string
+- at(int) byte
 
-提取字符串中,包含参数字符串前面的所有内容
-
-------
-
-all_after(string) string
-
-提取字符串中,包含参数字符串后面的所有内容
+    返回字符串第几个位置的字符串
 
 ------
 
-limit(int) string
+- split(string) [ ]string
 
-返回字符串的前几个字符串
-
-------
-
-reverse() string
-
-反转字符串
+    按照给定的分割符,把字符串分割,形成数组
 
 ------
 
-clone()
+- trim_space() string
 
-复制字符串
-
-------
-
-replace(string,string) string
-
-替换字符串中指定的子字符串替换为新的字符串
+    去掉字符串左右两边的空格,中间的空格不去掉
 
 ------
 
-to_lower()
+- trim(string) string
 
-转小写
-
-------
-
-to_upper()
-
-转大写
+    去掉字符串中包含子字符串中的字符
 
 ------
 
-left(int) string
+- trim_left(string) string
 
-取字符串从左边开始,到第几个字符的部分
-
-------
-
-right(int) string
-
-取字符串从左边开始第几个字符开始,所有右边的部分
+    去掉字符串中,左边包含参数字符的字符,如果参数是空格,就是去掉左边的空格
 
 ------
 
-containis(string) bool
+- trim_right(string) string
 
-判断字符串是否包含参数中的子字符串
-
-------
-
-substr(int,int) string
-
-取给定开始和结束位置的子字符串
+    去掉字符串中,包含参数字符的字符,如果参数是空格,就是去掉右边的空格
 
 ------
 
-int() int
+- all_before(string) string
 
-u32() u32
-
-f32() f32
-
-f64() f64
-
-把字符串转换为整数,函数会尝试从左边开始逐个字符尝试转换成整数,碰到非数字的字符,则返回转换成功的部分,如果第一个字符就不能转换,则返回0
+    提取字符串中,包含参数字符串前面的所有内容
 
 ------
 
-count(string) int
+- all_after(string) string
 
-计算字符串中出现参数字符串的次数
-
-------
-
-capitalize()
-
-把字符串的首字母大写
+    提取字符串中,包含参数字符串后面的所有内容
 
 ------
 
-title()
+- limit(int) string
 
-把字符串中的每个单词的首字母大写,用空格区分单词
-
-------
-
-[ ]string.sort()
-
-给字符串数组排序
+    返回字符串的前几个字符串
 
 ------
 
-[]string.join(string) string
+- reverse() string
 
-把字符串数组,根据给定的连接符,连接成字符串
-
-------
-
-eq(string) bool 
-
-判断两个字符串是否相等
+    反转字符串
 
 ------
 
-ne(string) bool
+- clone()
 
-比较两个字符串是否不相等
+    复制字符串
 
 ------
 
-lt(string) bool 
+- replace(string,string) string
 
-比较字符串是否小于参数的字符串
+    替换字符串中指定的子字符串替换为新的字符串
 
-le(string) bool
+------
 
-比较字符串是否小于等于参数的字符串
+- to_lower()
 
-gt(string) bool
+    转小写
 
-比较字符串是否大于参数的字符串
+------
 
-ge(string) bool
+- to_upper()
 
-比较字符串是否大约等于参数的字符串
+    转大写
+
+------
+
+- left(int) string
+
+    取字符串从左边开始,到第几个字符的部分
+
+------
+
+- right(int) string
+
+    取字符串从左边开始第几个字符开始,所有右边的部分
+
+------
+
+- containis(string) bool
+
+    判断字符串是否包含参数中的子字符串
+
+------
+
+- substr(int,int) string
+
+    取给定开始和结束位置的子字符串
+
+------
+
+- int() int
+
+
+- u32() u32
+
+
+- f32() f32
+
+
+- f64() f64
+
+    把字符串转换为整数,函数会尝试从左边开始逐个字符尝试转换成整数,碰到非数字的字符,则返回转换成功的部分,如果第一个字符就不能转换,则返回0
+
+------
+
+- count(string) int
+
+    计算字符串中出现参数字符串的次数
+
+------
+
+- capitalize()
+
+    把字符串的首字母大写
+
+------
+
+- title()
+
+    把字符串中的每个单词的首字母大写,用空格区分单词
+
+------
+
+- [ ]string.sort()
+
+    给字符串数组排序
+
+------
+
+- []string.join(string) string
+
+    把字符串数组,根据给定的连接符,连接成字符串
+
+------
+
+- eq(string) bool 
+
+    判断两个字符串是否相等
+
+------
+
+- ne(string) bool
+
+    比较两个字符串是否不相等
+
+------
+
+- lt(string) bool 
+
+    比较字符串是否小于参数的字符串
+
+    ------
+
+    
+
+- le(string) bool
+
+    比较字符串是否小于等于参数的字符串
+
+    ------
+
+    
+
+- gt(string) bool
+
+    比较字符串是否大于参数的字符串
+
+    ------
+
+    
+
+- ge(string) bool
+
+    比较字符串是否大约等于参数的字符串
+
+    ------
+
+    
 
     字符串比较大小: < > == != ≠
 
