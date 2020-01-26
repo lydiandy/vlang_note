@@ -100,7 +100,7 @@ fn main() {
 
 ------
 
-字典相关的源代码可以参考v源代码中的： vlib/builtin/map.v
+字典相关的源代码可以参考v源代码中的：vlib/builtin/map.v
 
 更多字典相关的函数,参考[标准库章节](std_builtin.md)
 
