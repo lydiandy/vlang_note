@@ -1,17 +1,17 @@
-## 调用汇编代码
+## 直接编写汇编代码
 
-目前已初步实现调用汇编代码，目前主要用在bare metal（裸机环境中），参考V源代码中：
+V语言可以像C语言那样,在v代码中直接编写汇编代码(inline asm)
 
-vlib/builtin/bare/linuxsys_bare.v相关行内汇编代码
-
-inline asm代码必须被包含在unsafe代码块中
+使用asm代码块来编写汇编代码,asm代码块必须被包含在unsafe代码块中
 
 ```c
-fn test_inline_asm() {
+module main
+
+fn main() {
 	a := 10
 	b := 0
-	unsafe {
-		asm {
+	unsafe {	//unsafe代码块
+		asm {	//asm代码块,里面可以直接写汇编代码
 			"movl %1, %%eax;"
 			"movl %%eax, %0;"
 			:"=r"(b)
@@ -19,19 +19,18 @@ fn test_inline_asm() {
 			:"%eax"
 		}
 	}
-	assert a == 10
-	assert b == 10
-	//
+	println(a) //返回10
+	println(b) //返回10,直接通过汇编代码修改了b的值
+
 	e := 0
 	unsafe {
 		asm {
-			//".intel_syntax noprefix;"
-			//"mov %0, 5"
 			"movl $5, %0"
 			:"=a"(e)
 		}
 	}
-	assert e == 5
+	println(e) //返回5,直接通过汇编代码修改了e的值
 }
+ 
 ```
 

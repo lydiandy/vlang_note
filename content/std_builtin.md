@@ -77,9 +77,7 @@
 
 源代码位置:vlib/builtin/string.v
 
-ends_with(string) bool
-
-判断字符串是否以给定的字符串结尾
+ends_with(string) bool	//判断字符串是否以给定的字符串结尾
 
 ------
 

@@ -87,7 +87,7 @@ s3:=s1+s2
 字符串追加:
 
 ```c
-mut s:='hello ' //必须是mut才可以
+mut s:='hello ' //必须是可变才可以追加
 s+='world'
 println(s) //输出hello world
 ```
@@ -156,7 +156,7 @@ println(c1) //输出97
 println(c1.str()) //通过str()函数转换为字符串后,输出a
 ```
 
-常用字符串内置函数,可以参考后面的[标准库](stdlibrary.md)章节,也可以直接参考vlib/builtin/string.v源代码
+常用字符串内置函数,可以参考后面的[标准库](std_builtin.md)章节,也可以直接参考vlib/builtin/string.v源代码
 
 ------
 
