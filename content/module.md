@@ -42,14 +42,14 @@ fn myfn() {
 
 单行导入:
 
-```vlang
+```c
 import os
 import strings
 ```
 
 分组导入:
 
-```
+```c
 import (
 	os
 	strings
@@ -58,7 +58,7 @@ import (
 
 导入模块取别名:
 
-```vlang
+```c
 import time as t
 import (
 	mymodule as mymod
@@ -67,7 +67,7 @@ import (
 
 导入子模块:
 
-```
+```c
 import mymodule.submodule
 ```
 
@@ -77,9 +77,11 @@ import mymodule.submodule
 
 导入其他模块后,就形成了模块依赖,模块间不允许循环依赖,编译器在编译时会进行检查
 
-开发模式(v run)，如果导入的模块没有被使用到，编译器只是会警告，但是仍然继续编译,方便开发调试，而不用去临时注释掉
+如果导入的模块没有被使用:
 
-生产编译模式（-prod），编译器会报错，停止编译
+开发模式(v run xxx)下,编译器只是警告，仍然继续编译,方便开发调试，而不用去临时注释掉
+
+生产编译模式(v -prod xxx)下，编译器会报错，停止编译
 
 
 
@@ -159,7 +161,7 @@ fn main() {
 执行结果是:
 
 ```
-from init2
+from init
 from my_fn
 ```
 
@@ -169,11 +171,15 @@ from my_fn
 
 在模块目录中
 
-_test.v结尾的是测试文件,
+后缀为_test.v结尾的是测试文件,v test xxx可以执行测试文件
 
-_win.v结尾的是windows平台专用的代码
+后缀为 _nix 的源文件,表示linux,unix,mac下才会编译
 
-_nix.v结尾的是unix,mac,linux系列专用的代码
+后缀为_darwin的源文件,表示在mac下才会编译
+
+后缀为_linux的源文件,表示在linux下才会编译
+
+后缀为 _windows的源文件,表示在windows下才会编译
 
 
 
