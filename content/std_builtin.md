@@ -146,161 +146,117 @@
 
 **字符串方法:**
 
-- s.ends_with(string) bool	
+- s.index(p string) ?int
 
-    判断字符串是否以给定的字符串结尾
+    返回子字符串第一次在字符串中出现的位置,如果没有出现过,则抛出错误
+    
+- s.last_index(p string) ?int 
 
-------
+    返回子字符串最后一次在字符串中出现的位置,如果没有出现过,则抛出错误
+    
+- s.index_after(str,n) int
+    从字符串第n个开始查找起,返回子字符串第一次出现的位置,如果没有包含,则返回-1
+    
+- s.index_byte(c byte) int
 
-- s.starts_with(string) bool	
+    返回单字符第一次在字符串中出现的位置,如果没有出现过,则返回-1
+    
+- s.last_index_byte(c byte) int
+
+    返回单字符最后一次在字符串中出现的位置,如果没有出现过,则返回-1
+    
+- s.starts_with(p string) bool
 
     判断字符串是否以给定的字符串开始
+    
+- s.ends_with(p string) bool	
 
-------
+    判断字符串是否以给定的字符串结尾
+    
+- s.contains(p string) bool
+  
+  
+    判断字符串是否包含参数中的子字符串
 
 - s.find_between('[',']') string
 
     返回字符串中包在这两个字符中间的子字符串
 
-------
-
-- s.index(string) int
-
-    返回子字符串在字符串中的位置,如果没有包含,则返回-1
-
-------
-
-- s.last_index(string) int 
-
-    返回子字符串在字符串中,最后出现的位置
-
-------
-
 - s.index_any(string) int 
 
     返回子字符串中的任意单个字符,在字符串中出现的位置,如果没有包含,则返回-1
 
-------
-
-- s.index_after(str,n) int
-
-    从字符串第n个开始查找起,返回子字符串在整个字符串中的位置,如果没有包含,则返回-1	
-
-------
-
 - s.at(int) byte
 
-    返回字符串第几个位置的字符串
-
-------
+    返回字符串指定位置的字符
 
 - s.split(string) [ ]string
 
     按照给定的分割符,把字符串分割,形成数组
 
-------
-
 - s.trim_space() string
 
     去掉字符串左右两边的空格,中间的空格不去掉
-
-------
 
 - s.trim(string) string
 
     去掉字符串中包含子字符串中的字符
 
-------
-
 - s.trim_left(string) string
 
     去掉字符串中,左边包含参数字符的字符,如果参数是空格,就是去掉左边的空格
-
-------
 
 - s.trim_right(string) string
 
     去掉字符串中,包含参数字符的字符,如果参数是空格,就是去掉右边的空格
 
-------
-
 - s.all_before(string) string
 
     提取字符串中,包含参数字符串前面的所有内容
-
-------
 
 - s.all_after(string) string
 
     提取字符串中,包含参数字符串后面的所有内容
 
-------
-
 - s.limit(int) string
 
     返回字符串的前几个字符串
-
-------
 
 - s.reverse() string
 
     反转字符串
 
-------
-
 - s.clone() string
 
     复制字符串,生成新的字符串
-
-------
 
 - s.replace(rep string,with string) string
 
     替换字符串中所有的子字符串rep,替换为新的子字符串with
 
-------
-
 - s.replace_once(rep string,with string) string
 
     替换字符串中第一次出现的子字符串rep,替换为新的字符串with
     
-------
-
 - s.to_lower()
 
     转小写
-
-------
 
 - s.to_upper()
 
     转大写
 
-------
-
 - s.left(int) string
 
     取字符串从左边开始,到第几个字符的部分
-
-------
 
 - s.right(int) string
 
     取字符串从左边开始第几个字符开始,所有右边的部分
 
-------
-
-- s.containis(string) bool
-
-    判断字符串是否包含参数中的子字符串
-
-------
-
 - s.substr(int,int) string
 
     取给定开始和结束位置的子字符串
-
-------
 
 - s.int() int
 
@@ -315,49 +271,33 @@
 
     把字符串转换为整数,函数会尝试从左边开始逐个字符尝试转换成整数,碰到非数字的字符,则返回转换成功的部分,如果第一个字符就不能转换,则返回0
 
-------
+- s.count(p string) int
 
-- s.count(string) int
-
-    计算字符串中出现参数字符串的次数
-
-------
+    返回字符串中出现参数字符串的次数,如果没有出现过,则返回-1
 
 - s.capitalize()
 
     把字符串的首字母大写
 
-------
-
 - s.title()
 
     把字符串中的每个单词的首字母大写,用空格区分单词
-
-------
 
 - [ ]string.sort()
 
     给字符串数组排序
 
-------
-
 - []string.join(string) string
 
     把字符串数组,根据给定的连接符,连接成字符串
-
-------
 
 - eq(string) bool 
 
     判断两个字符串是否相等
 
-------
-
 - ne(string) bool
 
     比较两个字符串是否不相等
-
-------
 
 - lt(string) bool 
 
@@ -371,8 +311,6 @@
 - ge(string) bool
 
     比较字符串是否大约等于参数的字符串
-
-    ------
 
     字符串比较大小: < > == != ≠
 
@@ -395,76 +333,51 @@
 - str()  	
     数组转字符串
 
-------
 - first() 	
     返回数组的第一个元素
 
-------
-
 - last()	
 	返回数组的最后一个元素
-
-------
 
 - delete(int)	
 
     删除数组的第几个元素
 
-------
-
 - left(int) array	
 
     返回从左边开始,到第几个元素的子数组
-
-------
 
 - right(int) array	
 
     返回从左边开始第几个之后,  右边的所有元素的子数组
 
-------
-
 - slice(start,end)	
 
     返回给定位置区间的子数组,左闭右开
-
-------
 
 - reverse()	
 
     数组反转
 
-------
-
 - clone()	
 
     克隆数组
-
-------
 
 - insert(int,voidptr)	
 
     在数组的第几个位置插入新的元素,第二个参数是指针类型
 
-------
-
 - prepend(voidptr)	
 
     在数组的第一个位置插入新的元素
-
-------
 
 - free()	
 
     释放数组的内存
 
-------
-
 - [ ]int.sort() 	
 
     针对整型数组的排序
-
-------
 
 - filter()	
 
@@ -481,8 +394,6 @@
 	d := c.filter(it.len > 1) //d的结果为:['is','awesome']
 ```
 
-------
-
 - map() 	
 
     针对int和string数组的每一个元素进行一个运算,返回运算后的新数组
@@ -496,8 +407,6 @@ a := [1, 2, 3, 4, 5, 6]
 b := a.map(it * 10)
 println(b)
 ```
-
-------
 
 - reduce(iter fn (accum, curr int) int, accum_start int) int	
 
@@ -542,18 +451,13 @@ fn main() {
 
     获取map的所有key,返回keys数组
 
-------
 - m.delete(key)	
 
     删除map的某一个key
 
-------
-
 - m.str()	
 
     map转成字符串输出
-
-------
 
 - m.free()	
 

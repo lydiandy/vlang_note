@@ -4,7 +4,7 @@
 
 函数定义时,返回类型前面加?,表示这个函数可能返回一个错误
 
-在函数代码中根据逻辑丢出错误:return error('error message') 或者return none
+在函数代码中根据逻辑丢出错误:return error('error message') 或者return none,表示抛出错误
 
 ### 错误处理
 
@@ -44,7 +44,7 @@ fn main() {
 	}
 	println(v2)
 
-    //未触发错误
+    //未触发错误,不执行or代码块,返回函数的返回值 
 	v3:=my_fn(2) or {
 	    println('from 2')
 	    return
@@ -96,7 +96,7 @@ pub fn error(s string) Option {
 以下错误处理代码:
 
 ```c
-resp := http.get(url)? //在调用函数后加上?,可以向上抛转错误
+resp := http.get(url)? //在调用函数后加上?,表示如果函数执行出现错误,当前调用层级不处理,直接向上抛转错误
 println(resp.body)
 ```
 
@@ -108,7 +108,7 @@ http.get函数中,定义的返回值是:?Response
 
 类似以下的代码:
 
-```go
+```c
 resp := http.get(url) or {
 	panic(err)
 }
