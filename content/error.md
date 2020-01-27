@@ -15,18 +15,20 @@
 or代码块必须以:return/panic/exit/continue/break结尾
 
 ```c
+//函数定义
 fn my_fn(i int) ?int {
 	if i==0 {
-		return error('Not ok!')
+		return error('Not ok!') //抛出错误,err的值为Not ok!
 	}
 	if i==1 {
-	    return none
+	    return none //抛出错误,但是没有错误信息,err的值为空字符串
 	}
-	return i
+	return i //正常返回
 }
 
 fn main() {
-    //触发错误,程序中断,报错:V panic: Not ok!
+    //函数调用
+    //触发错误,执行or代码块,程序中断,报错:V panic: Not ok!
 	v1:=my_fn(0) or {
 	    println('from 0')
 	    println(err)
@@ -34,7 +36,7 @@ fn main() {
 	}
 	println(v1)
 
-    //触发错误,因为是return none,所以err为空,
+    //触发错误,执行or代码块,因为是return none,所以err为空,
 	v2 := my_fn(1) or {
 	    println('from 1')
 	    if err=='' {
@@ -89,11 +91,7 @@ pub fn error(s string) Option {
 }
 ```
 
-
-
 ### 向上抛转错误
-
-以下错误处理代码:
 
 ```c
 resp := http.get(url)? //在调用函数后加上?,表示如果函数执行出现错误,当前调用层级不处理,直接向上抛转错误
