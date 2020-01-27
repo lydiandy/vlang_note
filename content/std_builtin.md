@@ -178,9 +178,9 @@
   
     判断字符串是否包含参数中的子字符串
 
-- s.find_between('[',']') string
+- s.find_between(start string,end string) string
 
-    返回字符串中包在这两个字符中间的子字符串
+    返回字符串中包在这两个字符中间的子字符串,如果start字符串不存在则返回空字符串,如果start字符串存在,而end字符串不存在,则返回start字符串之后的所有字符串
 
 - s.index_any(string) int 
 
@@ -287,6 +287,10 @@
 
     给字符串数组排序
 
+- []string.contains(p string) bool
+
+    判断字符串数组是否包含指定的字符串
+    
 - []string.join(string) string
 
     把字符串数组,根据给定的连接符,连接成字符串
