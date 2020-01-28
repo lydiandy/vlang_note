@@ -504,4 +504,10 @@ fn main() {
 
 - error(s string) Option 
 
-    抛出错误,返回Option
+    抛出错误,带错误消息,返回Option
+    
+- error_with_code(s string, code int) Option
+
+    抛出错误,带错误消息和错误码,返回Option
+
+    
