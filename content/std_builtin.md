@@ -334,56 +334,50 @@
 
 源代码位置:vlib/builtin/array.v
 
-- str()  	
-    数组转字符串
+**数组函数:**
 
-- first() 	
+
+
+**数组方法:**
+
+- a.str()  string	
+    数组转字符串,数组默认实现了str函数,就可以直接使用print或println函数用于输出
+
+- a.first() voidptr
     返回数组的第一个元素
+    
+    之所以函数返回voidptr,是因为要兼容不同类型的数组,返回的还是第一个元素的值,使用上没有影响
 
-- last()	
+- a.last() voidptr
 	返回数组的最后一个元素
+	
+	之所以函数返回voidptr,是因为要兼容不同类型的数组,返回的还是最后一个元素的值,使用上没有影响
 
-- delete(int)	
+- a.delete(i int)	
 
-    删除数组的第几个元素
+    删除数组的第几个元素,该方法会改变数组本身
 
-- left(int) array	
-
-    返回从左边开始,到第几个元素的子数组
-
-- right(int) array	
-
-    返回从左边开始第几个之后,  右边的所有元素的子数组
-
-- slice(start,end)	
-
-    返回给定位置区间的子数组,左闭右开
-
-- reverse()	
+- a.reverse() array
 
     数组反转
 
-- clone()	
+- a.clone() array
 
     克隆数组
 
-- insert(int,voidptr)	
+- a.insert(int,voidptr) array
 
     在数组的第几个位置插入新的元素,第二个参数是指针类型
 
-- prepend(voidptr)	
+- a.prepend(voidptr)	
 
     在数组的第一个位置插入新的元素
 
-- free()	
+- a.free()	
 
     释放数组的内存
 
-- [ ]int.sort() 	
-
-    针对整型数组的排序
-
-- filter()	
+- a.filter()	
 
     针对int和string数组进行过滤,返回满足条件的元素数组
 
@@ -398,7 +392,7 @@
 	d := c.filter(it.len > 1) //d的结果为:['is','awesome']
 ```
 
-- map() 	
+- a.map() 	
 
     针对int和string数组的每一个元素进行一个运算,返回运算后的新数组
 
@@ -412,7 +406,7 @@ b := a.map(it * 10)
 println(b)
 ```
 
-- reduce(iter fn (accum, curr int) int, accum_start int) int	
+- a.reduce(iter fn (accum, curr int) int, accum_start int) int	
 
     针对int数组,给定一个初始的累计值accum_start,以及累计值与数组元素的累加关系,返回最终的累加结果
 
@@ -443,7 +437,21 @@ fn main() {
 }
 ```
 
+- [ ]int.sort() 	
 
+  对整型数组进行排序
+
+- []int.index(v int) int
+
+  返回指定的值,在整型数组中的位置
+
+- []string.index(v int) int
+
+  返回指定的值,在字符串数组中的位置
+  
+- []byte.index(v byte) int
+  
+  返回指定的值,在字节数组中的位置
 
 ------
 
