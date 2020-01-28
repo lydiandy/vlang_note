@@ -361,11 +361,11 @@
 
     克隆数组
 
-- a.insert(int,voidptr) array
+- a.insert(i int,val voidptr) array
 
     在数组的第几个位置插入新的元素,第二个参数是指针类型,,该方法会改变数组本身
 
-- a.prepend(voidptr)	
+- a.prepend(val voidptr)	
 
     在数组的第一个位置插入新的元素,,该方法会改变数组本身
 
