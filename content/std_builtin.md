@@ -334,10 +334,6 @@
 
 源代码位置:vlib/builtin/array.v
 
-**数组函数:**
-
-
-
 **数组方法:**
 
 - a.str()  string	
@@ -367,11 +363,28 @@
 
 - a.insert(int,voidptr) array
 
-    在数组的第几个位置插入新的元素,第二个参数是指针类型
+    在数组的第几个位置插入新的元素,第二个参数是指针类型,,该方法会改变数组本身
 
 - a.prepend(voidptr)	
 
-    在数组的第一个位置插入新的元素
+    在数组的第一个位置插入新的元素,,该方法会改变数组本身
+
+- a.repeat(n int) array 
+
+    定义一个指定长度,指定默认值的数组
+
+    ```c
+    arr := [0].repeat(50) //元素初始值为0,长度为50,容量为50
+    println(arr.len) //返回50
+    println(arr.cap) //返回50
+    ```
+
+    ```c
+    arr := ['a','b'].repeat(3) //元素初始值为a,b,重复3次,长度为6,容量为6
+    println(arr.len) //返回6
+    println(arr.cap) //返回6
+    println(arr) //返回['a','b','a','b','a','b']
+    ```
 
 - a.free()	
 
@@ -386,10 +399,14 @@
     it是参数表达式中,约定的iterator迭代器,表示每一次迭代时,数组的元素,满足过滤器表达式的元素会被返回
 
 ```c
+fn main() {
 	a := [1, 2, 3, 4, 5, 6]
-	b := a.filter(it % 2 == 0) //b的结果为:[2,4,6]
+	b := a.filter(it % 2 == 0)
+	println(b) // 输出:[2,4,6]
 	c := ['v', 'is', 'awesome']
-	d := c.filter(it.len > 1) //d的结果为:['is','awesome']
+	d := c.filter(it.len > 1)
+	println(d) // 输出:['is','awesome']
+}
 ```
 
 - a.map() 	
@@ -401,12 +418,16 @@
     it是参数表达式中,约定的iterator迭代器,表示每一次迭代时,数组的元素
 
 ```c
-a := [1, 2, 3, 4, 5, 6]
-b := a.map(it * 10)
-println(b)
+fn main() {
+	a := [1, 2, 3, 4, 5]
+	b := a.map(it * 10)
+	println(b) // 返回[10, 20, 30, 40, 50]
+}
 ```
 
-- a.reduce(iter fn (accum, curr int) int, accum_start int) int	
+
+
+- []int.reduce(iter fn (accum, curr int) int, accum_start int) int	
 
     针对int数组,给定一个初始的累计值accum_start,以及累计值与数组元素的累加关系,返回最终的累加结果
 
@@ -459,15 +480,15 @@ fn main() {
 
 源代码位置:vlib/builtin/map.v
 
-- m.keys() 	
+- m.keys() []string
 
     获取map的所有key,返回keys数组
 
-- m.delete(key)	
+- m.delete(key string)	
 
     删除map的某一个key
 
-- m.str()	
+- m.str() string
 
     map转成字符串输出
 
@@ -481,6 +502,6 @@ fn main() {
 
 源代码位置:vlib/builtin/option.v
 
-- error(string) Option 
+- error(s string) Option 
 
-    错误处理,返回Option变量
+    抛出错误,返回Option
