@@ -1,30 +1,49 @@
-## strings字符串模块
+## strings字符串生成器模块
 
-- new_builder(int) string 
+字符串生成器用来生成一个动态的字符串,可以随时追加内容到字符串中
 
-  字符串动态生成器,可以用来,动态生成/拼接字符串内容
+```c
+pub struct Builder {
+mut:
+	buf          []byte //以字节数组的方式存储字符串,并可以追加内容到字节数组中
+pub mut:
+	len          int //动态字符串长度
+	initial_size int=1 //初始大小
+}
+```
 
-- Builder.write(string) 
+创建新的字符串生成器对象:
 
-    写入,不换行,长度变为n
+- strings.new_builder(initial_size int) Builder 
 
-- Builder.writeln(string) 
+  根据给定的初始大小,生成一个字符串生成器
 
-    写一行,多了一个换行符,长度变为n+1
+
+字符串生成器的方法:
+
+- Builder.write(s string) 
+
+    追加写入字符串
+
+- Builder.writeln(s string) 
+
+    追加写入字符串,并且换行
+
+- Builder.write_b(data byte)
+
+    追加写入单个字节
+
+- Builder.write_bytes(bytes byteptr,howmany int)
+
+    追加写入多个字节
 
 - Builder.str() string 
 
-    字符串输出
-
-- Builder.cut(int) 
-
-    切掉后几个
+    字符串对象输出
 
 - Builder.free() 
 
-    释放字符串内存
+    释放字符串生成器内存,字符串生成器内容清空,长度归零
 
-- repeat(byte,int) string 
-
-    根据字符以及次数,生成一个字符串
+    
 
