@@ -182,15 +182,15 @@
 
     返回字符串中包在这两个字符中间的子字符串,如果start字符串不存在则返回空字符串,如果start字符串存在,而end字符串不存在,则返回start字符串之后的所有字符串
 
-- s.index_any(string) int 
+- s.index_any(s string) int 
 
     返回子字符串中的任意单个字符,在字符串中出现的位置,如果没有包含,则返回-1
 
-- s.at(int) byte
+- s.at(n int) byte
 
     返回字符串指定位置的字符
 
-- s.split(string) [ ]string
+- s.split(s string) [ ]string
 
     按照给定的分割符,把字符串分割,形成数组
 
@@ -198,27 +198,27 @@
 
     去掉字符串左右两边的空格,中间的空格不去掉
 
-- s.trim(string) string
+- s.trim(s string) string
 
     去掉字符串中包含子字符串中的字符
 
-- s.trim_left(string) string
+- s.trim_left(s string) string
 
     去掉字符串中,左边包含参数字符的字符,如果参数是空格,就是去掉左边的空格
 
-- s.trim_right(string) string
+- s.trim_right(s string) string
 
     去掉字符串中,包含参数字符的字符,如果参数是空格,就是去掉右边的空格
 
-- s.all_before(string) string
+- s.all_before(s string) string
 
     提取字符串中,包含参数字符串前面的所有内容
 
-- s.all_after(string) string
+- s.all_after(s string) string
 
     提取字符串中,包含参数字符串后面的所有内容
 
-- s.limit(int) string
+- s.limit(n int) string
 
     返回字符串的前几个字符串
 
@@ -246,15 +246,15 @@
 
     转大写
 
-- s.left(int) string
+- s.left(n int) string
 
     取字符串从左边开始,到第几个字符的部分
 
-- s.right(int) string
+- s.right(n int) string
 
     取字符串从左边开始第几个字符开始,所有右边的部分
 
-- s.substr(int,int) string
+- s.substr(start int,end int) string
 
     取给定开始和结束位置的子字符串
 
