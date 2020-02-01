@@ -21,7 +21,11 @@ V语言的开发重点在编译器前端,C就是编译器后端
 比如,想把当前目录的main.v代码生成main.c代码,执行以下命令就可以:
 
 ```
-v -o main.c ./main.v
+v -o main.c ./main.v 
+```
+
+```c
+v -pretty_c -o main.c ./main.v //增加-pretty_c选项,生成格式化后的C文件,需要先安装clang-format工具
 ```
 
 通过查看V代码生成的C代码,可以更容易理解V编译器是如何编译的
@@ -62,7 +66,7 @@ typedef map map_string;
 
 ```
 
-### V代码=>C代码对照表
+### V代码生成C代码对照表
 
 #### 常量
 
