@@ -61,3 +61,30 @@ fn main() {
 
 枚举值的名称限制必须是小写加下划线
 
+为枚举添加方法:
+
+```c
+enum Color {
+	red=1
+	green
+	blue
+	black
+	white
+}
+
+fn (c Color) is_blue() bool { //枚举方法
+	return c==.blue 
+}
+
+fn main(){
+	b:=Color.blue
+	if b.is_blue() {
+		println('yes')
+		println(b)
+	} else {
+		println('no')
+		println(b)
+	}
+}
+```
+

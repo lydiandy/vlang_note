@@ -154,7 +154,7 @@
 
     返回子字符串最后一次在字符串中出现的位置,如果没有出现过,则抛出错误
     
-- s.index_after(str,n) int
+- s.index_after(str string,n int) int
     从字符串第n个开始查找起,返回子字符串第一次出现的位置,如果没有包含,则返回-1
     
 - s.index_byte(c byte) int
@@ -192,7 +192,7 @@
 
 - s.split(s string) [ ]string
 
-    按照给定的分割符,把字符串分割,形成数组
+    按照给定的分割符,把字符串分割,形成数组,比较常用的是分隔符为空格进行分割,形成数组
 
 - s.trim_space() string
 

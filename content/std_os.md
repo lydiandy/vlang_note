@@ -2,17 +2,17 @@
 
 ### 环境变量相关
 
-- getenv(string) string    
+- getenv(key string) string    
 
-    获取环境变量
+    获取环境变量,如果没有指定的环境变量,则返回空字符串
 
 - setenv(name string, value string,overwrite bool) int 
 
-    设置环境变量
+    设置环境变量,如果overwrite为true则覆盖原来的环境变量,如果为false,若环境变量已存在,则不覆盖,若环境变量未存在,则新增
 
 - unsetenv(name string) int 
 
-    清空环境变量
+    清空指定名字的环境变量
 
 ### 操作系统相关
 
@@ -20,7 +20,7 @@
 
     os模块常量,运行后只读,返回命令行的参数数组
 
-- executable()     
+- executable() string
 
     返回当前可执行文件的全路径和文件名
 
@@ -107,7 +107,7 @@
 
 ### 文件相关
 
-- realpath(path) string
+- realpath(path string) string
 
     返回文件夹或者文件的绝对路径
 
