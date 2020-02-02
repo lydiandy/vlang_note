@@ -88,3 +88,12 @@ fn main(){
 }
 ```
 
+把int类型转换为枚举类型:
+
+```c
+	i:=3 //推断为int
+	//println(i==.blue) //报错,类型不匹配
+	e:=Color(i) //转换为枚举类型
+	println(e==.blue) //输出true
+```
+
