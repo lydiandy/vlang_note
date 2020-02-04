@@ -20,6 +20,10 @@
 
     os模块常量,运行后只读,返回命令行的参数数组
 
+- os.getpid()
+
+    获取当前进程ID
+
 - executable() string
 
     返回当前可执行文件的全路径和文件名
@@ -49,7 +53,7 @@
 
 ### 目录相关
 
-- dir(string) string 
+- dir(path string) string 
 
     返回路径中的目录部分
 
@@ -61,15 +65,15 @@
 
     改变当前工作目录
 
-- ext(string) string
+- ext(path string) string
 
     返回文件的扩展名,如果没有扩展名则返回点号
 
-- basedir(string)
+- basedir(path string) string
 
     返回路径中的目录部分
 
-- filename(string)
+- filename(path string) string
 
     返回目录的文件名部分
 
@@ -77,11 +81,15 @@
 
     清屏
 
-- mv(old,new)
+- mv(old,new string)
 
     移动文件
 
-- mkdir(dir)
+- cp(old,new string) ?bool
+
+    复制文件
+
+- mkdir(dir) ?bool
 
     创建目录
 
@@ -89,7 +97,7 @@
 
     删除目录
 
-- is_dir(path) boo
+- is_dir(path) bool
 
     判断是否是目录
 
@@ -97,11 +105,11 @@
 
     判断目录是否存在
 
-- ls(path) [ ]string
+- ls(path string) [ ]string
 
     获取该目录的所有文件和文件夹
 
-- walk_ext(path,ext) []string
+- walk_ext(path string,ext string) []string
 
     返回改目录,及其下级子目录中所有,文件扩展名为ext的所有文件
 
@@ -111,51 +119,51 @@
 
     返回文件夹或者文件的绝对路径
 
-- open(path) ?File 
+- open(path string) ?File 
 
     打开文件,返回文件对象
 
-- create(path) ?File
+- create(path string) ?File
 
     创建文件,返回文件对象
 
-- rm(path)
+- rm(path string)
 
     删除文件
 
-- File.close
+- read_file(path string) ?string
 
-    关闭文件
+  读取文件,返回文件的内容
 
-- File.write(string)
+- read_bytes(path string) ?[]byte
+
+  读取文件,返回字节数组
+
+- write_file(path string,text string) 
+
+  创建文件,并写入text内容
+
+- file_size(path string) int 
+
+  获取文件的大小
+
+### 文件相关
+
+- File.write(s string)
 
     写入文件
 
-- File.write_bytes(data,size)
+- File.write_bytes(data voidptr,size int)
 
     写入字节
 
-- File.writeln
+- File.writeln(s string)
 
     写入一行到文件
+- File.close()
 
-- read_file(string) ?string
+  关闭文件
 
-    读取文件,返回文件的内容
-
-- write_file(string,string) 
-
-    写入文件
-
-- file_size(string) int 
-
-    获取文件的大小
-
-- file_exists(file) boo
-
-  检查文件或目录是否存在
-  
-  
 
 ### 控制台输入相关
 
@@ -175,7 +183,13 @@
 
     获取控制台输入的多行字符串,空行时换行结束,返回连接后的字符串
 
-### 常量
+### 控制台输出相关
+
+- flush_stdout()
+
+  控制台清屏
+
+常量
 
 - os.path_separator
 
