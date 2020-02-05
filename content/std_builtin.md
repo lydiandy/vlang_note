@@ -338,11 +338,25 @@
 
   判断字符是否是空格
 
-- c.is_digit()
+- c.is_digit() bool
 
   判断字符是否是数字
 
-- 
+- c.is_bin_digit() bool
+
+  判断字符是否是二进制数字0或1
+
+- c.is_oct_digit() bool
+
+  判断字符是否是八进制数字0-7
+
+- c.is_hex_digit() bool
+
+  判断字符是否是16进制数字0-f或0-F
+
+- c.is_letter() bool
+
+  判断字符是否是字母
 
 ### 数组
 
