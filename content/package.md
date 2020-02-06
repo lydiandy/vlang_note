@@ -1,12 +1,16 @@
 ## 包管理器
 
-vpm,V的包管理器,采用的是集中式的包服务器,全部要发布模块到 https://vpm.best/
+模块就是包,两个所指的含义完全一样
 
-上传模块,登录[https://vpm.best](https://vpm.best/),
+vpm是v的包管理器,采用集中式的包服务器,所有第三方模块全部要发布模块到 https://vpm.best/网站,提供给别人使用
+
+### 上传模块
+
+登录[https://vpm.best](https://vpm.best/)
 
 然后github账号集成登录,就可以上传自己的第三方模块
 
-安装模块:
+### 安装模块
 
 ```
 v install nedpals.args //使用作者账号的名称作为路径,用点号分隔
@@ -23,14 +27,14 @@ v install regex
 
 使用的时候import regex就可以了,v会到~/.vmodules中查找对应的包
 
-如果是从git直接下载的源代码,或者作者没有上传包到vpm上,也可以使用创建link链接的方式,把目录链接创建到~/.modules目录中
+如果是从git直接下载的源代码,或者作者没有上传包到vpm上,也可以使用创建link链接的方式,把目录链接创建到~/.vmodules目录中
 
 ```
 git clone https://github.com/xxx //下载源代码
 ln -s xxx ~/.vmodules/xxx //创建目录链接
 ```
 
-常用的包管理命令:
+常用的模块管理命令:
 
 ```shell
 v search xxx //搜索指定关键字的包
@@ -39,7 +43,19 @@ v update xxx //升级包
 v remove xxx //删除包
 ```
 
-使用v.mod作为模块描述文件,json格式:
+### 模块搜索路径
+
+当使用import xxx导入模块时,编译器会按以下顺序搜索模块:
+
+1. 项目中的模块/子模块
+
+2. v编译器的vlib目录中的标准模块
+
+3. 通过vpm安装的~/.vmodules目录中的第三方模块
+
+### 模块描述文件
+
+vpm使用v.mod作为模块描述文件,json格式:
 
 ```json
 Module {
