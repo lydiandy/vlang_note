@@ -88,12 +88,14 @@ fn main(){
 }
 ```
 
-把int类型转换为枚举类型:
+枚举类型和整型可以相互转换:
 
 ```c
 	i:=3 //推断为int
 	//println(i==.blue) //报错,类型不匹配
 	e:=Color(i) //转换为枚举类型
 	println(e==.blue) //输出true
+  ii:=int(e) //枚举类型转换为int
+  println(ii) //输出3
 ```
 
