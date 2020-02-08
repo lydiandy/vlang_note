@@ -65,7 +65,7 @@ bool从定义的C代码看，是C的一个int类型别名,true是常量1，false
 	println(c) //输出1000000
 ```
 
-字符串类型
+### 字符串类型
 
 string
 
