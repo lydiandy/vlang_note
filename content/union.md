@@ -61,3 +61,20 @@ fn main() {
 
 ```
 
+可以使用match语句来判断,类型具体是联合类型中的哪一个
+
+```c
+match sumtype {
+	Foo {
+	
+	}
+	BoolExpr {
+	
+	}
+	else {
+	
+	}
+
+}
+```
+
