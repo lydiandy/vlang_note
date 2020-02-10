@@ -66,7 +66,7 @@ typedef struct cJSON //表示一个json节点
 {
     /* next/prev allow you to walk array/object chains. Alternatively, use GetArraySize/GetArrayItem/GetObjectItem */
     struct cJSON *next; //节点的下一个节点
-    struct cJSON *prev; //节点的下一个节点
+    struct cJSON *prev; //节点的上一个节点
     /* An array or object item will have a child pointer pointing to a chain of the items in the array/object. */
     struct cJSON *child; //节点的子节点
 
