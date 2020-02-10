@@ -1,16 +1,34 @@
 ## 内置json支持
 
-V语言内置了对json格式的支持,通过cJSON库来实现,没有使用运行时反射,性能是比较好的
+v标准库的json模块有点特别:
+
+1. 基于C语言的cJSON库实现
+
+2. 没有使用运行时反射,性能会更好
+
+3. 解析JSON功能在编译器内部实现,内置支持JSON
 
 使用的时候,先导入标准库的json包
 
 ### 编码
 
-encode(object)    //object是要编码的变量
+json.encode(object) string   
+
+参数object是某个结构体类型的变量
+
+如果编码成功,则返回对应的json字符串
+
+如果编码失败,则返回空对象{}
 
 ### 解码
 
- decode(struct,string)   //第一个参数是结构体模板,第二个参数是要解码的字符串
+ json.decode(Type,s) ?Type   
+
+第一个参数是结构体类型,作为模板,第二个参数是要解码的json字符串
+
+如果解码成功,返回结构体类型的变量
+
+如果解码失败,抛出错误
 
 ### 结构体标注
 
@@ -23,70 +41,58 @@ encode(object)    //object是要编码的变量
 [raw]         // 解码的时候,该字段不解析,直接保留原始的字符串返回
 
 ```c
-import json //导入json包
+module main
 
-struct User { //定义结构体模板
-	name string
-	age  int
+import json   // 导入json包
 
-	// 使用了skip属性,这个字段会被忽略不参与编码和解码
-	foo Foo [skip]  
-
-	// 设置对应的json字段名
-	last_name string [json:lastName]  
-}
-
-data := '{ "name": "Frodo", "lastName": "Baggins", "age": 25 }'
-
-user := json.decode(User, data) or {
-	eprintln('Failed to decode json')
-	return
-}
-
-println(user.name)
-println(user.last_name)
-println(user.age)
-```
-
-另一个例子:
-
-```c
-import json
-
-struct User {
-	name          string
+struct User { // 定义结构体模板
 	age           int
-mut:
-	is_registered bool
+	nums          []int
+	last_name     string [json:lastName] // 设置对应的json字段名
+	is_registered bool [json:IsRegistered] // 设置对应的json字段名
+	typ           int [json:'type'] //如果json中的字段是V关键字,需要加''
+	skip_filed    string [skip] // 使用了skip标注,这个字段会被忽略不参与编码和解码
+}
+
+struct Color { // 定义结构体模板
+	space string
+	point string [raw] // 解码时,该字段保留原始节点的字符串
 }
 
 fn main() {
-	s := '[{ "name":"Frodo", "age":25}, {"name":"Bobby", "age":10}]'
-	users := json.decode([]User, s) or {
-		eprintln('Failed to parse json')
+	s := '{"age": 10, "nums": [1,2,3], "type": 0, "lastName": "Johnson", "IsRegistered": true}'
+	u := json.decode(User,s) or {
+		exit(1)
+	}
+	println(u.age == 10)
+	println(u.last_name == 'Johnson')
+	println(u.is_registered == true)
+	println(u.nums.len == 3)
+	println(u.nums[0] == 1)
+	println(u.nums[1] == 2)
+	println(u.nums[2] == 3)
+	println(u.typ == 0)
+	usr := User{
+		age: 10
+		nums: [1, 2, 3]
+		last_name: 'Johnson'
+		is_registered: true
+		typ: 0
+	}
+	expected := '{"age":10,"nums":[1,2,3],"lastName":"Johnson","IsRegistered":true,"type":0}'
+	out := json.encode(usr)
+	println(out == expected)
+
+	color := json.decode(Color,'{"space": "YCbCr", "point": {"Y": 123}}') or {
+		println('text')
 		return
 	}
-	for user in users {
-		println('$user.name: $user.age')
-	}
-	println('')
-	for i, user in users {
-		println('$i) $user.name')
-		if !user.can_register() {
-			println('Cannot register $user.name, they are too young')
-		}
-	}
-	// Let's encode users again just for fun
-	println('')
-	println(json.encode(users))
+	println(color.point == '{"Y":123}')
+	println(color.space == 'YCbCr')
+
+	obj:=[1,3,5]
+	res:=json.encode(obj) //如果对象不是结构体类型,则返回变量值
+	println(res)
 }
 
-fn (u User) can_register() bool {
-	return u.age >= 16
-}
-
-fn (u mut User) register() {
-	u.is_registered = true
-}
 ```
-
