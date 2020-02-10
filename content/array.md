@@ -125,6 +125,10 @@ for num in numbers {
 for i,num in numbers {
 	println('i:$i,num:$num')
 }
+//或者这种区间的写法也可以
+for i in 0..numbers.len {
+	println('num:${numbers[i]}')
+}
 ```
 
 ### 数组切片/区间

@@ -152,16 +152,23 @@ mut num := 0
    }   
 ```
 
-   	遍历数组:
+遍历数组:
 
 ```c
 numbers := [1, 2, 3, 4, 5]
+for num in numbers {
+	println('num:$num')
+}
 for i,num in numbers {
-   println('i:$i,num:$num')
+	println('i:$i,num:$num')
+}
+//或者这种区间的写法也可以
+for i in 0..numbers.len {
+	println('num:${numbers[i]}')
 }
 ```
 
-​		遍历字典:
+遍历字典:
 
 ```c
 m:={"name":"jack","age":"20","desc":"good man"}
@@ -171,9 +178,9 @@ for key,value in m {
 }
 ```
 
+###  
 
-
-### goto语句
+goto语句
 
 关键字有看到还保留着goto,但是还没有看到具体的使用例子
 
