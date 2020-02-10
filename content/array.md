@@ -120,6 +120,9 @@ println('Alex' in names) // "false"
 ```c
 numbers := [1, 2, 3, 4, 5]
 for num in numbers {
+	println('num:$num')
+}
+for i,num in numbers {
 	println('i:$i,num:$num')
 }
 ```
