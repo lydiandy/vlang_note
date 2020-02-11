@@ -2,7 +2,7 @@
 
 ### 安装依赖
 
-使用的是postgres官方发布的C版本postgres前端库:libpg-fe
+使用的是postgres官方发布的C版本postgres客户端库,具体可以参考C头文件:<libpg-fe.h>
 
 安装:brew install postgresql
 
@@ -87,10 +87,18 @@ db.update
 
 目前的pg库还是太简单,只能进行进行简单的查询,很多地方还需要完善
 
-但是,因为pg库是基于postgres官方的C前端库,如果需要可以把里面的C函数和结构体,直接拿来使用,或者进行进一步的封装,开发起来还是比较快的
+但是,因为pg库是基于postgres官方的C客户端库,如果需要可以把里面的C函数和结构体,直接拿来使用,或者进行进一步的封装,开发起来还是比较快的
 
 目前需要注意的2个坑:
 
 1. 使用db.select from User时,会转为小写复数的users表名,如果没有建好对应的表名,会报错
 2. 定义模型结构体时,如果结构体的字段多于对应数据库表的字段,执行db.exec()的时候不会返回结果,也没有提示
+
+### libpg客户端库使用参考
+
+官方中文参考:http://www.postgres.cn/docs/11/libpq.html
+
+
+
+
 
