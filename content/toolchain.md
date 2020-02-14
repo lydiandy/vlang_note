@@ -2,7 +2,7 @@
 
 V编译器文件大小就700多K,实在是小巧得很
 
-V语言的编译器和命令行使用说明:
+### V编译器命令行使用说明
 
 执行v help就可以查看到下面的命令行使用说明
 
@@ -97,6 +97,21 @@ v fmt main.v //统一格式化指定源文件或目录中的代码
 v test mymodule //执行mymodule中的测试文件
 
 v test v  //执行v源代码中所有的测试文件
+
+```
+
+### V代码编译报错定位
+
+​	编译V代码的时候,如果报错,可以在编译时加上-cg选项,可以提示报错更多的信息,以及报错对应的C代码行,可以更快地定位错误:
+
+```c
+v run -cg main.v
+如果报错可以输出类似这样的:
+C compiler=
+/var/folders/lk/k709921d2gl4jrh31mt8_ktm0000gn/T/v/main.tmp.c:329:2: error: must use 'struct' tag to refer to type 'timeval'
+        timeval timeout;
+        ^
+        struct 
 
 ```
 
