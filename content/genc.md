@@ -179,15 +179,20 @@ int main__add(int x, int y) {
 
 函数defer语句
 
-C没有defer语句,V编译的时候就是把函数中的defer语句去掉,然后按后进先出的顺序放在函数末尾,有各自独立的代码块
+C没有defer语句,V编译的时候就是把函数中的defer语句去掉,然后按后进先出的顺序放在defer语句之后的所有return语句前以及函数末尾,有各自独立的代码块
 
 ```c
 //V代码
 fn main(){
+	defer {defer_fn1()} 
+  defer {defer_fn2()}
     println('main start')
-    
-    defer {defer_fn1()} 
-    defer {defer_fn2()}
+	if 1<2 {
+		return
+	}
+	if 1==1 {
+		return
+	}
     
     println('main end')
 }
@@ -200,14 +205,24 @@ fn defer_fn2(){
     println('from defer_fn2')
 }
 //C代码
- void main__main() {
-   println(tos3("main start"));
-   println(tos3("main end"));
-   { main__defer_fn2(); }
-   { main__defer_fn1(); }
- }
- void main__defer_fn1() { println(tos3("from defer_fn1")); }
- void main__defer_fn2() { println(tos3("from defer_fn2")); }
+void main__main() {
+  println(tos3("main start"));
+  if (1 < 2) {
+    { main__defer_fn2();} //defer语句之后的所有return语句之前
+    { main__defer_fn1(); }//defer语句之后的所有return语句之前
+    return;
+  };
+  if (1 == 1) {
+    { main__defer_fn2(); }//defer语句之后的所有return语句之前
+    { main__defer_fn1(); }//defer语句之后的所有return语句之前
+    return;
+  };
+  println(tos3("main end"));
+  { main__defer_fn2(); } //函数末尾
+  { main__defer_fn1(); } //函数末尾
+}
+void main__defer_fn1() { println(tos3("from defer_fn1")); }
+void main__defer_fn2() { println(tos3("from defer_fn2")); }
 ```
 
 函数不确定个数参数
