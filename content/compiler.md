@@ -1,10 +1,14 @@
+---
+typora-root-url: ../image
+---
+
 ## V编译器源代码
 
 作者在发布0.2版本之前,重构了编译器,改用基于AST的编译方式,代码也更为清晰易读
 
 ### 代码目录
 
-编译器代码位于:vlib/v目录
+编译器代码位于vlib/v目录
 
 | 子目录  | 说明                                |
 | ------- | ----------------------------------- |
@@ -26,11 +30,11 @@
 
 ### 编译器类
 
-[编译器类图](https://github.com/lydiandy/vlang_note/blob/master/image/V编译器类.jpg)
+![](/../content/compiler.assets/V编译器类.jpg)
 
 ### AST语法树类
 
-[语法树类图](https://github.com/lydiandy/vlang_note/blob/master/image/V语法树类.jpg)
+![](/../content/compiler.assets/V语法树类.jpg)
 
 ### 主要编译过程
 
