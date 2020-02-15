@@ -12,7 +12,7 @@ V ORM的好处有:
 - 编译时检查,语法错误在编译时就可以被捕捉到
 - 简单易读,不再需要手工解析结果和构造对象
 
-```
+```c
 import pg
 struct Customer { // 数据库表对应到结构体,结构体名目前要求跟表名一致
 	id int // 第一个字段必须是一个整型的id字段
@@ -43,3 +43,4 @@ new_customer := Customer{name: 'Bob', nr_orders: 10}
 db.insert(new_customer) 
 ```
 
+更详细的SQL内容,可以参考[pg章节](pg.md)
