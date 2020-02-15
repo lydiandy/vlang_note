@@ -105,7 +105,7 @@ V命令行代码位于cmd目录
 
   .  		
 
-   **简单总结整个编译过程就是:[ ]File => [ ]ast.File => C源代码 => 可执行文件**
+   **简单总结整个编译过程就是:[ ]File => [ ]ast.File => 目标代码 => 可执行文件**
 
 
 
@@ -317,36 +317,36 @@ V命令行代码位于cmd目录
   
   类型的种类,包含了V语言中的所有类型种类,包括基本类型,内置类型,结构体类型等其他种类,对类型进行分类以后,就可以针对不同的种类进行不同的语法分析,语法检查
   
-  | 字段/方法    | 说明 |
-  | ------------ | ---- |
-  | placeholder  |      |
-  | void         |      |
-  | voidptr      |      |
-  | charptr      |      |
-  | byteptr      |      |
-  | i8           |      |
-  | i16          |      |
-  | int          |      |
-  | i64          |      |
-  | u16          |      |
-  | u32          |      |
-  | u64          |      |
-  | f32          |      |
-  | f64          |      |
-  | string       |      |
-  | char         |      |
-  | byte         |      |
-  | bool         |      |
-  | const_       |      |
-  | enum_        |      |
-  | struct_      |      |
-  | array        |      |
-  | array_fixed  |      |
-  | map          |      |
-  | multi_return |      |
-  | sum_type     |      |
-  | alias        |      |
-  | unresolved   |      |
+  | 字段/方法    | 说明         |
+  | ------------ | ------------ |
+  | placeholder  | 占位种类     |
+  | void         |              |
+  | voidptr      | 通用指针类型 |
+  | charptr      | 字符指针类型 |
+  | byteptr      | 字节指针     |
+  | i8           |              |
+  | i16          |              |
+  | int          |              |
+  | i64          |              |
+  | u16          |              |
+  | u32          |              |
+  | u64          |              |
+  | f32          |              |
+  | f64          |              |
+  | string       | 字符串       |
+  | char         | 单字符       |
+  | byte         |              |
+  | bool         |              |
+  | const_       | 常量         |
+  | enum_        | 枚举         |
+  | struct_      | 结构体       |
+  | array        | 数组         |
+  | array_fixed  | 固定大小数组 |
+  | map          | 字典         |
+  | multi_return | 多返回值类型 |
+  | sum_type     | 联合类型     |
+  | alias        | 类型别名     |
+  | unresolved   |              |
   
 - **table.TypeInfo**
 
