@@ -39,7 +39,7 @@ V命令行代码位于cmd目录
 
 ### 主要编译过程
 
-- V命令行的入口文件是v/cmd/v.v
+- V命令行的入口文件是v/cmd/v/v.v
 
   .			 		
 
@@ -103,11 +103,13 @@ V命令行代码位于cmd目录
 
 以下类图是V编译器中主要的类和枚举:
 
+![](/../content/compiler.assets/V编译器类.jpg)
+
 主要的调用关系是:compiler.V=>builder.Builder=>parser.Parser=>scanner.Scanner
 
 类和枚举说明:
 
-- compiler.V
+- **compiler.V**
 
   V编译器主类,由v命令行负责创建
 
@@ -125,103 +127,223 @@ V命令行代码位于cmd目录
 
   module_lookup_paths字段保存模块搜索路径
 
-  --
+  
 
-  compile()方法负责启动编译
+  compile() 负责启动编译
 
-  cc()方法负责调用C编译器,将生成的C源代码文件生成可执行文件
-
-- builder.Builder
-
-  代码生成器类,由V编译器负责创建
-
-  pref字段是对编译选项对象的引用
-
-  tables字段是对符号表对象的引用
-
-  checker字段是对代码检查器对象的引用
-
-  parsed_files字段保存语法分析器生成的文件语法树对象数组
-
-  --
-
-  build_c() 方法负责编译生成C源代码
-
-  build_js()方法负责编译生成js源代码
-
-  build_x64方法负责编译生成x64机器码
-
-- parser.Parser
-
-  语法分析器,由代码生成器负责创建
-
-  scanner字段保存对应的词法扫描器引用
-
-  file_name字段保存对应的源文件
-
-  tables字段是对符号表对象的引用
-
-  pref字段是对编译选项对象的引用
-
-  其他字段都是语法分析中的过程变量:
-
-  pos字段是当前token
-
-  peek_pos字段是下一个token
-
-  --
-
-  parse_file() 负责扫描一个源文件
-
-  parse_files() 负责扫描一组源文件
+  cc() 负责调用C编译器,将生成的C源代码文件生成可执行文件
 
   
 
-- table.table
+- **pref.Preferences**
+
+  V编译器选项类,保存着所有的编译器选项和参数,由V编译器负责创建
+
+  参数太多,不一一展开,列举几个主要的:
+
+  build_mode  编译的模块
+
+  is_script    是否vscript脚本
+
+  is_prof  	是否生产模式编译
+
+  is_run		是否v run执行
+
+  ....
+
+  
+
+- **builder.Builder**
+
+  代码生成器类,由V编译器负责创建
+
+  pref	对编译选项对象的引用
+
+  tables	对符号表对象的引用
+
+  checker	对代码检查器对象的引用
+
+  parsed_files	保存语法分析器生成的文件语法树对象数组
+
+  
+
+  build_c() 	负责编译生成C源代码
+
+  build_js()	负责编译生成js源代码
+
+  build_x64	负责编译生成x64机器码
+
+  
+
+- **parser.Parser**
+
+  语法分析器,由代码生成器负责创建
+
+  scanner	保存对应的词法扫描器引用
+
+  file_name	保存对应的源文件
+
+  tables	对符号表对象的引用
+
+  pref	对编译选项对象的引用
+
+  其他字段都是语法分析中的过程变量:
+
+  pos	当前token
+
+  peek_pos	下一个token
+
+  
+
+  parse_file() 	负责扫描一个源文件
+
+  parse_files() 	负责扫描一组源文件
+
+  
+
+- **table.table**
 
   符号表,保存着语法分析后,得到的所有变量,函数,类型等
 
-  types 所有类型
+  types 	所有类型
 
-  local_vars所有局部变量
+  local_vars	所有局部变量
 
-  fns 所有函数和方法
+  fns 	所有函数和方法
 
-  consts 所有常量
+  consts 	所有常量
 
-  imports 所有导入模块
+  imports 	所有导入模块
 
-  modules 所有模块
+  modules 	所有模块
 
-  --
+  
 
-  register_const() 注册常量到符号表
+  register_const() 	注册常量到符号表
 
-  register_global() 注册全局变量到符号表
+  register_global() 	注册全局变量到符号表
 
-  register_var() 注册变量到符号表
+  register_var() 	注册变量到符号表
 
-  register_fn()  注册函数到符号表
+  register_fn()  	注册函数到符号表
 
-  register_method()注册方法到符号表
+  register_method()	注册方法到符号表
 
-  register_type()注册类型到符号表
+  register_type()	注册类型到符号表
 
-- scanner.Scanner
+  
+
+- **scanner.Scanner**
 
   词法扫描器,由语法分析器负责创建,对源文件进行逐个字节进行扫描,识别出token
 
-  file_path字段保存扫描的当前源文件路径
+  file_path	保存扫描的当前源文件路径
 
-  text字段保存文件所有内容的字符串
+  text	保存文件所有内容的字符串
 
   其他字段全是扫描的过程变量:
 
-  pos是扫描到的当前字节位置
+  pos	扫描到的当前字节位置
 
-- x
+  
 
-![](/../content/compiler.assets/V编译器类.jpg)
+  scan() token    启动一次扫描,一次扫描返回一个token,给语法分析器使用
+
+  scan_res() token  返回一次扫描结果
+
+  
+
+- **token.Token**
+
+  词法单元类,表示词法扫描器识别出来的一个token
+
+  kind  token的种类
+
+  lit   string 字面量值,只有kind种类为name,number,str,str_inter,chartoken时才会有值
+
+  line_nr 第几行
+
+  
+
+  position()	返回当前token的位置,第几行
+
+  
+
+- **token.Kind**
+
+  词法单元种类枚举,一共有139个可以被扫描器识别的词法单元
+
+- **table.Fn**
+
+  
+
+- **table.Var**
+
+  
+
+- **table.Field**
+
+  
+
+- **table.TypeSymbol**
+
+  
+
+- **table.AccessMod**
+
+  
+
+- **table.Kind**
+
+  
+
+- **table.TypeInfo**
+
+  
+
+- **table.Struct**
+
+  
+
+- **table.Array**
+
+  
+
+- **table.ArrayFixed**
+
+  
+
+- **table.Map**
+
+  
+
+- **table.MultiReturn**
+
+  
+
+- **table.Alias**
+
+  
+
+- **check.Checker**
+
+  
+
+- **gen.Gen**
+
+  
+
+- **gen.JsGen**
+
+  
+
+- **gen.x64.Gen**
+
+  
+
+- **fmt.Fmt**
+
+  
 
 ### AST语法树类
 
