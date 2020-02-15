@@ -26,11 +26,11 @@
 
 ### 编译器类
 
+[编译器类图](https://github.com/lydiandy/vlang_note/blob/master/image/V编译器类.jpg)
 
+### AST语法树类
 
-### AST语法树关类
-
-
+[语法树类图](https://github.com/lydiandy/vlang_note/blob/master/image/V语法树类.jpg)
 
 ### 主要编译过程
 
