@@ -75,7 +75,7 @@ pub fn (s Socket) close() ?int
 
 附上网络连接经典图示:
 
-![TCP协议通讯流程](https://img-blog.csdn.net/20140519112921000?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbWF0cml4X2xhYm9yYXRvcnk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![](/Users/zhijiayou02/v/vlang_note/content/std_net.assets/net.png)
 
 ---
 
