@@ -100,7 +100,7 @@
   - [term](content/std_term.md)
   - [log](content/std_log.md)
   - [net](content/std_net.md)
-  - [http](content/std_http.md)
+  - [net.http](content/std_http.md)
   - [eventbus](content/eventbus.md)
   - [regex](content/regex.md)
   - [crypto](content/crypto.md)
