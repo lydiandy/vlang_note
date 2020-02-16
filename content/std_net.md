@@ -54,7 +54,7 @@ pub fn (s Socket) connect(address string, port int) ?int
 pub fn (s Socket) send(buf byteptr, len int) ?int
 //发送字符串数据
 pub fn (s Socket) send_string(sdata string) ?int
-//接收数据
+//接收数据,返回收到数据的字节指针和长度
 pub fn (s Socket) recv(bufsize int) (byteptr,int)
 //简单封装C的read,接收数据
 pub fn (s Socket) cread(buffer byteptr, buffersize int) int
