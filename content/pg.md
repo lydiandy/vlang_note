@@ -98,6 +98,10 @@ db.update
 
 官方中文参考:http://www.postgres.cn/docs/11/libpq.html
 
+教程:https://geek-docs.com/postgresql/postgresql-postgresql/postgresqlc.html
+
+
+
 
 
 

@@ -50,6 +50,8 @@ sizeof( )可以返回结构体占用内存字节大小
 
 如果结构体字段名需要是关键字,可以通过使用@作为前缀也可以编译通过
 
+这一点在跟C库集成时,比较常用,一些C库的struct的字段有些刚好是V的关键字,可以使用@前缀,编译成C代码时@前缀会被去掉,刚好就是C的struct中的字段名
+
 ```c
 struct Foo {
 	@type string
@@ -89,6 +91,28 @@ fn main() {
 	foo2 := { foo | a: 42 }  //foo2是在foo的基础上,通过|合并新的字段值
 	println(foo2.a) //输出合并后的新值42
 	println(foo2.b) //输出未改变的值7
+}
+```
+
+短字面量创建结构体变量
+
+当函数的参数是结构体变量时,这个语法可以简化结构体变量的创建,这个语法在ui模块比较常用到,用来简化函数参数
+
+```c
+module main
+
+struct User {
+	name string
+	age int
+}
+
+fn add(u User) {
+	println(u)
+}
+
+fn main(){
+	add(User{name:'jack',age:22}) //标准方式
+	add({name:'tom',age:23}) //简短方式
 }
 ```
 
