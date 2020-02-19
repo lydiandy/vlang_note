@@ -474,11 +474,17 @@ V命令行代码位于cmd目录
   
   代码格式化类型,负责源代码格式化
   
-  | 字段/方法            | 说明 |
-  | -------------------- | ---- |
-  | fmt_lines  []string  |      |
-  | fmt_indent  int      |      |
-  | fmt_line_empty  bool |      |
+  | 字段/方法              | 说明                                                    |
+  | ---------------------- | ------------------------------------------------------- |
+  | out    strings.Builder | 格式化后的代码字符串                                    |
+  | table   &table.Table   | 符号表的引用                                            |
+  | indent   int           | 格式化过程变量,记录代码缩进的等级                       |
+  | empty_line bool        | 格式化过程变量,记录当前行是否是空行,如果是,要先生成缩进 |
+  | fmt()                  | 格式化代码某个文件                                      |
+  | wrtie()                | 往out字符串写入代码                                     |
+  | writeln()              | 往out字符串写入代码,并换行                              |
+  | stmts()                | 格式化多个语句                                          |
+  | stmt()                 | 格式化单个语句                                          |
   
 
 ### AST语法树类
@@ -498,16 +504,15 @@ V命令行代码位于cmd目录
 对应的V源代码:
 
 ```rust
-pub type Expr = InfixExpr | IfExpr | StringLiteral | IntegerLiteral | 
-CharLiteral |FloatLiteral | Ident | CallExpr | BoolLiteral | StructInit | 
-ArrayInit | SelectorExpr | PostfixExpr |
-AssignExpr | PrefixExpr | MethodCallExpr | IndexExpr | RangeExpr | 
-MatchExpr | CastExpr | EnumVal
+pub type Expr = InfixExpr | IfExpr | StringLiteral | IntegerLiteral | CharLiteral | 	
+FloatLiteral | Ident | CallExpr | BoolLiteral | StructInit | ArrayInit | SelectorExpr | PostfixExpr | 	
+AssignExpr | PrefixExpr | MethodCallExpr | IndexExpr | RangeExpr | MatchExpr | 	
+CastExpr | EnumVal | Assoc | SizeOf
 
-pub type Stmt = VarDecl | GlobalDecl | FnDecl | Return | Module | Import 
-| ExprStmt | ForStmt | StructDecl | ForCStmt | ForInStmt | CompIf | 
-ConstDecl | Attr | BranchStmt | HashStmt | AssignStmt | EnumDecl | 
-TypeDecl | DeferStmt
+pub type Stmt = VarDecl | GlobalDecl | FnDecl | Return | Module | Import | ExprStmt | 	
+ForStmt | StructDecl | ForCStmt | ForInStmt | CompIf | ConstDecl | Attr | BranchStmt | 	
+HashStmt | AssignStmt | EnumDecl | TypeDecl | DeferStmt | GotoLabel | GotoStmt | 	
+LineComment | MultiLineComment
 ```
 
 实际代码生成的语法树对象实在是太大,嵌套层级多
