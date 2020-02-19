@@ -212,11 +212,19 @@
 
 - s.all_before(s string) string
 
-    提取字符串中,包含参数字符串前面的所有内容
+    提取字符串中,包含参数字符串(如果出现多个,取第一个出现)前面的所有内容
+
+- s.all_before_last(s string) string 
+
+    提取字符串中,包含参数字符串(如果出现多个,取最后出现)前面的所有内容
 
 - s.all_after(s string) string
 
-    提取字符串中,包含参数字符串后面的所有内容
+    提取字符串中,包含参数字符串(如果出现多个,取最后出现)后面的所有内容
+
+- s.after(s string) string
+
+    同all_after函数
 
 - s.limit(n int) string
 
