@@ -613,7 +613,7 @@ LineComment | MultiLineComment
 
 ```
 
-
+---
 
 ### 词法扫描器-扫描顺序
 
@@ -705,7 +705,7 @@ LineComment | MultiLineComment
 |   以上都判断完了   | 如果还有不能识别的,就是invalid character      |                  |
 |  s.pos≥s.text.len  | .eof   就是文件结束end of file                |                  |
 
-
+---
 
 ###语法分析器-分析顺序
 
@@ -721,15 +721,15 @@ LineComment | MultiLineComment
 
 - p.check(token):
 
-​	检查当前token是否为指定的token
+  ​	检查当前token是否为指定的token
 
-​	如果是就调用p.next(),将p.tok向后推进一个;如果不是就报语法错误
+  ​	如果是就调用p.next(),将p.tok向后推进一个;如果不是就报语法错误
 
 - p.check_name() string:
 
-​	检查当前token是否为.name(标识符)的token
+  ​	检查当前token是否为.name(标识符)的token
 
-​	如果是就返回tok.lit(具体的标识名),并调用p.next(),将p.tok向后推进一个;如果不是就报语法错误
+  ​	如果是就返回tok.lit(具体的标识名),并调用p.next(),将p.tok向后推进一个;如果不是就报语法	错误
 
 ![](/../content/compiler.assets/image-20200220183359491.png)
 
@@ -761,10 +761,15 @@ LineComment | MultiLineComment
 |   enum    |           | EnumDecl                   | 识别枚举声明                     |
 |    //     |           | LineComment                | 识别单行注释                     |
 |    /*     |           | MultiLineComment           | 识别多行注释                     |
-|  如果还   | 存在以上  | 都不是的顶级节点,          | 就报不合法的顶级节点错误         |
-|           |           |                            |                                  |
-|  以下为   | 顶级节点  | 中包含的各种下级token的    | 语法分析                         |
-|           |           |                            |                                  |
+
+如果还存在以上都不是的顶级节点,  就报不合法的顶级节点错误
+
+---
+
+以下为顶级节点中包含的各种下级token的语法分析:
+
+| 当前token | 下个token | 识别内容(ast中的节点类型) | 说明 |
+| ---- | ---- | ---- | ---- |
 | [ ]stmts  |           | StmtBlock代码块语句        | 通过p.stmt()的递归调用进行分析   |
 |    mut    |           | VarDecl                    | 识别变量声明语句                 |
 |    for    |           | ForCStmt/ForStmt/ForInStmt | 识别3种for循环语句               |
@@ -778,19 +783,10 @@ LineComment | MultiLineComment
 |   .name   |     :     | GotoLabel                  | 识别为goto标签语句               |
 |   .name   |     :     | AssignStmt                 | 识别为分配语句                   |
 |           |           | Expr                       | 识别表达式                       |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
-|           |           |                            |                                  |
+| | |  |  |
+| | |  |  |
+| | |  |  |
+
 
 
 
