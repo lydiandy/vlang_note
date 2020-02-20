@@ -625,7 +625,7 @@ LineComment | MultiLineComment
 
 - s.scan()函数:  每调用一次,就接着s.pos当前位置,继续往下扫描,识别到一个token后返回
 
-![image-20200220173148156](/../content/compiler.assets/image-20200220173148156.png)
+![](/../content/compiler.assets/image-20200220173148156.png)
 
 以下是扫描器碰到每一个字节时,进行扫描和识别的顺序:
 
@@ -731,7 +731,7 @@ LineComment | MultiLineComment
 
 ​	如果是就返回tok.lit(具体的标识名),并调用p.next(),将p.tok向后推进一个;如果不是就报语法错误
 
-![image-20200220183359491](/../content/compiler.assets/image-20200220183359491.png)
+![](/../content/compiler.assets/image-20200220183359491.png)
 
 以下是语法分析的分析顺序:
 
