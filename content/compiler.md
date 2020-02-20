@@ -615,5 +615,182 @@ LineComment | MultiLineComment
 
 
 
+### 词法扫描器-扫描顺序
+
+以下是扫描器扫描识别token的逻辑:
+
+- s.text:  字符串类型,就是源代码的字符串表示
+
+- s.pos:  扫描的当前字节位置
+
+- s.scan()函数:  每调用一次,就接着s.pos当前位置,继续往下扫描,识别到一个token后返回
+
+![image-20200220173148156](/../content/compiler.assets/image-20200220173148156.png)
+
+以下是扫描器碰到每一个字节时,进行扫描和识别的顺序:
+
+|      当前字符      | 识别内容                                      | 继续识别         |
+| :----------------: | :-------------------------------------------- | :--------------- |
+| 字符值为9/10/13/32 | 优先识别tab制表符/换行/回车/空格,跳过这些空格 |                  |
+|    字母/下划线     | name名字                                      |                  |
+|                    |                                               | keyword关键字    |
+|   数字/点加数字    | number数字                                    |                  |
+|                    |                                               | 0b 二进制数字    |
+|                    |                                               | 0x十六进制数字   |
+|                    |                                               | 0八进制数字      |
+|                    |                                               | 1-9/0.十进制数字 |
+|         )          | )                                             |                  |
+|         +          | ++                                            |                  |
+|                    | +=                                            |                  |
+|                    | +                                             |                  |
+|         -          | --                                            |                  |
+|                    | -=                                            |                  |
+|                    | -                                             |                  |
+|         *          | *=                                            |                  |
+|                    | *                                             |                  |
+|         ^          | ^=                                            |                  |
+|                    | ^                                             |                  |
+|         %          | %=                                            |                  |
+|                    | %                                             |                  |
+|         ?          | ?                                             |                  |
+|        '或"        | string字符串                                  |                  |
+|         \`         | char单字符                                    |                  |
+|         (          | (                                             |                  |
+|         )          | )                                             |                  |
+|         [          | [                                             |                  |
+|         ]          | ]                                             |                  |
+|         {          | {                                             |                  |
+|                    | 字符串内递归识别                              |                  |
+|         $          | $                                             |                  |
+|                    | 字符串内递归识别                              |                  |
+|         }          | }                                             |                  |
+|                    | 字符串内递归识别                              |                  |
+|         \|         | \|=                                           |                  |
+|                    | \|\|                                          |                  |
+|         ,          | ,                                             |                  |
+|         @          | FN                                            |                  |
+|                    | FILE                                          |                  |
+|                    | LINE                                          |                  |
+|                    | COLUMN                                        |                  |
+|                    | VHASH                                         |                  |
+|                    | @keyword                                      |                  |
+|                    | name名字                                      |                  |
+|         .          | ...                                           |                  |
+|                    | ..                                            |                  |
+|                    | .                                             |                  |
+|         #          | #!                                            |                  |
+|                    | #宏定义                                       |                  |
+|         >          | >=                                            |                  |
+|                    | >>                                            |                  |
+|                    | >                                             |                  |
+|        0xE2        | ≠                                             |                  |
+|                    | ≤                                             |                  |
+|                    | ≥                                             |                  |
+|         <          | <=                                            |                  |
+|                    | <<                                            |                  |
+|                    | <                                             |                  |
+|         =          | ==                                            |                  |
+|                    | =>                                            |                  |
+|                    | =                                             |                  |
+|         :          | :=                                            |                  |
+|                    | :                                             |                  |
+|         ;          | ;                                             |                  |
+|         !          | !=                                            |                  |
+|                    | !                                             |                  |
+|         ~          | ~                                             |                  |
+|         /          | /=                                            |                  |
+|                    | //                                            |                  |
+|                    | /*                                            |                  |
+|         \0         | .eof   windows end of file                    |                  |
+|   以上都判断完了   | 如果还有不能识别的,就是invalid character      |                  |
+|  s.pos≥s.text.len  | .eof   就是文件结束end of file                |                  |
+
+
+
+###语法分析器-分析顺序
+
+语法分析器从p.parse_file()或者p.parse_files()开始启动.
+
+调用p.read_first_token()进行初始化后,p.tok和p.peek_tok就位,从第一个token开始.
+
+- p.tok:  当前token
+
+- p.peek_tok:  下一个token
+
+- p.next():  每调用一次,就调用一次扫描器的scan(),返回一个token,将p.tok向后推进一个
+
+- p.check(token):
+
+​	检查当前token是否为指定的token
+
+​	如果是就调用p.next(),将p.tok向后推进一个;如果不是就报语法错误
+
+- p.check_name() string:
+
+​	检查当前token是否为.name(标识符)的token
+
+​	如果是就返回tok.lit(具体的标识名),并调用p.next(),将p.tok向后推进一个;如果不是就报语法错误
+
+![image-20200220183359491](/../content/compiler.assets/image-20200220183359491.png)
+
+以下是语法分析的分析顺序:
+
+| 当前token | 下个token | 识别内容(ast中的节点类型)  | 说明                             |
+| :-------: | :-------: | :------------------------- | -------------------------------- |
+|    //     |           | LineComment                | 识别module之前的行注释(未实现)   |
+|    /*     |           | MultiLineComment           | 识别module之前的多行注释(未实现) |
+|  module   |           | Module                     | 识别模块定义                     |
+|  import   |           | [ ]Import                  | 识别导入语句                     |
+|           |           | 以下开始识别所有的顶级节点 | 遍历识别后,形成[ ]stmts          |
+|    pub    |           |                            | 识别以下公共的顶级节点           |
+|           |   const   | ConstDecl                  | 识别一组常量声明                 |
+|           |    fn     | FnDecl                     | 识别函数声明或方法声明           |
+|           |  struct   | StructDecl                 | 识别结构体声明                   |
+|           |   union   |                            | 识别C联合类型(未实现)            |
+|           | interface |                            | 识别接口声明(未实现)             |
+|           |   enum    | EnumDecl                   | 识别枚举声明                     |
+|           |   type    | TypeDecl                   | 识别类型别名/联合类型            |
+|     [     |           | Attr                       | 识别函数标注                     |
+| __global  |           | GlobalDecl                 | 识别全局变量                     |
+|   const   |           | ConstDecl                  | 识别一组常量声明                 |
+|    fn     |           | FnDecl                     | 识别函数声明或方法声明           |
+|  struct   |           | StructDecl                 | 识别结构体声明                   |
+|     $     |           | CompIf                     | 识别条件编译语句                 |
+|     #     |           | HashStmt                   | 识别C宏                          |
+|   type    |           | TypeDecl                   | 识别类型别名/联合类型            |
+|   enum    |           | EnumDecl                   | 识别枚举声明                     |
+|    //     |           | LineComment                | 识别单行注释                     |
+|    /*     |           | MultiLineComment           | 识别多行注释                     |
+|  如果还   | 存在以上  | 都不是的顶级节点,          | 就报不合法的顶级节点错误         |
+|           |           |                            |                                  |
+|  以下为   | 顶级节点  | 中包含的各种下级token的    | 语法分析                         |
+|           |           |                            |                                  |
+| [ ]stmts  |           | StmtBlock代码块语句        | 通过p.stmt()的递归调用进行分析   |
+|    mut    |           | VarDecl                    | 识别变量声明语句                 |
+|    for    |           | ForCStmt/ForStmt/ForInStmt | 识别3种for循环语句               |
+|  return   |           | Return                     | 识别函数返回语句                 |
+|     $     |           | CompIf                     | 识别条件编译语句                 |
+| continue  |           | BranchStmt                 | 识别continue语句                 |
+|   break   |           | BranchStmt                 | 识别break语句                    |
+|  unsafe   |           |                            | 识别unsafe代码块语句(未实现)     |
+|   defer   |           | DeferStmt                  | 识别defer代码块语句              |
+|   goto    |           | GotoStmt                   | 识别goto代码块语句               |
+|   .name   |     :     | GotoLabel                  | 识别为goto标签语句               |
+|   .name   |     :     | AssignStmt                 | 识别为分配语句                   |
+|           |           | Expr                       | 识别表达式                       |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+|           |           |                            |                                  |
+
 
 
