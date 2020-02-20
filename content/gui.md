@@ -104,9 +104,9 @@ FreeType是一个完全开源的、可扩展、可定制且可移植的字体引
 
 源代码:https://github.com/nothings/stb
 
-#### glfm模块
+#### glfw模块
 
-源代码位置:vlib/glfm
+源代码位置:vlib/glfw
 
 GLFW官网链接:https://www.glfw.org/
 
