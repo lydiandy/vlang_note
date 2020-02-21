@@ -19,62 +19,90 @@ pub type Expr = Foo | BoolExpr |  BinExpr | UnaryExpr
 
 ### 使用联合类型
 
+- 联合类型作为函数的参数或返回值,也可以作为变量声明,结构体字段
+- 使用match语句,进行类型的进一步判断
+
 ```c
-struct Foo {}
+module main
 
-struct BoolExpr {
-	foo int
+struct User {
+	name string
+	age int
+}
+pub fn (m &User) str() string {
+	return 'name:$m.name,age:$m.age'
 }
 
-struct BinExpr {
+type MySum= int|string|User //联合类型声明
 
+pub fn (ms MySum) str() string {
+	match ms {
+		int { //会在这个代码块中,自动生成一个类型为int,名为it的变量,可以直接使用
+			return it.str()
+		}
+		string {
+			return it
+		}
+		User {
+			return it.str()
+		}
+		else {
+			return 'unknown'
+		}
+	}
 }
 
-struct UnaryExpr {
+pub fn add(ms MySum) { //联合类型作为参数
+	match ms { //可以对接收到的联合类型,使用match语句,进行类型判断
 
+		int { //会在这个代码块中,自动生成一个类型为int,名为it的变量,可以直接使用
+			println('ms is int,value is $it.str()')	
+		}
+		string {
+			println('ms is string,value is $it')	
+		}
+		User {
+			println('ms is User,value is $it.str()')	
+		}
+		else {
+			println('unknown')
+		}
+	}
 }
-
-pub type Expr = Foo | BoolExpr |  BinExpr | UnaryExpr //定义联合类型
-
-fn expr1() Expr {
-	mut e := Expr{} //定义变量e为联合类型Expr
-	e = BinExpr{} //可以联合类型中的其中一种具体类型赋值
-	return e
-}
-
-fn expr2() Expr { //联合类型作为函数返回值
-	return BinExpr{}
-}
-
-fn handle_expr(e Expr) { //联合类型作为函数参数
-
-}
-
-fn parse_bool() BoolExpr {
-	return BoolExpr{}
+pub fn sub(i int,s string,u User) MySum { //联合类型作为返回值
+	return i
+	// return s //这个也可以
+	// return User{name:'tom',age:3} //这个也可以
 }
 
 fn main() {
-	b := parse_bool()
-	handle_expr(b)
+	i:=123
+	s:='abc'
+	u:=User{name:'tom',age:33}
+	mut res:=MySum{} //声明联合类型变量
+	res=i
+	println(res) //输出123
+	res=s
+	println(res) //输出abc
+	res=u
+	println(res) //输出name:tom,age:33
+	match res { //判断具体类型
+		int {
+			println('res is:$it.str()')
+		}
+		string {
+			println('res is:$it')
+		}
+		User {
+			println('res is:$it.str()')
+		}
+		else {
+			println('unknown')
+		}
+	}
+	user:=res as User //也可以通过as,进行显示造型
+	println(user.name)
 }
 
-```
-
-可以使用match语句来判断,类型具体是联合类型中的哪一个
-
-```c
-match sumtype {
-	Foo {
-	
-	}
-	BoolExpr {
-	
-	}
-	else {
-	
-	}
-
-}
 ```
 

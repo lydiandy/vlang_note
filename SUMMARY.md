@@ -79,8 +79,6 @@
 
 * [数据库](content/db.md)
 
-* [生成C代码](content/genc.md)
-
   ------
 
   
@@ -127,9 +125,11 @@
 
   - [vweb](content/vweb.md)
 
+
 ------
 
 -   [V编译器源代码](content/compiler.md)
+-   [生成C代码](content/genc.md)
 
 ------
 

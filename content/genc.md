@@ -863,10 +863,75 @@ typedef  Point myPoint;
 
 #### 联合类型
 
-```c
+```C
 //V代码
+struct User {
+	name string
+	age int
+}
+pub fn (m &User) str() string {
+	return 'name:$m.name,age:$m.age'
+}
+type MySum= int|string|User //联合类型声明
+	i:=123
+	s:='abc'
+	u:=User{name:'tom',age:33}
+	mut res:=MySum{} //声明联合类型变量
+	res=i
+	res=s
+	res=u
 
+pub fn add(ms MySum) { 
+match ms { 
+	int { 
+			println('ms is int,value is $it.str()')	
+	}
+	string {
+			println('ms is string,value is $it')	
+	}
+	User {
+			println('ms is User,value is $it.str()')	
+	}
+	else {
+			println('unknown')
+	}
+}
+}
+    
 //C代码
+#define SumType_int 1    // DEF2
+#define SumType_string 2 // DEF2
+#define SumType_User 3   // DEF2
+  
+typedef struct {
+  void *obj; //存储变量指针
+  int typ; //联合类型中对应的类型常量,就是上面的宏定义
+} MySum;
+
+
+//声明联合类型变量
+MySum res = (MySum){EMPTY_STRUCT_INITIALIZATION};
+//变量赋值
+res = /*SUM TYPE CAST2*/ (MySum){.obj = memdup(&(int[]){i}, sizeof(int)),
+                                   .typ = SumType_int};
+res = /*SUM TYPE CAST2*/ (MySum){.obj = memdup(&(string[]){s}, sizeof(string)), .typ = SumType_string};
+res = /*SUM TYPE CAST2*/ (MySum){.obj = memdup(&(User[]{u},sizeof(User)),
+                                   .typ = SumType_User};
+  //match类型判断                                             
+  if (tmp3.typ == SumType_int) {
+    int *it = (int *)tmp3.obj;
+    printf("res is:%.*s\n", int_str(*it).len, int_str(*it).str);
+  } else if (tmp3.typ == SumType_string) {
+    string *it = (string *)tmp3.obj;
+    printf("res is:%p\n", it);
+  } else if (tmp3.typ == SumType_User) {
+    User *it = (User *)tmp3.obj;
+    printf("res is:%.*s\n", User_str(&/* ? */ *it).len,
+           User_str(&/* ? */ *it).str);
+  } else // default:
+  {
+    println(tos3("unknown"));
+  };
 ```
 
 #### 运算符重载

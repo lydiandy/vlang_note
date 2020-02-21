@@ -735,32 +735,32 @@ LineComment | MultiLineComment
 
 以下是语法分析的分析顺序:
 
-| 当前token | 下个token | 识别内容(ast中的节点类型)  | 说明                             |
-| :-------: | :-------: | :------------------------- | -------------------------------- |
-|    //     |           | LineComment                | 识别module之前的行注释(未实现)   |
-|    /*     |           | MultiLineComment           | 识别module之前的多行注释(未实现) |
-|  module   |           | Module                     | 识别模块定义                     |
-|  import   |           | [ ]Import                  | 识别导入语句                     |
-|           |           | 以下开始识别所有的顶级节点 | 遍历识别后,形成[ ]stmts          |
-|    pub    |           |                            | 识别以下公共的顶级节点           |
-|           |   const   | ConstDecl                  | 识别一组常量声明                 |
-|           |    fn     | FnDecl                     | 识别函数声明或方法声明           |
-|           |  struct   | StructDecl                 | 识别结构体声明                   |
-|           |   union   |                            | 识别C联合类型(未实现)            |
-|           | interface |                            | 识别接口声明(未实现)             |
-|           |   enum    | EnumDecl                   | 识别枚举声明                     |
-|           |   type    | TypeDecl                   | 识别类型别名/联合类型            |
-|     [     |           | Attr                       | 识别函数标注                     |
-| __global  |           | GlobalDecl                 | 识别全局变量                     |
-|   const   |           | ConstDecl                  | 识别一组常量声明                 |
-|    fn     |           | FnDecl                     | 识别函数声明或方法声明           |
-|  struct   |           | StructDecl                 | 识别结构体声明                   |
-|     $     |           | CompIf                     | 识别条件编译语句                 |
-|     #     |           | HashStmt                   | 识别C宏                          |
-|   type    |           | TypeDecl                   | 识别类型别名/联合类型            |
-|   enum    |           | EnumDecl                   | 识别枚举声明                     |
-|    //     |           | LineComment                | 识别单行注释                     |
-|    /*     |           | MultiLineComment           | 识别多行注释                     |
+| 当前token | 下个token  | 识别内容(ast中的节点类型) | 说明                             |
+| :-------: | :--------: | :------------------------ | -------------------------------- |
+|    //     |            | LineComment               | 识别module之前的行注释(未实现)   |
+|    /*     |            | MultiLineComment          | 识别module之前的多行注释(未实现) |
+|  module   |            | Module                    | 识别模块定义                     |
+|  import   |            | [ ]Import                 | 识别导入语句                     |
+| 以下开始  | 识别所有的 | 顶级节点                  | 遍历识别后,形成[ ]stmts          |
+|    pub    |            |                           | 识别以下公共的顶级节点           |
+|           |   const    | ConstDecl                 | 识别一组常量声明                 |
+|           |     fn     | FnDecl                    | 识别函数声明或方法声明           |
+|           |   struct   | StructDecl                | 识别结构体声明                   |
+|           |   union    |                           | 识别C联合类型(未实现)            |
+|           | interface  |                           | 识别接口声明(未实现)             |
+|           |    enum    | EnumDecl                  | 识别枚举声明                     |
+|           |    type    | TypeDecl                  | 识别类型别名/联合类型            |
+|     [     |            | Attr                      | 识别函数标注                     |
+| __global  |            | GlobalDecl                | 识别全局变量                     |
+|   const   |            | ConstDecl                 | 识别一组常量声明                 |
+|    fn     |            | FnDecl                    | 识别函数声明或方法声明           |
+|  struct   |            | StructDecl                | 识别结构体声明                   |
+|     $     |            | CompIf                    | 识别条件编译语句                 |
+|     #     |            | HashStmt                  | 识别C宏                          |
+|   type    |            | TypeDecl                  | 识别类型别名/联合类型            |
+|   enum    |            | EnumDecl                  | 识别枚举声明                     |
+|    //     |            | LineComment               | 识别单行注释                     |
+|    /*     |            | MultiLineComment          | 识别多行注释                     |
 
 如果还存在以上都不是的顶级节点,  就报不合法的顶级节点错误
 
