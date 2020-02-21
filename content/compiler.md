@@ -438,13 +438,20 @@ V命令行代码位于cmd目录
   
   C源代码生成器
   
-  | 字段/方法                   | 说明                                                        |
-  | --------------------------- | ----------------------------------------------------------- |
-  | out   strings.Builder       | 生成的C源代码主体,保存在这个字符串中,字符串生成器对象       |
-  | definitions strings.Builder | 生成的C源代码中的宏部分,保存在这个字符串中,字符串生成器对象 |
-  |                             | 完整的C源代码由这两个部分组成:definitions+out               |
-  | table    &table.Table       | 符号表的引用                                                |
-  | fn_decl   &ast.FnDecl       | 过程变量,生成过程中的当前函数                               |
+  | 字段/方法                   | 说明                                                    |
+  | --------------------------- | ------------------------------------------------------- |
+  | out   strings.Builder       | 生成的C源代码主体,保存在这个字符串中,字符串生成器对象   |
+  | definitions strings.Builder | 生成的C源代码宏部分,保存在这个字符串中,字符串生成器对象 |
+  |                             | 完整的C源代码由这两个部分组成:definitions+out           |
+  | table    &table.Table       | 符号表的引用                                            |
+  | fn_decl   &ast.FnDecl       | 过程变量,生成过程中的当前函数                           |
+  | tmp_count   int             | 过程变量,用于生成临时变量的计数,每一个函数重置          |
+  |                             |                                                         |
+  | cgen() string               | 生成所有[ ]ast.File的C源代码                            |
+  | stmts()                     | 遍历stmts生成所有的C代码                                |
+  | stmt()                      | 根据一个stmt语句,生成对应的C代码段                      |
+  | write() string              | 生成C代码段,不换行                                      |
+  | writeln() string            | 生成C代码段,换行                                        |
   
 - **gen.JsGen**
 
