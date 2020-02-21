@@ -14,5 +14,5 @@ postgresql
 
 需要先安装:brew install postgresql
 
-更详细的SQL内容,可以参考[pg章节](pg.md)
+更详细的SQL内容,可以参考[pg章节](./pg.md)
 
