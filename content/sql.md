@@ -43,4 +43,4 @@ new_customer := Customer{name: 'Bob', nr_orders: 10}
 db.insert(new_customer) 
 ```
 
-更详细的SQL内容,可以参考[pg章节](pg.md)
+更详细的SQL内容,可以参考[pg章节](./pg.md)

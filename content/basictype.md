@@ -169,7 +169,7 @@ println(c1) //输出97
 println(c1.str()) //通过str()函数转换为字符串后,输出a
 ```
 
-常用字符串内置函数,可以参考后面的[标准库](std_builtin.md)章节,也可以直接参考vlib/builtin/string.v源代码
+常用字符串内置函数,可以参考后面的[标准库](./std_builtin.md)章节,也可以直接参考vlib/builtin/string.v源代码
 
 ------
 
@@ -230,7 +230,7 @@ fn main() {
 
 只有在unsafe代码块中,V编译器不进行任何检查,允许指针像C那样可以进行指针运算,指针偏移,多级指针
 
-详细内容可以参考:[不安全代码](unsafe.md)
+详细内容可以参考:[不安全代码](./unsafe.md)
 
 ### sizeof() 内置函数
 

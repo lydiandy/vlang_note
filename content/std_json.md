@@ -10,7 +10,7 @@ v标准库的json模块有点特别:
 
 3. 解析JSON功能在编译器内部实现,内置支持JSON
 
-具体如何使用json.encode()和json.decode()函数,[参考内置JSON章节](json.md)
+具体如何使用json.encode()和json.decode()函数,[参考内置JSON章节](./json.md)
 
 ### 实现原理
 

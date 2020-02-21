@@ -165,4 +165,4 @@ fn main() {
 
 数组相关的源代码可以参考v源代码中的：vlib/builtin/array.v
 
-更多数组相关的函数,参考[标准库章节](std_builtin.md)
+更多数组相关的函数,参考[标准库章节](./std_builtin.md)
