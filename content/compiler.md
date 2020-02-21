@@ -53,7 +53,7 @@ V命令行代码位于cmd目录
 
   .			 		
 
-- V命令行负责处理命令参数,根据参数创建V编译器对象(compiler.V),或调用tools中的各种工具
+- V命令行负责处理命令参数,根据参数创建V编译器对象(compiler.V)或调用tools中的各种工具
 
   . 		
 
@@ -85,7 +85,7 @@ V命令行代码位于cmd目录
 
   . 			
 
-- 语法分析和词法扫描实际上是同步进行,同步完成的.语法分析器对[ ]File进行遍历,以词法单元(token)为基本单位,进行语法分析,词法单元由词法扫描器负责识别,扫描,提供给语法分析器
+- 语法分析和词法扫描实际上是同步进行,同步完成的.语法分析器对[ ]File进行遍历,以词法单元(token)为基本单位,进行语法分析,词法单元由词法扫描器负责扫描,识别,提供给语法分析器
 
    .			
 
@@ -167,17 +167,18 @@ V命令行代码位于cmd目录
 
   语法分析器,由代码生成器负责创建
 
-  | 字段/方法    | 说明                              |
-  | ------------ | --------------------------------- |
-  | scanner      | 保存对应的词法扫描器引用          |
-  | file_name    | 保存对应的源文件                  |
-  | tables       | 对符号表对象的引用                |
-  | pref         | 对编译选项对象的引用              |
-  |              | 其他字段都是语法分析中的过程变量: |
-  | pos          | 当前token                         |
-  | peek_pos     | 下一个token                       |
-  | parse_file() | 负责语法分析一个源文件            |
-  |              | 负责语法分析一组源文件            |
+  | 字段/方法           | 说明                              |
+  | ------------------- | --------------------------------- |
+  | scanner             | 保存对应的词法扫描器引用          |
+  | file_name           | 保存对应的源文件                  |
+  | tables              | 对符号表对象的引用                |
+  | pref                | 对编译选项对象的引用              |
+  |                     | 其他字段都是语法分析中的过程变量: |
+  | pos                 | 当前token                         |
+  | peek_pos            | 下一个token                       |
+  | scope    &ast.Scope | 当前作用域                        |
+  | parse_file()        | 负责语法分析一个源文件            |
+  |                     | 负责语法分析一组源文件            |
 
 - **table.table**
 
@@ -515,6 +516,43 @@ HashStmt | AssignStmt | EnumDecl | TypeDecl | DeferStmt | GotoLabel | GotoStmt |
 LineComment | MultiLineComment
 ```
 
+主要类别说明:
+
+- ast.File
+
+  文件语法树类,保存了一个v源文件的整棵语法树
+
+| 字段/方法        | 说明              |
+| ---------------- | ----------------- |
+| path  string     | 对应的v源文件路径 |
+| mod   Module     | 模块节点          |
+| imports []Import | 导入模块节点      |
+| stmts  []Stmt    | 语句数组          |
+| scope   Scope    | 文件作用域        |
+
+- ast.Scope
+
+  作用域节点,整个ast.File里也是保存了一棵作用域树,以ast.File的scope为根节点
+
+| 字段/方法                | 说明                       |
+| ------------------------ | -------------------------- |
+| parent  &Scope           | 父作用域                   |
+| children []&Scope        | 子作用域数组               |
+| start_pos int            | 作用域开始位置             |
+| end_pos  int             | 作用域结束位置             |
+| vars  map[string]VarDecl | 该作用域内,声明的变量字典  |
+| register_var()           | 注册声明的变量             |
+| find_var()               | 在作用域内查找已声明的变量 |
+| override_var()           | 覆盖变量                   |
+
+作用域示意图:
+
+![](/../content/compiler.assets/image-20200221225909856.png)
+
+- 其他语法树节点,不详细展开,参考类图
+
+
+
 实际代码生成的语法树对象实在是太大,嵌套层级多
 
 可以对着V源代码,按着语法分析器的分析方式,想象生成的语法树对象
@@ -709,27 +747,31 @@ LineComment | MultiLineComment
 
 ###语法分析器-分析顺序
 
-语法分析器从p.parse_file()或者p.parse_files()开始启动.
+语法分析器从p.parse_file()或者p.parse_files()开始启动
 
-调用p.read_first_token()进行初始化后,p.tok和p.peek_tok就位,从第一个token开始.
+调用p.read_first_token()进行初始化后,p.tok和p.peek_tok就位,从第一个token开始分析
 
 - p.tok:  当前token
 
 - p.peek_tok:  下一个token
 
-- p.next():  每调用一次,就调用一次扫描器的scan(),返回一个token,将p.tok向后推进一个
+- p.next():  每调用一次,就调用一次扫描器的scan(),返回一个token,并将p.tok向后推进一个
 
 - p.check(token):
 
-  ​	检查当前token是否为指定的token
+  ​	检查p.tok是否为指定的token
 
-  ​	如果是就调用p.next(),将p.tok向后推进一个;如果不是就报语法错误
+  ​	如果是就调用p.next(),将p.tok向后推进一个
+
+  ​	如果不是就报语法错误
 
 - p.check_name() string:
 
-  ​	检查当前token是否为.name(标识符)的token
+  ​	检查p.tok是否为.name(标识符)的token
 
-  ​	如果是就返回tok.lit(具体的标识名),并调用p.next(),将p.tok向后推进一个;如果不是就报语法	错误
+  ​	如果是就返回tok.lit(具体的标识名),并调用p.next(),将p.tok向后推进一个
+  
+  ​	如果不是就报语法错误
 
 ![](/../content/compiler.assets/image-20200220183359491.png)
 
