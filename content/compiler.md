@@ -528,7 +528,7 @@ LineComment | MultiLineComment
 | mod   Module     | 模块节点          |
 | imports []Import | 导入模块节点      |
 | stmts  []Stmt    | 语句数组          |
-| scope   Scope    | 文件作用域        |
+| scope   &Scope   | 文件作用域        |
 
 - ast.Scope
 
@@ -824,10 +824,24 @@ LineComment | MultiLineComment
 |   goto    |           | GotoStmt                   | 识别goto代码块语句               |
 |   .name   |     :     | GotoLabel                  | 识别为goto标签语句               |
 |   .name   |     :     | AssignStmt                 | 识别为分配语句                   |
-|           |           | Expr                       | 识别表达式                       |
-| | |  |  |
-| | |  |  |
-| | |  |  |
+| = |           | Expr                       | 识别表达式,最复杂的              |
+| | .name |  | 继续识别出现名字的各种情况 |
+| | .str | StringLiteral, table.string_type | 识别字符串 x='abc' |
+| | .dot | EnumVal, table.int_type | 识别枚举值 x=.blue |
+| | .chartoken | CharLiteral, table.byte_type | 识别单字符 x=`c` |
+| | .key_true, .key_false | BoolLiteral,table.bool_type | 识别布尔类型 x=true |
+| | .minus, .amp, .mul, .not, .bit_not | PrefixExpr | 识别前缀表达式 |
+| | .key_match | MatchExpr | 识别match赋值语句 |
+| | .number | IntegerLiteral/FloatLiteral | 识别数值 |
+| | .lpar |  | 继续递归识别表达式 |
+| | .key_if | IfExpr | 识别if赋值语句 |
+| | .lsbr | ArrayInit | 识别数组初始化语句 |
+| | .key_none | None, table.none_type | 识别none类型 |
+| | .key_sizeof | SizeOf,table.int_type | 识别sizeof()函数 |
+| | .lcbr | | 继续识别各种情况 |
+| | 如果以上都不是 | 报错,无法识别的表达式 |  |
+| |  |  |  |
+| |  |  |  |
 
 
 
