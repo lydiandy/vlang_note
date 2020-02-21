@@ -421,16 +421,18 @@ V命令行代码位于cmd目录
   
   代码检查器,用于检查各种语法的合法性
   
-  | 字段/方法             | 说明                           |
-  | --------------------- | ------------------------------ |
-  | table   &table.Table  | 符号表的引用                   |
-  | file_name string      | 要检查的文件路径               |
-| scope   ast.Scope     | 作用域                         |
-  | resolved []table.Type |                                |
-  | check_files()         | 检查多个文件语法树的语法合法性 |
-  | check()               | 检查单个文件语法树             |
-  | stmt()                | 检查语句,递归检查              |
-  | expr()                | 检查表达式,递归检查            |
+  | 字段/方法            | 说明                           |
+  | -------------------- | ------------------------------ |
+  | table   &table.Table | 符号表的引用                   |
+  | file      ast.File   | 要检查的文件语法树             |
+| nr_errors int        | 错误个数                       |
+  | errors    []string   | 错误内容数组                   |
+  |                      |                                |
+  | check_files()        | 检查多个文件语法树的语法合法性 |
+  | check()              | 检查单个文件语法树             |
+  | stmt()               | 检查语句,递归检查              |
+  | expr()               | 检查表达式,递归检查            |
+  | error()              | 没有通过检查项,报错            |
   
 - **gen.Gen**
   
@@ -824,7 +826,8 @@ LineComment | MultiLineComment
 |   goto    |           | GotoStmt                   | 识别goto代码块语句               |
 |   .name   |     :     | GotoLabel                  | 识别为goto标签语句               |
 |   .name   |     :     | AssignStmt                 | 识别为分配语句                   |
-| = |           | Expr                       | 识别表达式,最复杂的              |
+|  |  |  |  |
+| = |           | Expr,识别表达式的值和类型           | 识别表达式,最复杂的              |
 | | .name |  | 继续识别出现名字的各种情况 |
 | | .str | StringLiteral, table.string_type | 识别字符串 x='abc' |
 | | .dot | EnumVal, table.int_type | 识别枚举值 x=.blue |
@@ -839,7 +842,7 @@ LineComment | MultiLineComment
 | | .key_none | None, table.none_type | 识别none类型 |
 | | .key_sizeof | SizeOf,table.int_type | 识别sizeof()函数 |
 | | .lcbr | | 继续识别各种情况 |
-| | 如果以上都不是 | 报错,无法识别的表达式 |  |
+| | 如果以上都不是 | 报错:无效表达式 |  |
 | |  |  |  |
 | |  |  |  |
 
