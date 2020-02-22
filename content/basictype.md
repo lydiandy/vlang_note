@@ -196,6 +196,16 @@ typedef void* voidptr;
 typedef char* charptr;
 ```
 
+指针本身占用的内存大小:就是C语言里面的size_t类型,通常在32位系统上的长度是32位,64位系统上是64位
+
+```c
+	//测试机器是64位操作系统
+	println(sizeof(voidptr)) //输出8个字节
+	println(sizeof(byteptr)) //输出8个字节
+	println(sizeof(charptr)) //输出8个字节
+	println(sizeof(intptr))  //输出8个字节
+```
+
 变量前加&表示取地址,返回指针类型
 
 指针类型前加*表示取地址对应的值

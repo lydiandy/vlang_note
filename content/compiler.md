@@ -511,7 +511,7 @@ V命令行代码位于cmd目录
 
 ![](/../content/compiler.assets/V语法树类.jpg)
 
-对应的V源代码:
+联合类型Stmt和Expr,对应的V源代码:
 
 ```rust
 pub type Expr = InfixExpr | IfExpr | StringLiteral | IntegerLiteral | CharLiteral | 	
