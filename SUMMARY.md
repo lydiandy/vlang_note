@@ -84,8 +84,7 @@
   
 
   - [常用标准库:](content/std_builtin.md)
-
-  - [builtin](content/std_builtin.md)
+- [builtin](content/std_builtin.md)
   - [strings](content/std_strings.md)
   - [os](content/std_os.md)
   - [runtime](content/runtime.md)
@@ -103,28 +102,22 @@
   - [regex](content/regex.md)
   - [crypto](content/crypto.md)
   - [compiler](content/std_compiler.md)
-
   - [数据库相关库:](content/pg.md)
-
-  - [pg](content/pg.md)
+- [pg](content/pg.md)
   - [mysql](content/mysql.md)
-  - [sqlite](content/sqlite.md)
+- [sqlite](content/sqlite.md)
   - [orm](content/orm.md)
-
   - [GUI相关库:](content/freetype.md)
-
+  - [sokol](content/sokol.md)
   - [freetype](content/freetype.md)
-  - [clipboard](content/clipboard.md)
+- [clipboard](content/clipboard.md)
   - [gx](content/gx.md)
-  - [glm](content/glm.md)
+- [glm](content/glm.md)
   - [stbi](content/stbi.md)
   - [glfw](content/glfw.md)
   - [gg](content/gg.md)
-
   - [web框架:](content/vweb.md)
-
   - [vweb](content/vweb.md)
-
 
 ------
 
