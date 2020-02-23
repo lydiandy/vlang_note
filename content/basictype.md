@@ -65,6 +65,14 @@ bool从定义的C代码看，是C的一个int类型别名,true是常量1，false
 	println(c) //输出1000000
 ```
 
+强制类型转换
+
+```c
+
+```
+
+
+
 ### 字符串类型
 
 string
@@ -250,5 +258,25 @@ fn main() {
 println(sizeof(int)) //4
 println(sizeof(byte)) //1
 println(sizeof(bool)) //4
+```
+
+### 类型推断及强制类型转换
+
+```c
+module main
+
+fn main(){
+	i:=8 //默认类型推断为int
+	b:=byte(8) //明确指定类型为byte
+	ii:=int(b) //强制转换为int
+
+	f:=3.2 //默认推断类型为f32
+	ff:=f64(3.2) //明确指定类型为f64
+	f3:=f64(f) //强制转换为f64
+
+	s:='abc' //默认推断为string	
+	c:=`c` //默认推断为byte,也就是单字符类型
+	ss:=string(&c,1) //强制转换为string,因为string(byteptr,int)就可以构造出一个字符串,其中byteptr是首字节指针,int是字符串长度
+}
 ```
 
