@@ -260,7 +260,7 @@ println(sizeof(byte)) //1
 println(sizeof(bool)) //4
 ```
 
-### 类型推断及强制类型转换
+### 类型推断及类型转换
 
 ```c
 module main
@@ -277,6 +277,14 @@ fn main(){
 	s:='abc' //默认推断为string	
 	c:=`c` //默认推断为byte,也就是单字符类型
 	ss:=string(&c,1) //强制转换为string,因为string(byteptr,int)就可以构造出一个字符串,其中byteptr是首字节指针,int是字符串长度
+    
+  //将字节数组转成字符串
+	mut byte_arr:=[]byte //字节数组
+	byte_arr<<`a`
+	byte_arr<<`b`
+	println(byte_arr) //输出[a,b]
+	str:=string(byte_arr,byte_arr.len) //将字节数组转成字符串
+	println(str) //输出ab    
 }
 ```
 
