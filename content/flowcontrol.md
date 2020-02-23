@@ -87,6 +87,39 @@ price:=match os {
 println(price) //输出150
 ```
 
+使用match判断联合类型的具体类型
+
+```c
+module main
+
+struct User {
+	name string
+	age int
+}
+pub fn (m &User) str() string {
+	return 'name:$m.name,age:$m.age'
+}
+
+type MySum= int|string|User //联合类型声明
+
+pub fn (ms MySum) str() string {
+	match ms { //如果函数的参数或者接收者是联合类型,可以使用match进一步判断类型
+		int { //会在这个代码块中,自动生成一个类型为int,名为it的变量,可以直接使用
+			return it.str()
+		}
+		string { 
+			return it //it的类型是string
+		}
+		User { 
+			return it.str() //it的类型是User
+		}
+		else {
+			return 'unknown'
+		}
+	}
+}
+```
+
 
 
 ### for 循环语句
