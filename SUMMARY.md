@@ -107,7 +107,7 @@
   - [mysql](content/mysql.md)
 - [sqlite](content/sqlite.md)
   - [orm](content/orm.md)
-  - [GUI相关库:](content/freetype.md)
+  - [GUI相关库:](content/sokol.md)
   - [sokol](content/sokol.md)
   - [freetype](content/freetype.md)
 - [clipboard](content/clipboard.md)
