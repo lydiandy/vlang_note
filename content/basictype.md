@@ -272,6 +272,16 @@ struct Point {
 }
 type MySumType = int | f32 | Point
 
+type MyFn fn(int) int
+type MyFn2 fn()
+
+fn myfn(i int) int {
+	return i
+}
+fn myfn2() {
+	
+}
+
 fn main() {
 	a := 123
 	s:='abc'	
@@ -293,6 +303,10 @@ fn main() {
 	println(typeof(sa))   //int
 	println(typeof(sb)) //f32
 	println(typeof(sc)) //Point
+
+	//函数类型
+	println(typeof(myfn)) //fn (int) int
+	println(typeof(myfn2)) //fn ()
 }
 ```
 
