@@ -250,7 +250,7 @@ fn main() {
 
 详细内容可以参考:[不安全代码](./unsafe.md)
 
-### sizeof() 内置函数
+### 获取类型占用内存大小sizeof()
 
 可以通过内置的sizeof(T)来返回各种类型占用的内存大小
 
@@ -259,6 +259,44 @@ println(sizeof(int)) //4
 println(sizeof(byte)) //1
 println(sizeof(bool)) //4
 ```
+
+### 获取变量类型typeof()
+
+可以使用内置的typeof(var)来获取变量的类型
+
+```c
+module main
+
+struct Point {
+	x int
+}
+type MySumType = int | f32 | Point
+
+fn main() {
+	a := 123
+	s:='abc'	
+	aint := []int
+	astring := []string
+	astruct_static := [2]Point
+	astruct_dynamic := [Point{}, Point{}]
+	println(typeof(a)) //int
+	println(typeof(s))	//string
+	println(typeof(aint)) //array_int
+	println(typeof(astring)) //array_string
+	println(typeof(astruct_static)) //[2]Point
+	println(typeof(astruct_dynamic)) //array_Point
+
+	//联合类型也可以判断具体的类型
+	sa := MySumType(32)
+	sb := MySumType(123.0)
+	sc := MySumType(Point{x:43})
+	println(typeof(sa))   //int
+	println(typeof(sb)) //f32
+	println(typeof(sc)) //Point
+}
+```
+
+
 
 ### 类型推断及类型转换
 
