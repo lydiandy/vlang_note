@@ -2,7 +2,65 @@
 
 vlib/sokol模块已经对sokol进行了封装,可以初步使用
 
-### sapp
+### sokol图形库参考
+
+sokol是ui依赖的C图形库,如果想要更清楚理解ui是如何运作的,得掌握一下所依赖的sokol图形库:
+
+官方网址:https://github.com/floooh/sokol
+
+官方DEMO:https://floooh.github.io/sokol-html5/index.html (WASM版本)
+
+官方DEMO源代码:https://github.com/floooh/sokol-samples
+
+作者整体思路文档:https://floooh.github.io/2017/07/29/sokol-gfx-tour.html
+
+官方简介:简单,单文件,跨平台库,可供C/C++使用,C写的
+
+整个库包含这几个C文件,每个C文件可以单独使用:
+
+Cross-platform libraries:
+
+- **sokol_gfx.h**: 3D-API wrapper (GL + Metal + D3D11)
+- **sokol_app.h**: app framework wrapper (entry + window + 3D-context + input)
+- **sokol_time.h**: time measurement
+- **sokol_audio.h**: minimal buffer-streaming audio playback
+- **sokol_fetch.h**: asynchronous data streaming from HTTP and local filesystem
+- **sokol_args.h**: unified cmdline/URL arg parser for web and native apps
+
+Utility libraries:
+
+- **sokol_imgui.h**: sokol_gfx.h rendering backend for [Dear ImGui](https://github.com/ocornut/imgui)
+- **sokol_gl.h**: OpenGL 1.x style immediate-mode rendering API on top of sokol_gfx.h
+- **sokol_fontstash.h**: sokol_gl.h rendering backend for [fontstash](https://github.com/memononen/fontstash)
+- **sokol_gfx_imgui.h**: debug-inspection UI for sokol_gfx.h (implemented with Dear ImGui)
+
+vui目前使用了这4个,主要是前两个核心文件,已包含在V源代码的thirdparth/sokol中,无需单独下载
+
+**sokol_gfx.h**
+
+- 简单,现代地封装了GLES2/WebGL, GLES3/WebGL2, GL3.3, D3D11 和 Metal
+- 提供buffers, images, shaders, pipeline-state-objects 和 render-passes
+- 无需控制窗体的创建或者3D API的上下文初始化
+- 无需提供着色器方言交叉翻译
+
+**sokol_app.h**
+
+-  统一的应用入口
+-  单窗体或画布提供3D渲染
+-  3D上下文初始化
+-  事件驱动的键盘,鼠标,触摸板输入
+-  支持的平台: Win32, MacOS, Linux (X11), iOS, WASM/asm.js, Android (planned: RaspberryPi)
+-  支持的3D-APIs: GL3.3 (GLX/WGL), Metal, D3D11, GLES2/WebGL, GLES3/WebGL2
+
+**sokol_gl.h**
+
+OpenGL 1.x样式的立即模式渲染API,基于sokol_gfx.h
+
+**sokol_fontstash.h**
+
+为[fontstash](https://github.com/memononen/fontstash)提供渲染后端
+
+### sapp模块
 
 - 枚举
 
@@ -14,7 +72,7 @@ vlib/sokol模块已经对sokol进行了封装,可以初步使用
 
 - 结构体
 
-  sapp_desc //应用程序
+  sapp_desc //应用程序选项
 
   sapp_event //窗体事件:鼠标,键盘,触摸板等窗口事件
 
@@ -22,15 +80,15 @@ vlib/sokol模块已经对sokol进行了封装,可以初步使用
 
 - 回调函数
 
-  init_cb
+  init_cb //完成初始化后回调
 
-  frame_cb 
+  frame_cb  //刷新每一帧之前回调,通常是1秒钟,回调60次
 
-  event_cb
+  event_cb  //捕捉事件后回调
 
-  cleanup_cb
+  cleanup_cb //退出前回调
 
-  fail_cb
+  fail_cb //报错后回调
 
 - 带用户自定义数据的回调函数
 
@@ -112,13 +170,13 @@ vlib/sokol模块已经对sokol进行了封装,可以初步使用
 
 ---
 
-### sgx
+### sgx模块
 
 - 枚举
 
-  Backend
+  Backend //后端类型
 
-  PixelFormat
+  PixelFormat //像素点格式
 
   ResourceState
 
@@ -164,35 +222,35 @@ vlib/sokol模块已经对sokol进行了封装,可以初步使用
 
 - 结构体
 
-  sg_desc
+  sg_desc //gfx选项
 
-  sg_context
-
-  
-
-  sg_buffer_desc
-
-  sg_image_desc
-
-  sg_shader_desc
-
-  sg_pipeline_desc
-
-  sg_pass_desc
-
-  sg_attachment_desc
+  sg_context //上下文
 
   
 
-  sg_buffer
+  sg_buffer_desc //缓存数据选项
 
-  sg_image
+  sg_image_desc //图片数据选项
 
-  sg_shader
+  sg_shader_desc //着色器选项
 
-  sg_pipelinie
+  sg_pipeline_desc //渲染管线选项
 
-  sg_pass
+  sg_pass_desc //渲染通道选项
+
+  sg_attachment_desc //颜色附加点选项
+
+  
+
+  sg_buffer //缓存数据
+
+  sg_image //图像数据
+
+  sg_shader //着色器
+
+  sg_pipeline //渲染管线
+
+  sg_pass //渲染通路,一次绘制
 
   
 
@@ -212,13 +270,13 @@ vlib/sokol模块已经对sokol进行了封装,可以初步使用
 
 - 函数
 
-  初始化sg:
+  初始化gfx:
 
-  setup()
+  setup() //根据选项,初始化gfx
 
   关闭sg:
 
-  shutdown()
+  shutdown() //关闭gfx
 
   
 
@@ -238,23 +296,23 @@ vlib/sokol模块已经对sokol进行了封装,可以初步使用
 
   开始渲染:
 
-  begin_default_pass()
+  begin_default_pass() //开始默认的渲染通道
 
-  begin_pass()
+  begin_pass() 开始自定义渲染通道
 
   
 
   设置:
 
-  apply_viewport()
+  apply_viewport()  //设置视口
 
-  apply_scissor_rect()
+  apply_scissor_rect() //设置裁剪矩形
 
-  apply_pipeline()
+  apply_pipeline() //设置渲染管线
 
-  apply_bindings()
+  apply_bindings() //设置资源绑定
 
-  apply_uniforms()
+  apply_uniforms() //设置统一变量
 
   
 
@@ -266,19 +324,19 @@ vlib/sokol模块已经对sokol进行了封装,可以初步使用
 
   完成/提交:
 
-  end_pass()
+  end_pass() //结束渲染通道
 
-  commit()
+  commit() //提交
 
   
 
   更新资源对象:
 
-  update_buffer()
+  update_buffer() //更新缓存数据
 
-  update_image()
+  update_image() //更新图像数据
 
-  append_buffer()
+  append_buffer() //追加缓存数据
 
   
 
@@ -326,90 +384,87 @@ vlib/sokol模块已经对sokol进行了封装,可以初步使用
 
   ---
 
-  ###sgl
+  ###
 
-  - 枚举
+### sgl模块
 
-    SglError
+- 枚举
 
-  - 结构体
+  SglError
 
-    sgl_pipeline
+- 结构体
 
-    sgl_desc_t
+  sgl_pipeline
 
-  - 函数
+  sgl_desc_t
 
-    初始化:
+- 函数
 
-    setup()
+  初始化:
 
-    关闭:
+  setup()
 
-    shutdown()
+  关闭:
 
-    创建/销毁:
+  shutdown()
 
-    make_pipeline()
+  创建/销毁:
 
-    destroy_pipeline()
+  make_pipeline()
 
-    
-
-    渲染状态函数:
-
-    viewport()
-
-    scissor_rect()
-
-    enable_texture()
-
-    disable_texture()
-
-    texture()
-
-    
-
-    渲染命令:
-
-    begin_points()
-
-    begin_lines()
-
-    begin_line_strip()
-
-    begin_triangles()
-
-    begin_triangle_strip()
-
-    begin_quads()
-
-    ...
-
-    
-
-    绘制:
-
-    draw()
-
-    
-
-    结束:
-
-    end()
-
-    
-
-  ---
-
-  ###sfons
-
-  create()
-
-  destroy()
-
-  rgba()
-
-  flush()
+  destroy_pipeline()
 
   
+
+  渲染状态函数:
+
+  viewport()
+
+  scissor_rect()
+
+  enable_texture()
+
+  disable_texture()
+
+  texture()
+
+  
+
+  渲染命令:
+
+  begin_points()
+
+  begin_lines()
+
+  begin_line_strip()
+
+  begin_triangles()
+
+  begin_triangle_strip()
+
+  begin_quads()
+
+  ...
+
+  
+
+  绘制:
+
+  draw()
+
+  
+
+  结束:
+
+  end()
+
+### sfons模块
+
+​	create()
+
+​	destroy()
+
+​	rgba()
+
+​	flush()
+
