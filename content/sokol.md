@@ -198,7 +198,7 @@ OpenGL 1.x样式的立即模式渲染API,基于sokol_gfx.h
 
   BorderColor
 
-  VertexFormat
+  VertexFormat //顶点数据格式
 
   VertexStep
 
@@ -446,13 +446,9 @@ OpenGL 1.x样式的立即模式渲染API,基于sokol_gfx.h
 
   ...
 
-  
-
   绘制:
 
   draw()
-
-  
 
   结束:
 
@@ -460,11 +456,13 @@ OpenGL 1.x样式的立即模式渲染API,基于sokol_gfx.h
 
 ### sfons模块
 
-​	create()
+​	fontstash的字体渲染器
 
-​	destroy()
+​	create() //创建字体上下文
 
-​	rgba()
+​	destroy() //销毁字体上下文
+
+​	rgba() //转换颜色格式从RGBA到uint32_t,fontstash需要的
 
 ​	flush()
 

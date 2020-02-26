@@ -4,7 +4,7 @@
 
 也有可能采用[https://github.com/floooh/sokol](https://github.com/floooh/sokol ) 来进行GUI以及绘图的开发,等待作者更新ui模块
 
-vui库已经发布,代码库:https://github.com/vlang/ui
+ui库已经发布,代码库:https://github.com/vlang/ui
 
 ### 安装
 
@@ -44,7 +44,7 @@ v install ui
 
 
 
-### vui涉及到的标准模块
+### ui涉及到的标准模块
 
 #### gx模块
 
@@ -262,13 +262,4 @@ window中的ui用来进行绘制图形,绘制文字,处理剪贴板
 
 #### TransitionValue动画
 
-
-
-
-
-------
-
-
-
-------
 
