@@ -4,13 +4,11 @@
 
 **记录V语言学习过程中的知识点**
 
-github地址:https://github.com/lydiandy/vlang_note
+github地址: https://github.com/lydiandy/vlang_note
 
-gitbook阅读地址:https://lydiandylin.gitbook.io/vlang/
+gitbook阅读地址: https://lydiandylin.gitbook.io/vlang
 
-------
-
-
+---
 
 **为什么喜欢V**
 
@@ -18,10 +16,10 @@ V感觉就是**go+rust+c**的结合体，吸收了这三者的优点,不过像go
 
 V实现了自举，编译器把V代码生成C代码，然后再调用gcc或者clang来编译生成的C代码
 
-V的语法真的看着，写着都很舒服，比go和rust都好
+V的语法看着，写着都很舒服，比go和rust都好
 
 吸收了go和rust中的各种简洁和优秀的特性
-​	
+
 主要还是看重:
 
 1.简洁,干净的语法,看起来,写起来都很舒服
@@ -29,7 +27,6 @@ V的语法真的看着，写着都很舒服，比go和rust都好
 2.没有GC,编译快,生成的执行文件很小,执行很快
 
 感觉V才是 "better C"
-​	
 
 当然,目前V的阶段还是比较早期的,还是不够稳定
 
@@ -37,9 +34,8 @@ V的语法真的看着，写着都很舒服，比go和rust都好
 
 即使1.0发布了,也有挺长的路要走,毕竟一门编译语言的发展是按年来计算的
 
-### 
-
 **一起完善**
+
 目前V语言的中文文档比较少,如果有兴趣一起学习,记录V语言的各种语言特性及标准库,欢迎提交pull request
 
 
