@@ -1,8 +1,8 @@
 ## GUI
 
-按照目前作者的想法是:基于openGL,glad,glfw来创建一个比较轻量的GUI
+按照目前作者的想法是:基于sokol图形库来创建一个比较轻量的GUI
 
-也有可能采用[https://github.com/floooh/sokol](https://github.com/floooh/sokol ) 来进行GUI以及绘图的开发,等待作者更新ui模块
+采用[https://github.com/floooh/sokol](https://github.com/floooh/sokol ) 来进行GUI以及绘图的开发,等待作者更新ui模块
 
 ui库已经发布,代码库:https://github.com/vlang/ui
 
@@ -45,6 +45,10 @@ v install ui
 
 
 ### ui涉及到的标准模块
+
+#### ui模块层级关系
+
+![](gui.assets/image-20200226180730009.png)
 
 #### gx模块
 
