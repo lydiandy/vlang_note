@@ -48,7 +48,7 @@ v install ui
 
 #### ui模块层级关系
 
-![](gui.assets/image-20200226180730009.png)
+![](gui.assets/image-20200226182335145.png)
 
 #### gx模块
 
