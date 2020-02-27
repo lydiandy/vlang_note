@@ -284,10 +284,10 @@ V命令行代码位于cmd目录
   | left_shift        | <<位左移                                                  |
   | right_shift       | >>位右移                                                  |
   | line_comment      | //单行注释                                                |
-  | mline_comment     | /*多行注释                                                |
-  | nl                | NLL空值                                                   |
+  | mline_comment     | /*  */多行注释,表示左,还是右?                             |
+  | nl                | NLL空值字符                                               |
   | dollar            | $美金符号                                                 |
-  | str_dollar        | '$'字符串内的美金符号                                     |
+  | str_dollar        | $字符串内的美金符号                                       |
   | keyword_beg       | 表示在keyword_beg和keyword_end之间的都是关键字,本身无意义 |
   | key_assert        | 关键字assert                                              |
   | key_struct        | 关键字struct                                              |
@@ -310,25 +310,25 @@ V命令行代码位于cmd目录
   | key_continue      | 关键字continue                                            |
   | key_break         | 关键字break                                               |
   | key_import        | 关键字import                                              |
-  | key_embed         | 关键字embed                                               |
+  | key_embed         | 关键字embed,未使用                                        |
   | key_unsafe        | 关键字unsafe                                              |
   | key_typeof        | 关键字typeof                                              |
   | key_enum          | 关键字enum                                                |
   | key_interface     | 关键字interface                                           |
   | key_pub           | 关键字pub                                                 |
-  | key_import_const  | 关键字import_const                                        |
+  | key_import_const  | 关键字import_const,用于导入C常量                          |
   | key_in            | 关键字in                                                  |
-  | key_atomic        | 关键字atomic                                              |
+  | key_atomic        | 关键字atomic,未使用                                       |
   | key_orelse        | 关键字or                                                  |
-  | key_global        | 关键字__global                                            |
+  | key_global        | 关键字__global,全局变量                                   |
   | key_union         | 关键字union                                               |
-  | key_static        | 关键字static                                              |
+  | key_static        | 关键字static,用于C函数的static                            |
   | key_as            | 关键字as                                                  |
   | key_defer         | 关键字defer                                               |
   | key_match         | 关键字match                                               |
-  | key_select        | 关键字select                                              |
+  | key_select        | 关键字select,用于db.select                                |
   | key_none          | 关键字none                                                |
-  | key_offsetof      | 关键字__offsetof                                          |
+  | key_offsetof      | 关键字__offsetof,未使用                                   |
   | keyword_end       | 表示在keyword_beg和keyword_end之间的都是关键字,本身无意义 |
 
 - **table.Fn**
