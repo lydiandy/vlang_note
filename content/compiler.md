@@ -535,21 +535,25 @@ V命令行代码位于cmd目录
   
   代码检查器,用于检查各种语法的合法性
   
-  | 字段/方法            | 说明                           |
-  | -------------------- | ------------------------------ |
-  | table   &table.Table | 符号表的引用                   |
-  | file      ast.File   | 要检查的文件语法树             |
-| nr_errors int        | 错误个数                       |
-  | errors    []string   | 错误内容数组                   |
-  |                      |                                |
-  | check_files()        | 检查多个文件语法树的语法合法性 |
-  | check()              | 检查单个文件语法树             |
-  | stmt()               | 检查语句,递归检查              |
-  | expr()               | 检查表达式,递归检查            |
-  | error()              | 没有通过检查项,报错            |
-  |                      |                                |
-  |                      |                                |
-  |                      |                                |
+  | 字段/方法              | 说明                           |
+  | ---------------------- | ------------------------------ |
+  | table   &table.Table   | 符号表的引用                   |
+  | file      ast.File     | 要检查的文件语法树             |
+| nr_errors int          | 错误个数                       |
+  | errors    []string     | 错误内容数组                   |
+  |                        |                                |
+  | check_files()          | 检查多个文件语法树的语法合法性 |
+  | check()                | 检查单个文件语法树             |
+  | stmt()                 | 检查语句,递归检查              |
+  | expr()                 | 检查表达式,递归检查            |
+  | error()                | 没有通过检查项,报错            |
+  | check_struct_init      | 检查结构体初始化的合法性       |
+  | check_assign_expr      | 检查变量赋值的合法性           |
+  | call_expr              | 检查函数调用                   |
+  | check_method_call_expr | 检查方法调用                   |
+  | return_stmt            | 检查返回语句                   |
+  | array_init             | 检查数组初始化                 |
+  | ...                    |                                |
   
 - **gen.Gen**
   
