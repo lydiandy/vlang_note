@@ -31,6 +31,8 @@ println(s) // "odd"
 
 ### match 分支/匹配语句
 
+match要求包括所有可能,所以基本都要带上else语句
+
 ```c
 os:='macos'
 match os {
@@ -85,6 +87,20 @@ price:=match os {
     }
 }
 println(price) //输出150
+```
+
+match的同时,加上mut ,可以修改匹配变量,通常是配合for in 语句结合使用
+
+```rust
+//参考代码
+	for stmt in file.stmts {
+			match mut stmt {
+				ast.ConstDecl {
+					c.stmt(*it)
+				}
+				else {}
+			}
+		}
 ```
 
 使用match判断联合类型的具体类型
