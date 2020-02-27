@@ -132,8 +132,12 @@ V命令行代码位于cmd目录
   | tables              | 对符号表对象的引用                                |
   | pref                | 对编译选项对象的引用                              |
   | module_lookup_paths | 保存模块搜索路径                                  |
+  | ...                 |                                                   |
   | compile()           | 负责启动编译                                      |
   | cc()                | 负责调用C编译器,将生成的C源代码文件生成可执行文件 |
+  | ...                 |                                                   |
+
+  
 
 - **pref.Preferences**
 
@@ -153,64 +157,77 @@ V命令行代码位于cmd目录
 
   代码生成器类,由V编译器负责创建
 
-  | 字段/方法    | 说明                                   |
-  | ------------ | -------------------------------------- |
-  | pref         | 对编译选项对象的引用                   |
-  | tables       | 对符号表对象的引用                     |
-  | checker      | 对代码检查器对象的引用                 |
-  | parsed_files | 保存语法分析器生成的文件语法树对象数组 |
-  | build_c()    | 负责编译生成C源代码                    |
-  | build_js()   | 负责编译生成js源代码                   |
-  | build_x64    | 负责编译生成x64机器码                  |
+  | 字段/方法           | 说明                               |
+  | ------------------- | ---------------------------------- |
+  | pref                | 对编译选项对象的引用               |
+  | tables              | 对符号表对象的引用                 |
+  | checker             | 对代码检查器对象的引用             |
+  | parsed_files        | 语法分析器生成的文件语法树对象数组 |
+  | module_search_paths | 模块搜索路径                       |
+  | ...                 |                                    |
+  | build_c()           | 负责编译生成C源代码                |
+  | build_js()          | 负责编译生成js源代码               |
+  | build_x64           | 负责编译生成x64机器码              |
+  | ...                 |                                    |
 
 - **parser.Parser**
 
   语法分析器,由代码生成器负责创建
 
-  | 字段/方法           | 说明                              |
-  | ------------------- | --------------------------------- |
-  | scanner             | 保存对应的词法扫描器引用          |
-  | file_name           | 保存对应的源文件                  |
-  | tables              | 对符号表对象的引用                |
-  | pref                | 对编译选项对象的引用              |
-  |                     | 其他字段都是语法分析中的过程变量: |
-  | pos                 | 当前token                         |
-  | peek_pos            | 下一个token                       |
-  | scope    &ast.Scope | 当前作用域                        |
-  | parse_file()        | 负责语法分析一个源文件            |
-  |                     | 负责语法分析一组源文件            |
+  | 字段/方法                                  | 说明                              |
+  | ------------------------------------------ | --------------------------------- |
+  | scanner                                    | 保存对应的词法扫描器引用          |
+  | file_name                                  | 保存对应的源文件                  |
+  | tables                                     | 对符号表对象的引用                |
+  | pref                                       | 对编译选项对象的引用              |
+  |                                            | 其他字段都是语法分析中的过程变量: |
+  | pos                                        | 当前token                         |
+  | peek_tok                                   | 下一个token                       |
+  | scope    &ast.Scope                        | 当前作用域                        |
+  | ...                                        |                                   |
+  | parse_file(path string,table &table.Table) | 对一个源文件进行语法分析          |
+  | parse_files(paths []string)                | 对一组源文件进行语法分析          |
+  | ...                                        |                                   |
+
+  
 
 - **table.table**
 
   符号表,保存着语法分析后,得到的所有变量,函数,类型等
 
-  | 字段/方法         | 说明                 |
-  | ----------------- | -------------------- |
-  | types             | 所有类型             |
-  | local_vars        | 所有局部变量         |
-  | fns               | 所有函数和方法       |
-  | consts            | 所有常量             |
-  | imports           | 所有导入模块         |
-  | modules           | 所有模块             |
-  | register_const()  | 注册常量到符号表     |
-  | register_global() | 注册全局变量到符号表 |
-  | register_var()    | 注册变量到符号表     |
-  | register_fn()     | 注册函数到符号表     |
-  | register_method() | 注册方法到符号表     |
-  | register_type()   | 注册类型到符号表     |
+  | 字段/方法               | 说明                 |
+  | ----------------------- | -------------------- |
+  | types   []TypeSymbol    | 所有类型             |
+  | local_vars              | 所有类型索引         |
+  | fns    map[string]Fn    | 所有函数和方法       |
+  | consts   map[string]Var | 所有常量             |
+  | imports   []string      | 所有导入模块         |
+  | modules   []string      | 所有模块             |
+  |                         |                      |
+  | register_const()        | 注册常量到符号表     |
+  | register_global()       | 注册全局变量到符号表 |
+  | register_var()          | 注册变量到符号表     |
+  | register_fn()           | 注册函数到符号表     |
+  | register_method()       | 注册方法到符号表     |
+  | register_type()         | 注册类型到符号表     |
+  | ...                     |                      |
 
 - **scanner.Scanner**
 
   词法扫描器,由语法分析器负责创建,对源文件进行逐个字节进行扫描,识别出token
 
-  | 字段/方法  | 说明                                                |
-  | ---------- | --------------------------------------------------- |
-  | file_path  | 保存扫描的当前源文件路径                            |
-  | text       | 保存文件所有内容的字符串                            |
-  |            | 其他字段全是扫描的过程变量:                         |
-  | pos        | 扫描到的当前字节位置                                |
-  | scan()     | 启动一次扫描,一次扫描返回一个token,给语法分析器使用 |
-  | scan_res() | 返回一次扫描结果                                    |
+  | 字段/方法                   | 说明                                        |
+  | --------------------------- | ------------------------------------------- |
+  | file_path                   | 保存扫描的当前源文件路径                    |
+  | text                        | 保存文件所有内容的字符串                    |
+  | 其他字段全是扫描的过程变量: |                                             |
+  | pos                         | 扫描到的当前字节位置                        |
+  | line_nr                     | 扫描到的行                                  |
+  | ...                         |                                             |
+  | scan()                      | 启动一次扫描,返回一个token,由语法分析器调用 |
+  | scan_res()                  | 返回一次扫描结果                            |
+  | ...                         | 根据指定的源文件,创建扫描器                 |
+  | ...                         |                                             |
 
 - **token.Token**
 
@@ -220,116 +237,117 @@ V命令行代码位于cmd目录
   | ---------- | ------------------------------------------------------------ |
   | kind       | token的种类                                                  |
   | lit        | string 字面量值,只有种类为name,number,str,str_inter,chartoken时才会有值 |
-  | line_nr    | 第几行                                                       |
-  | position() | 返回当前token的位置,第几行                                   |
+  | line_nr    | 行位置                                                       |
+  | pos        | 列位置                                                       |
+  | position() | 返回当前token的位置,行位置和列位置                           |
 
 - **token.Kind**
 
   词法单元种类枚举,一共有139个可以被扫描器识别的词法单元
 
-  | 枚举值            | 说明                                                      |
-  | ----------------- | --------------------------------------------------------- |
-  | eof               | 表示文件结束                                              |
-  | name              | 标识符,tokon的lit字段有具体值                             |
-  | number            | 数字,tokon的lit字段有具体值                               |
-  | str               | 字符串,tokon的lit字段有具体值                             |
-  | chartoken         | 单字符,tokon的lit字段有具体值                             |
-  | plus              | +加                                                       |
-  | minus             | -减                                                       |
-  | mul               | *乘                                                       |
-  | div               | /除                                                       |
-  | mod               | %余                                                       |
-  | xor               | ^异或                                                     |
-  | bit_not           | ~位取反                                                   |
-  | pipe              | \|管道符                                                  |
-  | hash              | # 用于C宏                                                 |
-  | amp               | &位且,也用于变量取地址                                    |
-  | inc               | ++递增                                                    |
-  | dec               | --递减                                                    |
-  | and               | &&逻辑且                                                  |
-  | logical_or        | \|\|逻辑或                                                |
-  | not               | !逻辑非                                                   |
-  | dot               | .点运算符                                                 |
-  | dotdot            | ..运算符,用于数组区间                                     |
-  | ellipsis          | ...展开符,用于函数不确定参数                              |
-  | comma             | ,逗号                                                     |
-  | semicolon         | ;分号                                                     |
-  | colon             | :冒号,用于结构体字段访问控制                              |
-  | arrow             | =>箭头                                                    |
-  | assign            | =变量赋值/分配                                            |
-  | decl_assign       | :=变量声明                                                |
-  | plus_assign       | +=加等于                                                  |
-  | minus_assign      | -=减等于                                                  |
-  | mult_assign       | *=乘等于                                                  |
-  | div_assign        | /=除等于                                                  |
-  | xor_assign        | ^=异或等于                                                |
-  | mod_assign        | %=余等于                                                  |
-  | or_assign         | \|=位或等于                                               |
-  | and_assign        | &=位且等于                                                |
-  | righ_shift_assign | \>>=位右移等于                                            |
-  | left_shift_assign | <<=位左移等于                                             |
-  | lcbr              | {左大括号                                                 |
-  | rcbr              | }右大括号                                                 |
-  | lpar              | (左小括号                                                 |
-  | rpar              | )右小括号                                                 |
-  | lsbr              | [左中括号                                                 |
-  | rsbr              | ]右中括号                                                 |
-  | eq                | ==相等                                                    |
-  | ne                | ≠不等于                                                   |
-  | gt                | >大于                                                     |
-  | lt                | <小于                                                     |
-  | ge                | >=大于等于                                                |
-  | le                | <=小于等于                                                |
-  | question          | ?问号                                                     |
-  | left_shift        | <<位左移                                                  |
-  | right_shift       | >>位右移                                                  |
-  | line_comment      | //单行注释                                                |
-  | mline_comment     | /*多行注释开头                                            |
-  | nl                | NLL空值字符                                               |
-  | dollar            | $美金符号                                                 |
-  | str_dollar        | $字符串内的美金符号                                       |
-  | keyword_beg       | 表示在keyword_beg和keyword_end之间的都是关键字,本身无意义 |
-  | key_assert        | 关键字assert                                              |
-  | key_struct        | 关键字struct                                              |
-  | key_if            | 关键字if                                                  |
-  | key_else          | 关键字else                                                |
-  | key_asm           | 关键字asm                                                 |
-  | key_return        | 关键字return                                              |
-  | key_module        | 关键字module                                              |
-  | key_sizeof        | 关键字sizeof                                              |
-  | key_go            | 关键字go                                                  |
-  | key_goto          | 关键字goto                                                |
-  | key_const         | 关键字const                                               |
-  | key_mut           | 关键字mut                                                 |
-  | key_type          | 关键字type                                                |
-  | key_for           | 关键字for                                                 |
-  | key_switch        | 关键字switch                                              |
-  | key_fn            | 关键字fn                                                  |
-  | key_true          | 关键字true                                                |
-  | key_false         | 关键字false                                               |
-  | key_continue      | 关键字continue                                            |
-  | key_break         | 关键字break                                               |
-  | key_import        | 关键字import                                              |
-  | key_embed         | 关键字embed,未使用                                        |
-  | key_unsafe        | 关键字unsafe                                              |
-  | key_typeof        | 关键字typeof                                              |
-  | key_enum          | 关键字enum                                                |
-  | key_interface     | 关键字interface                                           |
-  | key_pub           | 关键字pub                                                 |
-  | key_import_const  | 关键字import_const,用于导入C常量                          |
-  | key_in            | 关键字in                                                  |
-  | key_atomic        | 关键字atomic,未使用                                       |
-  | key_orelse        | 关键字or                                                  |
-  | key_global        | 关键字__global,全局变量                                   |
-  | key_union         | 关键字union                                               |
-  | key_static        | 关键字static,用于C函数的static                            |
-  | key_as            | 关键字as                                                  |
-  | key_defer         | 关键字defer                                               |
-  | key_match         | 关键字match                                               |
-  | key_select        | 关键字select,用于db.select                                |
-  | key_none          | 关键字none                                                |
-  | key_offsetof      | 关键字__offsetof,未使用                                   |
-  | keyword_end       | 表示在keyword_beg和keyword_end之间的都是关键字,本身无意义 |
+  | 枚举值            | 说明                                                         |
+  | ----------------- | ------------------------------------------------------------ |
+  | eof               | 表示文件结束                                                 |
+  | name              | 标识符,tokon的lit字段有具体值                                |
+  | number            | 数字,tokon的lit字段有具体值                                  |
+  | str               | 字符串,tokon的lit字段有具体值                                |
+  | chartoken         | 单字符,tokon的lit字段有具体值                                |
+  | plus              | +加                                                          |
+  | minus             | -减                                                          |
+  | mul               | *乘                                                          |
+  | div               | /除                                                          |
+  | mod               | %余                                                          |
+  | xor               | ^异或                                                        |
+  | bit_not           | ~位取反                                                      |
+  | pipe              | \|管道符                                                     |
+  | hash              | # 用于C宏                                                    |
+  | amp               | &位且,也用于变量取地址                                       |
+  | inc               | ++递增                                                       |
+  | dec               | --递减                                                       |
+  | and               | &&逻辑且                                                     |
+  | logical_or        | \|\|逻辑或                                                   |
+  | not               | !逻辑非                                                      |
+  | dot               | .点运算符                                                    |
+  | dotdot            | ..运算符,用于数组区间                                        |
+  | ellipsis          | ...展开符,用于函数不确定参数                                 |
+  | comma             | ,逗号                                                        |
+  | semicolon         | ;分号                                                        |
+  | colon             | :冒号,用于字典初始化,结构体初始化,结构体字段访问控制,goto标签 |
+  | arrow             | =>箭头                                                       |
+  | assign            | =变量赋值/分配                                               |
+  | decl_assign       | :=变量声明                                                   |
+  | plus_assign       | +=加等于                                                     |
+  | minus_assign      | -=减等于                                                     |
+  | mult_assign       | *=乘等于                                                     |
+  | div_assign        | /=除等于                                                     |
+  | xor_assign        | ^=异或等于                                                   |
+  | mod_assign        | %=余等于                                                     |
+  | or_assign         | \|=位或等于                                                  |
+  | and_assign        | &=位且等于                                                   |
+  | righ_shift_assign | \>>=位右移等于                                               |
+  | left_shift_assign | <<=位左移等于                                                |
+  | lcbr              | {左大括号                                                    |
+  | rcbr              | }右大括号                                                    |
+  | lpar              | (左小括号                                                    |
+  | rpar              | )右小括号                                                    |
+  | lsbr              | [左中括号                                                    |
+  | rsbr              | ]右中括号                                                    |
+  | eq                | ==相等                                                       |
+  | ne                | ≠不等于                                                      |
+  | gt                | >大于                                                        |
+  | lt                | <小于                                                        |
+  | ge                | >=大于等于                                                   |
+  | le                | <=小于等于                                                   |
+  | question          | ?问号                                                        |
+  | left_shift        | <<位左移                                                     |
+  | right_shift       | >>位右移                                                     |
+  | line_comment      | //单行注释                                                   |
+  | mline_comment     | /*多行注释开头                                               |
+  | nl                | NLL空值字符                                                  |
+  | dollar            | $美金符号                                                    |
+  | str_dollar        | $字符串内的美金符号                                          |
+  | keyword_beg       | 表示在keyword_beg和keyword_end之间的都是关键字,本身无意义    |
+  | key_assert        | 关键字assert                                                 |
+  | key_struct        | 关键字struct                                                 |
+  | key_if            | 关键字if                                                     |
+  | key_else          | 关键字else                                                   |
+  | key_asm           | 关键字asm                                                    |
+  | key_return        | 关键字return                                                 |
+  | key_module        | 关键字module                                                 |
+  | key_sizeof        | 关键字sizeof                                                 |
+  | key_go            | 关键字go                                                     |
+  | key_goto          | 关键字goto                                                   |
+  | key_const         | 关键字const                                                  |
+  | key_mut           | 关键字mut                                                    |
+  | key_type          | 关键字type                                                   |
+  | key_for           | 关键字for                                                    |
+  | key_switch        | 关键字switch                                                 |
+  | key_fn            | 关键字fn                                                     |
+  | key_true          | 关键字true                                                   |
+  | key_false         | 关键字false                                                  |
+  | key_continue      | 关键字continue                                               |
+  | key_break         | 关键字break                                                  |
+  | key_import        | 关键字import                                                 |
+  | key_embed         | 关键字embed,未使用                                           |
+  | key_unsafe        | 关键字unsafe                                                 |
+  | key_typeof        | 关键字typeof                                                 |
+  | key_enum          | 关键字enum                                                   |
+  | key_interface     | 关键字interface                                              |
+  | key_pub           | 关键字pub                                                    |
+  | key_import_const  | 关键字import_const,用于导入C常量                             |
+  | key_in            | 关键字in                                                     |
+  | key_atomic        | 关键字atomic,未使用                                          |
+  | key_orelse        | 关键字or                                                     |
+  | key_global        | 关键字__global,全局变量                                      |
+  | key_union         | 关键字union                                                  |
+  | key_static        | 关键字static,用于C函数的static                               |
+  | key_as            | 关键字as                                                     |
+  | key_defer         | 关键字defer                                                  |
+  | key_match         | 关键字match                                                  |
+  | key_select        | 关键字select,用于db.select                                   |
+  | key_none          | 关键字none                                                   |
+  | key_offsetof      | 关键字__offsetof,未使用                                      |
+  | keyword_end       | 表示在keyword_beg和keyword_end之间的都是关键字,本身无意义    |
 
 - **table.Fn**
   
