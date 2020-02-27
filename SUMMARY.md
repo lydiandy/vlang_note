@@ -3,7 +3,7 @@
 
 * [V语言学习笔记](README.md)
 
-* ---
+* --
 
 * [快速总览](content/overview.md)
 

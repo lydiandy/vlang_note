@@ -1,8 +1,10 @@
 ## 附录1 关键字
 
-V语言目前有25个关键字:
+V语言关键字:
 
-```
+```c
+as
+asm
 break 
 const  
 continue
@@ -13,6 +15,7 @@ fn
 for
 go
 goto
+global
 if
 import
 in
@@ -25,19 +28,18 @@ or
 pub
 return
 struct
+select //db.select使用到
+unsafe
 union
 type
-select //db.select使用到
 ```
-
-
 
 这几个没有列在关键字中,但是跟关键字的效果基本一致:
 
-```
+```c
 assert
-as
 sizeof
+typeof
 C
 ```
 
