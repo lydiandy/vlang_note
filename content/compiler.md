@@ -115,9 +115,9 @@ V命令行代码位于cmd目录
 
 ![](/../content/compiler.assets/V编译器类.jpg)
 
-主要的调用关系是:compiler.V=>builder.Builder=>parser.Parser=>scanner.Scanner
+**主要的调用关系是:compiler.V=>builder.Builder=>parser.Parser=>scanner.Scanner**
 
-类和枚举说明:
+**类和枚举说明:**
 
 - **compiler.V**
 
@@ -243,7 +243,7 @@ V命令行代码位于cmd目录
   | bit_not           | ~位取反                                                   |
   | pipe              | \|管道符                                                  |
   | hash              | # 用于C宏                                                 |
-  | amp               | &位且                                                     |
+  | amp               | &位且,也用于变量取地址                                    |
   | inc               | ++递增                                                    |
   | dec               | --递减                                                    |
   | and               | &&逻辑且                                                  |
@@ -254,7 +254,7 @@ V命令行代码位于cmd目录
   | ellipsis          | ...展开符,用于函数不确定参数                              |
   | comma             | ,逗号                                                     |
   | semicolon         | ;分号                                                     |
-  | colon             | :冒号                                                     |
+  | colon             | :冒号,用于结构体字段访问控制                              |
   | arrow             | =>箭头                                                    |
   | assign            | =变量赋值/分配                                            |
   | decl_assign       | :=变量声明                                                |
@@ -284,7 +284,7 @@ V命令行代码位于cmd目录
   | left_shift        | <<位左移                                                  |
   | right_shift       | >>位右移                                                  |
   | line_comment      | //单行注释                                                |
-  | mline_comment     | /*  */多行注释,表示左,还是右?                             |
+  | mline_comment     | /*多行注释开头                                            |
   | nl                | NLL空值字符                                               |
   | dollar            | $美金符号                                                 |
   | str_dollar        | $字符串内的美金符号                                       |
