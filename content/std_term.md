@@ -45,6 +45,10 @@ fn main() {
 
 **终端字体颜色,背景色,粗体,斜体,下划线等设置**
 
+- get_terminal_size() (int,int)
+
+  获取终端窗口的大小,行数和列数
+
 - bg_blue(msg string) string
 
   返回红色背景色的文字
