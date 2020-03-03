@@ -53,10 +53,6 @@
 
 ### 目录相关
 
-- dir(path string) string 
-
-    返回路径中的目录部分
-
 - getwd() string
 
     返回当前工作目录
@@ -64,18 +60,6 @@
 - chdir(string)
 
     改变当前工作目录
-
-- ext(path string) string
-
-    返回文件的扩展名,如果没有扩展名则返回点号
-
-- basedir(path string) string
-
-    返回路径中的目录部分
-
-- filename(path string) string
-
-    返回目录的文件名部分
 
 - clear() 
 

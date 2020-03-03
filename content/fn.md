@@ -223,3 +223,15 @@ pub fn width() int {
 ```
 
 详细参考:[调用C代码库](./c.md)
+
+### 函数作废
+
+模块发布给其他用户使用后,如果模块的某个函数想要声明作废,可以这么使用:
+
+```c
+[deprecated] //函数标注作废
+pub fn ext(path string) string {
+	panic('Use `filepath.ext` instead of `os.ext`') //结合panic进行报错提示
+}
+```
+

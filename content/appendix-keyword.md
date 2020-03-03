@@ -5,6 +5,8 @@ V语言关键字:
 ```c
 as
 asm
+assert
+atomic
 break 
 const  
 continue
@@ -37,7 +39,6 @@ type
 这几个没有列在关键字中,但是跟关键字的效果基本一致:
 
 ```c
-assert
 sizeof
 typeof
 C
