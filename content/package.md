@@ -31,7 +31,7 @@ v install regex
 
 ```
 git clone https://github.com/xxx //下载源代码
-ln -s xxx ~/.vmodules/xxx //创建目录链接
+ln -s xxx ~/.vmodules/xxx //创建目录链接,记得使用绝对路径
 ```
 
 常用的模块管理命令:
