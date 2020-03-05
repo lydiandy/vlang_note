@@ -687,9 +687,11 @@ LineComment | MultiLineComment
 
 
 
-实际代码生成的语法树对象实在是太大,嵌套层级多
+可以使用vast这个工具,从V源文件生成AST json文件,这样就可以直观地看到AST:
 
-可以对着V源代码,按着语法分析器的分析方式,想象生成的语法树对象
+```
+https://github.com/lydiandy/vast
+```
 
 以下仅是举例,生成的语法树JSON方式表示如下:
 
@@ -697,7 +699,7 @@ LineComment | MultiLineComment
 /main.v生成的语法树为例
 {
   "path": "path/to/main.v",
-  "module": {
+  "mod": {
     //Module类型
     "name": "main",
     "path": "path/to/main.v",
