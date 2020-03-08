@@ -89,8 +89,6 @@
 
 * [runtime](content/runtime.md)
 
-* [filepath](content/std_filepath.md)
-
 * [time](content/std_time.md)
 
 * [math](content/std_math.md)
