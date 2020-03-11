@@ -4,7 +4,11 @@
 
 - getenv(key string) string    
 
-    获取环境变量,如果没有指定的环境变量,则返回空字符串
+    获取指定的环境变量,如果没有指定的环境变量,则返回空字符串
+
+- environ() map[string] string
+
+    获取所有的环境变量
 
 - setenv(name string, value string,overwrite bool) int 
 
