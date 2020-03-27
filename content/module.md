@@ -10,21 +10,21 @@ V语言是一个非常模块化的语言
 
 主模块:
 
-```
-module main //主模块
+```v
+//主模块
+module main
 
-fn main() { //在主模块中定义主函数,主函数是程序运行的起点
+//在主模块中定义主函数,主函数是程序运行的起点
+fn main() {
 	
 }
 ```
 
 主模块及其依赖模块,编译后会生成对应平台的单一可执行文件
 
-
-
 库模块:
 
-```
+```v
 module mymodule
 
 fn myfn() {
@@ -49,7 +49,7 @@ import strings
 
 分组导入:
 
-```c
+```v
 import (
 	os
 	strings
@@ -58,7 +58,7 @@ import (
 
 导入模块取别名:
 
-```c
+```v
 import time as t
 import (
 	mymodule as mymod
@@ -67,13 +67,11 @@ import (
 
 导入子模块:
 
-```c
+```v
 import mymodule.submodule
 ```
 
 模块对应的就是文件系统的目录,子模块对应的就是子目录,通过点号来表示子模块
-
-
 
 导入其他模块后,就形成了模块依赖,模块间不允许循环依赖,编译器在编译时会进行检查
 
@@ -101,13 +99,11 @@ import mymodule.submodule
 module mymodule
 ```
 
-
-
-我们看一下完整的模块定义和导入的代码:
+举例:
 
 mymodule.v
 
-```
+```v
 module mymodule
 
 // pub是函数的访问控制,只有公共的函数才可以被其他模块使用,没有pub的只能在模块内部使用
@@ -118,7 +114,7 @@ pub fn say_hi() {
 
  main.v
 
-```
+```v
 module main
 
 import mymodule //导入
@@ -128,13 +124,15 @@ fn main() {
 }
 ```
 
-### 模块的初始化函数
+
+
+### 模块初始化函数
 
 如果在模块中定义了init函数,当模块被导入时,init函数会被自动调用
 
 mymodule.v
 
-```
+```v
 module mymodule
 
 fn init() {
@@ -148,7 +146,7 @@ pub fn my_fn() {
 
 main.v
 
-```
+```v
 module main
 
 import mymodule
@@ -166,20 +164,6 @@ from my_fn
 ```
 
 同一个模块内只能定义一个init函数,如果在模块中定义了多个init函数,编译会不通过
-
-### 模块目录中的源文件
-
-在模块目录中
-
-后缀为_test.v结尾的是测试文件,v test xxx可以执行测试文件
-
-后缀为 _nix 的源文件,表示linux,unix,mac下才会编译
-
-后缀为_darwin的源文件,表示在mac下才会编译
-
-后缀为_linux的源文件,表示在linux下才会编译
-
-后缀为 _windows的源文件,表示在windows下才会编译
 
 
 
