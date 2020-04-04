@@ -4,7 +4,7 @@
 
 bool
 
-bool类型的值只能是:true或false
+bool类型的值只能是true或false
 
 ------
 
@@ -16,7 +16,9 @@ println(y) //false
 println(sizeof(bool)) //4
 ```
 
-bool从定义的C代码看，是C的一个int类型别名,true是常量1，false是常量0
+bool类型从定义的C代码看，是C的一个int类型别名
+
+true是常量1，false是常量0
 
 使用sizeof(bool)，可以看到bool类型的长度是4个字节
 
