@@ -25,7 +25,7 @@ v -o main.c ./main.v
 ```
 
 ```c
-v -pretty_c -o main.c ./main.v //增加-pretty_c选项,生成格式化后的C文件,需要先安装clang-format工具
+v -csource prettify -o main.c ./main.v //增加-csource prettify选项,生成格式化后的C文件,需要先安装clang-format工具
 ```
 
 通过查看V代码生成的C代码,可以更容易理解V编译器是如何编译的

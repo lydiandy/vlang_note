@@ -250,9 +250,9 @@ fn main() {
 
 详细内容可以参考:[不安全代码](./unsafe.md)
 
-### 获取类型占用内存大小sizeof()
+### 类型占用内存大小sizeof()
 
-可以通过内置的sizeof(T)来返回各种类型占用的内存大小
+使用内置函数sizeof(T)来返回类型占用内存大小
 
 ```c
 println(sizeof(int)) //4
@@ -260,9 +260,9 @@ println(sizeof(byte)) //1
 println(sizeof(bool)) //4
 ```
 
-### 获取变量类型typeof()
+### 变量类型typeof()
 
-可以使用内置的typeof(var)来获取变量的类型
+使用内置函数typeof(var)来返回变量的类型
 
 ```c
 module main
@@ -322,8 +322,8 @@ fn main(){
 	b:=byte(8) //明确指定类型为byte
 	ii:=int(b) //强制转换为int
 
-	f:=3.2 //默认推断类型为f32
-	ff:=f64(3.2) //明确指定类型为f64
+	f:=3.2 //默认推断类型为f64
+	ff:=f32(3.2) //明确指定类型为f32
 	f3:=f64(f) //强制转换为f64
 
 	s:='abc' //默认推断为string	
