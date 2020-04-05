@@ -1,20 +1,20 @@
 ## 代码测试
 
-**编写测试文件**
+### 编写测试文件
 
 模块目录中:
 
-代码测试文件:以 xxx_test.v结尾
+测试文件:以 xxx_test.v结尾
 
-测试文件中的测试函数,以test_xxx开头
+测试函数:以test_xxx()开头
 
-**assert 断言**
+### assert 断言
 
-如果assert后面的表达式不为true，就是测试不通过
+assert后面的表达式结果不为true，即为测试不通过
 
-vlib/builtin/string_test.v
+举例:vlib/builtin/string_test.v
 
-```
+```c
 fn test_add() {
 	mut a := 'a'
 	a += 'b'
@@ -40,15 +40,19 @@ fn test_between() {
 }
 ```
 
-**执行测试:**
+### 执行测试
 
-单个测试文件执行：
+执行单个测试文件：
 
-v run xxx_test.v
+```shell
+v test xxx_test.v
+```
 
-执行模块的所有测试文件：
+执行模块中的所有测试文件：
 
-v test xxx
+```shell
+v test xxx(模块名/目录名)
+```
 
 会逐个执行模块中的所有测试文件,所有以test_开头的测试函数
 
