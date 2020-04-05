@@ -16,7 +16,7 @@ V语言的开发重点在编译器前端,C就是编译器后端
 
 ### 查看生成的C代码
 
-想要查看V代码生成的C代码,只要增加-o参数就可以了,编译器只会生成C代码
+想要查看V代码生成的C代码,只要使用-o参数就可以了,编译器会生成C代码
 
 比如,想把当前目录的main.v代码生成main.c代码,执行以下命令就可以:
 
@@ -39,25 +39,38 @@ v的基本类型通过C的类型别名typedef来实现
 typedef int64_t i64;
 typedef int16_t i16;
 typedef int8_t i8;
+
 typedef uint64_t u64;
 typedef uint32_t u32;
 typedef uint16_t u16;
 typedef uint8_t byte;
+
 typedef uint32_t rune;
+
 typedef float f32;
 typedef double f64;
+
 typedef unsigned char* byteptr; //字节指针
 typedef int* intptr; //整型指针
 typedef void* voidptr; //通用指针
+typedef char* charptr; //C字符指针
+
 typedef struct array array;
 typedef struct map map;
+
 typedef array array_string;
 typedef array array_int;
 typedef array array_byte;
 typedef array array_f32;
 typedef array array_f64;
+typedef array array_u16;
+typedef array array_u32;
+typedef array array_u64;
 typedef map map_int;
 typedef map map_string;
+typedef byte array_fixed_byte_300 [300];
+typedef byte array_fixed_byte_400 [400];
+
 #ifndef bool
 	typedef int bool; //布尔类型在C里面通过int类型来实现,4字节
 	#define true 1 //true是整数常量1
@@ -70,21 +83,21 @@ typedef map map_string;
 
 #### 常量
 
-int,bool类型,生成C的宏定义:
+int类型常量,生成C的宏定义:
 
 ```c
 //V代码
 const (
 	i=1 //int类型的常量
-    b=true //booll类型的常量
 )
 
 //C代码
-#define main__i  1
-#define main__b  1
+#define _const_i 1 //整数类型的常量通过C宏定义
 ```
 
-其他类型生成C的全局变量,常量的不可修改,由V编译器负责检查
+其他类型常量,生成C的全局变量,常量的不可修改,由V编译器负责检查
+
+这样就很好理解,V语言中的常量可以是任何类型,跟变量一样,甚至可以是函数调用的结果
 
 ```c
 //V代码
@@ -98,46 +111,55 @@ const (
 	g=u64(17)
 	h=f32(1.1)
 	i=f64(1.2)
+  bb=true
 )
 //C代码
-i8 main__a;
-i16 main__b;
-i64 main__c;
-byte main__d;
-u16 main__e;
-u32 main__f;
-u64 main__g;
-f32 main__h;
-f64 main__i;
-main__a =  ((i8)( 11 ) );
-main__b =  ((i16)( 12 ) );
-main__c =  ((i64)( 13 ) );
-main__d =  ((byte)( 14 ) );
-main__e =  ((u16)( 15 ) );
-main__f =  ((u32)( 16 ) );
-main__g =  ((u64)( 17 ) );
-main__h =  ((f32)( 1.1 ) );
-main__i =  ((f64)( 1.2 ) );
+i8 _const_a; // inited later
+i16 _const_b; // inited later
+i64 _const_c; // inited later
+byte _const_d; // inited later
+u16 _const_e; // inited later
+u32 _const_f; // inited later
+u64 _const_g; // inited later
+f32 _const_h; // inited later
+f64 _const_i; // inited later
+bool _const_bb; // inited later
+
+void _vinit() { //然后在_vinit函数进行初始化
+  _const_a = ((i8)(11));
+	_const_b = ((i16)(12));
+	_const_c = ((i64)(13));
+	_const_d = ((byte)(14));
+	_const_e = ((u16)(15));
+	_const_f = ((u32)(16));
+	_const_g = ((u64)(17));
+	_const_h = ((f32)(1.1));
+	_const_i = ((f64)(1.2));
+	_const_bb = true;
+}
 ```
 
 #### 枚举
 
 ```c
 //V代码
-enum Color {
-	blue = 1
+pub enum Color {
+	blue =1			//如果没有指定初始值，默认从0开始，然后往下递增1
 	green
-	red
+	white
+	black
 }
 c := Color.blue
+  
 //C代码
-typedef int Color;
+typedef enum {
+	Color_blue = 1 ,
+	Color_green, // 1
+	Color_white, // 2
+	Color_black, // 3
+} Color;
 
-#define main__Color_blue 1 
-#define main__Color_green 2
-#define main__Color_red 3
-
-Color c= main__Color_blue ;
+Color c = Color_blue;
 ```
 
 #### 模块
@@ -146,18 +168,24 @@ V的模块,在生成对应C代码后,只是对应元素名称的前缀,毕竟C�
 
 常量,结构体,接口,类型等一级元素生成C代码后的名称规则是:"模块名__名称",用双下划线区隔
 
-例如主模块中的add()函数生成C代码后的名称为:main__add()
+模块中的add()函数生成C代码后的名称为:mymodule__add()
 
 结构体的方法等二级元素生成C代码后的名称规则是:"模块名 __ 类名 _ 方法名",用单下划线区隔
 
-例主模块中的Color结构体的str()方法生成C代码后的名称为:main__Color_str()
+例模块中的Color结构体的str()方法生成C代码后的名称为:mymodule__Color_str()
 
 #### 函数
 
-生成等价的C的函数
+主模块中的主函数和函数,生成等价的C的函数
 
 ```c
 //V代码
+module main 
+fn main() {
+	println('from main')
+	add(1,3)
+} 
+
 pub fn add(x,y int) int { //pub的模块访问控制由V编译器负责检查,C没有pub的对应
 	if x>0 {
 		return x+y
@@ -165,15 +193,23 @@ pub fn add(x,y int) int { //pub的模块访问控制由V编译器负责检查,C�
 		return x+y
 	}
 }
-//C代码
-int main__add (int x, int y); //函数声明
 
-int main__add(int x, int y) {
-  if (x > 0) {
-    return x + y;
-  } else {
-    return x + y;
-  };
+//C代码
+int add(int x, int y); //函数声明
+
+int main(int ___argc, char** ___argv) {  //主函数生成主函数
+	_vinit(); //先执行初始化函数
+	println(tos3("from main"));
+	add(1, 3);
+	return 0;
+}
+
+int add(int x, int y) { 
+	if (x > 0) {
+		return x + y;
+	} else {
+		return x + y;
+	}
 }
 ```
 
@@ -205,24 +241,38 @@ fn defer_fn2(){
     println('from defer_fn2')
 }
 //C代码
-void main__main() {
-  println(tos3("main start"));
-  if (1 < 2) {
-    { main__defer_fn2();} //defer语句之后的所有return语句之前
-    { main__defer_fn1(); }//defer语句之后的所有return语句之前
-    return;
-  };
-  if (1 == 1) {
-    { main__defer_fn2(); }//defer语句之后的所有return语句之前
-    { main__defer_fn1(); }//defer语句之后的所有return语句之前
-    return;
-  };
-  println(tos3("main end"));
-  { main__defer_fn2(); } //函数末尾
-  { main__defer_fn1(); } //函数末尾
+int main(int ___argc, char** ___argv) { 
+	_vinit();
+	println(tos3("main start"));
+	if (1 < 2) {
+		// defer
+			defer_fn1();//defer语句之后的所有return语句之前
+		// defer
+			defer_fn2();//defer语句之后的所有return语句之前
+		return 0;
+	}
+	if (1 == 1) {
+		// defer
+			defer_fn1();//defer语句之后的所有return语句之前
+		// defer
+			defer_fn2();//defer语句之后的所有return语句之前
+		return 0;
+	}
+	println(tos3("main end"));
+  // defer
+	defer_fn1();//函数末尾
+// defer
+	defer_fn2();//函数末尾
+	return 0;
 }
-void main__defer_fn1() { println(tos3("from defer_fn1")); }
-void main__defer_fn2() { println(tos3("from defer_fn2")); }
+
+void defer_fn1() { 
+	println(tos3("from defer_fn1"));
+}
+
+void defer_fn2() { 
+	println(tos3("from defer_fn2"));
+}
 ```
 
 函数不确定个数参数
