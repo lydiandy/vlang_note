@@ -24,10 +24,6 @@ V语言的开发重点在编译器前端,C就是编译器后端
 v -o main.c ./main.v 
 ```
 
-```c
-v -csource prettify -o main.c ./main.v //增加-csource prettify选项,生成格式化后的C文件,需要先安装clang-format工具
-```
-
 通过查看V代码生成的C代码,可以更容易理解V编译器是如何编译的
 
 ### 基本类型对应
@@ -261,7 +257,7 @@ int main(int ___argc, char** ___argv) {
 	println(tos3("main end"));
   // defer
 	defer_fn1();//函数末尾
-// defer
+	// defer
 	defer_fn2();//函数末尾
 	return 0;
 }
