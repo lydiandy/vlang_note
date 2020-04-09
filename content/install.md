@@ -2,13 +2,17 @@
 
 ### 源代码安装
 
-目前V语言还处在快速开发的不稳定阶段,首选使用源代码安装方式.
+目前V语言还处在快速开发的不稳定阶段,首选源代码安装方式.
 
 #### 编译准备
 
-目前V语言的编译需要依赖C编译器:gcc或clang,
+目前V语言的编译需要依赖C编译器:gcc或clang
 
-在命令行执行gcc -v 看看是否已经安装了编译器
+如果没有C编译器,可以参考以下文档,进行安装:
+
+[windows下安装C编译器](https://github.com/vlang/v/wiki/Installing-a-C-compiler-on-Windows)
+
+[linux/macOS下安装C编译器](https://github.com/vlang/v/wiki/Installing-a-C-compiler-on-Linux-and-macOS)
 
 #### 下载源码/编译
 
@@ -18,16 +22,16 @@ cd v
 make
   ```
 
-编译成功后,会在当前目录生成v可执行文件
+编译成功后,会在当前目录生成V编译器的可执行文件,大小不到700k,小巧得很.
 
-可以使用v version查看当前的v版本
+可以使用v version查看当前的版本
 
 #### 后续升级
 
 方式一:
 
   ```c
-v up //该命令会更新github上的主干代码,然后自动重新编译
+v up //抓取github上V代码库的主干代码,然后自动重新编译
   ```
 
 方式二:
