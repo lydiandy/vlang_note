@@ -58,7 +58,6 @@
 * [eventbus](content/eventbus.md)
 * [regex](content/regex.md)
 * [crypto](content/crypto.md)
-* [compiler](content/std_compiler.md)
 * --
 * [数据库相关库:](content/pg.md)
 * [pg](content/pg.md)
