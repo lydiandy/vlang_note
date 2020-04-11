@@ -106,16 +106,24 @@ mut arr := []&int
 
 ### in操作符
 
-判断一个元素是否在数组里面
+判断元素是否在数组里
 
 ```c
 mut names := ['John']
 names << 'Peter'
 names << 'Sam'
-println('Alex' in names) // "false"
+println('Alex' in names) //false
 ```
 
-### 遍历数组
+### !in操作符
+
+in的反操作符,判断元素是否不在数组里
+
+```c
+println('aa' !in names) //true
+```
+
+遍历数组
 
 ```c
 numbers := [1, 2, 3, 4, 5]
