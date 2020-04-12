@@ -83,5 +83,5 @@
 * --
 * [附录1 关键字](content/appendix-keyword.md)
 * [附录2 编码风格](content/style.md)
-* [附录3  V工具链使用](content/toolchain.md)
+* [附录3  V编译器命令行使用](content/toolchain.md)
 
