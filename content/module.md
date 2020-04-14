@@ -40,14 +40,7 @@ fn myfn() {
 
 导入模块的关键字是import
 
-单行导入:
-
-```c
-import os
-import strings
-```
-
-分组导入:
+不管导入的是一个模块还是多个模块,必须要有小括号
 
 ```v
 import (
@@ -59,8 +52,8 @@ import (
 导入模块取别名:
 
 ```v
-import time as t
 import (
+	time as t
 	mymodule as mymod
 )
 ```
@@ -68,7 +61,9 @@ import (
 导入子模块:
 
 ```v
-import mymodule.submodule
+import (
+	mymodule.submodule
+)
 ```
 
 模块对应的就是文件系统的目录,子模块对应的就是子目录,通过点号来表示子模块
@@ -117,8 +112,9 @@ pub fn say_hi() {
 ```v
 module main
 
-import mymodule //导入
-
+import (
+	mymodule //导入
+)
 fn main() {
 	mymodule.say_hi() //使用
 }
@@ -149,7 +145,9 @@ main.v
 ```v
 module main
 
-import mymodule
+import (
+	mymodule
+)
 
 fn main() {
     mymodule.my_fn()
