@@ -47,6 +47,8 @@ import (
 	os
 	strings
 )
+
+import os //单行导入会被逐步取消,只保留多行导入,跟const定义的风格一致
 ```
 
 导入模块取别名:
