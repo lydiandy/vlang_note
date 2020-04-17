@@ -34,38 +34,26 @@ fn myfn() {
 
 库模块编译后会生成对应的库文件,文件扩展名为.o
 
-
-
 ### 导入模块
 
 导入模块的关键字是import
 
-不管导入的是一个模块还是多个模块,必须要有小括号
-
 ```v
-import (
-	os
-	strings
-)
-
-import os //单行导入会被逐步取消,只保留多行导入,跟const定义的风格一致
+import os
+import strings
 ```
 
 导入模块取别名:
 
 ```v
-import (
-	time as t
-	mymodule as mymod
-)
+import time as t
+import mymodule as mymod
 ```
 
 导入子模块:
 
 ```v
-import (
-	mymodule.submodule
-)
+import mymodule.submodule
 ```
 
 模块对应的就是文件系统的目录,子模块对应的就是子目录,通过点号来表示子模块
@@ -77,8 +65,6 @@ import (
 开发模式(v run xxx)下,编译器只是警告，仍然继续编译,方便开发调试，而不用去临时注释掉
 
 生产编译模式(v -prod xxx)下，编译器会报错，停止编译
-
-
 
 ### 定义模块
 
@@ -114,15 +100,12 @@ pub fn say_hi() {
 ```v
 module main
 
-import (
-	mymodule //导入
-)
+import mymodule //导入
+
 fn main() {
 	mymodule.say_hi() //使用
 }
 ```
-
-
 
 ### 模块初始化函数
 
@@ -147,9 +130,8 @@ main.v
 ```v
 module main
 
-import (
-	mymodule
-)
+import mymodule
+
 
 fn main() {
     mymodule.my_fn()
