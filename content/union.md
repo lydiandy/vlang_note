@@ -79,7 +79,7 @@ fn main() {
 	i:=123
 	s:='abc'
 	u:=User{name:'tom',age:33}
-	mut res:=MySum{} //声明联合类型变量
+	var res:=MySum{} //声明联合类型变量
 	res=i
 	println(res) //输出123
 	res=s

@@ -315,7 +315,7 @@ V命令行代码位于cmd目录
   | key_go            | 关键字go                                                     |
   | key_goto          | 关键字goto                                                   |
   | key_const         | 关键字const                                                  |
-  | key_mut           | 关键字mut                                                    |
+  | key_var           | 关键字var                                                    |
   | key_type          | 关键字type                                                   |
   | key_for           | 关键字for                                                    |
   | key_switch        | 关键字switch                                                 |

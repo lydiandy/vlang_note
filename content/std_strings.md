@@ -4,9 +4,9 @@
 
 ```c
 pub struct Builder {
-mut:
+var:
 	buf          []byte //以字节数组的方式存储字符串,并可以追加内容到字节数组中
-pub mut:
+pub var:
 	len          int //动态字符串长度
 	initial_size int=1 //初始大小
 }

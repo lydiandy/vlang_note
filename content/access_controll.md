@@ -24,7 +24,7 @@ pub struct Point { //公共结构体
 	x int
 	y int
 }
-pub fn (p mut Point) move(x,y int) {  //公共方法
+pub fn (var p Point) move(x,y int) {  //公共方法
 	p.x+=x
 	p.u+=y
 }
@@ -43,19 +43,19 @@ pub type myint int //公共类型别名
 
 pub可以变为公有
 
-mut可以变为可变
+var可以变为可变
 
 有以下4种常用的组合,以及1种不推荐使用的全局字段:__global
 
 ```c
 struct Foo {
 	a int     //私有,不可变(默认).在模块内部可访问,不可修改;模块外不可访问,不可修改
-mut: 
+var: 
 	b int     // 私有,可变.在模块内部可访问,可修改,模块外部不可访问,不可修改
 	c int     // (相同访问控制的字段可以放在一起)   
 pub: 
 	d int   // 公共,不可变,只读.在模块内部和外部都可以访问,但是不可修改
-pub mut: 
+pub var: 
 	e int  //公共,模块内部可访问,可修改;模块外部可访问,但是不可修改
 __global:
 	f int // 全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用

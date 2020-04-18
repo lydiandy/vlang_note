@@ -120,7 +120,7 @@ pub enum OS {
 pub fn my_fn(x,y int) int {
     i:=1 //强类型，类型推断
     s:='abc' //变量默认不可变,约定用单引号表示字符串,双引号也可以,反引号才是单字符
-    mut a:=3 //可变用mut
+    var a:=3 //可变用var
     a=5 //声明可变后,才可修改
     return a
 }
@@ -132,12 +132,12 @@ pub fn g_fn<T>(p T) T {
 //4.结构体-结构体定义
 pub struct Point { //结构体字段一共有5种访问控制
   a int  //默认私有且不可变
-mut:     //私有，但可变
+var:     //私有，但可变
 	x int
 	y int
 pub:    //公共，但不可变
 	d int 
-pub mut:
+pub var:
     e int //模块内可访问且可变;模块外可访问,但是只读
 __global:
 	f int //全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用
@@ -146,12 +146,12 @@ __global:
 //4.结构体-泛型结构体
 struct Repo<T> {
 	db DB
-mut:
+var:
 	model  T
 }
 
 //5.方法-方法只是指定了接收者的函数，跟go一样
-pub fn (p mut Point) move(x,y int) {
+pub fn (var p Point) move(x,y int) {
     p.x+=x
     p.y+=y
 }

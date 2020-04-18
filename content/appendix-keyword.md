@@ -24,7 +24,7 @@ in
 interface
 match
 module
-mut
+var
 none
 or
 pub

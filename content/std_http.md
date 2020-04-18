@@ -14,7 +14,7 @@ pub:
 	url        string
 	user_agent string
 	verbose    bool
-mut:
+var:
 	user_ptr   voidptr
 	ws_func    voidptr
 }

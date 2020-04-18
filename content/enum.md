@@ -12,7 +12,7 @@ pub enum Color {
 	black
 }
 fn main() {
-    mut c:=Color.green //第一次定义要使用：枚举名称.枚举值
+    var c:=Color.green //第一次定义要使用：枚举名称.枚举值
     println(c) //目前只能输出枚举值1,还没有办法返回枚举值的名称
 
     c=.blue //第二次修改赋值，直接使用.枚举值就可以了
@@ -36,7 +36,7 @@ enum Color3 {
 	black
 }
 fn main() {
-    mut c:=Color.green
+    var c:=Color.green
     println(c) //输出4
 
     c=.blue

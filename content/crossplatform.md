@@ -63,7 +63,7 @@ $if debug {
 
 ```c
 fn main() {
-	mut x := 0
+	var x := 0
 	$if x32 {
 		println('system is 32 bit')
 		x = 1
@@ -79,7 +79,7 @@ fn main() {
 
 ```c
 fn main() {
-	mut x := 0
+	var x := 0
 	$if little_endian { //小字节序
 		println('system is little endian')
 		x = 1

@@ -16,7 +16,7 @@ assert后面的表达式结果不为true，即为测试不通过
 
 ```c
 fn test_add() {
-	mut a := 'a'
+	var a := 'a'
 	a += 'b'
 	assert a==('ab')
 	a = 'a'
