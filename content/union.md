@@ -21,23 +21,27 @@ pub type Expr = Foo | BoolExpr |  BinExpr | UnaryExpr
 
 - 联合类型作为函数的参数或返回值,也可以作为变量声明,结构体字段
 - 使用match语句,进行类型的进一步判断
+- 也可使用is关键字,进行类型的进一步判断,比match更简单,毕竟match要求匹配所有可能
 
 ```c
 module main
 
 struct User {
 	name string
-	age int
+	age  int
 }
+
 pub fn (m &User) str() string {
 	return 'name:$m.name,age:$m.age'
 }
 
-type MySum= int|string|User //联合类型声明
-
+type MySum = int | string | User // 联合类型声明
 pub fn (ms MySum) str() string {
+	if ms is int { // 使用is关键字,判断联合类型具体是哪种类型
+		println('ms type is int')
+	}
 	match ms {
-		int { //会在这个代码块中,自动生成一个类型为int,名为it的变量,可以直接使用
+		int { // 会在这个代码块中,自动生成一个类型为int,名为it(迭代器iterator的缩写)的变量,可以直接使用
 			return it.str()
 		}
 		string {
@@ -52,55 +56,50 @@ pub fn (ms MySum) str() string {
 	}
 }
 
-pub fn add(ms MySum) { //联合类型作为参数
-	match ms { //可以对接收到的联合类型,使用match语句,进行类型判断
-
-		int { //会在这个代码块中,自动生成一个类型为int,名为it的变量,可以直接使用
-			println('ms is int,value is $it.str()')	
+pub fn add(ms MySum) { // 联合类型作为参数
+	match ms { // 可以对接收到的联合类型,使用match语句,进行类型判断
+		int { // 会在这个代码块中,自动生成一个类型为int,名为it(迭代器iterator的缩写)的变量,可以直接使用
+			println('ms is int,value is $it.str()')
 		}
 		string {
-			println('ms is string,value is $it')	
+			println('ms is string,value is $it')
 		}
 		User {
-			println('ms is User,value is $it.str()')	
+			println('ms is User,value is $it.str()')
 		}
 		else {
 			println('unknown')
 		}
 	}
 }
-pub fn sub(i int,s string,u User) MySum { //联合类型作为返回值
+
+pub fn sub(i int, s string, u User) MySum { // 联合类型作为返回值
 	return i
 	// return s //这个也可以
 	// return User{name:'tom',age:3} //这个也可以
 }
 
 fn main() {
-	i:=123
-	s:='abc'
-	u:=User{name:'tom',age:33}
-	var res:=MySum{} //声明联合类型变量
-	res=i
-	println(res) //输出123
-	res=s
-	println(res) //输出abc
-	res=u
-	println(res) //输出name:tom,age:33
-	match res { //判断具体类型
-		int {
-			println('res is:$it.str()')
-		}
-		string {
-			println('res is:$it')
-		}
-		User {
-			println('res is:$it.str()')
-		}
-		else {
-			println('unknown')
-		}
+	i := 123
+	s := 'abc'
+	u := User{
+		name: 'tom'
+		age: 33
 	}
-	user:=res as User //也可以通过as,进行显示造型
+	var res := MySum{} // 声明联合类型变量
+	res = i
+	println(res) // 输出123
+	res = s
+	println(res) // 输出abc
+	res = u
+	println(res) // 输出name:tom,age:33
+	match res { // 判断具体类型
+		int { println('res is:$it.str()') }
+		string { println('res is:$it') }
+		User { println('res is:$it.str()') }
+		else { println('unknown') }
+	}
+	user := res as User // 也可以通过as,进行显示造型
 	println(user.name)
 }
 

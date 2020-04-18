@@ -22,9 +22,9 @@ if
 import
 in
 interface
+is
 match
 module
-var
 none
 or
 pub
@@ -33,6 +33,7 @@ struct
 select //db.select使用到
 unsafe
 union
+var
 type
 ```
 
