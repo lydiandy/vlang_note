@@ -41,10 +41,10 @@ println(typeof(s)) //string
 
 #### 默认不可变
 
-跟rust一样,变量默认不可变,要声明为可变,要使用mut关键字
+跟rust一样,变量默认不可变,要声明为可变,使用var关键字
 
 ```c
-mut age := 20
+var age := 20
 println(age)
 age = 21
 println(age)
