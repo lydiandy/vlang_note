@@ -20,12 +20,12 @@ pub:
 }
 
 pub struct DB { //DB对象
-var:
+mut:
 	conn &C.PGconn
 }
 
 pub struct Row { //查询结果集的行
-pub var:
+pub mut:
 	vals []string
 }
 

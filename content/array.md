@@ -42,14 +42,14 @@ println(arr.element_size) //返回4
 
 ```c
 fn main() {
-	var arr:=[8]int //定义长度固定的数组,所有数组元素默认都是0值初始化
+	mut arr:=[8]int //定义长度固定的数组,所有数组元素默认都是0值初始化
 	println(arr[1]) //返回0
 	arr=[0,1,2,3,4,5,6,7]!!  //注意数组后面有2个!!,否则会报错
 	println(arr[1]) //赋值成功后,返回1
 	println(arr[2]) //赋值成功后,返回2
 
 	x := 2.32
-	var v := [8]f32
+	mut v := [8]f32
 	println(v[1]) //返回0.000000
 	v = [1.0, x, 3.0,4.0,5.0,6.0,7.0,8.0]!! 
 	println(v[1]) //赋值成功后,返回2.320000
@@ -76,14 +76,14 @@ println(arr) //返回['a','b','a','b','a','b']
 可以把一个元素追加到数组中,也可以把一个数组追加到数组中
 
 ```c
-var nums := [1, 2, 3]
+mut nums := [1, 2, 3]
 println(nums) // "[1, 2, 3]"
 nums << 4 //把一个元素追加到数组中
 println(nums) // "[1, 2, 3, 4]"
 ```
 
 ```c
-var nums := [1, 2, 3, 4]
+mut nums := [1, 2, 3, 4]
 println(nums) // "[1, 2, 3, 4]"
 nums << [5, 6, 7] //把一个数组追加到数组中
 println(nums) // "[1, 2, 3, 4, 5, 6, 7]"
@@ -92,7 +92,7 @@ println(nums) // "[1, 2, 3, 4, 5, 6, 7]"
 指针类型数组:
 
 ```c
-var arr := []&int
+mut arr := []&int
 	a := 1
 	b := 2
 	c := 3
@@ -109,7 +109,7 @@ var arr := []&int
 判断元素是否在数组里
 
 ```c
-var names := ['John']
+mut names := ['John']
 names << 'Peter'
 names << 'Sam'
 println('Alex' in names) //false

@@ -25,6 +25,7 @@ interface
 is
 match
 module
+mut
 none
 or
 pub
@@ -33,7 +34,6 @@ struct
 select //db.select使用到
 unsafe
 union
-var
 type
 ```
 

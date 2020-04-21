@@ -17,7 +17,7 @@ fn (u User) getName() string {
 	return u.name
 }
 
-fn (var u User) setName(name string) {
+fn (mut u User) setName(name string) {
 	u.name=name
 }
 ```

@@ -464,7 +464,7 @@ struct mapnode {
 ...
 //第二部分:使用map
 fn main() {
-    var m := map[string]int
+    mut m := map[string]int
     m['one'] = 1
     m['two'] = 2
     println(m['one']) 
@@ -556,7 +556,7 @@ void main__main () {
 
 ```c
 //V代码
-pub fn (var a array) insert(i int, val voidptr) {
+pub fn (mut a array) insert(i int, val voidptr) {
 	if i < 0 || i > a.len {
 		panic('array.insert: index out of range (i == $i, a.len == $a.len)')
 	}
@@ -589,12 +589,12 @@ void array_insert(array *a, int i, void *val) { //默认第一个参数是对应
 //V代码
 struct Foo {
 	a int     //私有,不可变(默认).在模块内部可访问,不可修改;模块外不可访问,不可修改
-var: 
+mut: 
 	b int     // 私有,可变.在模块内部可访问,可修改,模块外部不可访问,不可修改
 	c int     // (相同访问控制的字段可以放在一起)   
 pub: 
 	d int   // 公共,不可变,只读.在模块内部和外部都可以访问,但是不可修改
-pub var: 
+pub mut: 
 	e int  //公共,模块内部可访问,可修改;模块外部可访问,但是不可修改
 __global:
 	f int // 全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用
@@ -792,8 +792,8 @@ void main__main() {
 ```c
 //V代码
 fn main() {
-   var sum := 0
-   var i := 0
+   mut sum := 0
+   mut i := 0
    for i <= 100 {
    	sum += i
    	i++
@@ -816,7 +816,7 @@ void main__main () {
 ```c
 //V代码
 fn main() {
-	var num := 0
+	mut num := 0
 	for {
 		num++
 		if num >= 10 {
@@ -922,7 +922,7 @@ type MySum= int|string|User //联合类型声明
 	i:=123
 	s:='abc'
 	u:=User{name:'tom',age:33}
-	var res:=MySum{} //声明联合类型变量
+	mut res:=MySum{} //声明联合类型变量
 	res=i
 	res=s
 	res=u
@@ -1023,7 +1023,7 @@ void main__main() {
 ```c
 //V代码
 fn main() {
-	var x := 0
+	mut x := 0
 	$if x32 {
 		println('system is 32 bit')
 		x = 1
@@ -1052,7 +1052,7 @@ void main__main() {
 ```c
 //V代码
 fn main() {
-	var x := 0
+	mut x := 0
 	$if little_endian {
 		println('system is little endian')
 		x = 1

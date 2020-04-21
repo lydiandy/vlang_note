@@ -11,13 +11,13 @@ struct DB {
 
 struct User {
 	db DB
-var:
+mut:
 	name string
 }
 
 struct Repo<T> {
 	db DB
-var:
+mut:
 	model  T
 }
 
@@ -26,9 +26,9 @@ fn new_repo<U>(db DB) Repo<U> {
 }
 
 fn test_generic_struct() {
-	var a :=  new_repo<User>(DB{})
+	mut a :=  new_repo<User>(DB{})
 	a.model.name = 'joe'
-	var b := Repo<User>{db: DB{}}
+	mut b := Repo<User>{db: DB{}}
 	b.model.name = 'joe'
 	assert a.model.name == 'joe'
 	assert b.model.name == 'joe'
@@ -58,18 +58,18 @@ fn array_eq<T>(a1, a2 []T) bool {
 
 ```c
 struct Point {
-var:
+mut:
     x f64
     y f64
 }
 
-fn (var p Point) translate<T>(x, y T) {
+fn (mut p Point) translate<T>(x, y T) {
     p.x += x
     p.y += y
 }
 
 fn test_generic_method() {
-    var p := Point{}
+    mut p := Point{}
     p.translate(2, 1.0)
     assert p.x == 2.0 && p.y == 1.0
 }

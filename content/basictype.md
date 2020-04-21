@@ -59,7 +59,7 @@ true是常量1，false是常量0
 也可以增加下划线,进行视觉上的分隔,不影响本来的值
 
 ```c
-	var c := 0xa_0 //十六进制数字a0
+	mut c := 0xa_0 //十六进制数字a0
 	println(c) //输出160
 	c = 0b10_01 //二进制数字1001
 	println(c) //输出9
@@ -110,7 +110,7 @@ s3:=s1+s2
 字符串追加:
 
 ```c
-var s:='hello ' //必须是可变才可以追加
+mut s:='hello ' //必须是可变才可以追加
 s+='world'
 println(s) //输出hello world
 ```
@@ -333,7 +333,7 @@ fn main(){
 	ss:=string(&c,1) //强制转换为string,因为string(byteptr,int)就可以构造出一个字符串,其中byteptr是首字节指针,int是字符串长度
     
   //将字节数组转成字符串
-	var byte_arr:=[]byte //字节数组
+	mut byte_arr:=[]byte //字节数组
 	byte_arr<<`a`
 	byte_arr<<`b`
 	println(byte_arr) //输出[a,b]

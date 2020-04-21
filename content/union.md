@@ -86,7 +86,7 @@ fn main() {
 		name: 'tom'
 		age: 33
 	}
-	var res := MySum{} // 声明联合类型变量
+	mut res := MySum{} // 声明联合类型变量
 	res = i
 	println(res) // 输出123
 	res = s

@@ -94,7 +94,7 @@ match的同时,加上var ,可以修改匹配变量,通常是配合for in 语句�
 ```go
 //参考代码
 	for stmt in file.stmts {
-			match var stmt {
+			match mut stmt {
 				ast.ConstDecl {
 					c.stmt(*it)
 				}
@@ -159,8 +159,8 @@ for的四种形式：
 2. 替代while：for i<100 {}
 
 ```c
-   var sum := 0
-   var i := 0
+   mut sum := 0
+   mut i := 0
    for i <= 100 {
    	sum += i
    	i++
@@ -172,7 +172,7 @@ for的四种形式：
 
 
 ```c
-var num := 0
+mut num := 0
    for {
    	num++
    	if num >= 10 {

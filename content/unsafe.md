@@ -37,7 +37,7 @@ fn my_fn() {
 fn test_pointer_arithmetic() {
 	arr := [1,2,3,4]
 	unsafe {
-		var parr := *int(arr.data)
+		mut parr := *int(arr.data)
 		parr++
 		assert 2 == *parr
 		parr++
@@ -52,7 +52,7 @@ fn test_multi_level_pointer_dereferencing() {
 	ppn := &pn
 
 	unsafe {
-		var pppn := &ppn
+		mut pppn := &ppn
 		***pppn = 300
 		pppa := ***int(pppn)
 		assert 300 == ***pppa

@@ -46,14 +46,14 @@ pub public_fn(){  //模块内部和外部都可以访问
 函数的参数默认是不可变的,如果在函数内部要改变传进来的参数,要加上var
 
 ```c
-fn my_fn(var arr []int) { //1.参数定义也要是可变的
+fn my_fn(mut arr []int) { //1.参数定义也要是可变的
 	for i := 0; i < arr.len; i++ {
 		arr[i] *= 2
 	}
 }
 
 fn main() {
-	var nums := [1, 2, 3] //2.传进来的参数要是可变的
+	mut nums := [1, 2, 3] //2.传进来的参数要是可变的
 	my_fn(nums)
 	println(nums) // 返回[2, 4, 6],函数执行后,传进来的参数被改变了
 }
@@ -180,8 +180,6 @@ fn main()  {
 }
 ```
 
-
-
 ### 函数递归
 
 函数也是可以递归调用的
@@ -223,6 +221,23 @@ pub fn width() int {
 ```
 
 详细参考:[调用C代码库](./c.md)
+
+### 匿名函数
+
+```c
+fn main() {
+	f1 := fn(a int){
+		println('hello from f1')
+	}
+
+	f1(1)
+	f2 := fn(a int){
+		println('hello from f2')
+	}
+
+	f2(1)
+}
+```
 
 ### 函数作废
 
