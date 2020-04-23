@@ -106,7 +106,7 @@ V代码编译报错定位技巧:
 编译V代码时,如果报的是C代码部分的错误,可以在编译时加上-cg选项,显示更多的报错信息,以及报错对应的C代码行,可以更快地定位错误:
 
 ```c
-v run -cg main.v
+v -cg run main.v
 
 如果报错,输出类似这样的:
 C compiler=/var/folders/lk/k709921d2gl4jrh31mt8_ktm0000gn/T/v/main.tmp.c:
