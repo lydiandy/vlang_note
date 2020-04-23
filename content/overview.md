@@ -87,16 +87,13 @@ V语言代码初步印象:
 多行注释
 */
 
-module main  //定义主模块,编译生成可执行程序
+module main  	//定义主模块,编译生成可执行程序
 
-import os //单行导入模块
+import os 		//导入模块
+import strings
+import time
 
-import ( //分组导入模块
-    strings
-    time
-)
-
-fn main() {  //主函数,程序运行入口
+fn main() {  	//主函数,程序运行入口
     println('say hello world')  //语句结尾不需要分号
 }
 
@@ -118,10 +115,12 @@ pub enum OS {
 //3.函数-函数的定义风格基本跟go一样,只是关键字改为更简短的fn，支持不确定个数参数，支持多返回值
 //pub表示公共级别的访问控制，可以被模块外使用，否则只能在模块内使用
 pub fn my_fn(x,y int) int {
-    i:=1 //强类型，类型推断
-    s:='abc' //变量默认不可变,约定用单引号表示字符串,双引号也可以,反引号才是单字符
-    mut a:=3 //可变用var
-    a=5 //声明可变后,才可修改
+    i:=1 			//强类型，类型推断
+    s:='abc' 	//变量默认不可变,约定用单引号表示字符串,双引号也可以,反引号才是单字符
+    mut a:=3 	//可变用var
+    a=5 			//声明可变后,才可修改
+		println(i)
+		println(s)
     return a
 }
 //3.函数-泛型函数
@@ -131,16 +130,21 @@ pub fn g_fn<T>(p T) T {
 
 //4.结构体-结构体定义
 pub struct Point { //结构体字段一共有5种访问控制
-  a int  //默认私有且不可变
-mut:     //私有，但可变
+//默认私有且不可变
+  a int  
+//私有，但可变
+mut:     
 	x int
 	y int
-pub:    //公共，但不可变
+//公共，但不可变
+pub:    
 	d int 
+//模块内可访问且可变;模块外可访问,但是只读
 pub mut:
-    e int //模块内可访问且可变;模块外可访问,但是只读
+    e int 
+//全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用
 __global:
-	f int //全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用
+	f int 
 }
 
 //4.结构体-泛型结构体
@@ -161,13 +165,14 @@ pub interface Walker {
 }
 
 //7.类型-类型别名,可以基于基本类型,也可基于结构体类型创建类型别名
-pub type myint int
+pub type myint = int
 
 //7.类型-函数类型，表示这一类相同签名的函数
-pub type fn_type fn(int) int
+pub type fn_type = fn(int) int
 
 //7.类型-联合类型，跟typescript类似，表示类型Expr可以是这几种类型的其中一种
 pub type Expr = Foo | BoolExpr |  BinExpr | UnaryExpr
+
 
 ```
 

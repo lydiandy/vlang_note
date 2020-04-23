@@ -5,9 +5,9 @@
 ### 基于基本类型-定义类型别名
 
 ```c
-type Myint int
-type Myf32 f32
-type Myf64 f64
+type Myint = int
+type Myf32 = f32
+type Myf64 = f64
 
 fn main() {
 	i := Myint(10)
@@ -20,11 +20,12 @@ fn main() {
 ### 基于结构体类型-定义类型别名
 
 ```c
+module main
 struct Human { name string }
 
 pub fn (h Human) str() string { return 'Human: $h.name' }
 
-type Person Human
+type Person = Human
 
 fn test_type_print() {
 	p := Person{'Bilbo'}
@@ -34,7 +35,7 @@ fn test_type_print() {
 
 pub fn (h Person) str() string { return 'Person: $h.name' }
 
-fn test_person_str() {
+fn main() {
 	p := Person{'Bilbo'}
 	println(p)
 	assert p.str() == 'Person: Bilbo'
