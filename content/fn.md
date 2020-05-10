@@ -162,9 +162,7 @@ from defer_fn2
 type mid_fn fn(int,string) int
 ```
 
-### 函数作为参数或返回值
-
-函数是first class,可以将函数作为参数,作为返回值
+### 函数作为参数
 
 ```c
 fn sqr(n int) int {
@@ -179,6 +177,14 @@ fn main()  {
         println(run(5, sqr)) // "25"
 }
 ```
+
+### 函数作为返回值
+
+```c
+
+```
+
+
 
 ### 函数递归
 
@@ -224,17 +230,18 @@ pub fn width() int {
 
 ### 匿名函数
 
+可以在函数内部定义匿名函数:
+
 ```c
 fn main() {
 	f1 := fn(a int){
 		println('hello from f1')
 	}
-
 	f1(1)
+    
 	f2 := fn(a int){
 		println('hello from f2')
 	}
-
 	f2(1)
 }
 ```

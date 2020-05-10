@@ -112,11 +112,10 @@ fn add(u User) {
 
 fn main(){
 	add(User{name:'jack',age:22}) //标准方式
-	add({name:'tom',age:23}) //简短方式
+	add({name:'tom',age:23}) //简短方式,省略类型
+	add(name:'tt',age:33) //更简短的方式,省略类型和大括号
 }
 ```
-
-
 
 ### 访问控制
 

@@ -44,6 +44,7 @@
 * [常用标准库:](content/std_builtin.md)
 * [builtin](content/std_builtin.md)
 * [strings](content/std_strings.md)
+* [strconv](content/std_strconv.md)
 * [os](content/std_os.md)
 * [runtime](content/runtime.md)
 * [time](content/std_time.md)

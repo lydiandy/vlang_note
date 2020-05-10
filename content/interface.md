@@ -63,3 +63,17 @@ struct Foo {
 }	
 ```
 
+### 接口参数类型判断
+
+可以使用is关键字,对接口参数的具体类型进行判断
+
+```c
+fn perform(s Speaker) {
+	if s is Dog { //通过is关键字,判断接口类型是否是某一个具体类型
+		println('s is Dog')
+	}
+
+	println(s.speak())
+}
+```
+
