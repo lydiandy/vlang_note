@@ -6,6 +6,8 @@
 
 默认是模块级别,使用pub变为公共级别
 
+接口命名跟结构体一样,要求首字母大写,建议以er风格结尾,非强制
+
 ```go
 pub interface Speaker {
 		speak() string
