@@ -42,9 +42,11 @@ type
 ```c
 len
 cap
-default
+init
+  
 sizeof
 typeof
+  
 C
 ```
 

@@ -58,14 +58,14 @@ fn main() {
 
 ### 数组初始化
 
-可以在定义数组时明确指定len,cap,default,进行初始化
+可以在定义数组时明确指定len,cap,init,进行初始化
 
 ```c
 module main
 
 fn main() {
-  //定义初始len为5,cap为20,默认值为10的数组
-	mut arr := []int{len:5,cap:20,default:10} 
+  //定义初始len为5,cap为20,初始值为10的数组
+	mut arr := []int{len:5,cap:20,init:10} 
 	println(arr) //输出[10, 10, 10, 10, 10]
 	println('$arr.len,$arr.cap') //输出5,20
 	arr << 3

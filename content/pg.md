@@ -1,10 +1,29 @@
 ## pg
 
-### 安装依赖
+### 安装postgres数据库
 
-使用的是postgres官方发布的C版本postgres客户端库,具体可以参考C头文件:<libpg-fe.h>
+linux安装:
 
-安装:brew install postgresql
+```shell
+sudo dnf install postgresql-server postgresql-contrib
+sudo systemctl enable postgresql
+sudo systemctl start  postgresql
+```
+
+mac安装:
+
+```shell
+brew install postgresql
+brew services start postgresql
+```
+
+### C客户端库
+
+使用的是postgres官方发布的C版本postgres客户端库
+
+如果没有安装postgresql数据库,则import pg时会报错:缺失<libpq-fe.h>
+
+具体API可以参考C头文件:<libpg-fe.h>
 
 ### 使用
 
@@ -57,9 +76,9 @@ struct User {
 fn main(){
 	db_config := pg.Config { //数据库连接配置
 		host:'localhost'
-		user:'xxx'
-		password:'xxx'
-		dbname:'xxx'
+		user:'postgres'
+		password:''
+		dbname:'pg_test'
 	}
 	db := pg.connect(db_config) or { //连接数据库,如果连接失败,抛出错误
 		panic("连接错误:err")
@@ -87,7 +106,7 @@ db.update
 
 目前的pg库还是太简单,只能进行进行简单的查询,很多地方还需要完善
 
-但是,因为pg库是基于postgres官方的C客户端库,如果需要可以把里面的C函数和结构体,直接拿来使用,或者进行进一步的封装,开发起来还是比较快的
+但是pg库是基于postgres官方的C客户端库,可以把里面的C函数和结构体直接拿来使用,或者进行进一步的封装,开发起来还是比较快的
 
 目前需要注意的2个坑:
 
