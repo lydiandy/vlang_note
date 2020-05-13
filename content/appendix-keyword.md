@@ -40,6 +40,9 @@ type
 这几个没有列在关键字中,但是跟关键字的效果基本一致:
 
 ```c
+len
+cap
+default
 sizeof
 typeof
 C
