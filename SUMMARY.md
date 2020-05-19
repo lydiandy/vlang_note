@@ -40,6 +40,7 @@
 * [GUI](content/gui.md)
 * [web框架](content/vweb.md)
 * [数据库](content/db.md)
+* [在浏览器运行V代码](content/gen_js.md)
 * --
 * [常用标准库:](content/std_builtin.md)
 * [builtin](content/std_builtin.md)
