@@ -1,4 +1,4 @@
-## 调用C代码
+## 集成C代码库
 
 ### 优势
 
@@ -96,6 +96,40 @@ pub fn connect(server, user, passwd, dbname string) ?DB {
 	return DB {conn: conn2}
 }
 ```
+
+另一个集成C代码库的例子:vlib/clipboard/clipboard_linux.c.v
+
+使用了结构体标注[typedef]来定义C语言的结构体
+
+```c
+//定义C宏
+#flag -lX11
+#include <X11/Xlib.h>
+
+//定义C结构体
+[typedef]
+struct C.Display  //在v代码中只需使用C结构体,不使用结构体字段
+  
+[typedef]
+struct C.XSelectionRequestEvent{ //在v代码中要使用结构体字段,要定义所需的字段
+	mut:
+	display &C.Display	/* Display the event was read from */
+	owner C.Window
+	requestor C.Window
+	selection C.Atom
+	target C.Atom
+	property C.Atom
+	time int
+}
+
+//定义C函数
+fn C.XInitThreads() int
+fn C.XCloseDisplay(d &Display)
+fn C.XFlush(d &Display)
+fn C.XDestroyWindow(d &Display, w C.Window)
+```
+
+
 
 ### 简单封装
 
@@ -198,7 +232,7 @@ typedef struct sapp_event {
 pub struct C.sapp_event {
 pub:
     frame_count u64
-    @type EventType //这个type有点特殊,因为是V的关键字,所以用@开头就可以
+    @type EventType //这个type字段有点特殊,因为是V的关键字,要用@开头才可以
     key_code KeyCode //枚举类型
     char_code u32
     key_repeat bool
@@ -268,7 +302,7 @@ pub enum MouseButton {
 
 ```c
 //sokol包里面的:
-#flag -I @VROOT/thirdparty/sokol 
+#flag -I @VROOT/thirdparty/sokol //@VROOT指向v编译器的根路径
 #flag -I @VROOT/thirdparty/sokol/util
 
 
