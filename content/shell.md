@@ -1,4 +1,4 @@
-## V scripts
+## Vscripts
 
 V语言还可以用来写系统shell脚本,借助简洁的语法,写shell脚本还是比较舒服的,而且还可以是跨平台的
 
