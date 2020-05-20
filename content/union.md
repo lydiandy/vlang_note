@@ -31,12 +31,12 @@ struct User {
 	age  int
 }
 
-pub fn (m &User) str() string {
+fn (m &User) str() string {
 	return 'name:$m.name,age:$m.age'
 }
 
-type MySum = int | string | User // 联合类型声明
-pub fn (ms MySum) str() string {
+type MySum = User | int | string // 联合类型声明
+fn (ms MySum) str() string {
 	if ms is int { // 使用is关键字,判断联合类型具体是哪种类型
 		println('ms type is int')
 	}
@@ -50,13 +50,10 @@ pub fn (ms MySum) str() string {
 		User {
 			return it.str()
 		}
-		else {
-			return 'unknown'
-		}
 	}
 }
 
-pub fn add(ms MySum) { // 联合类型作为参数
+fn add(ms MySum) { // 联合类型作为参数
 	match ms { // 可以对接收到的联合类型,使用match语句,进行类型判断
 		int { // 会在这个代码块中,自动生成一个类型为int,名为it(迭代器iterator的缩写)的变量,可以直接使用
 			println('ms is int,value is $it.str()')
@@ -67,13 +64,10 @@ pub fn add(ms MySum) { // 联合类型作为参数
 		User {
 			println('ms is User,value is $it.str()')
 		}
-		else {
-			println('unknown')
-		}
 	}
 }
 
-pub fn sub(i int, s string, u User) MySum { // 联合类型作为返回值
+fn sub(i int, s string, u User) MySum { // 联合类型作为返回值
 	return i
 	// return s //这个也可以
 	// return User{name:'tom',age:3} //这个也可以
@@ -97,11 +91,9 @@ fn main() {
 		int { println('res is:$it.str()') }
 		string { println('res is:$it') }
 		User { println('res is:$it.str()') }
-		else { println('unknown') }
 	}
 	user := res as User // 也可以通过as,进行显示造型
 	println(user.name)
 }
-
 ```
 
