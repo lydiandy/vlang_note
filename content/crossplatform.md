@@ -134,3 +134,23 @@ fn main() {
 v -os linux ./main.v
 ```
 
+
+
+## 内置全局变量
+
+编译器中内置了开发和测试时需要的几个全局变量,方便编译,测试使用:
+
+```c
+module main
+
+fn main() {
+	println(@MOD) //当前模块main
+	println(@FN) //当前函数
+	println(@VEXE) //编译器的当前位置
+	println(@FILE) //当前源文件
+	println(@LINE) //当前行数
+	println(@COLUMN) //当前列数
+	println(@VHASH) //当前V编译器的vhash号
+}
+```
+
