@@ -146,6 +146,7 @@ module main
 fn main() {
 	println(@MOD) //当前模块main
 	println(@FN) //当前函数
+  println(@STRUCT) //当前结构体
 	println(@VEXE) //编译器的当前位置
 	println(@FILE) //当前源文件
 	println(@LINE) //当前行数
