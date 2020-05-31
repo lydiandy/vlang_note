@@ -4,7 +4,9 @@
 
 函数定义时,返回类型前面加?,表示这个函数可能返回一个错误
 
-在函数代码中根据逻辑丢出错误:return error('error message') 或者return none,表示抛出错误
+在函数代码中根据逻辑丢出错误:
+
+return error('error message') 或 return none 表示抛出错误
 
 ### 错误处理
 
@@ -62,34 +64,102 @@ error函数是内置函数,定义在:vlib/builtin/option.v
 module builtin
 
 struct Option {
-	data     [255]byte
-	error    string
-	ok       bool
-	is_none  bool
+	ok      bool
+	is_none bool
+	error   string
+	ecode   int
+	data    [400]byte
+}
+
+pub fn (o Option) str() string {
+   if o.ok && !o.is_none {
+	  return 'Option{ data: ' + o.data[0..32].hex() + ' }'
+   }
+   if o.is_none {
+	  return 'Option{ none }'
+   }
+   return 'Option{ error: "${o.error}" }'
 }
 
 // `fn foo() ?Foo { return foo }` => `fn foo() ?Foo { return opt_ok(foo); }`
 fn opt_ok(data voidptr, size int) Option {
-	if size >= 255 {
-		panic('option size too big: $size (max is 255), this is a temporary limit')
+	if size >= 400 {
+		panic('option size too big: $size (max is 400), this is a temporary limit')
 	}
-	res := Option {
+	res := Option{
 		ok: true
 	}
 	C.memcpy(res.data, data, size)
 	return res
 }
 
+// used internally when returning `none`
 fn opt_none() Option {
-	return Option{ is_none: true }
+	return Option{
+		ok: false
+		is_none: true
+	}
 }
 
 pub fn error(s string) Option {
-	return Option {
+	return Option{
+		ok: false
+		is_none: false
 		error: s
 	}
 }
+
+pub fn error_with_code(s string, code int) Option {
+	return Option{
+		ok: false
+		is_none: false
+		error: s
+		ecode: code
+	}
+}
 ```
+
+若函数无返回值,仍需抛出错误,要使用  ?void
+
+```c
+module main
+
+fn main() {
+	exec('') or {
+		panic('error is :$err')
+	}
+}
+
+fn exec(stmt string) ?void { //无返回值,也可抛出错误
+	if stmt == '' {
+		return error('stmt is null')
+	}
+	println(stmt)
+}
+```
+
+返回错误码
+
+```c
+module main
+
+fn main() {
+	exec('') or {
+    //约定的变量名err和errcode
+		panic('error text is :$err;error code is $errcode') 
+	}
+}
+
+fn exec(stmt string) ?void {
+	if stmt == '' {
+		return error_with_code('stmt is null', 123) //需要带错误码
+	}
+	println(stmt)
+}
+
+```
+
+
 
 ### 向上抛转错误
 
