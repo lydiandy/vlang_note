@@ -1,10 +1,10 @@
 ## sokol图形库
 
-vlib/sokol模块已经对soko图形库l进行了封装,可以使用
+vlib/sokol模块已经对soko图形库进行封装,可以使用
 
 ### sokol图形库参考
 
-sokol是ui依赖的C图形库,如果想要更清楚理解ui是如何运作的,得掌握一下所依赖的sokol图形库:
+sokol是ui依赖的C图形库,想要更清楚理解ui是如何运作,得掌握一下所依赖的sokol图形库:
 
 官方网址:https://github.com/floooh/sokol
 
