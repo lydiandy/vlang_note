@@ -37,7 +37,7 @@
 * [集成C代码库](content/c.md)
 * [集成汇编代码](content/asm.md)
 * [裸机环境](content/bare_metal.md)
-* [GUI](content/gui.md)
+* [VUI](content/gui.md)
 * [web框架](content/vweb.md)
 * [数据库](content/db.md)
 * [在浏览器运行V代码](content/gen_js.md)
