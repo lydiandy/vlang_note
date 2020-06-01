@@ -7,7 +7,8 @@ sokol图形库官方代码库及介绍:[https://github.com/floooh/sokol](https:/
 sokol图形库优点:
 
 - 跨平台,并且不同的平台可以使用对应平台的图形驱动,性能很好:window使用DX11,mac使用metal,linux使用openGL
-- 用C开发,简单,易于集成,对V来说,更容易集成
+- 不仅仅是2D,3D绘图能力比较强
+- 用C开发,简单,依赖少,易于集成,对V来说,更容易集成
 - 生成的可执行文件很小,V语言的目标比较一致
 - API简单,清晰
 - 支持生成WebAssembly,可以快速在web上运行
