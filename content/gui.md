@@ -13,9 +13,13 @@ sokol图形库优点:
 - API简单,清晰
 - 支持生成WebAssembly,可以快速在web上运行
 
+sokol库更多内容可以参考[sokol图形库](sokol.md)章节
+
+
+
 VUI本身也是一个单独的代码库:https://github.com/vlang/ui
 
-### 安装
+### UI模块安装
 
 使用前先安装依赖:
 

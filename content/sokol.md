@@ -1,6 +1,6 @@
-## sokol
+## sokol图形库
 
-vlib/sokol模块已经对sokol进行了封装,可以初步使用
+vlib/sokol模块已经对soko图形库l进行了封装,可以使用
 
 ### sokol图形库参考
 
