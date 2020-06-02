@@ -69,9 +69,12 @@ struct Foo {
 
 ```c
 fn perform(s Speaker) {
-	if s is Dog { //通过is关键字,判断接口类型是否是某一个具体类型
+	if s is Dog { //通过is操作符,判断接口类型是否是某一个具体类型
 		println('s is Dog')
 	}
+  if s !is Dog {  //通过!is操作符,判断接口类型不是某一个具体类型
+    
+  }
 
 	println(s.speak())
 }
