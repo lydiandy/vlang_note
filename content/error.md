@@ -119,7 +119,7 @@ pub fn error_with_code(s string, code int) Option {
 }
 ```
 
-若函数无返回值,仍需抛出错误,要使用  ?void
+若函数无返回值,仍需抛出错误,要使用?
 
 ```c
 module main
@@ -130,7 +130,7 @@ fn main() {
 	}
 }
 
-fn exec(stmt string) ?void { //无返回值,也可抛出错误
+fn exec(stmt string) ? { //无返回值,也可抛出错误
 	if stmt == '' {
 		return error('stmt is null')
 	}
@@ -150,7 +150,7 @@ fn main() {
 	}
 }
 
-fn exec(stmt string) ?void {
+fn exec(stmt string) ? {
 	if stmt == '' {
 		return error_with_code('stmt is null', 123) //需要带错误码
 	}
