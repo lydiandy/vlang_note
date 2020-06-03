@@ -1,33 +1,38 @@
-## VUI
+## UI模块
 
-VUI是基于sokol图形库来创建的
+ui是V语言的标准ui库,基于sokol C图形库(以下简称sokol)创建
 
-sokol图形库官方代码库及介绍:[https://github.com/floooh/sokol](https://github.com/floooh/sokol)
+ui模块一开始是打算基于glfw模块,后来作者看到sokol的一些优秀特性,就决定改为基于sokol
 
-sokol图形库优点:
+### sokol介绍
 
-- 跨平台,并且不同的平台可以使用对应平台的图形驱动,性能很好:window使用DX11,mac使用metal,linux使用openGL
+sokol官方代码库及介绍:[https://github.com/floooh/sokol](https://github.com/floooh/sokol)
+
+sokol优点:
+
+- 跨平台,并且不同的平台可以使用对应平台的图形驱动,性能很好
+
+  window使用DX11,mac使用metal,linux使用openGL
+
 - 不仅仅是2D,3D绘图能力比较强
+
 - 用C开发,简单,依赖少,易于集成,对V来说,更容易集成
-- 生成的可执行文件很小,V语言的目标比较一致
+
+- 生成的可执行文件很小,跟V语言的目标比较一致
+
 - API简单,清晰
+
 - 支持生成WebAssembly,可以快速在web上运行
 
 sokol库更多内容可以参考[sokol图形库](sokol.md)章节
 
+### ui模块安装
 
+ui模块并不在vlib标准库中,是一个单独的代码库:https://github.com/vlang/ui
 
-VUI本身也是一个单独的代码库:https://github.com/vlang/ui
+ui依赖的底层模块,位于vlib标准库中
 
-### UI模块安装
-
-使用前先安装依赖:
-
-```
-
-```
-
-目前vui还是早期版本,更新较快,建议直接使用源代码安装,可以随时用到最新的代码
+目前ui还是早期版本,更新较快,建议直接使用源代码安装,可以随时用到最新的代码
 
 1. 源码安装方式:
 
@@ -46,9 +51,9 @@ v install ui //安装ui
 v update ui	//更新ui
 ```
 
-### UI模块层级关系
+### ui模块层级关系
 
-以下图例描述了UI模块和标准库模块的关系
+以下图例描述了ui模块和标准库模块的关系
 
 ![](gui.assets/image-20200226182335145.png)
 
@@ -134,7 +139,7 @@ FreeType是一个完全开源的、可扩展、可定制且可移植的字体引
 
 源代码:https://github.com/nothings/stb
 
-### UI组件
+### ui组件
 
 刚发布的版本,目前的组件还比较少
 
@@ -227,7 +232,7 @@ window中的ui用来进行绘制图形,绘制文字,处理剪贴板
 
 ---
 
-## 图形库背景资料参考
+## 图形库背景资料
 
 OpenGL**（英语：*Open Graphics Library*，译名：**开放图形库**或者“开放式图形库”）是用于[渲染](https://baike.baidu.com/item/渲染)[2D](https://baike.baidu.com/item/2D)、[3D](https://baike.baidu.com/item/3D)[矢量图形](https://baike.baidu.com/item/矢量图形)的跨[语言](https://baike.baidu.com/item/语言)、[跨平台](https://baike.baidu.com/item/跨平台)的[应用程序编程接口](https://baike.baidu.com/item/应用程序编程接口)（API）。这个接口由近350个不同的函数调用组成，用来绘制从简单的图形比特到复杂的三维景象。而另一种程序接口系统是仅用于[Microsoft Windows](https://baike.baidu.com/item/Microsoft Windows)上的[Direct3D](https://baike.baidu.com/item/Direct3D)。OpenGL常用于[CAD](https://baike.baidu.com/item/CAD)、[虚拟现实](https://baike.baidu.com/item/虚拟现实)、科学可视化程序和电子游戏开发。
 
