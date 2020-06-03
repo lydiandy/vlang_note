@@ -66,7 +66,7 @@ $if windows {
 $if linux {
 	println('linux')
 }
-$if macos {
+$if macos {  //或者mac
 	println('mac')
 }
 
@@ -78,6 +78,9 @@ $if windows {
 $if !windows { //还可以使用!,取否
     
 }
+//其他条件编译的选项有:
+//freebsd,openbsd,netbsd,bsd,dragonfly,android,solaris
+//js,tinyc,clang,msvc,mingw
 ```
 
 判断是否使用了-debug
@@ -88,6 +91,21 @@ $if debug {
 }
 //执行:
 //v run main.v -debug
+```
+
+判断是否在测试代码中执行
+
+```c
+fn test_comptime_if_test() {
+	mut i := 0
+	$if test { //如果在测试函数中,则执行
+		i++
+	}
+	$if !test { //非测试函数中
+		i--
+	}
+	assert i == 1
+}
 ```
 
 判断平台是32位还是64位
