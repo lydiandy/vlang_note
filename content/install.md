@@ -28,6 +28,26 @@ make
 
 编译器命令行的使用参考:[编译器命令行使用章节](toolchain.md)
 
+#### 可选安装
+
+如果需要编译vui相关模块,需要安装freetype
+
+如果需要编译http相关模块,需要安装openssl
+
+```
+macOS:
+brew install freetype openssl
+
+Debian/Ubuntu:
+sudo apt install libfreetype6-dev libssl-dev
+
+Arch/Manjaro:
+sudo pacman -S freetype2
+
+Fedora:
+sudo dnf install freetype-devel
+```
+
 #### 后续升级
 
 方式一:
