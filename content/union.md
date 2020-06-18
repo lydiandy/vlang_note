@@ -67,6 +67,19 @@ fn add(ms MySum) { // 联合类型作为参数
 		}
 	}
 }
+fn add2(ms MySum) { // 联合类型作为参数
+	match ms as m { // 可以对接收到的联合类型,使用match语句,进行类型判断,增加了as m后,就可以不使用默认的it变量,而使用自定义的m变量
+		int { 
+			println('ms is int,value is $m.str()')
+		}
+		string {
+			println('ms is string,value is $m')
+		}
+		User {
+			println('ms is User,value is $m.str()')
+		}
+	}
+}
 
 fn sub(i int, s string, u User) MySum { // 联合类型作为返回值
 	return i
