@@ -146,6 +146,27 @@ button.set_pos(x, y)
 
 ### 结构体标注
 
+标注目前主要有结构体标注,结构体字段标注,函数标注这三种
+
+多个标注之间通过分号分隔,标注的键值对通过冒号分隔,例如下面的结构体字段标注:
+
+```c
+[typedef] //结构体标注
+struct Point {
+pub:
+	x int // abc
+	y int [json2:yyy223;abc:'33'] //结构体字段标注
+pub mut:
+	z int = 22
+}
+[inline] //函数标注
+pub fn (p Point) position() (int, int) {
+	return p.x, p.y
+}
+```
+
+
+
 - 结构体的标注
 
   目前主要用在集成C代码库,详细参考:[集成C代码库](./c.md)
