@@ -41,21 +41,21 @@ fn (ms MySum) str() string {
 	if ms is int { // 使用is关键字,判断联合类型具体是哪种类型
 		println('ms type is int')
 	}
-	match ms {
-		int { // 会在这个代码块中,自动生成一个类型为int,名为it(迭代器iterator的缩写)的变量,可以直接使用
-			return it.str()
+	match ms {// 对接收到的联合类型,使用match语句进行类型判断,每个match分支的ms变量都会被自动造型为分支中对应的类型
+		int { 
+			return ms.str()
 		}
 		string {
-			return it
+			return ms
 		}
 		User {
-			return it.str()
+			return ms.str()
 		}
 	}
 }
 
 fn add(ms MySum) { // 联合类型作为参数
-	match ms { // 可以对接收到的联合类型,使用match语句,进行类型判断,每个match分支的ms变量都会被自动造型为分支中对应的类型
+	match ms { // 可以对接收到的联合类型,使用match语句进行类型判断,每个match分支的ms变量都会被自动造型为分支中对应的类型
 		int {
 			println('ms is int,value is $ms.str()')
 		}
@@ -68,7 +68,7 @@ fn add(ms MySum) { // 联合类型作为参数
 	}
 }
 fn add2(ms MySum) { // 联合类型作为参数
-	match ms as m { // 可以对接收到的联合类型,使用match语句,进行类型判断,增加了as m后,就可以使用自定义的m变量名,作为match分支中造型后的变量
+	match ms as m { // 可以对接收到的联合类型,使用match语句进行类型判断,增加了as m后,就可以使用自定义的m变量名,作为match分支中造型后的变量
 		int { 
 			println('ms is int,value is $m.str()')
 		}
@@ -80,7 +80,7 @@ fn add2(ms MySum) { // 联合类型作为参数
 		}
 	}
 }
-//有了前2种用法,自动生成的it迭代器变量估计会被淘汰
+//有了前2种用法,自动生成的it迭代器变量用法会被移除,目前还暂时可用
 fn add3(ms MySum) { // 联合类型作为参数
 	match ms { // 可以对接收到的联合类型,使用match语句,进行类型判断
 		int { // 会在这个代码块中,自动生成一个类型为int,名为it(迭代器iterator的缩写)的变量,可以使用it
