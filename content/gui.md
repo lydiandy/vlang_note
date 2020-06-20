@@ -32,6 +32,36 @@ sokol库更多内容可以参考[sokol图形库](sokol.md)章节
 
 ### ui模块安装
 
+#### 安装依赖
+
+目前ui依赖freetype和glfw相关的软件
+
+不过很快ui会移除glfw,改为更轻量的sokol,到时候前置依赖就只剩freetype了.
+
+```shell
+macOS:
+brew install glfw freetype
+
+Debian/Ubuntu:
+sudo apt install libglfw3 libglfw3-dev libfreetype6-dev
+
+Arch/Manjaro:
+sudo pacman -S glfw-x11 freetype2
+
+Fedora:
+sudo dnf install glfw glfw-devel freetype-devel
+
+ClearLinux:
+sudo swupd bundle-add devpkg-libX11 devpkg-mesa devpkg-freetype devpkg-glfw3
+
+Windows:
+v setup-freetype  
+```
+
+
+
+#### 安装ui
+
 ui模块并不在vlib标准库中,是一个单独的代码库:https://github.com/vlang/ui
 
 ui依赖的底层模块,位于vlib标准库中
