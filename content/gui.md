@@ -20,7 +20,7 @@ sokol优点:
 
 - 不仅仅是2D,3D绘图能力比较强
 
-- 用C开发,简单,依赖少,易于集成,对V来说,更容易集成
+- 用C开发,只有单个头文件,简单,依赖少,易于集成,对V来说,更容易集成
 
 - 生成的可执行文件很小,跟V语言的目标比较一致
 
@@ -97,15 +97,13 @@ v update ui	//更新ui
 
 源代码位置:vlib/sokol
 
-sokol模块对sokol C进行封装
+sokol模块,对sokol C的封装
 
-sokol C代码存放在thirdparty/sokol目录中
+sokol C源代码存放在thirdparty/sokol目录中
 
 #### gg模块
 
 源代码位置:vlib/gg
-
-V 2D/3D graphics library with an OpenGL backend (DirectX, Vulkan, Metal coming soon)
 
 V绘图模块,用来在窗体上绘制各种图形
 
