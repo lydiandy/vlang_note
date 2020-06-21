@@ -87,19 +87,21 @@ fn main() {
 
 #### 强制类型转换
 
-可以通过as关键字把类型进行显式转换
-
-如果不可显式转换的，编译器直接报错
+可以通过T( ) 对类型进行显示声明,或者强制类型转换
 
 ```c
-  x:=int(3)
-  y:=x as byte
-  println(y)
-  z:=x as f32
-  println(z)
-  f := 1.2
-	ab := f as int
-  println(ab) //输出1，强制转换丧失精度
+module main
+
+fn main() {
+	x := int(3)
+	y := byte(x)
+	println('y is $y')
+	z := f32(x)
+	println('z is $z')
+	f := 1.2
+	i := int(f)
+	println(i) // 输出1，强制转换丧失精度
+}
 ```
 
 #### 没有模块级变量/全局变量
