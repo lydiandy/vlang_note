@@ -28,7 +28,7 @@ struct mapnode {  //键值对节点
 
 ```c
 fn main() {
-    mut m := map[string]int
+    mut m := map[string]int{}
     m['one'] = 1
     m['two'] = 2
     println(m['one']) //返回对应的value
@@ -51,14 +51,14 @@ map字面量初始化
 m:={'ont':1,'two':2,'three':3}
 ```
 
-map.size返回字典的大小
+map.len返回字典的大小
 
 ```c
 fn main() {
-    mut m := map[string]int
-    m['one'] = 1
-    m['two'] = 2
-    println(m.size) //返回2
+	mut m := map[string]int{}
+	m['one'] = 1
+	m['two'] = 2
+	println(m.len) // 返回2
 }
 ```
 
@@ -68,7 +68,7 @@ fn main() {
 
 ```c
 fn main() {
-    mut m := map[string]int
+    mut m := map[string]int{}
     m['one'] = 1
     m['two'] = 2
     println('one' in m) //返回true
@@ -80,21 +80,19 @@ fn main() {
 
 ```c
 fn main() {
-    mut m := map[string]int
-    m['one'] = 1
-    m['two'] = 2
-    m['three'] = 3
-    
-    for key,value in m {
-        println('key:$key,value:$value')
-    }
-    for key,_ in m {
-        println('key:$key')
-    }
-    for _,value in m {
-            println('value:$value')
-        }
-
+	mut m := map[string]int{}
+	m['one'] = 1
+	m['two'] = 2
+	m['three'] = 3
+	for key, value in m {
+		println('key:$key,value:$value')
+	}
+	for key, _ in m {
+		println('key:$key')
+	}
+	for _, value in m {
+		println('value:$value')
+	}
 }
 ```
 
