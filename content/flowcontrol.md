@@ -120,18 +120,18 @@ type MySum= int|string|User //联合类型声明
 
 pub fn (ms MySum) str() string {
 	match ms { //如果函数的参数或者接收者是联合类型,可以使用match进一步判断类型
-		int { //会在这个代码块中,自动生成一个类型为int,名为it的变量,可以直接使用
-			return it.str()
+		int { 
+			return ms.str()
 		}
 		string { 
-			return it //it的类型是string
+			return ms //ms的类型是string
 		}
 		User { 
-			return it.str() //it的类型是User
+			return ms.str() //ms的类型是User
 		}
-		else {
-			return 'unknown'
-		}
+		// else { //如果之前的分支已经穷尽了所有可能,else语句不需要,如果没有穷尽所有可能,则else语句是必须的
+		// 	return 'unknown'
+		// }
 	}
 }
 ```
