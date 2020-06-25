@@ -104,7 +104,7 @@ pub enum OS {
 pub fn my_fn(x,y int) int {
     i:=1 			//强类型，类型推断
     s:='abc' 	//变量默认不可变,约定用单引号表示字符串,双引号也可以,反引号才是单字符
-    mut a:=3 	//可变用var
+    mut a:=3 	//可变用mut
     a=5 			//声明可变后,才可修改
 		println(i)
 		println(s)
