@@ -4,8 +4,10 @@
 
 枚举默认是模块内访问，通过pub关键字来定义公共枚举
 
+枚举的命名跟结构体命名一样,必须以大写字母开头;枚举项的名称跟函数命名一样,必须是小写加下划线
+
 ```c
-pub enum Color {
+enum Color {
 	blue 			//如果没有指定初始值，默认从0开始，然后往下递增1
 	green
 	white
@@ -13,10 +15,10 @@ pub enum Color {
 }
 fn main() {
     mut c:=Color.green //第一次定义要使用：枚举名称.枚举值
-    println(c) //目前只能输出枚举值1,还没有办法返回枚举值的名称
+    println(c) //输出green
 
     c=.blue //第二次修改赋值，直接使用.枚举值就可以了
-    println(c) //输出0
+    println(c) //输出blue
 }
 ```
 
@@ -36,48 +38,46 @@ enum Color3 {
 	black
 }
 fn main() {
-    mut c:=Color.green
-    println(c) //输出4
+    mut c:=Color2.green
+    println(c) //输出green
 
     c=.blue
-    println(c) //输出3
+    println(c) //输出blue
 }
 ```
 
 也可以指定枚举的值为16进制
 
 ```c
-enum w_hex {
+enum W_hex {
 	a = 0x001 //枚举值也支持16进制
 	b = 0x010
 	c = 0x100
 }
 fn main() {
-	println(w_hex.a) //输出1
-	println(w_hex.b) //输出16
-	println(w_hex.c) //输出256
+	println(W_hex.a) //输出a
+	println(W_hex.b) //输出b
+	println(W_hex.c) //输出c
 }
 ```
-
-枚举值的名称限制必须是小写加下划线
 
 为枚举添加方法:
 
 ```c
 enum Color {
-	red=1
+	red = 1
 	green
 	blue
 	black
 	white
 }
 
-fn (c Color) is_blue() bool { //枚举方法
-	return c==.blue 
+fn (c Color) is_blue() bool { // 枚举方法
+	return c == .blue
 }
 
-fn main(){
-	b:=Color.blue
+fn main() {
+	b := Color.blue
 	if b.is_blue() {
 		println('yes')
 		println(b)
@@ -91,11 +91,22 @@ fn main(){
 枚举类型和整型可以相互转换:
 
 ```c
-	i:=3 //推断为int
-	//println(i==.blue) //报错,类型不匹配
-	e:=Color(i) //转换为枚举类型
-	println(e==.blue) //输出true
-  ii:=int(e) //枚举类型转换为int
-  println(ii) //输出3
+enum Color {
+	red = 1
+	green
+	blue
+	black
+	white
+}
+
+fn main() {
+	i := 3 					// 推断为int
+	// println(i==.blue) 	//报错,类型不匹配
+	e := Color(i) 			// 转换为枚举类型
+	println(e == .blue) 	// 输出true
+	ii := int(e) 			// 枚举类型转换为int
+	println(ii) 			// 输出3
+}
+
 ```
 
