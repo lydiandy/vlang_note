@@ -2,11 +2,21 @@
 
 ## V语言学习笔记
 
-**记录V语言学习过程中的知识点**
+利用闲暇时间,体验了V语言,边看边动手记录,所以有了这个V语言学习笔记
 
-github地址: https://github.com/lydiandy/vlang_note
+### 写在前头的话
 
-gitbook阅读地址: https://lydiandylin.gitbook.io/vlang
+毕竟这是一门新发布的语言,开源时间(2019年6月22日)刚满1年,稳定性和成熟度肯定还需要时间完善,目前不能期望太高
+
+不过V语言作者还是实现了很多不错的语言特性,也很佩服他有勇气,有能力,又开发了一门新语言,并且很努力地全职开发,快速更新
+
+总之,V语言还算是很有潜力的一门新语言,不喜欢的人可以忽略,喜欢的人不妨抽点时间跟进一下,一起跟着V语言成长...
+
+V语言:[https://github.com/vlang](https://github.com/vlang)
+
+V语言学习笔记: https://github.com/lydiandy/vlang_note
+
+V语言学习笔记-gitbook阅读地址: https://lydiandylin.gitbook.io/vlang
 
 ---
 
