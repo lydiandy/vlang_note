@@ -76,7 +76,7 @@ Module {
 
 跟node的package.json类似,然后把下载的包统一放到~/.vmodules文件夹中,同一个包区分版本,提供个本机的所有项目使用
 
-创建模块项目:
+### 创建模块项目
 
 ```
 v new //创建一个项目,根据提示输入项目名称,描述等,生成的项目目录带有v.mod
@@ -87,4 +87,16 @@ v new //创建一个项目,根据提示输入项目名称,描述等,生成的项
 https://github.com/v-pkg/vpkg   
 
 https://github.com/yue-best-practices/vpm
+
+
+
+### 解析v.mod文件
+
+可以在代码中导入v.mod模块来解析v.mod,通过vmod.decode进行解码,这样就可以根据v.mod文件的内容方便实现各种库功能
+
+```c
+import v.vmod
+vm := vmod.decode( @VMOD_FILE ) or { panic(err) } //@VMOD_FILE是内置的全局变量,返回v.mod文件内容,字符串类型
+eprintln('$vm.name $vm.version\n $vm.description')
+```
 

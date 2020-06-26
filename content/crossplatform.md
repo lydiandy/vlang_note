@@ -162,14 +162,23 @@ v -os linux ./main.v
 module main
 
 fn main() {
-	println(@MOD) //当前模块main
-	println(@FN) //当前函数
-  println(@STRUCT) //当前结构体
-	println(@VEXE) //编译器的当前位置
-	println(@FILE) //当前源文件
-	println(@LINE) //当前行数
-	println(@COLUMN) //当前列数
-	println(@VHASH) //当前V编译器的vhash号
+	println(@MOD) 		// 当前模块main
+	println(@FN) 		// 当前函数
+	println(@STRUCT) 	// 当前结构体
+	println(@VEXE) 		// 编译器的当前位置
+	println(@FILE) 		// 当前源文件
+	println(@LINE) 		// 当前行数
+	println(@COLUMN) 	// 当前列数
+	println(@VHASH)		// 当前V编译器的vhash号
+	println(@VMOD_FILE) // 当前v.mod文件内容,以字符串形式返回.执行前确保存在v.mod文件,否则会编译报错
 }
+```
+
+另外,如果需要进一步解析v.mod的文件内容,可以导入v.mod模块,这个模块就是用来解析v.mod的
+
+```c
+import v.vmod
+vm := vmod.decode( @VMOD_FILE ) or { panic(err) }
+eprintln('$vm.name $vm.version\n $vm.description')
 ```
 
