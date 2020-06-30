@@ -111,7 +111,7 @@ V内置sql的好处有:
   	}
   	// delete语句
   	// sql db {
-  	// delete from User where id=4
+  	// delete from User where id==4
   	// }
   }
   
