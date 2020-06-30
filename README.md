@@ -30,9 +30,11 @@ V的语法看着，写着都很舒服，比go和rust都好
 
 吸收了go和rust中的各种简洁和优秀的特性
 
-有个关于V语言的评论挺有意思,原文的意思大致是这样:
+有个关于V语言的评论挺有意思,原文是这样:
 
-"如果rust和go有一个孩子的话,那应该就是V,而且他的爷爷C,也挺自豪有这么一个孙子 :)"
+"If Go and Rust had a baby it would be this language. Grandpa C should be proud."
+
+"如果Go和Rust有一个孩子的话,那应该就是V,他的爷爷C,也挺自豪有这么一个孙子 :)"
 
 对于V,主要还是看重:
 
