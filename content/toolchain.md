@@ -22,7 +22,7 @@ The commands are:
    fmt               格式化
    repl              运行交互式模式
    run               编译并运行指定的V源文件或目录
-   symlink           unix系统在/usr/local/bin/v生成V替身,windows生成环境变量
+   symlink           unix系统在/usr/local/bin/v生成链接,windows生成环境变量
    test              运行指定目录的测试文件
    translate         把C源代码翻译成V源代码[开发中,估计0.3版本才可以使用]
    up                升级编译器V到最新版本,等同于git pull,然后make

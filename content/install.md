@@ -73,7 +73,7 @@ make
 
 ### 增加symlink
 
-可以通过增加system link,让v编译器随处可用
+可以通过增加symbol link,让v编译器随处可用
 
 在unix,linux,mac系统中,进入到v可执行文件所在的目录,然后执行:
 
@@ -81,7 +81,7 @@ make
 sudo ./v symlink
 ```
 
-会创建/usr/local/bin/v快捷方式
+会创建/usr/local/bin/v链接
 
 在windows中,使用系统管理员打开命令行窗口,进入到v.exe所在的目录,然后执行:
 
