@@ -71,3 +71,24 @@ make
 
 这个目前不推荐使用,更新太慢
 
+### 增加symlink
+
+可以通过增加system link,让v编译器随处可用
+
+在unix,linux,mac系统中,进入到v可执行文件所在的目录,然后执行:
+
+```shell
+sudo ./v symlink
+```
+
+会创建/usr/local/bin/v快捷方式
+
+在windows中,使用系统管理员打开命令行窗口,进入到v.exe所在的目录,然后执行:
+
+```
+.\v.exe symlink
+```
+
+会创建v环境变量
+
+以上命令只需执行一次,如果v命令更换了位置,每次启动会自动更新快捷方式和环境变量
