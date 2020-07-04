@@ -27,6 +27,9 @@ fn my_fn(i int) ?int {
 	}
 	return i //正常返回
 }
+fn my_fn2(i int) ?(int,int) { //多返回值时,?放在括号前面
+  
+}
 
 fn main() {
     //函数调用
@@ -101,7 +104,7 @@ fn opt_none() Option {
 	}
 }
 
-pub fn error(s string) Option {
+pub fn error(s string) Option { //只带错误信息,不带错误码
 	return Option{
 		ok: false
 		is_none: false
@@ -109,7 +112,7 @@ pub fn error(s string) Option {
 	}
 }
 
-pub fn error_with_code(s string, code int) Option {
+pub fn error_with_code(s string, code int) Option { //带错误信息和错误码
 	return Option{
 		ok: false
 		is_none: false
