@@ -158,8 +158,11 @@ from defer_fn2
 
 相同的函数签名,表示同一类函数,可以用type定义为函数类型
 
+有一个注意点,如果函数的参数是可变mut的,也需要在函数类型中体现出来,否则编译器会报错
+
 ```c
 type mid_fn = fn(int,string) int
+type mid_fn = fn(mut int,mut string) int
 ```
 
 ### 函数作为参数

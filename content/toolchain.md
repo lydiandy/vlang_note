@@ -54,7 +54,7 @@ v -o main.c ./main.v //编译生成C源文件,而不是可执行文件
 v -prod xxx.v //生产优化模式编译,生成更小的可执行文件
 v -obf或-obfuscate //混淆编译生成可执行文件
 v -stats //编译时显示额外的统计信息,比如:`v -stats test .`
-v -cg ./main.v //如果编译报错,-cg选项可以提示报错更多的信息,以及报错对应的C代码行,可以更快地定位错误
+v -cg run ./main.v //如果编译报错,-cg选项可以提示报错更多的信息,以及报错对应的C代码行,可以更快地定位错误
 v -compress //调用upx，压缩加壳生成二进制文件
 v -os <os> //跨平台交叉编译,编译生成指定os的可执行文件,OS可以是:linux, mac, windows, msvc
 v -arch x64 //指定编译的架构,可以是x86或x64,默认是x64
