@@ -17,27 +17,43 @@ V脚本的文件名后缀为 .vsh
 script.vsh
 
 ```c
-for _ in 0..5 {
-  println('V script')
-}
 
-println('deploying...')
-println(ls('.'))
-println('')
-mv('v.exe', 'bin/v.exe')
-rm('tmp.c')
+ for _ in 0..5 {
+   println('V script')
+ }
 
-mkdir('name')
-create('foo.txt')
-println(ls('.'))
-println('')
+ println('deploying...')
 
-println('Removing name and foo.txt')
-println('')
-rmdir('name')
-rm('foo.txt')
+ println('Files')
+ foo := ls('.') or { panic(err) }
+ println(foo)
 
-println(ls('.'))
+ println('')
+ rm('a.out')
+
+ println('Making dir name and creating foo.txt')
+ mkdir('name')? // TODO mkdir()
+ create('foo.txt')?
+
+ foo_ls := ls('.') or { panic(err) }
+ println(foo_ls)
+ println('')
+
+ println('Entering into name')
+ chdir('name')
+ foo_ls2 := ls('.') or { panic(err) }
+ println(foo_ls2)
+ println('')
+
+ println('Removing name and foo.txt')
+ println('')
+ chdir('../')
+ rmdir('name')
+ rm('foo.txt')
+
+ again := ls('.') or { panic(err) }
+ println(again)
+
 ```
 
 编译,运行:
