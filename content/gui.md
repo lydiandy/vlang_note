@@ -34,25 +34,23 @@ sokol库更多内容可以参考[sokol图形库](sokol.md)章节
 
 #### 安装依赖
 
-目前ui依赖freetype和glfw相关的软件
-
-不过很快ui会移除glfw,改为更轻量的sokol,到时候前置依赖就只剩freetype了.
+ui依赖freetype和sokol,而sokol是单C文件,免安装,已内置在v/thirdparty/sokol中,所以要安装的依赖只有freetype:
 
 ```shell
 macOS:
-brew install glfw freetype
+brew install freetype
 
 Debian/Ubuntu:
-sudo apt install libglfw3 libglfw3-dev libfreetype6-dev
+sudo apt install libfreetype6-dev
 
 Arch/Manjaro:
-sudo pacman -S glfw-x11 freetype2
+sudo pacman -S freetype2
 
 Fedora:
-sudo dnf install glfw glfw-devel freetype-devel
+sudo dnf install freetype-devel
 
 ClearLinux:
-sudo swupd bundle-add devpkg-libX11 devpkg-mesa devpkg-freetype devpkg-glfw3
+sudo swupd bundle-add devpkg-libX11 devpkg-mesa devpkg-freetype
 
 Windows:
 v setup-freetype  

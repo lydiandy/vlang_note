@@ -69,13 +69,12 @@
 * --
 * [GUI相关库:](content/sokol.md)
 * [sokol](content/sokol.md)
-* [freetype](content/freetype.md)
-* [clipboard](content/clipboard.md)
+* [gg](content/gg.md)
 * [gx](content/gx.md)
 * [glm](content/glm.md)
+* [freetype](content/freetype.md)
 * [stbi](content/stbi.md)
-* [glfw](content/glfw.md)
-* [gg](content/gg.md)
+* [clipboard](content/clipboard.md)
 * --
 * [web框架:](content/vweb.md)
 * [vweb](content/vweb.md)
