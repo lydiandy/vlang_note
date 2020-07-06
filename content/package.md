@@ -17,7 +17,7 @@ v install nedpals.args //使用作者账号的名称作为路径,用点号分隔
 v install regex
 ```
 
-执行完毕后,会把包下载到~/.vmodules目录中
+执行完毕后,,mac/linux系统会下载到:~/.vmodules目录中,windows系统会把包下载到:C:\Users\xxx\ .vmodules目录中
 
 ```
 ~/.vmodules/nedpals/args

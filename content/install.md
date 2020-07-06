@@ -35,6 +35,9 @@ make
 如果需要编译http相关模块,需要安装openssl
 
 ```
+windosw:
+v setup-freetype
+
 macOS:
 brew install freetype openssl
 
