@@ -10,7 +10,7 @@
 
 2.根据代码中的$if来实现条件编译 
 
-### 源文件后缀名方式
+### 源文件后缀名
 
 源文件后缀包含了2个维度的条件编译:
 
@@ -51,7 +51,7 @@
 
   
 
-### 源代码中的$if方式
+### $if条件编译
 
 ```c
 $if windows {
@@ -139,6 +139,42 @@ fn main() {
 	}
 }
 ```
+
+### $for循环编译
+
+todo:
+
+```c
+struct App {
+}
+
+['foo/bar/three']
+fn (mut app App) run() {
+}
+
+['attr2']
+fn (mut app App) method2() {
+}
+
+fn test_comptime_for() {
+	/*
+	app := App{}
+
+	$for method in App { //.method_attrs {
+		words := attrs.split('/')
+		println(words)
+		//println(method.value)
+	}
+	assert true
+	println('DONE')
+	*/
+	if true {}
+	//
+	else{}
+}
+```
+
+
 
 ------
 

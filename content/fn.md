@@ -260,3 +260,11 @@ pub fn ext(path string) string {
 }
 ```
 
+### 函数标注
+
+todo:
+
+```c
+
+```
+
