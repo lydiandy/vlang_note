@@ -37,8 +37,8 @@
 * [集成C代码库](content/c.md)
 * [集成汇编代码](content/asm.md)
 * [裸机环境](content/bare_metal.md)
-* [VUI](content/gui.md)
-* [web框架](content/vweb.md)
+* [vui](content/gui.md)
+* [vweb框架](content/vweb.md)
 * [数据库](content/db.md)
 * [在浏览器运行V代码](content/gen_js.md)
 * --
@@ -75,9 +75,6 @@
 * [freetype](content/freetype.md)
 * [stbi](content/stbi.md)
 * [clipboard](content/clipboard.md)
-* --
-* [web框架:](content/vweb.md)
-* [vweb](content/vweb.md)
 * --
 * [V编译器源代码](content/compiler.md)
 * [生成C代码](content/genc.md)
