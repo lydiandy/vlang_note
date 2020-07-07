@@ -194,66 +194,66 @@ FreeType是一个完全开源的、可扩展、可定制且可移植的字体引
 
 也因为是采用自行绘制的,组件和组件的各种属性,方法,事件都要基于sokol重新定义
 
-#### UI结构体
+#### UI 结构体
 
-UI结构体主要包含了:绘制图形的gg,绘制文字的ft,系统剪贴板clipboard
+UI结构体主要包含了:绘制图形和绘制文字的gg,系统剪贴板clipboard
 
 window中的ui用来进行绘制图形,绘制文字,处理剪贴板
 
 一般来说全局只有:1个sokol.window实例,1个ui.window实例,1个ui.UI实例
 
-#### Widget接口
+#### Widget 接口
 
 所有的组件都实现了该接口
 
-#### Window窗体
+#### Window 窗体
 
 
 
-#### Canvas画布
+#### Canvas 画布
 
 
 
-#### Label标签
+#### Label 标签
 
 
 
-#### Button按钮
+#### Button 按钮
 
 
 
-#### Textbox文本框
+#### Textbox 文本框
 
 
 
-#### Checkbox复选框
+#### Checkbox  复选框
 
 
 
-#### Radio单选框
+#### Radio 单选框
 
 
 
-#### Slider滑竿
+#### Slider 滑竿
 
 
 
-#### Dropdown下拉菜单
+#### Dropdown 下拉菜单
 
 
 
-#### Progressbar进度条
+#### Progressbar 进度条
 
 
 
-#### Picture图像
+#### Picture 图像
 
 
 
-#### Menu菜单
+#### Menu 菜单
 
 
 
-#### TransitionValue动画
+#### TransitionValue 动画
 
 
