@@ -171,11 +171,7 @@ FreeType是一个完全开源的、可扩展、可定制且可移植的字体引
 
 ### ui组件
 
-刚发布的版本,目前的组件还比较少
-
-除了最基本的window组件是基于sokol window外,其他组件都是自行绘制的,可以在所有组件代码的draw()函数中看到自行绘制的代码
-
-基本的思路是:使用sokol的window,context,event,然后在窗体上自行绘制所有组件:
+基本的思路是:使用sokol的window,context,event,然后在窗体上自行绘制所有组件,可以在所有组件代码的draw()函数中看到自行绘制的代码
 
 以window组件为例,显示通用的组件创建过程
 
@@ -184,7 +180,7 @@ FreeType是一个完全开源的、可扩展、可定制且可移植的字体引
 3. 在每一个组件中定义draw()函数,包含绘制组件代码
 4. 把每一个窗体内的组件都添加到window的children[]中
 5. 使用window的ui,也就是UI结构体的实例来进行绘制
-6. 最后调用ui.run(window ui.Window)函数,进入for{}无限循环,然后循环调用window中所有children[]中每一个组件的draw()函数,渲染组件,类似实时绘制的效果,最后调用window.ui.gg.render()函数,完成渲染,并监听事件
+6. 最后调用ui.run(window &Window)函数,进入for{}无限循环,然后循环调用window中所有children[]中每一个组件的draw()函数,渲染组件,类似实时绘制的效果,最后调用window.ui.gg.run()函数,完成渲染,并监听事件
 
 因为都是采用自行绘制的,所以
 
@@ -205,6 +201,10 @@ window中的ui用来进行绘制图形,绘制文字,处理剪贴板
 #### Widget 接口
 
 所有的组件都实现了该接口
+
+#### Layout接口
+
+
 
 #### Window 窗体
 
