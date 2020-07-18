@@ -105,9 +105,9 @@ sokol C源代码存放在thirdparty/sokol目录中
 
 V绘图模块,用来在窗体上绘制各种图形
 
-gg是glad和glfw的缩写
+gg是general graphics的缩写
 
-gg其实就是绘图部分的context的作用,觉得可以直接命名为Context更好理解
+gg其实就是绘图部分的context,觉得可以直接命名为Context更好理解
 
 gg结构体提供进行绘制的相关方法,给全局使用,特别是组件的draw()
 
