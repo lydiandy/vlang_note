@@ -56,6 +56,26 @@ import mymodule as mymod
 import mymodule.submodule
 ```
 
+上面的导入模块方式,使用时都需要带上模块名作为前缀,
+
+也可以像python那样,直接导入模块内pub元素(目前仅限函数和结构体),使用时不需要模块名前缀
+
+```v
+module main
+
+import os { user_os }
+import time { now }
+
+
+fn main() {
+	println(user_os())
+	println(now())
+}
+
+```
+
+
+
 模块对应的就是文件系统的目录,子模块对应的就是子目录,通过点号来表示子模块
 
 导入其他模块后,就形成了模块依赖,模块间不允许循环依赖,编译器在编译时会进行检查
