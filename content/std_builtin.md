@@ -339,6 +339,24 @@
     至今为止共定义了128个字符，其中33个字符无法显示
 
     在33个字符之外的是95个可显示的字符
+    
+- filter(fn (b type) bool) string
+
+    字符串过滤函数,逐个字节判断,满足返回条件的字符串
+
+    ```c
+    module main
+    
+    fn main() {
+    	foo := 'V is awesome!!!!'.filter(fn (b byte) bool {
+    		return b != `!`
+    	})
+    	println(foo)
+    }
+    
+    ```
+
+    
 
 **字符方法:**
 

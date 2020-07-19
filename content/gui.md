@@ -105,9 +105,9 @@ sokol C源代码存放在thirdparty/sokol目录中
 
 V绘图模块,用来在窗体上绘制各种图形
 
-gg是glad和glfw的缩写
+gg是general graphics的缩写
 
-gg其实就是绘图部分的context的作用,觉得可以直接命名为Context更好理解
+gg其实就是绘图部分的context,觉得可以直接命名为Context更好理解
 
 gg结构体提供进行绘制的相关方法,给全局使用,特别是组件的draw()
 
@@ -171,11 +171,7 @@ FreeType是一个完全开源的、可扩展、可定制且可移植的字体引
 
 ### ui组件
 
-刚发布的版本,目前的组件还比较少
-
-除了最基本的window组件是基于sokol window外,其他组件都是自行绘制的,可以在所有组件代码的draw()函数中看到自行绘制的代码
-
-基本的思路是:使用sokol的window,context,event,然后在窗体上自行绘制所有组件:
+基本的思路是:使用sokol的window,context,event,然后在窗体上自行绘制所有组件,可以在所有组件代码的draw()函数中看到自行绘制的代码
 
 以window组件为例,显示通用的组件创建过程
 
@@ -184,7 +180,7 @@ FreeType是一个完全开源的、可扩展、可定制且可移植的字体引
 3. 在每一个组件中定义draw()函数,包含绘制组件代码
 4. 把每一个窗体内的组件都添加到window的children[]中
 5. 使用window的ui,也就是UI结构体的实例来进行绘制
-6. 最后调用ui.run(window ui.Window)函数,进入for{}无限循环,然后循环调用window中所有children[]中每一个组件的draw()函数,渲染组件,类似实时绘制的效果,最后调用window.ui.gg.render()函数,完成渲染,并监听事件
+6. 最后调用ui.run(window &Window)函数,进入for{}无限循环,然后循环调用window中所有children[]中每一个组件的draw()函数,渲染组件,类似实时绘制的效果,最后调用window.ui.gg.run()函数,完成渲染,并监听事件
 
 因为都是采用自行绘制的,所以
 
@@ -194,66 +190,70 @@ FreeType是一个完全开源的、可扩展、可定制且可移植的字体引
 
 也因为是采用自行绘制的,组件和组件的各种属性,方法,事件都要基于sokol重新定义
 
-#### UI结构体
+#### UI 结构体
 
-UI结构体主要包含了:绘制图形的gg,绘制文字的ft,系统剪贴板clipboard
+UI结构体主要包含了:绘制图形和绘制文字的gg,系统剪贴板clipboard
 
 window中的ui用来进行绘制图形,绘制文字,处理剪贴板
 
 一般来说全局只有:1个sokol.window实例,1个ui.window实例,1个ui.UI实例
 
-#### Widget接口
+#### Widget 接口
 
 所有的组件都实现了该接口
 
-#### Window窗体
+#### Layout接口
 
 
 
-#### Canvas画布
+#### Window 窗体
 
 
 
-#### Label标签
+#### Canvas 画布
 
 
 
-#### Button按钮
+#### Label 标签
 
 
 
-#### Textbox文本框
+#### Button 按钮
 
 
 
-#### Checkbox复选框
+#### Textbox 文本框
 
 
 
-#### Radio单选框
+#### Checkbox  复选框
 
 
 
-#### Slider滑竿
+#### Radio 单选框
 
 
 
-#### Dropdown下拉菜单
+#### Slider 滑竿
 
 
 
-#### Progressbar进度条
+#### Dropdown 下拉菜单
 
 
 
-#### Picture图像
+#### Progressbar 进度条
 
 
 
-#### Menu菜单
+#### Picture 图像
 
 
 
-#### TransitionValue动画
+#### Menu 菜单
+
+
+
+#### TransitionValue 动画
 
 

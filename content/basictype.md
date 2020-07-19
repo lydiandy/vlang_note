@@ -182,6 +182,9 @@ println(s1) //输出a
 println(s2) //输出aa
 println(c1) //输出97
 println(c1.str()) //通过str()函数转换为字符串后,输出a
+  
+//需要特别注意的是
+//'a'跟`a`不是同一类型,不能拿来比较,否则编译器会报错
 ```
 
 常用字符串内置函数,可以参考后面的[标准库](./std_builtin.md)章节,也可以直接参考vlib/builtin/string.v源代码

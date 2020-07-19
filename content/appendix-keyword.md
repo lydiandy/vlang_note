@@ -1,23 +1,21 @@
 ## 附录1 关键字
 
-V语言关键字:
+V语言目前一共有29关键字:
 
-```c
+```go
 as
-asm
 assert
-atomic
-break 
-const  
+break
+const
 continue
 defer
 else
 enum
+false
 fn
 for
 go
 goto
-global
 if
 import
 in
@@ -31,22 +29,27 @@ or
 pub
 return
 struct
-select //db.select使用到
-unsafe
-union
+true
 type
+unsafe
 ```
 
-这几个没有列在关键字中,但是跟关键字的效果基本一致:
+以下没有列在关键字中,但是跟关键字的效果基本一致:
 
 ```c
+asm
+atomic
+global
+select //db.select使用到,也保留用于轻量级线程
+union
+  
 len
 cap
 init
   
 sizeof
 typeof
-  
-C
+ 
+C //C函数
 ```
 
