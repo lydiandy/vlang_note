@@ -30,25 +30,20 @@ make
 
 #### 可选安装
 
-如果需要编译vui相关模块,需要安装freetype
-
 如果需要编译http相关模块,需要安装openssl
 
 ```
-windosw:
-v setup-freetype
-
 macOS:
-brew install freetype openssl
+brew install openssl
 
 Debian/Ubuntu:
-sudo apt install libfreetype6-dev libssl-dev
+sudo apt install libssl-dev
 
 Arch/Manjaro:
-sudo pacman -S freetype2
+openssl is installed by default
 
 Fedora:
-sudo dnf install freetype-devel
+sudo dnf install openssl-devel
 ```
 
 #### 后续升级
