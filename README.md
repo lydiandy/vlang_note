@@ -6,17 +6,19 @@
 
 ### 写在前头的话
 
-毕竟这是一门新发布的语言,开源时间(2019年6月22日)刚满1年,稳定性和成熟度肯定还需要时间完善,目前不能期望太高.
+毕竟这是一门新发布的语言,开源时间(2019年6月22日)1年多,稳定性和成熟度肯定还需要时间完善,目前不能期望太高.
 
 不过V语言作者还是实现了很多不错的语言特性,也很佩服他有勇气,有能力,又开发了一门新语言,并且很努力地全职开发,快速更新.
 
 总之,V语言还算是很有潜力的一门新语言,不喜欢的人可以忽略,喜欢的人不妨抽点时间跟进一下,一起跟着V语言成长...
 
-V语言:[https://github.com/vlang](https://github.com/vlang)
+V语言官网:  [https://vlang.io/]( https://vlang.io/)
 
-V语言学习笔记: https://github.com/lydiandy/vlang_note
+V语言代码库:  [https://github.com/vlang](https://github.com/vlang)
 
-V语言学习笔记-gitbook阅读地址: https://lydiandylin.gitbook.io/vlang
+V语言学习笔记:  https://github.com/lydiandy/vlang_note
+
+V语言学习笔记-gitbook阅读地址:  https://lydiandylin.gitbook.io/vlang
 
 ---
 
@@ -24,7 +26,7 @@ V语言学习笔记-gitbook阅读地址: https://lydiandylin.gitbook.io/vlang
 
 V感觉就是**go+rust+c**的结合体，吸收了这三者的优点,不过像go更多一点
 
-V实现了自举，编译器把V代码生成C代码，然后再调用gcc或者clang来编译生成的C代码
+V也实现了自举，编译器把V代码生成C代码，然后再调用gcc或者clang来编译生成的C代码
 
 V的语法看着，写着都很舒服，比go和rust都好
 
