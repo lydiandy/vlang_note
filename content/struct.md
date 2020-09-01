@@ -146,7 +146,7 @@ button.set_pos(x, y)
 
 ### 结构体标注
 
-标注目前主要有结构体标注,结构体字段标注,函数标注这三种
+V语言中的标注目前主要有这三种:结构体标注,结构体字段标注,函数/方法标注
 
 多个标注之间通过分号分隔,标注的键值对通过冒号分隔,例如下面的结构体字段标注:
 
@@ -155,23 +155,52 @@ button.set_pos(x, y)
 struct Point {
 pub:
 	x int // abc
-	y int [json2:yyy223;abc:'33'] //结构体字段标注
+	y int [json:yyy223;abc:'33'] //结构体字段标注
 pub mut:
 	z int = 22
 }
-[inline] //函数标注
+```
+
+结构体标注目前主要用在集成C代码库,详细参考:[集成C代码库](./c.md)
+
+### 结构体字段标注
+
+1. 用于内置json解析支持,详细参考:[json章节](./json.md)
+
+2. 结构体字段必须初始化赋值标注
+
+```go
+struct Point {
+	x int
+	y int
+	z int   [required] 	//字段标注required表示必须初始化赋值
+}
+
+fn main() {
+	a := Point{
+		// x: 1 		//不会报错,x不是必须初始化赋值
+		y: 3
+		z: 5
+	}
+	b := Point{
+		x: 2
+		y: 4
+    // z: 6     //报错: field `Point.z` is required
+	}
+	println(a)
+	println(b)
+}
+
+```
+
+### 结构体方法标注
+
+跟函数标注一样,也可以对结构体方法进行标注
+
+```go
+[inline] //方法标注
 pub fn (p Point) position() (int, int) {
 	return p.x, p.y
 }
 ```
-
-
-
-- 结构体的标注
-
-  目前主要用在集成C代码库,详细参考:[集成C代码库](./c.md)
-
-- 结构体字段的标注
-
-  目前主要用于内置json解析支持,详细参考:[json章节](./json.md)
 

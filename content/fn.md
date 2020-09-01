@@ -249,22 +249,36 @@ fn main() {
 }
 ```
 
-### 函数作废
+### 函数标注
 
-模块发布给其他用户使用后,如果模块的某个函数想要声明作废,可以这么使用:
+- 作废标注
+
+  模块发布给其他用户使用后,如果模块的某个函数想要声明作废,可以使用作废标注
 
 ```c
-[deprecated] //函数标注作废
+[deprecated] //函数作废标注
 pub fn ext(path string) string {
 	panic('Use `filepath.ext` instead of `os.ext`') //结合panic进行报错提示
 }
+[deprecated] //方法作废标注
+pub fn (p Point) position() (int, int) {
+	return p.x, p.y
+}
 ```
 
-### 函数标注
+- inline标注
 
-todo:
+  inline标注的功能跟C函数的inline函数一样
 
 ```c
+[inline] //函数inline标注
+pub fn sum(x y int) int {
+  return x+y
+}
 
+[inline] //方法inline标注
+pub fn (p Point) position() (int, int) {
+	return p.x, p.y
+}
 ```
 
