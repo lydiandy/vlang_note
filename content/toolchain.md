@@ -15,7 +15,7 @@ Usage:v [options] [command] [arguments]
 ```shell
 Usage:v [options] [command] [arguments]
 The commands are:
-   build             编译指定的V源文件或目录
+   build             编译器的默认子命令,编译指定的V源文件或目录
    new               创建新的V项目,主要是生成v.mod项目文件
    init              对现有已存在的V项目生成v.mod项目文件
    doc               生成指定模块的文档
@@ -33,7 +33,10 @@ The commands are:
    install           从https://vpm.vlang.io/安装指定的一个或多个模块
    remove            删除已安装的模块
    search            搜索模块
-   update            升级模块
+   update            升级指定已安装的模块
+   upgrade					 升级所有已安装的模块
+   list							 列出所有已安装的模块
+   outdated					 列出所有过时需要升级的模块
 ```
 
 可以使用v help xxx进一步查看各个子命令的具体帮助文本:
@@ -66,10 +69,10 @@ v -shared  //编译生成共享库
 常用命令例子：
 
 ```shell
-v main.v //编译当前目录中的main.v源文件,生成同名的main可执行文件
-v run main.v //编译当前目录中的main.v源文件，生成同名的main可执行文件，并运行
+v main.v 			//编译当前目录中的main.v源文件,生成同名的main可执行文件
+v run main.v 	//编译当前目录中的main.v源文件,生成同名的main可执行文件，并运行
 
-v -o myexe main.v //编译当前目录中的main.v源文件，生成的可执行文件名为myexe
+v -o myexe main.v 	//编译当前目录中的main.v源文件，生成的可执行文件名为myexe
 v -o myexe.c mani.v //编译当前目录中的main.v源文件，生成对应的C源文件，而不是可执行文件
 v -o myexe.js main.v //编译当前目录中的main.v源文件，生成对应的js源文件，而不是可执行文件
 
