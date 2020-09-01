@@ -41,6 +41,10 @@ v search xxx //搜索指定关键字的包
 v intall xxx //安装包
 v update xxx //升级包
 v remove xxx //删除包
+v update xxx //升级指定已安装的包
+v upgrade		 //升级所有已安装的包
+v list			 //列出所有已安装的包
+v outdated	 //列出所有过时需要升级的包
 ```
 
 ### 模块搜索路径
