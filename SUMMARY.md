@@ -17,6 +17,7 @@
 * [结构体](content/struct.md)
 * [访问控制](content/access_controll.md)
 * [方法](content/method.md)
+* [标注](content/attribute.md)
 * [接口](content/interface.md)
 * [泛型](content/generic.md)
 * [联合类型](content/union.md)
