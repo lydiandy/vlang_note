@@ -1,20 +1,32 @@
 ## 并发
 
-还没有实现,语法基本跟go一样,也是使用go关键字,预计也是跟go一样的轻量级线程
+V语言并发的思路和语法跟go一样,甚至关键字也一样:go和chan
 
-目前如果使用go关键字,代码也能正常运行,只是启用一个新的子进程来执行,没啥意义:
+目前已经实现了一个早期版本的并发,可以初步使用
 
-```c
+```go
 module main
+const (
+	num_iterations = 10000
+)
 
-fn add(x,y int) int {
-	println('from add')
-	return x+y
+fn do_send(ch chan int) {
+	for i in 0 .. num_iterations {
+		ch <- i
+	}
 }
 
-fn main(){
-	println('from main')
-	go add(2,5) 
+fn main() {
+	ch := chan int{cap: 1000}
+	go do_send(ch)
+	mut sum := i64(0)
+	for _ in 0 .. num_iterations {
+		sum += <-ch
+	}
+	println(sum)
 }
+
 ```
+
+更多参考代码可以查看: vlib/sync
 
