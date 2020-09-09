@@ -116,6 +116,30 @@ fn multi_byteptr_ret() (byteptr, bool) { //返回字节指针
 }
 ```
 
+忽略返回值
+
+跟go一样,可以使用下划线来忽略函数的某个返回值
+
+```rust
+fn main() {
+	a, _ := foo() // 忽略第二个返回值
+	_, _ := foo() // 也可以忽略全部的返回值
+	println(a) // 2
+	b := bar()
+	_ := bar()
+	println(b) // 2
+}
+
+fn bar() int {
+	return 2
+}
+
+fn foo() (int, int) {
+	return 2, 3
+}
+
+```
+
 
 
 ### 函数defer语句
