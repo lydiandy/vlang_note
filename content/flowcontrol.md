@@ -227,9 +227,19 @@ for key,value in m {
 }
 ```
 
-###  
+### goto语句
 
-goto语句
+goto语句只能在函数内部跳转
 
-关键字有看到还保留着goto,但是还没有看到具体的使用例子
+```go
+fn main() {
+	mut i := 0
+	a:	//定义跳转标签
+	i++
+	if i < 3 {
+		goto a //跳转到a标签
+	}
+	println(i)
+}
+```
 
