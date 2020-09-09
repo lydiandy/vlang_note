@@ -82,7 +82,7 @@ struct StructAttrTest {
 }
 
 [testing]
-pub struct PubStructAttrTest {
+struct PubStructAttrTest {
 	foo string
 	bar int
 }
@@ -94,7 +94,7 @@ enum EnumAttrTest {
 }
 
 [testing]
-pub enum PubEnumAttrTest {
+enum PubEnumAttrTest {
 	one
 	two
 }
@@ -102,7 +102,7 @@ pub enum PubEnumAttrTest {
 
 [attrone]
 [attrtwo]
-pub enum EnumMultiAttrTest {
+enum EnumMultiAttrTest {
 	one
 	two
 }
@@ -113,7 +113,7 @@ fn test_fn_attribute() {
 }
 
 [testing]
-pub fn test_pub_fn_attribute() {
+fn test_pub_fn_attribute() {
 	assert true
 }
 
