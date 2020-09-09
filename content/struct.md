@@ -146,22 +146,25 @@ button.set_pos(x, y)
 
 ### 结构体标注
 
-V语言中的标注目前主要有这三种:结构体标注,结构体字段标注,函数/方法标注
-
-多个标注之间通过分号分隔,标注的键值对通过冒号分隔,例如下面的结构体字段标注:
+**[typedef]**
 
 ```c
-[typedef] //结构体标注
+[typedef]
 struct Point {
-pub:
-	x int // abc
-	y int [json:yyy223;abc:'33'] //结构体字段标注
-pub mut:
-	z int = 22
 }
 ```
 
-结构体标注目前主要用在集成C代码库,详细参考:[集成C代码库](./c.md)
+typedef标注目前主要用在集成C代码库,详细参考:
+
+**[ref_only]**
+
+  ref_only表示该结构体只能以引用的形式被使用,并且分配在堆上
+
+  ```c
+[ref_only]
+  struct Window {  //只能通过引用(&Window)来使用这个结构体
+  }
+  ```
 
 ### 结构体字段标注
 
