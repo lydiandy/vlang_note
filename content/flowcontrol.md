@@ -1,6 +1,6 @@
 ## 流程控制
 
-### if 条件语句
+### if条件语句
 
 ```c
 a := 10
@@ -14,10 +14,11 @@ if a < b {
 }
 ```
 
-if表达式:
+条件赋值(if表达式)
 
 ```c
 num := 777
+//简单的条件赋值
 s := if num % 2 == 0 {
 	'even'
 }
@@ -25,13 +26,18 @@ else {
 	'odd'
 }
 println(s) // "odd"
+//多条件赋值
+a, b, c := if true {1,'awesome',13} else {0,'bad',0}
+println(a)
+println(b)
+println(c)
 ```
 
 
 
-### match 分支/匹配语句
+### match分支语句
 
-match要求包括所有可能,所以基本都要带上else语句
+match要求穷尽所有可能,所以基本都要带上else语句
 
 ```c
 os:='macos'
@@ -68,9 +74,9 @@ match os {
 }
 ```
 
-match表达式:
+match赋值(match表达式)
 
-```c
+```rust
 os:='macos'
 price:=match os {
     'windows' {
@@ -87,6 +93,15 @@ price:=match os {
     }
 }
 println(price) //输出150
+//多变量match赋值
+a,b,c := match false {
+		true { 1,2,3 }
+		false { 4,5,6 }
+		else { 7,8,9 }
+}
+println(a)
+println(b)
+println(c)
 ```
 
 match的同时,加上mut ,可以修改匹配变量,通常是配合for in 语句结合使用
