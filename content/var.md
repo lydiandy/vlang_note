@@ -85,6 +85,44 @@ fn main() {
 }
 ```
 
+#### 多变量赋值
+
+```rust
+fn main() {
+	f1()
+	f2()
+	f3()
+}
+
+fn f1() {
+	a, b, c := 1, 3, 5 // 多变量声明并赋值
+	println(a)
+	println(b)
+	println(c)
+}
+
+fn f2() {
+	mut a := 1
+	mut b := 2
+	a, b = b, a // 交换
+}
+
+fn f3() {
+	mut a := 11
+	mut b := 22
+	mut c := 33
+	mut d := 44
+	a, b, c, d = b, a++, d + 1, -c // 多变量赋值
+	println(a) // 22
+	println(b) // 11
+	println(c) // 45
+	println(d) // -33
+}
+
+```
+
+
+
 #### 强制类型转换
 
 可以通过T( ) 对类型进行显示声明,或者强制类型转换
