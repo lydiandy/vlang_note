@@ -58,13 +58,14 @@ import mymodule.submodule
 
 上面的导入模块方式,使用时都需要带上模块名作为前缀,
 
-也可以像python那样,直接导入模块内pub元素(目前仅限函数和结构体),使用时不需要模块名前缀
+直接导入模块内pub元素(目前仅限函数和结构体),使用时不需要模块名前缀(不推荐使用,有点失去清晰性,统一把模块作为前缀还是比较清晰的)
 
-```v
+```go
 module main
 
 import os { user_os }
 import time { now }
+//import time as t { now, utc, Time } //也可以模块别名和直接导入同时使用
 
 
 fn main() {
