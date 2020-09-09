@@ -260,18 +260,30 @@ pub fn width() int {
 
 可以在函数内部定义匿名函数:
 
-```c
+```go
+import sync
+
 fn main() {
-	f1 := fn(a int){
+	f1 := fn (a int) { //定义函数类型变量
 		println('hello from f1')
 	}
-	f1(1)
-    
-	f2 := fn(a int){
+	f1(1) 
+	f2 := fn (a int) { //定义函数类型变量
 		println('hello from f2')
 	}
 	f2(1)
+	fn (a int) { //匿名函数定义同时调用
+		println('hello from anon_fn')
+	}(1)
+	// 结合go使用
+	mut wg := sync.new_waitgroup()
+	go fn (mut wg sync.WaitGroup) {
+		println('hello from go')
+		wg.done()
+	}(mut wg)
+	wg.wait()
 }
+
 ```
 
 ### 函数标注
