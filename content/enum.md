@@ -110,3 +110,29 @@ fn main() {
 
 ```
 
+枚举类型数组
+
+可以定义枚举类型的数组,数组的值是某个枚举项
+
+```rust
+struct Abc {
+mut:
+	flags []Flag
+}
+
+enum Flag {
+	flag_one
+	flag_two
+	flag_three
+}
+
+fn main() {
+	mut a := Abc{}
+	a.flags << .flag_one
+	a.flags << .flag_two
+	a.flags << .flag_three
+	println(a.flags)
+}
+
+```
+
