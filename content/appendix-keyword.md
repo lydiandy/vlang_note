@@ -1,11 +1,12 @@
 ## 附录1 关键字
 
-V语言目前一共有29关键字:
+V语言目前一共有30关键字:
 
 ```go
 as
 assert
 break
+chan
 const
 continue
 defer
