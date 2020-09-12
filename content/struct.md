@@ -158,13 +158,35 @@ typedef标注目前主要用在集成C代码库,详细参考:
 
 **[ref_only]**
 
-  ref_only表示该结构体只能以引用的形式被使用,并且分配在堆上
+ref_only表示该结构体创建的变量不能被复制,只能以引用的形式被使用
 
   ```c
 [ref_only]
-  struct Window {  //只能通过引用(&Window)来使用这个结构体
-  }
+struct Window {  //只能通过引用的形式(&Window)来使用这个结构体
+}
+
   ```
+
+可以参考标准库sync中WaitGroup的实际使用
+
+vlib/sync/waitgroup.v
+
+```go
+[ref_only] 
+struct WaitGroup {
+mut:
+	task_count       int 
+	task_count_mutex &Mutex = &Mutex(0) 
+	wait_blocker     &Waiter = &Waiter(0) 
+}
+
+pub fn new_waitgroup() &WaitGroup { //不能被复制,只能以引用的方式被使用
+	return &WaitGroup{
+		task_count_mutex: new_mutex()
+		wait_blocker: new_waiter()
+	}
+}
+```
 
 ### 结构体字段标注
 

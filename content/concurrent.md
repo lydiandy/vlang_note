@@ -28,5 +28,23 @@ fn main() {
 
 ```
 
+### 声明chan变量
+
+
+
+### 读chan
+
+
+
+### 写chan
+
+
+
+### sync标准模块
+
+​	WaitGroup
+
+
+
 更多参考代码可以查看: vlib/sync
 

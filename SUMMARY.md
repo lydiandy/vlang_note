@@ -61,6 +61,7 @@
 * [eventbus](content/eventbus.md)
 * [regex](content/regex.md)
 * [crypto](content/crypto.md)
+* [sync](content/sync.md)
 * --
 * [数据库相关库:](content/pg.md)
 * [pg](content/pg.md)
