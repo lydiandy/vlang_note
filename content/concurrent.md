@@ -91,6 +91,32 @@ ch.close()
 
 关闭channel以后,使用try_push()和try_pop函数都会返回.closed枚举
 
+### 更多例子
+
+一般来说,主进程执行完毕后,不会等待其他子线程的结果,就直接退出返回,其他子线程也随着终止
+
+可以在主进程末尾增加阻塞等待子线程的运行结果
+
+```go
+module main
+
+import time
+
+fn main() {
+	ch := chan int{} //创建同步channel
+	go fn (c chan int) {
+		time.sleep(3)
+		println('goroutine done')
+		c.close() //关闭子线程或者写channel
+		// c <- 333
+	}(ch)
+	println('main...')
+	i := <-ch // 主线程阻塞,等待子线程返回数据或者关闭channel
+	println('main exit...$i')
+}
+
+```
+
 ### sync标准模块
 
 **Channel**
@@ -111,12 +137,57 @@ sync.channel_select()
 
 **WaitGroup**
 
+如果要等待多个并发任务结束,可以使用WaitGroup
+
+通过设定计数器,让每一个线程开始时递增计数,退出时递减计数,直到计数归零时,解除阻塞
+
 ```go
-wg:=sync.new_waitgroup()
-wg.add()
-wg.wait()
-wg.stop()
-wg.done()
+mut wg:=sync.new_waitgroup() //创建WaitGroup
+wg.add(int) //递增计数
+wg.done() //递减计数
+wg.wait() //阻塞等待,直到计数归零
+```
+
+```go
+module main
+
+import sync
+import time
+
+fn main() {
+	mut wg := sync.new_waitgroup()
+	for i := 0; i < 10; i++ {
+		wg.add(1) //递增计数
+		go fn (i int, mut w sync.WaitGroup) {
+			defer {
+				w.done() //完成后递减计数
+			}
+			time.sleep(1)
+			println('goroutine $i done')
+		}(i, mut wg)
+	}
+	println('main start...')
+	wg.wait() //阻塞等待,直到计数器归零
+	println('main end...')
+}
+
+```
+
+输出:
+
+```shell
+main start...
+goroutine 2 done
+goroutine 0 done
+goroutine 1 done
+goroutine 3 done
+goroutine 4 done
+goroutine 5 done
+goroutine 6 done
+goroutine 8 done
+goroutine 7 done
+goroutine 9 done
+main end...
 ```
 
 更多参考代码可以查看: vlib/sync
