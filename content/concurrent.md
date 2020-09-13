@@ -34,6 +34,12 @@ channel变量声明时,可以指定cap,cap表示缓冲区大小/容量,指定后
 
 len表示当前被使用的缓冲大小,len不能在声明时指定,初始值为0,只读,根据写入/读取channel自动改变,写入增加len,读取减少len
 
+没有指定cap的就是同步模式,同步模式下,发送和接收双方配对,然后读写同时完成,如果接收之前,还没有发送,就会出现阻塞
+
+有指定cap的就是异步模式,异步模式下,在缓冲大小的范围内,发送方不用等待接收方,数据写入后,继续往下执行,不会出现阻塞,如果超出了缓冲大小范围,发送方还是要阻塞等待接收方接收数据
+
+channel从底层实现上来说,是一个队列,通过push()把数据写入到队列中,通过pop()把数据读取出来,
+
 ```go
 fn main() {
 	ch := chan int{cap: 1000} //声明一个channel变量,类型为int,缓冲区大小为1000,即异步channel
@@ -55,6 +61,11 @@ fn main() {
 ```go
 ch:=chan int{cap:100}
 sum:= <-ch //读取channel
+
+//也可以使用try_pop()
+//尝试读channel,把channel的值,读取到i变量中,并返回ChanState枚举:.success/.not_ready/.colsed
+i:=0
+res:=ch.try_pop(&i) 
 ```
 
 ### 写入channel/发送消息
@@ -62,7 +73,21 @@ sum:= <-ch //读取channel
 ```go
 ch:=chan int{cap:100}
 ch <-2 //写入channel
+
+//也可以使用try_push()
+//尝试写channel,把i的值写入到channel中,并返回ChanState枚举:.success/.not_ready/.colsed
+i:=3
+res:=ch.try_push(&i)
+
 ```
+
+### 关闭channel
+
+```go
+ch.close()
+```
+
+关闭channel以后
 
 ### sync标准模块
 
@@ -71,12 +96,13 @@ ch <-2 //写入channel
 ```go
 //使用sync模块创建channel
 mut ch := sync.new_channel<int>(0) //泛型风格
-ch.len()
-ch.push()
-ch.pop()
-ch.try_push()
-ch.try_pop()
-ch.close()
+ch.cap //返回channel的缓冲区大小
+ch.len() //返回channel当前已使用的缓冲大小
+ch.push(&i) //写channel,一定要使用指针引用
+ch.pop(&i) //读channel,一定要使用指针引用,返回bool类型,true读取成功,false读取失败
+ch.try_push() //尝试写channel,返回ChanState枚举:.success/.not_ready/.colsed
+ch.try_pop()  //尝试读channel,返回ChanState枚举:.success/.not_ready/.colsed
+ch.close()  //关闭channel
 
 sync.channel_select()
 ```
