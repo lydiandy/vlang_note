@@ -30,15 +30,17 @@ fn main() {
 
 ### 声明channel变量
 
-channel变量声明时,cap表示容量,len表示长度,可以指定容量cap,但是长度len不能在初始化时指定,初始值为0,只读,根据写入channel的结果自动改变,表示被已被写入的长度
+channel变量声明时,可以指定cap,cap表示缓冲区大小/容量,指定后不可改变,如果不指定,默认为0
+
+len表示当前被使用的缓冲大小,len不能在声明时指定,初始值为0,只读,根据写入/读取channel自动改变,写入增加len,读取减少len
 
 ```go
 fn main() {
-	ch := chan int{cap: 1000} //声明一个channel变量,类型为int,容量为1000
+	ch := chan int{cap: 1000} //声明一个channel变量,类型为int,缓冲区大小为1000,即异步channel
 	println(ch.len) //0
 	println(ch.cap) //1000
   
-  ch2 := chan int{} //不指定cap,默认为0
+  ch2 := chan int{} //不指定cap,默认为0,即同步channel
   println(ch2.len) //0
 	println(ch2.cap) //0
   
@@ -48,25 +50,46 @@ fn main() {
 }
 ```
 
-### 读channel/接收消息
+### 读取channel/接收消息
 
 ```go
 ch:=chan int{cap:100}
-sum:= <-ch //从channel读取
+sum:= <-ch //读取channel
 ```
 
-### 写channel/发送消息
+### 写入channel/发送消息
 
 ```go
 ch:=chan int{cap:100}
-ch <-2 //将2写入channel
+ch <-2 //写入channel
 ```
 
 ### sync标准模块
 
-​	WaitGroup
+**Channel**
 
+```go
+//使用sync模块创建channel
+mut ch := sync.new_channel<int>(0) //泛型风格
+ch.len()
+ch.push()
+ch.pop()
+ch.try_push()
+ch.try_pop()
+ch.close()
 
+sync.channel_select()
+```
+
+**WaitGroup**
+
+```go
+wg:=sync.new_waitgroup()
+wg.add()
+wg.wait()
+wg.stop()
+wg.done()
+```
 
 更多参考代码可以查看: vlib/sync
 
