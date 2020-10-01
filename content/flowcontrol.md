@@ -242,6 +242,78 @@ for key,value in m {
 }
 ```
 
+### for match语句
+
+```rust
+fn main() {
+	mut a := 2
+	mut b := 0
+	for match a { //可以把整个match看做是for循环的条件
+		2 {
+			println('a == 2')
+			a = 0
+			true // 条件成立,执行下面for代码块,然后重新match
+		}
+		0 {
+			println('a == 0')
+			a = 1
+			true // 条件成立,执行下面for代码块,然后重新match
+		}
+		1 {
+			println('a == 1')
+			a = 5
+			false // 条件不成立,不执行下面for代码块,退出for match
+		}
+		else {
+			println('unexpected branch')
+			false
+		}
+	} { // for代码块,match条件成立后,执行该代码块,然后再重新for match
+		b++
+		println('${b}. run')
+	}
+	println(a)
+	println(b)
+}
+```
+
+### for select语句
+
+for select语句主要在并发中使用,用来循环监听多个chanel,更多内容可以参考[并发章节](concurrent.md)
+
+```go
+fn main() {
+	ch1 := chan int{}
+	ch2 := chan f64{}
+	go do_send(ch1, ch2)
+	mut a := 0
+	mut b := 0
+	for select { // 循环监听channel的写入,写入后执行for代码块,直到所有监听的channel都已关闭
+		x := <-ch1 {
+			a += x
+		}
+		y := <-ch2 {
+			a += int(y)
+		}
+	} { // for代码块
+		b++ // 写入3次
+		println('${b}. event')
+	}
+	println(a)
+	println(b)
+}
+
+fn do_send(ch1 chan int, ch2 chan f64) {
+	ch1 <- 3
+	ch2 <- 5.0
+	ch2.close()
+	ch1 <- 2
+	ch1.close()
+}
+```
+
+
+
 ### goto语句
 
 goto语句只能在函数内部跳转
@@ -251,6 +323,8 @@ fn main() {
 	mut i := 0
 	a:	//定义跳转标签
 	i++
+
+	// a: i++ //标签和语句在同一行也可以正常运行
 	if i < 3 {
 		goto a //跳转到a标签
 	}

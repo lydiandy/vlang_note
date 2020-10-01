@@ -91,6 +91,43 @@ ch.close()
 
 关闭channel以后,使用try_push()和try_pop函数都会返回.closed枚举
 
+### for select语句
+
+for select语句主要在并发中使用,用来循环监听多个chanel
+
+```go
+fn main() {
+	ch1 := chan int{}
+	ch2 := chan f64{}
+	go do_send(ch1, ch2)
+	mut a := 0
+	mut b := 0
+	for select { // 循环监听channel的写入,写入后执行for代码块,直到所有监听的channel都已关闭
+		x := <-ch1 {
+			a += x
+		}
+		y := <-ch2 {
+			a += int(y)
+		}
+	} { // for代码块
+		b++ // 写入3次
+		println('${b}. event')
+	}
+	println(a)
+	println(b)
+}
+
+fn do_send(ch1 chan int, ch2 chan f64) {
+	ch1 <- 3
+	ch2 <- 5.0
+	ch2.close()
+	ch1 <- 2
+	ch1.close()
+}
+```
+
+
+
 ### 更多例子
 
 一般来说,主进程执行完毕后,不会等待其他子线程的结果,就直接退出返回,其他子线程也随着终止
