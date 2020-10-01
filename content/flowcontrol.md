@@ -199,7 +199,7 @@ mut num := 0
 
 4. 遍历：for i in xxx {}
 
-    for in可以用来遍历字符串,数组,字典这三种类型
+    for in可以用来遍历字符串,数组,区间,字典这四种类型
     
 
 遍历字符串:
@@ -230,6 +230,19 @@ for i,num in numbers {
 for i in 0..numbers.len {
 	println('num:${numbers[i]}')
 }
+```
+
+遍历区间:
+
+```c
+fn main() {
+	mut sum := 0
+	for i in 1 .. 11 { // 左闭右开,遍历区间
+		sum += i
+	}
+	println(sum) //55
+}
+
 ```
 
 遍历字典:
