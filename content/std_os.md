@@ -67,11 +67,11 @@
 
 - dir(path string) string
 
-    返回路径中的目录部分，根据分隔符判断，如果没有分隔符则返回当前工作目录
+    返回路径中的目录部分，根据分隔符判断，如果没有分隔符则返回点号(当前目录)
 
-- basedir(path string) string
+- base(path string) string
 
-    返回路径中的目录部分，根据分隔符判断，如果没有分隔符则返回参数路径本身
+    返回路径中的最后一个元素，根据分隔符判断，如果没有分隔符则返回path本身
 
 - is_abs(path string) bool
 
