@@ -141,6 +141,8 @@ fn main() {
 	go send(ch1, ch2)
 	mut x := 0
 	mut y := 0
+	// ch1.close()
+	// ch2.close()
 	if select {
 		x = <-ch1 {
 			println('from x')
@@ -148,16 +150,16 @@ fn main() {
 		y = <-ch2 {
 			println('from y')
 		}
-	} {
+	} { // 如果select中的所有channel未关闭,则执行if代码块
 		println('from if')
-	} else {
+	} else { // 如果select中的所有channel都关闭,则执行else代码块
 		println('from else')
 	}
 }
 
 fn send(ch1, ch2 chan int) {
-	ch2 <- 2
 	ch1 <- 1
+	ch2 <- 2
 	println('from send')
 }
 
