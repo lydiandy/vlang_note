@@ -132,6 +132,37 @@ fn send(ch1, ch2 chan int) {
 
 ```
 
+### if select语句
+
+```go
+fn main() {
+	ch1 := chan int{}
+	ch2 := chan int{}
+	go send(ch1, ch2)
+	mut x := 0
+	mut y := 0
+	if select {
+		x = <-ch1 {
+			println('from x')
+		}
+		y = <-ch2 {
+			println('from y')
+		}
+	} {
+		println('from if')
+	} else {
+		println('from else')
+	}
+}
+
+fn send(ch1, ch2 chan int) {
+	ch2 <- 2
+	ch1 <- 1
+	println('from send')
+}
+
+```
+
 
 
 ### for select语句

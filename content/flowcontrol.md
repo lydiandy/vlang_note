@@ -257,6 +257,8 @@ for key,value in m {
 
 ### for match语句
 
+本质上这还是标准的for循环语句,只是match语句作为for循环的条件返回
+
 ```rust
 fn main() {
 	mut a := 2
