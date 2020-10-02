@@ -91,6 +91,49 @@ ch.close()
 
 关闭channel以后,使用try_push()和try_pop函数都会返回.closed枚举
 
+### select语句
+
+select语句可以同时监听多个channel的读写事件,并且可以进行监听的超时处理
+
+一般都会结合for循环使用,实现持续监听
+
+```go
+import time
+
+fn main() {
+	ch1 := chan int{}
+	ch2 := chan int{}
+	go send(ch1, ch2)
+	mut x := 0
+	mut y := 0
+	for {
+		select { // select可以同时监听多个channel的读写事件
+			x = <-ch1 { // 监听读channel
+				println('$x')
+			}
+			y = <-ch2 {
+				println('$y')
+			}
+			> 2 * time.second { // 监听的超时处理
+				break
+			}
+		}
+	}
+}
+
+fn send(ch1, ch2 chan int) {
+	ch1 <- 1
+	ch2 <- 2
+	ch1 <- 3
+	ch2 <- 4
+	ch1 <- 5
+	ch2 <- 6
+}
+
+```
+
+
+
 ### for select语句
 
 for select语句主要在并发中使用,用来循环监听多个chanel
