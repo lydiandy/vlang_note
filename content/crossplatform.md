@@ -49,48 +49,63 @@
   ...
   ```
 
-  
 
 ### $if条件编译
 
 ```c
-$if windows {
-	println('windows')
-    $if msvc { //可以在windows平台中,进一步判断是msvc还是mingw
-        
-    }
-    $if mingw { //可以在windows平台中,进一步判断是msvc还是mingw
-        
-    }
-}
-$if linux {
-	println('linux')
-}
-$if macos {  //或者mac
-	println('mac')
+fn main() {
+	$if windows {
+		println('windows')
+		$if msvc { // 可以在windows平台中,进一步判断是msvc还是mingw
+		}
+		$if mingw { // 可以在windows平台中,进一步判断是msvc还是mingw
+		}
+	}
+	$if linux {
+		println('linux')
+	}
+	$if macos { // 或者mac
+		println('mac')
+	}
+	$if windows {
+	} $else $if macos { // else if分支
+		println('macos')
+	} $else $if linux { // else if分支
+		println('linux')
+	} $else { // else分支
+		println('others')
+	}
+	$if !windows { // 使用非运算
+	}
+	$if linux || macos { // 使用或运算符
+	}
+	$if linux && x64 { // 使用且运算符
+	}
+	// 其他条件编译的选项有:
+	// freebsd,openbsd,netbsd,bsd,dragonfly,android,solaris
+	// js,tinyc,clang,msvc,mingw
 }
 
-$if windows {
-    
-} $else { //用来处理$if以外,其他平台的代码
-    
-}
-$if !windows { //还可以使用!,取否
-    
-}
-//其他条件编译的选项有:
-//freebsd,openbsd,netbsd,bsd,dragonfly,android,solaris
-//js,tinyc,clang,msvc,mingw
 ```
 
-判断是否使用了-debug
+识别自定义编译选项
+
+```c
+$if abc ? { //abc是自定义的编译选项,在条件编译时可以判断是否时候了自定义选项
+		println('自定义选项abc存在')
+	} 
+	//执行 v -d abc
+	//或者 v -define abc
+```
+
+判断是否使用了-cg,进入调试模式
 
 ```c
 $if debug {
 	println('from debug')
 }
 //执行:
-//v run main.v -debug
+//v run main.v -cg
 ```
 
 判断是否在测试代码中执行
