@@ -64,15 +64,15 @@ import mymodule.submodule
 module main
 
 import os { user_os }
-import time { now }
-//import time as t { now, utc, Time } //也可以模块别名和直接导入同时使用
+import time { now,utc }
+// import time as t { now, utc, Time } //也可以模块别名和直接导入同时使用,不过很少场景会同时使用
 
 
 fn main() {
 	println(user_os())
 	println(now())
+	// println(t.now())
 }
-
 ```
 
 
