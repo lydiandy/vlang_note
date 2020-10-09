@@ -1,6 +1,6 @@
 ## 附录1 关键字
 
-V语言目前一共有41个关键字:
+V语言目前一共有42个关键字:
 
 ```go
 as
@@ -8,6 +8,7 @@ asm
 assert
 atomic
 break
+chan
 const
 continue
 defer
