@@ -22,6 +22,7 @@
 * [泛型](content/generic.md)
 * [联合类型](content/sum_type.md)
 * [类型别名](content/type_alias.md)
+* 
 * [联合体](content/union.md)
 * [错误处理](content/error.md)
 * [运算符重载](content/operator_overloading.md)
