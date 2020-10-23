@@ -38,29 +38,32 @@ mut:
 	sql string
 }
 
-fn new() &DB { //&表示取地址,引用
-	return &DB {
+fn new() &DB { // &表示取地址,引用
+	return &DB{
 		sql: ''
 	}
 }
-fn (mut db DB)table(name string) &DB { //&表示取地址,引用
-	db.sql+=name
+
+fn (mut db DB) table(name string) &DB { // &表示取地址,引用
+	db.sql += name
 	return db
 }
-fn (mut db DB)where(condition string) &DB {
-	db.sql+=condition
+
+fn (mut db DB) where(condition string) &DB {
+	db.sql += condition
 	return db
 }
-fn (mut db DB)first() &DB {
-	db.sql+='limit 1'
+
+fn (mut db DB) first() &DB {
+	db.sql += 'limit 1'
 	return db
 }
 
 fn main() {
-	db:=new()
-  //链式调用
+	mut db := new()
+	// 链式调用
 	db.table('select * from user ').where('where id=1 ').first()
-	println(db.sql) //输出:select * from user where id=1 limit 1
+	println(db.sql) // 输出:select * from user where id=1 limit 1
 }
 
 ```
