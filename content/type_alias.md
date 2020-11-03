@@ -1,12 +1,14 @@
-## type alias 类型别名
+##类型别名(type alias)
 
-可以在某一个类型的基础上，定义类型别名
+可以在某一个类型的基础上定义类型别名,使用上完全一样
 
-### 基于基本类型-定义类型别名
+### 基于基本类型
 
 ```c
 type Myint = int
+
 type Myf32 = f32
+
 type Myf64 = f64
 
 fn main() {
@@ -15,30 +17,36 @@ fn main() {
 	f := Myf64(1.0)
 	println(f + 3.14 == 4.14)
 }
+
 ```
 
-### 基于结构体类型-定义类型别名
+### 基于结构体类型
 
 ```c
 module main
-struct Human { name string }
 
-pub fn (h Human) str() string { return 'Human: $h.name' }
+struct Human {
+	name string
+}
+
+pub fn (h Human) str() string {
+	return 'Human: $h.name'
+}
 
 type Person = Human
 
-fn test_type_print() {
-	p := Person{'Bilbo'}
-	println(p)
-	assert p.str() == 'Human: Bilbo'
+pub fn (h Person) str() string {
+	return 'Person: $h.name'
 }
-
-pub fn (h Person) str() string { return 'Person: $h.name' }
 
 fn main() {
 	p := Person{'Bilbo'}
+	p2 := Human{'jack'}
 	println(p)
-	assert p.str() == 'Person: Bilbo'
+	println(p2)
 }
+
 ```
+
+
 

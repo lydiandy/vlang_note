@@ -20,8 +20,8 @@
 * [标注](content/attribute.md)
 * [接口](content/interface.md)
 * [泛型](content/generic.md)
-* [联合类型](content/sum_type.md)
 * [类型别名](content/type_alias.md)
+* [联合类型](content/sum_type.md)
 * 
 * [联合体](content/union.md)
 * [错误处理](content/error.md)
