@@ -87,15 +87,7 @@ v new //创建一个新项目,根据提示输入项目名称,描述等,生成的
 v init //把当前目录作为项目，创建项目v.mod
 ```
 
-目前社区有2个人各自实现了2个包管理器,估计以后会合并进v标准的包管理
-
-https://github.com/v-pkg/vpkg   
-
-https://github.com/yue-best-practices/vpm
-
-
-
-### 解析v.mod文件
+### 解析模块描述文件
 
 可以在代码中导入v.mod模块来解析v.mod,通过vmod.decode进行解码,这样就可以根据v.mod文件的内容方便实现各种库功能
 
