@@ -14,7 +14,7 @@
 
 - 提供跟go一样的并发
 
-- 7个1级元素:const常量,enum枚举,function函数,struct结构体,method方法,interface接口,type类型
+- 6个1级元素:const常量,enum枚举,fn函数/方法,struct结构体,interface接口,type类型
 
 ------
 

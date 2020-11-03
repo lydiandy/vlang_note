@@ -10,9 +10,9 @@
 
 ```c
 struct User {
+mut:
 	name string
-	age int
-	
+	age  int
 }
 
 fn (u User) get_name() string {
@@ -20,8 +20,9 @@ fn (u User) get_name() string {
 }
 
 fn (mut u User) set_name(name string) {
-	u.name=name
+	u.name = name
 }
+
 ```
 
 ### 方法链式调用
