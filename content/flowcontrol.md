@@ -18,19 +18,16 @@ if a < b {
 
 ```c
 num := 777
-//简单的条件赋值
-s := if num % 2 == 0 {
-	'even'
-}
-else {
-	'odd'
-}
-println(s) // "odd"
-//多条件赋值
-a, b, c := if true {1,'awesome',13} else {0,'bad',0}
+// 简单的条件赋值
+s := if num % 2 == 0 { 'even' } else { 'odd' }
+println(s)
+// "odd"
+// 多条件赋值
+a, b, c := if true { 1, 'awesome', 13 } else { 0, 'bad', 0 }
 println(a)
 println(b)
 println(c)
+
 ```
 
 
@@ -160,13 +157,14 @@ for的四种形式：
 1. 传统的：for i=0;i<100;i++ {}
 
 ```c
-   for i := 0; i < 10; i++ { 
-   	//跳过6
-   	if i == 6 {
-   		continue
-   	}
-   	println(i)
-   }
+for i := 0; i < 10; i++ {
+	// 跳过6
+	if i == 6 {
+		continue
+	}
+	println(i)
+}
+
 ```
 
    为了简洁的目的,for里面的i默认就是mut可变的,不需要特别声明为mut,如果声明了编译器会报错
@@ -174,13 +172,15 @@ for的四种形式：
 2. 替代while：for i<100 {}
 
 ```c
-   mut sum := 0
-   mut i := 0
-   for i <= 100 {
-   	sum += i
-   	i++
-   }
-   println(sum) // 输出"5050"
+mut sum := 0
+mut i := 0
+for i <= 100 {
+	sum += i
+	i++
+}
+println(sum)
+// 输出"5050"
+
 ```
 
 3. 无限循环：for {}
@@ -188,13 +188,15 @@ for的四种形式：
 
 ```c
 mut num := 0
-   for {
-   	num++
-   	if num >= 10 {
-   		break
-   	}
-   }
-   println(num) // "10"
+for {
+	num++
+	if num >= 10 {
+		break
+	}
+}
+println(num)
+// "10"
+
 ```
 
 4. 遍历：for i in xxx {}
@@ -205,15 +207,16 @@ mut num := 0
 遍历字符串:
 
 ```go
-   str:='abcdef'
-   //遍历value
-   for s in str {
-       println(s.str())
-   }
-   //遍历index和value
-   for i,s in str {
-       println('index:$i,value:${s.str()}')
-   }   
+str := 'abcdef'
+// 遍历value
+for s in str {
+	println(s.str())
+}
+// 遍历index和value
+for i, s in str {
+	println('index:$i,value:$s.str()')
+}
+
 ```
 
 遍历数组:
@@ -223,25 +226,24 @@ numbers := [1, 2, 3, 4, 5]
 for num in numbers {
 	println('num:$num')
 }
-for i,num in numbers {
+for i, num in numbers {
 	println('i:$i,num:$num')
 }
-//或者这种区间的写法也可以
-for i in 0..numbers.len {
+// 或者这种区间的写法也可以
+for i in 0 .. numbers.len {
 	println('num:${numbers[i]}')
 }
+
 ```
 
 遍历区间:
 
 ```c
-fn main() {
-	mut sum := 0
-	for i in 1 .. 11 { // 左闭右开,遍历区间
-		sum += i
-	}
-	println(sum) //55
+mut sum := 0
+for i in 1 .. 11 { // 左闭右开,遍历区间
+	sum += i
 }
+println(sum)	// 55
 
 ```
 
@@ -252,43 +254,6 @@ m:={"name":"jack","age":"20","desc":"good man"}
 
 for key,value in m {
 	println('key:$key,value:$value')
-}
-```
-
-### for match语句
-
-本质上这还是标准的for循环语句,只是match语句作为for循环的条件返回
-
-```rust
-fn main() {
-	mut a := 2
-	mut b := 0
-	for match a { //可以把整个match看做是for循环的条件
-		2 {
-			println('a == 2')
-			a = 0
-			true // 条件成立,执行下面for代码块,然后重新match
-		}
-		0 {
-			println('a == 0')
-			a = 1
-			true // 条件成立,执行下面for代码块,然后重新match
-		}
-		1 {
-			println('a == 1')
-			a = 5
-			false // 条件不成立,不执行下面for代码块,退出for match
-		}
-		else {
-			println('unexpected branch')
-			false
-		}
-	} { // for代码块,match条件成立后,执行该代码块,然后再重新for match
-		b++
-		println('${b}. run')
-	}
-	println(a)
-	println(b)
 }
 ```
 
@@ -326,8 +291,6 @@ fn do_send(ch1 chan int, ch2 chan f64) {
 	ch1.close()
 }
 ```
-
-
 
 ### goto语句
 

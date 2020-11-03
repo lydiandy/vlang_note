@@ -1,7 +1,5 @@
 ## 联合类型(sum types)
 
-
-
 ### 定义联合类型
 
 语法类似typescript，使用type 和 | 来定义一个联合类型
