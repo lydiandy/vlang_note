@@ -6,25 +6,27 @@
 
 枚举的命名跟结构体命名一样,必须以大写字母开头;枚举项的名称跟函数命名一样,必须是小写加下划线
 
-```c
+```v
 enum Color {
-	blue 			//如果没有指定初始值，默认从0开始，然后往下递增1
+	blue // 如果没有指定初始值，默认从0开始，然后往下递增1
 	green
 	white
 	black
 }
-fn main() {
-    mut c:=Color.green //第一次定义要使用：枚举名称.枚举值
-    println(c) //输出green
 
-    c=.blue //第二次修改赋值，直接使用.枚举值就可以了
-    println(c) //输出blue
+fn main() {
+	mut c := Color.green // 第一次定义要使用：枚举名称.枚举值
+	println(c) // 输出green
+	c = Color.blue
+	c = .blue // 第二次修改赋值，也可以忽略枚举名称,直接使用.枚举值就可以了
+	println(c) // 输出blue
 }
+
 ```
 
 也可以指定枚举值的值，枚举值也可以是负数
 
-```c
+```v
 enum Color2 {
 	blue =2 //可以指定初始值
 	green
@@ -48,7 +50,7 @@ fn main() {
 
 也可以指定枚举的值为16进制
 
-```c
+```v
 enum W_hex {
 	a = 0x001 //枚举值也支持16进制
 	b = 0x010
@@ -61,9 +63,11 @@ fn main() {
 }
 ```
 
-为枚举添加方法:
+### 枚举方法
 
-```c
+枚举也可以像结构体那样添加方法
+
+```v
 enum Color {
 	red = 1
 	green
@@ -88,9 +92,11 @@ fn main() {
 }
 ```
 
-枚举类型和整型可以相互转换:
+### 枚举值/整型相互转换
 
-```c
+枚举类型和整数类型是可以相互转换的
+
+```v
 enum Color {
 	red = 1
 	green
@@ -110,11 +116,11 @@ fn main() {
 
 ```
 
-枚举类型数组
+### 枚举类型数组
 
 可以定义枚举类型的数组,数组的值是某个枚举项
 
-```rust
+```v
 struct Abc {
 mut:
 	flags []Flag

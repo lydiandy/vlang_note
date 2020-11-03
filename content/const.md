@@ -34,6 +34,7 @@ fn my_fn() {
 
 ```c
 module main
+
 struct Color {
 	r int
 	g int
@@ -44,8 +45,8 @@ pub fn (c Color) str() string {
 	return '{$c.r, $c.g, $c.b}'
 }
 
-fn rgb(r, g, b int) Color {
-	return Color {
+fn rgb(r int, g int, b int) Color {
+	return Color{
 		r: r
 		g: g
 		b: b
@@ -53,19 +54,19 @@ fn rgb(r, g, b int) Color {
 }
 
 const (
-	Numbers = [1, 2, 3] // 数组
-	Red = Color {
+	numbers = [1, 2, 3] // 数组
+	red     = Color{
 		r: 255
 		g: 0
 		b: 0
 	} // 结构体类型
-	Blue = rgb(0, 0, 255) // 函数调用返回的结果,作为常量的值
+	blue    = rgb(0, 0, 255) // 函数调用返回的结果,作为常量的值
 )
 
 fn main() {
-	println(Numbers)
-	println(Red)
-	println(Blue)
+	println(numbers)
+	println(red)
+	println(blue)
 }
 
 ```
