@@ -86,9 +86,9 @@ string
 
 字符串是一个只读字节数组,默认不可变,UTF-8编码
 
-单引号和双引号都可以
+单引号和双引号都可以,习惯上都还是使用单引号,V编译器中的代码都是统一使用的单引号
 
-习惯上都还是使用单引号,V编译器中的代码都是统一使用的单引号,按作者的说法是可以少按一个shift键,更自然简单一些,不过打破了之前C的使用习惯,让人一开始有些不习惯
+按作者的说法是可以少按一个shift键,更自然简单一些,不过打破了之前C的使用习惯,让人一开始有些不习惯
 
 当使用双引号的时候,编译器会自动把双引号自动替换为单引号
 
@@ -180,8 +180,7 @@ c1:=`a` //反引号，字符类型,单字符
 // c2:=`中` //编译不通过,报错,只能是单字符
 println(s1) //输出a
 println(s2) //输出aa
-println(c1) //输出97
-println(c1.str()) //通过str()函数转换为字符串后,输出a
+println(c1) //输出a
   
 //需要特别注意的是
 //'a'跟`a`不是同一类型,不能拿来比较,否则编译器会报错
@@ -280,44 +279,47 @@ module main
 struct Point {
 	x int
 }
-type MySumType = int | f32 | Point
 
-type MyFn fn(int) int
-type MyFn2 fn()
+type MySumType = Point | f32 | int
+
+type MyFn = fn ( int) int
+
+type MyFn2 = fn ()
 
 fn myfn(i int) int {
 	return i
 }
+
 fn myfn2() {
-	
 }
 
 fn main() {
 	a := 123
-	s:='abc'	
-	aint := []int
-	astring := []string
-	astruct_static := [2]Point
+	s := 'abc'
+	aint := []int{}
+	astring := []string{}
+	astruct_static := [2]Point{}
 	astruct_dynamic := [Point{}, Point{}]
-	println(typeof(a)) //int
-	println(typeof(s))	//string
-	println(typeof(aint)) //array_int
-	println(typeof(astring)) //array_string
-	println(typeof(astruct_static)) //[2]Point
-	println(typeof(astruct_dynamic)) //array_Point
-
-	//联合类型也可以判断具体的类型
+	println(typeof(a)) // int
+	println(typeof(s)) // string
+	println(typeof(aint)) // array_int
+	println(typeof(astring)) // array_string
+	println(typeof(astruct_static)) // [2]Point
+	println(typeof(astruct_dynamic)) // array_Point
+	// 联合类型也可以判断具体的类型
 	sa := MySumType(32)
-	sb := MySumType(123.0)
-	sc := MySumType(Point{x:43})
-	println(typeof(sa))   //int
-	println(typeof(sb)) //f32
-	println(typeof(sc)) //Point
-
-	//函数类型
-	println(typeof(myfn)) //fn (int) int
-	println(typeof(myfn2)) //fn ()
+	sb := MySumType(f32(123.0))
+	sc := MySumType(Point{
+		x: 43
+	})
+	println(typeof(sa)) // int
+	println(typeof(sb)) // f32
+	println(typeof(sc)) // Point
+	// 函数类型
+	println(typeof(myfn)) // fn (int) int
+	println(typeof(myfn2)) // fn ()
 }
+
 ```
 
 
@@ -327,26 +329,23 @@ fn main() {
 ```c
 module main
 
-fn main(){
-	i:=8 //默认类型推断为int
-	b:=byte(8) //明确指定类型为byte
-	ii:=int(b) //强制转换为int
-
-	f:=3.2 //默认推断类型为f64
-	ff:=f32(3.2) //明确指定类型为f32
-	f3:=f64(f) //强制转换为f64
-
-	s:='abc' //默认推断为string	
-	c:=`c` //默认推断为byte,也就是单字符类型
-	ss:=string(&c,1) //强制转换为string,因为string(byteptr,int)就可以构造出一个字符串,其中byteptr是首字节指针,int是字符串长度
-    
-  //将字节数组转成字符串
-	mut byte_arr:=[]byte //字节数组
-	byte_arr<<`a`
-	byte_arr<<`b`
-	println(byte_arr) //输出[a,b]
-	str:=string(byte_arr,byte_arr.len) //将字节数组转成字符串
-	println(str) //输出ab    
+fn main() {
+	i := 8 // 默认类型推断为int
+	b := byte(8) // 明确指定类型为byte
+	ii := int(b) // 强制转换为int
+	f := 3.2 // 默认推断类型为f64
+	ff := f32(3.2) // 明确指定类型为f32
+	f3 := f64(f) // 强制转换为f64
+	s := 'abc' // 默认推断为string
+	c := `c` // 默认推断为byte,也就是单字符类型
+	// 将字节数组转成字符串
+	mut byte_arr := []byte{} // 字节数组
+	byte_arr << `a`
+	byte_arr << `b`
+	println(byte_arr) // 输出[a,b]
+	str := byte_arr.str() // 将字节数组转成字符串
+	println(str) // 输出[a,b]
 }
+
 ```
 
