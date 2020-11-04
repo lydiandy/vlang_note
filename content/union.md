@@ -4,7 +4,7 @@
 
 在V语言中比较少用到
 
-```c
+```v
 union MyAnything {
 mut:
     bytes [10]byte
