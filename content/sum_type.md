@@ -99,3 +99,30 @@ fn main() {
 
 ```
 
+### 联合类型嵌套
+
+联合类型还可以嵌套使用,支持更复杂的场景
+
+```v
+struct FnDecl {
+	pos int
+}
+
+struct StructDecl {
+	pos int
+}
+
+
+struct IfExpr {
+	pos int
+}
+
+struct IntegerLiteral {
+	val string
+}
+
+type Expr = IfExpr | IntegerLiteral
+type Stmt = FnDecl | StructDecl
+type Node = Expr | Stmt //联合类型嵌套
+```
+
