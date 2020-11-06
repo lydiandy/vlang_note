@@ -8,7 +8,7 @@
 
 接口命名跟结构体一样,要求首字母大写,建议以er风格结尾,非强制
 
-```go
+```v
 pub interface Speaker {
 		speak() string
 }
@@ -22,7 +22,7 @@ pub interface Speaker {
 
 鸭子类型:只要结构体实现了接口定义的方法,就满足该接口的使用
 
-```c
+```v
 module main
 
 struct Dog {}
@@ -56,7 +56,7 @@ fn main() {
 
 接口可以作为结构体字段类型使用:
 
-```c
+```v
 struct Foo {
 	speaker Speaker //接口类型字段
 	speakers []Speaker //接口类型数组字段
@@ -67,7 +67,7 @@ struct Foo {
 
 可以使用is关键字,对接口参数的具体类型进行判断
 
-```c
+```v
 fn perform(s Speaker) {
 	if s is Dog { //通过is操作符,判断接口类型是否是某一个具体类型
 		println('s is Dog')

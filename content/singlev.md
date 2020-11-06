@@ -8,7 +8,7 @@
 
 app.v
 
-```c
+```v
 fn my_fn() {
 	println('from my_fn')
 }

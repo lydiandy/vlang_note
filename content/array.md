@@ -8,7 +8,7 @@
 
 vlib/builtin/array.v
 
-```c
+```v
 struct array {
 pub: //公共只读
 	data voidptr //数组的起始指针
@@ -18,7 +18,7 @@ pub: //公共只读
 }
 ```
 
-```c
+```v
 arr := [1,2,3,4,5]  //字面量定义数组
 println(arr.data) //返回数组地址:0x7ff0d2c01270
 println(arr.len)  //返回5
@@ -40,7 +40,7 @@ println(arr.element_size) //返回4
 
 这种固定长度定义的数组,无法像字面量定义的那样,不能使用arr.len,无法使用<<追加元素
 
-```c
+```v
 fn main() {
 	mut arr:=[8]int //定义长度固定的数组,所有数组元素默认都是0值初始化
 	println(arr[1]) //返回0
@@ -60,7 +60,7 @@ fn main() {
 
 可以在定义数组时明确指定len,cap,init,进行初始化
 
-```c
+```v
 module main
 
 fn main() {
@@ -76,13 +76,13 @@ fn main() {
 
 定义一个指定长度,指定默认值的数组:
 
-```c
+```v
 arr := [0].repeat(50) //元素初始值为0,长度为50,容量为50
 println(arr.len) //返回50
 println(arr.cap) //返回50
 ```
 
-```c
+```v
 arr := ['a','b'].repeat(3) //元素初始值为a,b,重复3次,长度为6,容量为6
 println(arr.len) //返回6
 println(arr.cap) //返回6
@@ -95,14 +95,14 @@ println(arr) //返回['a','b','a','b','a','b']
 
 实际使用中需要注意的是 << 运算符是采用值复制的方式追加到数组中
 
-```c
+```v
 mut nums := [1, 2, 3]
 println(nums) // "[1, 2, 3]"
 nums << 4 //把一个元素追加到数组中
 println(nums) // "[1, 2, 3, 4]"
 ```
 
-```c
+```v
 mut nums := [1, 2, 3, 4]
 println(nums) // "[1, 2, 3, 4]"
 nums << [5, 6, 7] //把一个数组追加到数组中
@@ -111,7 +111,7 @@ println(nums) // "[1, 2, 3, 4, 5, 6, 7]"
 
 指针类型数组:
 
-```c
+```v
 mut arr := []&int
 	a := 1
 	b := 2
@@ -128,7 +128,7 @@ mut arr := []&int
 
 判断元素是否在数组里
 
-```c
+```v
 mut names := ['John']
 names << 'Peter'
 names << 'Sam'
@@ -139,13 +139,13 @@ println('Alex' in names) //false
 
 in的反操作符,判断元素是否不在数组里
 
-```c
+```v
 println('aa' !in names) //true
 ```
 
 遍历数组
 
-```c
+```v
 numbers := [1, 2, 3, 4, 5]
 for num in numbers {
 	println('num:$num')
@@ -163,7 +163,7 @@ for i in 0..numbers.len {
 
 左闭右开原则
 
-```c
+```v
 n := [1,2,3,4,5]
 println(n)
 println(n[..2])  //返回[1, 2]
@@ -175,7 +175,7 @@ println(n[2..4]) //返回[3, 4]
 
 维度的数量不仅仅于1,2维,不限
 
-```c
+```v
 module main
 
 fn main() {

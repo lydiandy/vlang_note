@@ -56,13 +56,13 @@ V语言可以针对结构体,结构体字段,函数/方法进行标注
 
 - [if debug]
 
-  ```go
+  ```v
   
   ```
 
 - [windows_stdcall]
 
-  ```go
+  ```v
   
   ```
 
@@ -74,7 +74,7 @@ V语言可以针对结构体,结构体字段,函数/方法进行标注
 
 目前结构体标注和结构体字段标注,已经可以通过$for编译时反射来获取所有的标注内容,具体内容可以参考:[编译时反射章节](crossplatform.md)
 
-```rust
+```v
 [testing]
 struct StructAttrTest {
 	foo string

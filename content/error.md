@@ -16,7 +16,7 @@ return error('error message') 或 return none 表示抛出错误
 
 or代码块必须以:return/panic/exit/continue/break结尾
 
-```c
+```v
 //函数定义
 fn my_fn(i int) ?int {
 	if i==0 {
@@ -63,7 +63,7 @@ fn main() {
 
 error函数是内置函数,定义在:vlib/builtin/option.v
 
-```c
+```v
 module builtin
 
 struct Option {
@@ -124,7 +124,7 @@ pub fn error_with_code(s string, code int) Option { //带错误信息和错误�
 
 若函数无返回值,仍需抛出错误,要使用?
 
-```c
+```v
 module main
 
 fn main() {
@@ -143,7 +143,7 @@ fn exec(stmt string) ? { //无返回值,也可抛出错误
 
 返回错误码
 
-```c
+```v
 module main
 
 fn main() {
@@ -166,7 +166,7 @@ fn exec(stmt string) ? {
 
 ### 向上抛转错误
 
-```c
+```v
 resp := http.get(url)? //在调用函数后加上?,表示如果函数执行出现错误,当前调用层级不处理,直接向上抛转错误
 println(resp.body)
 ```
@@ -179,7 +179,7 @@ http.get函数中,定义的返回值是:?Response
 
 类似以下的代码:
 
-```c
+```v
 resp := http.get(url) or {
 	panic(err)
 }

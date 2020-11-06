@@ -4,7 +4,7 @@
 
 使用fn关键字定义函数
 
-```c
+```v
 fn main() {
 	println(add(77, 33))
 	println(sub(100, 50))
@@ -29,7 +29,7 @@ V语言的函数定义(函数签名)基本跟go一样
 
 默认模块内部访问,使用pub才可以被模块外部访问
 
-```c
+```v
 module mymodule
 fn private_fn() { //模块内部可以访问,模块外部不可以访问
 
@@ -45,7 +45,7 @@ pub public_fn(){  //模块内部和外部都可以访问
 
 函数的参数默认是不可变的,如果在函数内部要改变传进来的参数,要在函数参数的定义和调用中加上mut
 
-```rust
+```v
 fn my_fn(mut arr []int) { // 1.参数定义也要是可变的
 	for i := 0; i < arr.len; i++ {
 		arr[i] *= 2
@@ -62,7 +62,7 @@ fn main() {
 
 不确定个数参数也是支持的,不确定参数要放在参数的最后一个
 
-```c
+```v
 fn my_fn(i int,s string, others ...string) {
     println(i)
     println(s)
@@ -82,7 +82,7 @@ fn main() {
 
 函数的返回值可以是单返回值,也可以是多返回值
 
-```c
+```v
 fn bar() int { //单返回值
 	return 2
 }
@@ -103,7 +103,7 @@ fn main() {
 
 返回值也可以返回指针类型
 
-```c
+```v
 fn get_the_dao_way() voidptr { //返回通用指针
 	return voidptr(0)
 }
@@ -121,7 +121,7 @@ fn multi_byteptr_ret() (byteptr, bool) { //返回字节指针
 
 跟go一样,可以使用下划线来忽略函数的某个返回值
 
-```rust
+```v
 fn main() {
 	a, _ := foo() // 忽略第二个返回值
 	_, _ := foo() // 也可以忽略全部的返回值
@@ -149,7 +149,7 @@ fn foo() (int, int) {
 
 一个函数可以有多个defer代码块,采用先定义先执行的原则
 
-```c
+```v
 fn main(){
     println('main start')
     
@@ -185,14 +185,14 @@ from defer_fn2
 
 有一个注意点,如果函数的参数是可变mut的,也需要在函数类型中体现出来,否则编译器会报错
 
-```c
+```v
 type mid_fn = fn(int,string) int
 type mid_fn = fn(mut int,mut string) int
 ```
 
 ### 函数作为参数
 
-```c
+```v
 fn sqr(n int) int {
         return n * n
 }
@@ -208,7 +208,7 @@ fn main()  {
 
 ### 函数作为返回值
 
-```c
+```v
 
 ```
 
@@ -234,7 +234,7 @@ v不会有函数重载
 
 但是考虑有这个特性,还未实现:
 
-```c
+```v
 fn foo(args struct {bar int, baz int = 10}) { //参数是一个结构体,结构体的字段有默认值
 	...
 }
@@ -247,7 +247,7 @@ foo({bar:1}) //调用的时候,如果结构体的字段没有明确赋值,则采
 
 可以对函数添加[inline]标注,主要的用途是在调用C代码库的时候使用最多,内联函数跟C的内联函数概念一样,生成的也是C的内联函数
 
-```c
+```v
 [inline]
 pub fn width() int {
 	return C.sapp_width()
@@ -260,7 +260,7 @@ pub fn width() int {
 
 可以在函数内部定义匿名函数:
 
-```go
+```v
 import sync
 
 fn main() {
@@ -292,7 +292,7 @@ fn main() {
 
   模块发布给其他用户使用后,如果模块的某个函数想要声明作废,可以使用作废标注
 
-```c
+```v
 [deprecated] //函数作废标注
 pub fn ext(path string) string {
 	panic('Use `filepath.ext` instead of `os.ext`') //结合panic进行报错提示
@@ -307,7 +307,7 @@ pub fn (p Point) position() (int, int) {
 
   inline标注的功能跟C函数的inline函数一样
 
-```c
+```v
 [inline] //函数inline标注
 pub fn sum(x y int) int {
   return x+y

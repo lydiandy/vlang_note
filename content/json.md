@@ -40,7 +40,7 @@ json.encode(object) string
 
 [raw]         // 解码的时候,该字段不解析,直接保留原始的字符串返回
 
-```c
+```v
 module main
 
 import json   // 导入json包

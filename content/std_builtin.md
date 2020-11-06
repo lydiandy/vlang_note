@@ -344,7 +344,7 @@
 
     字符串过滤函数,逐个字节判断,满足返回条件的字符串
 
-    ```c
+    ```v
     module main
     
     fn main() {
@@ -427,13 +427,13 @@
 
     定义一个指定长度,指定默认值的数组
 
-    ```c
+    ```v
     arr := [0].repeat(50) //元素初始值为0,长度为50,容量为50
     println(arr.len) //返回50
     println(arr.cap) //返回50
     ```
 
-    ```c
+    ```v
     arr := ['a','b'].repeat(3) //元素初始值为a,b,重复3次,长度为6,容量为6
     println(arr.len) //返回6
     println(arr.cap) //返回6
@@ -452,7 +452,7 @@
 
     it是参数表达式中,约定的iterator迭代器,表示每一次迭代时,数组的元素,满足过滤器表达式的元素会被返回
 
-```c
+```v
 fn main() {
 	a := [1, 2, 3, 4, 5, 6]
 	b := a.filter(it % 2 == 0)
@@ -471,7 +471,7 @@ fn main() {
 
     it是参数表达式中,约定的iterator迭代器,表示每一次迭代时,数组的元素
 
-```c
+```v
 fn main() {
 	a := [1, 2, 3, 4, 5]
 	b := a.map(it * 10)
@@ -485,7 +485,7 @@ fn main() {
 
     针对int数组,给定一个初始的累计值accum_start,以及累计值与数组元素的累加关系,返回最终的累加结果
 
-```c
+```v
 module main
 
 fn sum(accum int, curr int) int {

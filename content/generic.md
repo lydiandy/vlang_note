@@ -4,7 +4,7 @@
 
 ### 泛型结构体
 
-```c
+```v
 struct DB {
     driver string
 }
@@ -39,7 +39,7 @@ fn test_generic_struct() {
 
 判断2个数组是否相等的泛型函数
 
-```c
+```v
 //vlib/builtin/array.v
 fn array_eq<T>(a1, a2 []T) bool {
    if a1.len != a2.len {
@@ -56,7 +56,7 @@ fn array_eq<T>(a1, a2 []T) bool {
 
 ### 泛型方法
 
-```c
+```v
 struct Point {
 mut:
     x f64

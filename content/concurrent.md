@@ -4,7 +4,7 @@ V语言并发的思路和语法跟go一样,甚至关键字也一样:go/chan/sele
 
 目前已经实现了一个早期版本的并发,可以初步使用
 
-```go
+```v
 module main
 const (
 	num_iterations = 10000
@@ -40,7 +40,7 @@ len表示当前被使用的缓冲大小,len不能在声明时指定,初始值为
 
 channel从底层实现上来说,是一个队列,通过push()把数据写入到队列中,通过pop()把数据读取出来,
 
-```go
+```v
 fn main() {
 	ch := chan int{cap: 1000} //声明一个channel变量,类型为int,缓冲区大小为1000,即异步channel
 	println(ch.len) //0
@@ -58,7 +58,7 @@ fn main() {
 
 ### 读取channel/接收消息
 
-```go
+```v
 ch:=chan int{cap:100}
 sum:= <-ch //读取channel
 
@@ -70,7 +70,7 @@ res:=ch.try_pop(&i)
 
 ### 写入channel/发送消息
 
-```go
+```v
 ch:=chan int{cap:100}
 ch <-2 //写入channel
 
@@ -83,7 +83,7 @@ res:=ch.try_push(&i)
 
 ### 关闭channel
 
-```go
+```v
 ch.close()
 ```
 
@@ -97,7 +97,7 @@ select语句可以同时监听多个channel的读写事件,并且可以进行监
 
 一般都会结合for循环使用,实现持续监听
 
-```go
+```v
 import time
 
 fn main() {
@@ -134,7 +134,7 @@ fn send(ch1, ch2 chan int) {
 
 ### if select语句
 
-```go
+```v
 fn main() {
 	ch1 := chan int{}
 	ch2 := chan int{}
@@ -171,7 +171,7 @@ fn send(ch1, ch2 chan int) {
 
 for select语句主要在并发中使用,用来循环监听多个chanel
 
-```go
+```v
 fn main() {
 	ch1 := chan int{}
 	ch2 := chan f64{}
@@ -210,7 +210,7 @@ fn do_send(ch1 chan int, ch2 chan f64) {
 
 可以在主进程末尾增加阻塞等待子线程的运行结果
 
-```go
+```v
 module main
 
 import time
@@ -234,7 +234,7 @@ fn main() {
 
 **Channel**
 
-```go
+```v
 //使用sync模块创建channel
 mut ch := sync.new_channel<int>(0) //泛型风格
 ch.cap //返回channel的缓冲区大小
@@ -254,14 +254,14 @@ sync.channel_select()
 
 通过设定计数器,让每一个线程开始时递增计数,退出时递减计数,直到计数归零时,解除阻塞
 
-```go
+```v
 mut wg:=sync.new_waitgroup() //创建WaitGroup
 wg.add(int) //递增计数
 wg.done() //递减计数
 wg.wait() //阻塞等待,直到计数归零
 ```
 
-```go
+```v
 module main
 
 import sync

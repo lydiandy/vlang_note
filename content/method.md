@@ -8,7 +8,7 @@
 
 结构体的方法,可以定义在同一个模块目录的不同源文件中
 
-```c
+```v
 struct User {
 mut:
 	name string
@@ -31,7 +31,7 @@ fn (mut u User) set_name(name string) {
 
 按照目前的测试结果,&取地址符号,在函数返回值上加就可以了,不需要在接收者上也添加
 
-```c
+```v
 module main
 
 struct DB {

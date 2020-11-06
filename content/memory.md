@@ -14,7 +14,7 @@ V目前依赖libc
 
   C 库函数 **void \*malloc(size_t size)** 分配所需的内存空间，并返回一个指向它的指针
 
-  ```C
+  ```v
   void *malloc(size_t size)
   ```
 
@@ -24,7 +24,7 @@ V目前依赖libc
 
   C 库函数 **void \*calloc(size_t nitems, size_t size)** 分配所需的内存空间，并返回一个指向它的指针。**malloc** 和 **calloc** 之间的不同点是，malloc 不会设置内存为零，而 calloc 会设置分配的内存为零
 
-  ```C
+  ```v
   void *calloc(size_t nitems, size_t size)
   ```
 
@@ -38,7 +38,7 @@ V目前依赖libc
 
   C 库函数 **void \*realloc(void \*ptr, size_t size)** 尝试重新调整之前调用 **malloc** 或 **calloc** 所分配的 **ptr** 所指向的内存块的大小
 
-  ```c
+  ```v
   void *realloc(void *ptr, size_t size)
   ```
 
@@ -54,7 +54,7 @@ V目前依赖libc
 
   C 库函数 **void \*memcpy(void \*str1, const void \*str2, size_t n)** 从存储区 **str2** 复制 **n** 个字符到存储区 **str1**。
 
-  ```c
+  ```v
   void *memcpy(void *str1, const void *str2, size_t n)
   ```
 
@@ -72,7 +72,7 @@ V目前依赖libc
 
   C 库函数 **void \*memmove(void \*str1, const void \*str2, size_t n)** 从 **str2** 复制 **n** 个字符到 **str1**，但是在重叠内存块这方面，memmove() 是比 memcpy() 更安全的方法。如果目标区域和源区域有重叠的话，memmove() 能够保证源串在被覆盖之前将重叠区域的字节拷贝到目标区域中，复制后源区域的内容会被更改。如果目标区域与源区域没有重叠，则和 memcpy() 函数功能相同
 
-  ```c
+  ```v
   void *memmove(void *str1, const void *str2, size_t n)
   ```
 

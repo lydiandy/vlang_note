@@ -4,7 +4,7 @@ gx模块比较简单,主要维护了颜色,图像和字体配置这三个结构�
 
 - Color //颜色
 
-  ```c
+  ```v
   pub struct Color {
   pub:
   	r int
@@ -29,7 +29,7 @@ gx模块比较简单,主要维护了颜色,图像和字体配置这三个结构�
 
 - Image //图像
 
-  ```c
+  ```v
   pub struct Image {
   mut:
   	obj    voidptr //图像数据的首字节指针
@@ -44,7 +44,7 @@ gx模块比较简单,主要维护了颜色,图像和字体配置这三个结构�
 
 -   FontCfg //字体配置
 
-  ```c
+  ```v
   pub struct TextCfg {
   pub:
   	color     Color

@@ -16,7 +16,7 @@ V脚本的文件名后缀为 .vsh
 
 script.vsh
 
-```c
+```v
 
  for _ in 0..5 {
    println('V script')
@@ -58,7 +58,7 @@ script.vsh
 
 编译,运行:
 
-```c
+```v
 v script.vsh && ./script
 ```
 

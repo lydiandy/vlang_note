@@ -4,7 +4,7 @@
 
 ### 基于基本类型
 
-```c
+```v
 type Myint = int
 
 type Myf32 = f32
@@ -22,7 +22,7 @@ fn main() {
 
 ### 基于结构体类型
 
-```c
+```v
 module main
 
 struct Human {

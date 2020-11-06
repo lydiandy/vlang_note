@@ -4,7 +4,7 @@ V语言可以像C语言那样,在v代码中直接编写/嵌入汇编代码(inlin
 
 使用asm代码块来编写汇编代码,asm代码块必须被包含在unsafe代码块中
 
-```c
+```v
 module main
 
 fn main() {

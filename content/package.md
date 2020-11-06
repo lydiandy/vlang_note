@@ -91,7 +91,7 @@ v init //把当前目录作为项目，创建项目v.mod
 
 可以在代码中导入v.mod模块来解析v.mod,通过vmod.decode进行解码,这样就可以根据v.mod文件的内容方便实现各种库功能
 
-```c
+```v
 import v.vmod
 vm := vmod.decode( @VMOD_FILE ) or { panic(err) } //@VMOD_FILE是内置的全局变量,返回v.mod文件内容,字符串类型
 eprintln('$vm.name $vm.version\n $vm.description')

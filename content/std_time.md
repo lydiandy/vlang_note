@@ -4,7 +4,7 @@
 
 **time结构体**
 
-```c
+```v
 pub struct Time {
 pub:
 	year   int
@@ -19,7 +19,7 @@ pub:
 
 **time方法**
 
-```c
+```v
 //返回月份的字符串简称
 pub fn (t Time) smonth() string 
 //计算unix时间
@@ -35,7 +35,7 @@ pub fn (t Time) relative() string
 
 **公共函数**
 
-```c
+```v
 //返回当前时间
 pub fn now() Time
 //返回时间

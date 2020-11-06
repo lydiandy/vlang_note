@@ -8,7 +8,7 @@
 
 vlib/builtin/map.v
 
-```c
+```v
 struct map {
 	root &mapnode //字典第一个键值对的地址
 	element_size int //一个键值对元素占用的内存大小
@@ -26,7 +26,7 @@ struct mapnode {  //键值对节点
 
 ### map定义
 
-```c
+```v
 fn main() {
     mut m := map[string]int{}
     m['one'] = 1
@@ -38,7 +38,7 @@ fn main() {
 
 目前map的key只能是string类型
 
-```c
+```v
 map[string]int
 map[string]User
 map[string][]int
@@ -47,13 +47,13 @@ map[string][]int
 
 map字面量初始化
 
-```c
+```v
 m:={'ont':1,'two':2,'three':3}
 ```
 
 map.len返回字典的大小
 
-```c
+```v
 fn main() {
 	mut m := map[string]int{}
 	m['one'] = 1
@@ -66,7 +66,7 @@ fn main() {
 
 判断某一个元素是否包含在map的key中
 
-```c
+```v
 fn main() {
     mut m := map[string]int{}
     m['one'] = 1
@@ -78,7 +78,7 @@ fn main() {
 
 ### 遍历map
 
-```c
+```v
 fn main() {
 	mut m := map[string]int{}
 	m['one'] = 1

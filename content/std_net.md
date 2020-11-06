@@ -4,7 +4,7 @@
 
 **公共函数:**
 
-```c
+```v
 //创建socket结构体
 pub fn new_socket(family int, _type int, proto int) ?Socket
 //创建udp类型的socket结构体
@@ -24,7 +24,7 @@ pub fn hostname() ?string
 
 **Socket结构体:**
 
-```c
+```v
 pub struct Socket {
 pub:
 	sockfd int //socket的文件描述符
@@ -37,7 +37,7 @@ pub:
 
 **Socket方法:**
 
-```c
+```v
 //设置socket选项
 pub fn (s Socket) setsockopt(level int, optname int, optvalue &int) ?int
 //绑定端口

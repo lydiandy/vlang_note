@@ -29,7 +29,7 @@ brew services start postgresql
 
 vlib/pg.v:
 
-```c
+```v
 pub struct Config { //数据库连接配置结构体
 pub:
 	host string 
@@ -98,7 +98,7 @@ fn main(){
 
 这种db.的语法,目前还是比较原型阶段的,编译器内置实现了这几个SQL语句,都是解析器解析到pg.DB类型的变量才可以进行的语法,只针对pg有效
 
-```c
+```v
 db.select
 db.insert
 db.update 

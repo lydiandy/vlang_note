@@ -44,7 +44,7 @@ V的代码库很多都直接调用C标准库函数来实现，对C标准库的�
 
 调用标准库的例子:
 
-```c
+```v
 module main
     
 #include <stdio.h>  //使用C语言宏,包含头文件
@@ -61,7 +61,7 @@ fn main(){
 
 myslq库中的参考代码:
 
-```c
+```v
 //宏
 #flag -lmysqlclient
 #flag linux -I/usr/include/mysql
@@ -101,7 +101,7 @@ pub fn connect(server, user, passwd, dbname string) ?DB {
 
 使用了结构体标注[typedef]来定义C语言的结构体
 
-```c
+```v
 //定义C宏
 #flag -lX11
 #include <X11/Xlib.h>
@@ -145,7 +145,7 @@ fn C.XDestroyWindow(d &Display, w C.Window)
 
 vlib/sokol/sokol.v部分代码:
 
-```c
+```v
 //只要在同模块中的任何一个V源文件中引入,该模块的其他源文件就可以直接使用C代码库内容
 #define SOKOL_IMPL
 #define SOKOL_NO_ENTRY
@@ -185,7 +185,7 @@ pub fn width() int {
 
 同时也可以统一和简化C函数的命名,变为V风格的简短命名,一举多得
 
-```c
+```v
 [inline]
 pub fn width() int {
 	return C.sapp_width()
@@ -202,7 +202,7 @@ pub fn width() int {
 
 C代码库中的结构体:
 
-```c
+```v
 typedef struct sapp_event {
     uint64_t frame_count;
     sapp_event_type type;
@@ -228,7 +228,7 @@ typedef struct sapp_event {
 
 如果字段类型是枚举的,也可以再定义等价的V版本枚举
 
-```c
+```v
 pub struct C.sapp_event {
 pub:
     frame_count u64
@@ -255,7 +255,7 @@ pub:
 
 其实就是定义一个跟C版本枚举一样的枚举,枚举名和枚举值一样
 
-```c
+```v
 pub enum MouseButton {
     invalid = -1
     left = 0
@@ -284,7 +284,7 @@ pub enum MouseButton {
 
 以下例子,提供参考:
 
-```c
+```v
 //#flag文档里面的:
 #flag linux -lsdl2
 #flag linux -Ivig
@@ -293,14 +293,14 @@ pub enum MouseButton {
 #flag linux -DIMGUI_IMPL_API=
 ```
 
-```c
+```v
 //mysql包里面的:
 #flag -lmysqlclient //-l开头,表示在库文件的搜索路径中添加mysqlclient
 #flag linux -I /usr/include/mysql //-I开头,在头文件的搜索路径中添加指定的路径, 针对linux平台,这样才可以搜索到下面的mysql.h头文件
 #include <mysql.h>
 ```
 
-```c
+```v
 //sokol包里面的:
 #flag -I @VROOT/thirdparty/sokol //@VROOT指向v编译器的根路径
 #flag -I @VROOT/thirdparty/sokol/util

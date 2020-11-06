@@ -2,7 +2,7 @@
 
 ### if条件语句
 
-```c
+```v
 a := 10
 b := 20
 if a < b {
@@ -16,7 +16,7 @@ if a < b {
 
 条件赋值(if表达式)
 
-```c
+```v
 num := 777
 // 简单的条件赋值
 s := if num % 2 == 0 { 'even' } else { 'odd' }
@@ -36,7 +36,7 @@ println(c)
 
 match要求穷尽所有可能,所以基本都要带上else语句
 
-```c
+```v
 os:='macos'
 match os {
 	'windows' {
@@ -56,7 +56,7 @@ match os {
 
 匹配的值也可以多个,用逗号分隔:
 
-```c
+```v
 os:='macos'
 match os {
 	'windows' {
@@ -73,7 +73,7 @@ match os {
 
 match赋值(match表达式)
 
-```rust
+```v
 os:='macos'
 price:=match os {
     'windows' {
@@ -103,7 +103,7 @@ println(c)
 
 match的同时,加上mut ,可以修改匹配变量,通常是配合for in 语句结合使用
 
-```go
+```v
 //参考代码
 	for stmt in file.stmts {
 			match mut stmt {
@@ -117,7 +117,7 @@ match的同时,加上mut ,可以修改匹配变量,通常是配合for in 语句�
 
 使用match判断联合类型的具体类型
 
-```c
+```v
 module main
 
 struct User {
@@ -156,7 +156,7 @@ for的四种形式：
 
 1. 传统的：for i=0;i<100;i++ {}
 
-```c
+```v
 for i := 0; i < 10; i++ {
 	// 跳过6
 	if i == 6 {
@@ -171,7 +171,7 @@ for i := 0; i < 10; i++ {
 
 2. 替代while：for i<100 {}
 
-```c
+```v
 mut sum := 0
 mut i := 0
 for i <= 100 {
@@ -186,7 +186,7 @@ println(sum)
 3. 无限循环：for {}
 
 
-```c
+```v
 mut num := 0
 for {
 	num++
@@ -206,7 +206,7 @@ println(num)
 
 遍历字符串:
 
-```go
+```v
 str := 'abcdef'
 // 遍历value
 for s in str {
@@ -221,7 +221,7 @@ for i, s in str {
 
 遍历数组:
 
-```c
+```v
 numbers := [1, 2, 3, 4, 5]
 for num in numbers {
 	println('num:$num')
@@ -238,7 +238,7 @@ for i in 0 .. numbers.len {
 
 遍历区间:
 
-```c
+```v
 mut sum := 0
 for i in 1 .. 11 { // 左闭右开,遍历区间
 	sum += i
@@ -249,7 +249,7 @@ println(sum)	// 55
 
 遍历字典:
 
-```c
+```v
 m:={"name":"jack","age":"20","desc":"good man"}
 
 for key,value in m {
@@ -261,7 +261,7 @@ for key,value in m {
 
 for select语句主要在并发中使用,用来循环监听多个chanel,更多内容可以参考[并发章节](concurrent.md)
 
-```go
+```v
 fn main() {
 	ch1 := chan int{}
 	ch2 := chan f64{}
@@ -296,7 +296,7 @@ fn do_send(ch1 chan int, ch2 chan f64) {
 
 goto语句只能在函数内部跳转
 
-```go
+```v
 fn main() {
 	mut i := 0
 	a:	//定义跳转标签

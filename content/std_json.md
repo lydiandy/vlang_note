@@ -28,7 +28,7 @@ v标准库的json模块有点特别:
 
    就是在vlib/json/json_primitives.v对两个函数进行了简单封装:
 
- ```c
+ ```v
    fn json_parse(s string) &C.cJSON { //解码
    	return C.cJSON_Parse(s.str)
    }
@@ -50,7 +50,7 @@ cJSON使用参考:
 
 链表结构实现:
 
-```c
+```v
 //节点类型
 #define cJSON_Invalid (0)
 #define cJSON_False  (1 << 0)
@@ -87,7 +87,7 @@ typedef struct cJSON //表示一个json节点
 
 **解码(parse)**
 
-```c
+```v
 /* Memory Management: the caller is always responsible to free the results from all variants of cJSON_Parse (with cJSON_Delete) and cJSON_Print (with stdlib free, cJSON_Hooks.free_fn, or cJSON_free as appropriate). The exception is cJSON_PrintPreallocated, where the caller has full responsibility of the buffer. */
 /* Supply a block of JSON, and this returns a cJSON object you can interrogate. */
 //把json字符串解析为节点树对象,即解码
@@ -96,7 +96,7 @@ CJSON_PUBLIC(cJSON *) cJSON_Parse(const char *value);
 
 **编码(print)**
 
-```c
+```v
 /* Render a cJSON entity to text for transfer/storage. */
 //把节点对象输出成json字符串,有格式化
 CJSON_PUBLIC(char *) cJSON_Print(const cJSON *item);
@@ -105,7 +105,7 @@ CJSON_PUBLIC(char *) cJSON_Print(const cJSON *item);
 CJSON_PUBLIC(char *) cJSON_PrintUnformatted(const cJSON *item);
 ```
 
-```c
+```v
 //各种操作节点的函数
 CJSON_PUBLIC(cJSON *) cJSON_CreateRaw(const char *raw);//创建原始字符串节点
 CJSON_PUBLIC(cJSON *) cJSON_CreateArray(void); //创建节点数组

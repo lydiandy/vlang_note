@@ -413,7 +413,7 @@ V命令行代码位于cmd目录
 
   ​	原来是设计为一个TypeRef结构体的,因为在符号表等很多地方都被引用,所以把ID和指针引用层级信息合并成一个int32,性能更好,占用内存更小.
 
-  ```c
+  ```v
   pub type Type int
   ```
 
@@ -468,7 +468,7 @@ V命令行代码位于cmd目录
 
   类型信息类,该类型是一个联合类型,作为几种特殊类型的额外信息
 
-  ```rust
+  ```v
   pub type TypeInfo = Array | ArrayFixed | Map | Struct | 	
   MultiReturn | Alias
   ```
@@ -639,7 +639,7 @@ V命令行代码位于cmd目录
 
 联合类型Stmt和Expr,对应的V源代码:
 
-```rust
+```v
 pub type Expr = InfixExpr | IfExpr | StringLiteral | IntegerLiteral | CharLiteral | 	
 FloatLiteral | Ident | CallExpr | BoolLiteral | StructInit | ArrayInit | SelectorExpr | PostfixExpr | 	
 AssignExpr | PrefixExpr | MethodCallExpr | IndexExpr | RangeExpr | MatchExpr | 	

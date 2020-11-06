@@ -8,7 +8,7 @@
 
 加了pub以后,就是公共级别
 
-```c
+```v
 pub const ( // 公共常量
 	pi = 3.14
 )
@@ -55,7 +55,7 @@ mut可以变为可变
 
 有以下4种常用的组合,以及1种不推荐使用的全局字段:__global
 
-```c
+```v
 struct Foo {
 	a int // 私有,不可变(默认).在模块内部可访问,不可修改;模块外不可访问,不可修改
 mut:
@@ -73,7 +73,7 @@ __global:
 
 看看string结构体的定义:
 
-```c
+```v
 struct string {
 pub:
 	str byteptr  //都是公共,不可变
@@ -83,7 +83,7 @@ pub:
 
 所以以下代码会报错:
 
-```c
+```v
 fn main() {
 	str := 'hello'
 	len := str.len //len公共可访问

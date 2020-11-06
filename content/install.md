@@ -50,7 +50,7 @@ sudo dnf install openssl-devel
 
 方式一:
 
-  ```c
+  ```v
 v up //抓取github上V代码库的主干代码,然后自动重新编译
   ```
 

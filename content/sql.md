@@ -20,7 +20,7 @@ V内置sql的好处有:
 
   
 
-  ```c
+  ```v
   module main
   
   import sqlite

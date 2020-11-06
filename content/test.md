@@ -14,7 +14,7 @@ assert后面的表达式结果不为true，即为测试不通过
 
 举例:vlib/builtin/string_test.v
 
-```c
+```v
 fn test_add() {
 	mut a := 'a'
 	a += 'b'

@@ -4,14 +4,14 @@
 
 语法类似typescript，使用type 和 | 来定义一个联合类型
 
-```c
+```v
  //定义联合类型,表示类型Expr可以是这几种类型的其中一种
 type Expr = Foo | BoolExpr |  BinExpr | UnaryExpr
 ```
 
 使用pub关键字,定义公共的联合类型
 
-```c
+```v
 pub type Expr = Foo | BoolExpr |  BinExpr | UnaryExpr
 ```
 
@@ -22,7 +22,7 @@ pub type Expr = Foo | BoolExpr |  BinExpr | UnaryExpr
 - 使用is关键字联合类型具体是哪一种类型
 - 使用as关键字将联合类型转换为另一种类型,当然要转换的类型在联合类型定义的类型范围内
 
-```c
+```v
 module main
 
 struct User {
