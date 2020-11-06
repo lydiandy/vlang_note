@@ -126,3 +126,24 @@ type Stmt = FnDecl | StructDecl
 type Node = Expr | Stmt //联合类型嵌套
 ```
 
+### 联合类型方法
+
+可以像结构体那样,给联合类型添加方法
+
+```v
+module main
+
+fn main() {
+	mut m := Mysumtype{}
+	m = int(11)
+	println(m.str())
+}
+
+type Mysumtype = int | string
+
+pub fn (mysum Mysumtype) str() string { // 联合类型的方法
+	return 'from mysumtype'
+}
+
+```
+

@@ -48,5 +48,23 @@ fn main() {
 
 ```
 
+### 类型别名方法
 
+可以像结构体那样,给类型别名添加方法
+
+```v
+module main
+
+fn main() {
+	i := Myint(11)
+	println(i.str())
+}
+
+type Myint = int
+
+pub fn (m Myint) str() string { // 类型别名的方法
+	return 'from myint'
+}
+
+```
 
