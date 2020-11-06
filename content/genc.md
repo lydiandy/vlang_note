@@ -871,8 +871,8 @@ pub struct Point {
 	x int
 	y int
 }
-type myint int
-type myPoint Point
+type myint=int
+type myPoint=Point
    
 //C代码
 struct Point {

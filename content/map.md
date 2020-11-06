@@ -48,7 +48,7 @@ map[string][]int
 map字面量初始化
 
 ```v
-m:={'ont':1,'two':2,'three':3}
+m:={'one':1,'two':2,'three':3}
 ```
 
 map.len返回字典的大小
