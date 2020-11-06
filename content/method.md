@@ -25,6 +25,53 @@ fn (mut u User) set_name(name string) {
 
 ```
 
+除了可以给结构体添加方法外,还可以给枚举,类型别名,函数类型,联合类型添加方法
+
+```v
+module main
+
+fn main() {
+	i := Myint(11)
+	println(i.str())
+	mut m := Mysumtype{}
+	m = int(11)
+	println(m.str())
+	c := Color.white
+	println(c.str())
+}
+
+enum Color {
+	white
+	black
+	blue
+}
+
+type Myint = int
+
+type Myfn = fn ( int,  int) int
+
+type Mysumtype = int | string
+
+pub fn (c Color) str() string { // 枚举的方法
+	return 'from color'
+}
+
+pub fn (m Myint) str() string { // 类型别名的方法
+	return 'from myint'
+}
+
+pub fn (myfn Myfn) str() string { // 函数类型的方法
+	return 'from myfn'
+}
+
+pub fn (mysum Mysumtype) str() string { // 联合类型的方法
+	return 'from mysumtype'
+}
+
+```
+
+
+
 ### 方法链式调用
 
 结构体方法支持链式调用
