@@ -31,12 +31,13 @@ V语言的函数定义(函数签名)基本跟go一样
 
 ```v
 module mymodule
-fn private_fn() { //模块内部可以访问,模块外部不可以访问
 
+fn private_fn() { // 模块内部可以访问,模块外部不可以访问
 }
-pub public_fn(){  //模块内部和外部都可以访问
 
+pub fn public_fn() { // 模块内部和外部都可以访问
 }
+
 ```
 
 ### 函数参数
@@ -63,20 +64,19 @@ fn main() {
 不确定个数参数也是支持的,不确定参数要放在参数的最后一个
 
 ```v
-fn my_fn(i int,s string, others ...string) {
-    println(i)
-    println(s)
-    println(others[0])
-    println(others[1])
-    println(others[2])
+fn my_fn(i int, s string, others ...string) {
+	println(i)
+	println(s)
+	println(others[0])
+	println(others[1])
+	println(others[2])
 }
 
 fn main() {
-    my_fn(1,'abc','de','fg','hi')
+	my_fn(1, 'abc', 'de', 'fg', 'hi')
 }
+
 ```
-
-
 
 ### 函数返回值
 
@@ -141,8 +141,6 @@ fn foo() (int, int) {
 
 ```
 
-
-
 ### 函数defer语句
 
 在函数退出前执行defer代码段,一般用来在函数执行完毕后,释放资源的占用
@@ -150,22 +148,27 @@ fn foo() (int, int) {
 一个函数可以有多个defer代码块,采用先定义先执行的原则
 
 ```v
-fn main(){
-    println('main start')
-    
-    defer {defer_fn1()} 
-    defer {defer_fn2()}
-    
-    println('main end')
+fn main() {
+	println('main start')
+	// defer {defer_fn1()} //写成单行也可以
+	// defer {defer_fn2()}
+	defer {
+		defer_fn1()
+	}
+	defer {
+		defer_fn2()
+	}
+	println('main end')
 }
 
-fn defer_fn1(){
-    println('from defer_fn1')
+fn defer_fn1() {
+	println('from defer_fn1')
 }
 
-fn defer_fn2(){
-    println('from defer_fn2')
+fn defer_fn2() {
+	println('from defer_fn2')
 }
+
 ```
 
 执行结果:
@@ -176,8 +179,6 @@ main end
 from defer_fn1
 from defer_fn2
 ```
-
-
 
 ### 函数类型
 
@@ -202,7 +203,7 @@ fn run(value int, op fn(int) int) int {
 }
 
 fn main()  {
-        println(run(5, sqr)) // "25"
+        println(run(5, sqr)) // "25" sql函数作为参数传递
 }
 ```
 
@@ -241,8 +242,6 @@ fn foo(args struct {bar int, baz int = 10}) { //参数是一个结构体,结构�
 foo({bar:1}) //调用的时候,如果结构体的字段没有明确赋值,则采用字段的默认值
 ```
 
-
-
 ### 内联函数
 
 可以对函数添加[inline]标注,主要的用途是在调用C代码库的时候使用最多,内联函数跟C的内联函数概念一样,生成的也是C的内联函数
@@ -264,18 +263,18 @@ pub fn width() int {
 import sync
 
 fn main() {
-	f1 := fn (a int) { //定义函数类型变量
+	f1 := fn (a int) { // 定义函数类型变量
 		println('hello from f1')
 	}
-	f1(1) 
-	f2 := fn (a int) { //定义函数类型变量
+	f1(1)
+	f2 := fn (a int) { // 定义函数类型变量
 		println('hello from f2')
 	}
 	f2(1)
-	fn (a int) { //匿名函数定义同时调用
+	fn (a int) { // 匿名函数定义同时调用
 		println('hello from anon_fn')
 	}(1)
-	// 结合go使用
+	// 匿名函数结合go使用
 	mut wg := sync.new_waitgroup()
 	go fn (mut wg sync.WaitGroup) {
 		println('hello from go')
@@ -283,7 +282,6 @@ fn main() {
 	}(mut wg)
 	wg.wait()
 }
-
 ```
 
 ### 函数标注
