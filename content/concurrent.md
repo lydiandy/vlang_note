@@ -4,6 +4,8 @@ V语言并发的思路和语法跟go一样,甚至关键字也一样:go/chan/sele
 
 目前已经实现了一个早期版本的并发,可以初步使用
 
+go可以添加在函数调用,方法调用,匿名函数调用前,即可创建并发任务单元
+
 ```v
 module main
 const (
@@ -165,8 +167,6 @@ fn send(ch1, ch2 chan int) {
 
 ```
 
-
-
 ### for select语句
 
 for select语句主要在并发中使用,用来循环监听多个chanel
@@ -201,8 +201,6 @@ fn do_send(ch1 chan int, ch2 chan f64) {
 	ch1.close()
 }
 ```
-
-
 
 ### 更多例子
 
