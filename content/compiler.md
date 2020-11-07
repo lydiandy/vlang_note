@@ -54,13 +54,13 @@ V编译器代码位于vlib/v目录
 
 - V命令行的入口文件是v/cmd/v/v.v
 
-  .			 		
+  .
 
-- V命令行负责处理命令参数,根据参数创建V编译器对象(compiler.V)或调用tools目录中的各种工具,比如vfmt代码格式化工具
+- V命令行负责处理命令参数,创建编译器参数对象(pref.Preferences)
 
-  . 		
+  .
 
-- V编译器对象(compiler.V)创建后,首先根据参数,创建编译器参数对象(pref.Preferences)
+- V命令行根据参数调用builder.compiler()开始编译,或调用tools目录中的各种工具,比如vfmt代码格式化工具
 
   . 		
 
@@ -68,11 +68,11 @@ V编译器代码位于vlib/v目录
 
    .		
 
-- 通过调用v.compile()方法,开始编译,首先创建代码生成器对象(builder.Builder)
+- 通过调用builder.compile()方法,开始编译,首先创建代码生成器对象(builder.Builder)
 
    .		
 
-- 通过调用代码生成器对象的b.buildc()方法,把源代码文件数组[]File中的所有V源代码文件生成C源文件
+- 通过调用代码生成器对象的b.build_c()方法,把源代码文件数组[]File中的所有V源代码文件生成C源文件
 
   . 			
 
@@ -104,7 +104,7 @@ V编译器代码位于vlib/v目录
 
   .	 	
 
-- 最后调用v.cc方法,调用编译器参数指定的C编译器,将C源文件编译生成可执行文件,完成整个编译过程
+- 最后调用builder.cc方法,调用编译器参数指定的C编译器,将C源文件编译生成可执行文件,完成整个编译过程
 
   .  		
 
@@ -112,9 +112,11 @@ V编译器代码位于vlib/v目录
 
 ### 编译器代码量
 
-V实现了自举,整个V编译器都是由V开发的,编译器加上标准库的代码量大约为10W多行代码,持续增加中,使用[scc](https://github.com/boyter/scc)代码统计工具的统计数据如下:
+V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准库的代码量大约为10W多行代码,持续增加中.
 
-![image-20201107153711188](/../content/compiler.assets/image-20201107153711188.png)
+使用[scc](https://github.com/boyter/scc)代码统计工具的统计数据如下:
+
+![](/../content/compiler.assets/scc.png)
 
 ### 编译器类
 
@@ -157,7 +159,8 @@ V实现了自举,整个V编译器都是由V开发的,编译器加上标准库的
   | compile()           | 负责启动编译                       |
   | build_c()           | 负责编译生成C源代码                |
   | build_js()          | 负责编译生成js源代码               |
-  | build_x64           | 负责编译生成x64机器码              |
+  | build_x64()         | 负责编译生成x64机器码              |
+  | cc()                | 将C源代码编译生成可执行文件        |
   | ...                 |                                    |
 
 - **parser.Parser**
@@ -178,8 +181,6 @@ V实现了自举,整个V编译器都是由V开发的,编译器加上标准库的
   | parse_file(path string,table &table.Table) | 对一个源文件进行语法分析          |
   | parse_files(paths []string)                | 对一组源文件进行语法分析          |
   | ...                                        |                                   |
-
-  
 
 - **table.table**
 
@@ -629,15 +630,19 @@ V实现了自举,整个V编译器都是由V开发的,编译器加上标准库的
 联合类型Stmt和Expr,对应的V源代码:
 
 ```v
-pub type Expr = InfixExpr | IfExpr | StringLiteral | IntegerLiteral | CharLiteral | 	
-FloatLiteral | Ident | CallExpr | BoolLiteral | StructInit | ArrayInit | SelectorExpr | PostfixExpr | 	
-AssignExpr | PrefixExpr | MethodCallExpr | IndexExpr | RangeExpr | MatchExpr | 	
-CastExpr | EnumVal | Assoc | SizeOf
+pub type TypeDecl = AliasTypeDecl | FnTypeDecl | SumTypeDecl
 
-pub type Stmt = VarDecl | GlobalDecl | FnDecl | Return | Module | Import | ExprStmt | 	
-ForStmt | StructDecl | ForCStmt | ForInStmt | CompIf | ConstDecl | Attr | BranchStmt | 	
-HashStmt | AssignStmt | EnumDecl | TypeDecl | DeferStmt | GotoLabel | GotoStmt | 	
-LineComment | MultiLineComment
+pub type Expr = AnonFn | ArrayInit | AsCast | Assoc | AtExpr | BoolLiteral | CTempVar |
+	CallExpr | CastExpr | ChanInit | CharLiteral | Comment | ComptimeCall | ConcatExpr | EnumVal |
+	FloatLiteral | Ident | IfExpr | IfGuardExpr | IndexExpr | InfixExpr | IntegerLiteral |
+	Likely | LockExpr | MapInit | MatchExpr | None | OrExpr | ParExpr | PostfixExpr | PrefixExpr |
+	RangeExpr | SelectExpr | SelectorExpr | SizeOf | SqlExpr | StringInterLiteral | StringLiteral |
+	StructInit | Type | TypeOf | UnsafeExpr
+
+pub type Stmt = AssertStmt | AssignStmt | Block | BranchStmt | CompFor | ConstDecl | DeferStmt |
+	EnumDecl | ExprStmt | FnDecl | ForCStmt | ForInStmt | ForStmt | GlobalDecl | GoStmt |
+	GotoLabel | GotoStmt | HashStmt | Import | InterfaceDecl | Module | Return | SqlStmt |
+	StructDecl | TypeDecl
 ```
 
 主要类别说明:
