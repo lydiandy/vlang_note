@@ -17,7 +17,7 @@ v install nedpals.args //使用作者账号的名称作为路径,用点号分隔
 v install regex
 ```
 
-执行完毕后,,mac/linux系统会下载到:~/.vmodules目录中,windows系统会把包下载到:C:\Users\xxx\ .vmodules目录中
+如果设置了环境变量VMODULES,则会安装到VMODULES环境变量指向的目录,如果没有设置环境变量,mac/linux系统会下载到:~/.vmodules目录中,windows系统会把包下载到:C:\Users\xxx\ .vmodules目录中
 
 ```
 ~/.vmodules/nedpals/args
@@ -25,7 +25,7 @@ v install regex
 ~/.vmodules/regex
 ```
 
-使用的时候import regex就可以了,v会到~/.vmodules中查找对应的包
+使用的时候import regex就可以了,v会到VMODULES中查找对应的包
 
 如果是从git直接下载的源代码,或者作者没有上传包到vpm上,也可以使用创建link链接的方式,把目录链接创建到~/.vmodules目录中
 
@@ -52,11 +52,8 @@ v outdated	 //列出所有过时需要升级的包
 当使用import xxx导入模块时,编译器会按以下顺序搜索模块:
 
 1. 当前编译文件所在的目录
-
 2. v编译器vlib目录中的标准模块
-
-3. 如果有指定-vpath参数,则使用vpath目录;如果没有指定-vpath参数,则使用通过vpm安装到~/.vmodules目录中的第三方模块
-
+3. 如果有指定-vpath参数,则使用vpath目录,如果没有指定-vpath参数,则使用通过vpm安装到VMODULES目录中的第三方模块,如果设置了环境变量VMODULES,则会安装到VMODULES环境变量指向的目录,如果没有设置环境变量,则默认安装到~/.vmodules目录
 4. 如果有指定-user_mod_path参数,则使用该目录
 
 一般来说,vpath和user_mod_path参数都很少额外配置,所以模块搜索路径就是前3个路径
@@ -78,7 +75,7 @@ Module {
 }
 ```
 
-跟node的package.json类似,然后把下载的包统一放到~/.vmodules文件夹中,同一个包区分版本,提供个本机的所有项目使用
+跟node的package.json类似,然后把下载的包统一放到VMODULES文件夹中,同一个包区分版本,提供个本机的所有项目使用
 
 ### 创建模块项目
 
