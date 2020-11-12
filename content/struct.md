@@ -128,16 +128,38 @@ pub struct Point { //公共级别,可以被别的模块使用
 
 ### 组合
 
-struct 可以组合, 用来实现继承的效果(目前还没有实现)
+跟go一样,V的结构体没有继承,但是有组合,可以用组合来实现继承一样的效果,甚至可以多个组合
 
 ```v
-struct Button {
-	Widget //组合
-	title string
+module main
+
+struct Widget {
+mut:
+	x int
+	y int
 }
 
-button := new_button('Click me')
-button.set_pos(x, y)
+struct Widget2 {
+mut:
+	z int
+}
+
+struct Button {
+	Widget 	//组合
+	Widget2	//多个组合
+	title   string
+}
+
+fn main() {
+	mut button := Button{
+		title: 'Click me'
+	}
+	button.x = 3
+	button.z = 4
+	println(button.x)
+	println(button.z)
+}
+
 ```
 
 ### 泛型结构体
