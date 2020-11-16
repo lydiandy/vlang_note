@@ -55,6 +55,12 @@
   os.system('ls')
   ```
 
+### 进程相关
+
+- os.new_process() &Process
+
+  创建一个新的进程对象,此时并未实际创建进程,而是执行p.run()方法以后,才会实际创建,创建后才会生成对应的进程ID,可以通过p.pid访问到
+
 ### 目录相关
 
 - ext(path string) string
