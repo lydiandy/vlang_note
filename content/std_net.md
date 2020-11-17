@@ -1,79 +1,147 @@
 ## net模块
 
-基于C标准库中的网络编程函数进行了V语言风格的封装,基本思路一样
+### TCP
 
-**公共函数:**
+#### 客户端
 
 ```v
-//创建socket结构体
-pub fn new_socket(family int, _type int, proto int) ?Socket
-//创建udp类型的socket结构体
-pub fn socket_udp() ?Socket 
-//帮助类函数,用于服务端,指定端口,创建socket,bind(),listen()全部完成
-pub fn listen(port int) ?Socket
-//帮助器类函数,用于客户端,指定地址和端口,创建socket,connect()全部完成
-pub fn dial(address string, port int) ?Socket
-//返回错误码
-fn error_code() int
-//获取主机名
-pub fn hostname() ?string
-
+//客户端拨号
+pub fn dial_tcp(address string) ?TcpConn
 ```
 
----
-
-**Socket结构体:**
-
 ```v
-pub struct Socket {
+//返回tcp连接
+pub struct TcpConn { //实现io.Reader,io.Writer接口
 pub:
-	sockfd int //socket的文件描述符
-	family int //协议族,主要是C.AF_INET和C.AF_INET6
-	_type  int //套接字类型,主要是:C.SOCK_STREAM和C.SOCK_DGRAM
-	proto  int //传输协议,主要是:C.IPPROTO_TCP和C.IPPROTO_UDP
-  //当第proto参数为0时，会自动选择参数类型对应的默认协议
+	sock TcpSocket //Socket对象
+
+mut:
+	write_deadline time.Time
+	read_deadline time.Time
+
+	read_timeout time.Duration
+	write_timeout time.Duration
 }
 ```
 
-**Socket方法:**
-
 ```v
-//设置socket选项
-pub fn (s Socket) setsockopt(level int, optname int, optvalue &int) ?int
-//绑定端口
-pub fn (s Socket) bind(port int) ?int 
-//启动监听
-pub fn (s Socket) listen() ?int
-//启动监听,指定backlog
-pub fn (s Socket) listen_backlog(backlog int) ?int
-//开始接收数据
-pub fn (s Socket) accept() ?Socket
-//客户端连接到指定服务器
-pub fn (s Socket) connect(address string, port int) ?int
-//发送数据,指定字节指针和长度
-pub fn (s Socket) send(buf byteptr, len int) ?int
-//发送字符串数据
-pub fn (s Socket) send_string(sdata string) ?int
-//接收数据,返回收到数据的字节指针和长度
-pub fn (s Socket) recv(bufsize int) (byteptr,int)
-//简单封装C的read,接收数据
-pub fn (s Socket) cread(buffer byteptr, buffersize int) int
-//简单封装C的recv,接收数据
-pub fn (s Socket) crecv(buffer byteptr, buffersize int) int
-//发送字符串数据,并且以\r\n结尾
-pub fn (s Socket) write(str string) ?int
-//接收一行数据,根据换行符\n
-pub fn (s Socket) read_line() string 
-//接收所有数据
-pub fn (s Socket) read_all() string
-//获取socket所在端口
-pub fn (s Socket) get_port()
-//关闭连接
-pub fn (s Socket) close() ?int
-
+//tcp socket对象
+struct TcpSocket {
+pub:
+	handle int //socket的文件描述符
+}
 ```
 
-附上网络连接经典图示:
+客户端连接例子:
+
+```v
+module main
+
+import net
+import io
+
+fn main() {
+	mut client_conn := net.dial_tcp('baidu.com:80')?
+	defer {
+		client_conn.close()
+	}
+	client_conn.write_str('GET /index.html HTTP/1.0\r\n\r\n') ?
+	client_conn.set_read_timeout(net.infinite_timeout)
+	result := io.read_all(client_conn) ?
+	println(result.bytestr())
+}
+```
+
+#### 服务端
+
+```v
+//服务端启动监听
+pub fn listen_tcp(port int) ?TcpListener
+```
+
+```v
+//返回监听器/服务器对象
+pub struct TcpListener {
+	sock TcpSocket
+
+mut:
+	accept_timeout time.Duration
+	accept_deadline time.Time
+}
+```
+
+```v
+//监听器/服务器对象,调用accept以后,开始监听,返回TcpConn对象
+pub fn (l TcpListener) accept() ?TcpConn
+```
+
+服务端连接例子:
+
+```v
+module main
+
+import net
+import time
+
+const (
+	server_port = 22334
+)
+
+fn setup() (net.TcpListener, net.TcpConn, net.TcpConn) {
+	listener := net.listen_tcp(server_port) or {
+		panic(err)
+	}
+	mut client := net.dial_tcp('127.0.0.1:$server_port') or {
+		panic(err)
+	}
+	client.set_read_timeout(3 * time.second)
+	client.set_write_timeout(3 * time.second)
+	mut server := listener.accept() or {
+		panic(err)
+	}
+	server.set_read_timeout(3 * time.second)
+	server.set_write_timeout(3 * time.second)
+	return listener, client, server
+}
+
+fn cleanup(listener &net.TcpListener, client &net.TcpConn, server &net.TcpConn) {
+	listener.close() or { }
+	client.close() or { }
+	server.close() or { }
+}
+
+fn main() {
+	listener, client, server := setup()
+	defer {
+		cleanup(listener, client, server)
+	}
+	message := 'Hello World'
+	//server
+	server.write_str(message) ?
+	println('message send: $message')
+	println('server socket: $server.sock.handle')
+	//client
+	mut buf := []byte{len: 1024}
+	nbytes := client.read(mut buf) ?
+	received := buf[0..nbytes].bytestr()
+	println('message received: $received')
+	println('client socket: $client.sock.handle')
+}
+```
+
+
+
+### UDP
+
+#### 客户端
+
+
+
+#### 服务端
+
+
+
+### TCP网络连接图
 
 ![TCP协议通讯流程](std_net.assets/SouthEast.png)
 
