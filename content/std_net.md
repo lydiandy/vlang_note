@@ -235,7 +235,11 @@ fn main() {
 
 
 
-### TCP网络连接图
+### websocket
+
+目前websocket包放在试验性的x模块中,具体参考:[x模块章节](x.md)
+
+### 附录:TCP网络连接示意图
 
 ![TCP协议通讯流程](std_net.assets/SouthEast.png)
 
