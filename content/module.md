@@ -49,33 +49,31 @@ module mymodule
 
 导入模块的关键字是import
 
-导入模块:
+- 导入模块
+
 
 ```v
 import os
 import strings
+import mymodule.submodule //导入子模块
 ```
 
-导入模块取别名:
+- 导入模块取别名
 
 ```v
 import time as t
 import mymodule as mymod
 ```
 
-导入子模块:
+​	上面的2种导入模块方式,使用时都需要带上模块名作为前缀
 
-```v
-import mymodule.submodule
-```
+- 直接导入模块内元素(短名称导入)
 
-上面的3种导入模块方式,使用时都需要带上模块名作为前缀
+  目前仅限函数和结构体,使用时不需要模块名前缀
 
-直接导入模块内元素:
+  跟rust的use导入的方式一样
 
-目前仅限函数和结构体,使用时不需要模块名前缀
-
-不推荐使用,有点失去清晰性,统一把模块作为前缀还是比较清晰的
+  不推荐使用,有点失去清晰性,统一把模块作为前缀还是比较清晰的
 
 ```v
 module main
@@ -83,7 +81,6 @@ module main
 import os { user_os } //大括号内是直接导入的模块函数
 import time { now,utc }
 // import time as t { now, utc, Time } //也可以模块别名和直接导入同时使用,不过很少场景会同时使用
-
 
 fn main() {
 	println(user_os()) //直接通过函数名调用,不需要模块前缀
