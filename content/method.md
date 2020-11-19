@@ -80,10 +80,10 @@ pub fn (mysum Mysumtype) str() string { // 联合类型的方法
 	return 'from mysumtype'
 }
 
-pub fn (myarr []Point) point_arr_method() string { // 自定义数组类型的方法,接收者是对应的数组类型
+pub fn (myarr []Point) point_arr_method() { // 自定义数组类型的方法,接收者是对应的数组类型
 }
 
-pub fn (mymap map[string]Point) point_map_method() string { // 自定义字典类型的方法,接收者是对应的字典类型
+pub fn (mymap map[string]Point) point_map_method() { // 自定义字典类型的方法,接收者是对应的字典类型
 }
 
 
