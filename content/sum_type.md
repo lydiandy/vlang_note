@@ -2,6 +2,12 @@
 
 ### 定义联合类型
 
+V的联合类型在V编译器代码中大量采用
+
+有些使用接口的场景,不一定要全部用接口来实现,使用联合类型的代码看起来更简洁,清晰
+
+相对于go和rust来说,联合类型给V加分不少,用起来很舒服
+
 语法类似typescript，使用type 和 | 来定义一个联合类型
 
 ```v
@@ -14,6 +20,38 @@ type Expr = Foo | BoolExpr |  BinExpr | UnaryExpr
 ```v
 pub type Expr = Foo | BoolExpr |  BinExpr | UnaryExpr
 ```
+
+### 使用场景
+
+联合类型相对于接口来说,比较适合于一个类型是已知的几种类型的其中一种,已知类型的数量是有限的,固定的,相对封闭的,不需要考虑未知类型的扩展性
+
+比如,x.json2模块中,使用联合类型来包含所有json的节点类型,json节点类型种类是相对固定的,使用了联合类型这种数据结构来表示,后续的代码就变得很简洁清晰
+
+```v
+//代码位置:vlib/x/json2/decoder.v
+pub type Any = string | int | i64 | f32 | f64 | any_int | any_float | bool | Null | []Any | map[string]Any
+```
+
+还有另一个最大的场景就是V编译器自身,使用了联合类型来包含所有的AST抽象语法树的类型,毕竟AST的节点类型也是有限的,固定的,相对封闭的,后续AST的逻辑代码也变得简洁清晰很多
+
+```v
+//代码位置:vlib/v/ast/ast.v
+pub type TypeDecl = AliasTypeDecl | FnTypeDecl | SumTypeDecl | UnionSumTypeDecl
+
+pub type Expr = AnonFn | ArrayInit | AsCast | Assoc | AtExpr | BoolLiteral | CTempVar |
+	CallExpr | CastExpr | ChanInit | CharLiteral | Comment | ComptimeCall | ConcatExpr | EnumVal |
+	FloatLiteral | Ident | IfExpr | IfGuardExpr | IndexExpr | InfixExpr | IntegerLiteral |
+	Likely | LockExpr | MapInit | MatchExpr | None | OrExpr | ParExpr | PostfixExpr | PrefixExpr |
+	RangeExpr | SelectExpr | SelectorExpr | SizeOf | SqlExpr | StringInterLiteral | StringLiteral |
+	StructInit | Type | TypeOf | UnsafeExpr
+
+pub type Stmt = AssertStmt | AssignStmt | Block | BranchStmt | CompFor | ConstDecl | DeferStmt |
+	EnumDecl | ExprStmt | FnDecl | ForCStmt | ForInStmt | ForStmt | GlobalDecl | GoStmt |
+	GotoLabel | GotoStmt | HashStmt | Import | InterfaceDecl | Module | Return | SqlStmt |
+	StructDecl | TypeDecl
+```
+
+而接口更适合用来支持未知类型的扩展性
 
 ### 使用联合类型
 
