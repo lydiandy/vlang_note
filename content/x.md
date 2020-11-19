@@ -1,12 +1,85 @@
 ## x模块
 
-
-
 ### json2
 
 标准库中的json模块是基于CJSON实现的
 
 json2则是纯V实现,目前还处在x实验性模块中,稳定后估计会替换掉标准库中的json模块
+
+#### 类型
+
+```v
+//Any是联合类型,表示json任意类型的节点
+pub type Any = string | int | i64 | f32 | f64 | any_int | any_float | bool | Null | []Any | map[string]Any
+```
+
+接口
+
+```V
+//JSON序列化接口,要进行JSON序列化的类型需要实现
+pub interface Serializable {
+	from_json(f Any) //decode中使用
+	to_json() string //encode中使用
+}
+```
+
+#### 编码
+
+```v
+//泛型版本的编码函数,将类型为T的变量编码为json字符串
+pub fn encode<T>(typ T) string //类型需要实现序列化接口的to_json函数
+```
+
+#### 解码
+
+```v
+//泛型版本的解码函数
+pub fn decode<T>(src string) T //直接返回类型为T的变量,类型需要实现序列化接口的from_json函数
+//解码函数,会自动转换节点的值为对应类型
+pub fn raw_decode(src string) ?Any //仅仅返回Any类型
+//快速解码函数,忽略类型转换,节点的值都是字符串
+pub fn fast_raw_decode(src string) ?Any
+```
+
+编码示例:
+
+```v
+import x.json2
+
+enum JobTitle {
+	manager
+	executive
+	worker
+}
+
+struct Employee {
+	name   string
+	age    int
+	salary f32
+	title  JobTitle
+}
+
+pub fn (e Employee) to_json() string {
+	mut mp := map[string]json2.Any{}
+	mp['name'] = e.name
+	mp['age'] = e.age
+	mp['salary'] = e.salary
+	mp['title'] = int(e.title)
+	return mp.str()
+}
+
+fn main() {
+	x := Employee{'Peter', 28, 95000.5, .worker}
+	s := json2.encode<Employee>(x)
+	println(s)
+	y := json2.raw_decode(s) or {
+		panic(err)
+	}
+	println('Employee y: $y')
+}
+```
+
+
 
 ### websocket
 
