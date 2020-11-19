@@ -11,9 +11,19 @@ json2则是纯V实现,目前还处在x实验性模块中,稳定后估计会替�
 ```v
 //Any是联合类型,表示json任意类型的节点
 pub type Any = string | int | i64 | f32 | f64 | any_int | any_float | bool | Null | []Any | map[string]Any
+
+//联合类型转换成具体类型的方法,主要用于实现from_json方法
+pub fn (f Any) as_map() map[string]Any //转字典
+pub fn (f Any) arr() []Any	//转数组
+pub fn (f Any) str() string	//转string
+pub fn (f Any) int() int	//转int
+pub fn (f Any) i64() i64	//转i64
+pub fn (f Any) f32() f32	//转f32
+pub fn (f Any) f64() f64	//转f64
+pub fn (f Any) bool() bool	//转bool
 ```
 
-接口
+#### 接口
 
 ```V
 //JSON序列化接口,要进行JSON序列化的类型需要实现
@@ -22,6 +32,8 @@ pub interface Serializable {
 	to_json() string //encode中使用
 }
 ```
+
+
 
 #### 编码
 
@@ -72,11 +84,11 @@ pub fn (e Employee) to_json() string {
 
 // 实现JSON序列化接口,给decode使用
 pub fn (mut e Employee) from_json(f json2.Any) {
-	ff := *(f as map[string]json2.Any)
-	e.name = ff['name'] as string
-	e.age = int(*(ff['age'] as i64))
-	e.salary = f32(*(ff['salary'] as f64))
-	e.title = int(*(ff['title'] as i64))
+	mp := f.as_map()
+	e.name = mp['name'].str()
+	e.age = mp['age'].int()
+	e.salary = mp['salary'].f32()
+	e.title = mp['title'].int()
 }
 
 fn main() {
