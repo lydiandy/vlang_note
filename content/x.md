@@ -53,12 +53,14 @@ enum JobTitle {
 }
 
 struct Employee {
+mut:
 	name   string
 	age    int
 	salary f32
 	title  JobTitle
 }
 
+// 实现JSON序列化接口,给encode使用
 pub fn (e Employee) to_json() string {
 	mut mp := map[string]json2.Any{}
 	mp['name'] = e.name
@@ -68,10 +70,23 @@ pub fn (e Employee) to_json() string {
 	return mp.str()
 }
 
+// 实现JSON序列化接口,给decode使用
+pub fn (mut e Employee) from_json(f json2.Any) {
+	ff := *(f as map[string]json2.Any)
+	e.name = ff['name'] as string
+	e.age = int(*(ff['age'] as i64))
+	e.salary = f32(*(ff['salary'] as f64))
+	e.title = int(*(ff['title'] as i64))
+}
+
 fn main() {
 	x := Employee{'Peter', 28, 95000.5, .worker}
 	s := json2.encode<Employee>(x)
 	println(s)
+	// generic decode
+	gy := json2.decode<Employee>(s)
+	println('Employee y: $gy')
+	// raw_decode
 	y := json2.raw_decode(s) or {
 		panic(err)
 	}
