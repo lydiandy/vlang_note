@@ -257,6 +257,48 @@ for key,value in m {
 }
 ```
 
+跟其他语言一样continue用来重新继续当前循环,break用来跳出当前循环
+
+如果存在多层嵌套的循环,也可以使用continue label和break label来控制重新/跳出标签那一层的循环
+
+```v
+fn main() {
+	mut i := 4
+	goto L1
+	L1: for {
+		i++
+		for {
+			if i < 7 {continue L1} //从顶层循环继续
+			else {break L1} //直接跳出顶层循环
+		}
+	}
+	assert i == 7
+	println(i)
+
+	goto L2
+	L2: for  ;; i++ {
+		for {
+			if i < 17 {continue L2}
+			else {break L2}
+		}
+	}
+	assert i == 17
+	println(i)
+	goto L3
+	L3: for e in [1,2,3,4] {
+		i = e
+		for {
+			if i < 3 {continue L3}
+			else {break L3}
+		}
+	}
+	assert i == 3
+	println(i)
+}
+```
+
+
+
 ### for select语句
 
 for select语句主要在并发中使用,用来循环监听多个chanel,更多内容可以参考[并发章节](concurrent.md)
