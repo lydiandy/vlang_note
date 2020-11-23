@@ -82,18 +82,24 @@ struct Foo {
 
 ### 接口参数类型判断
 
-可以使用is关键字,对接口参数的具体类型进行判断
+可以使用跟联合类型那样的match,as,is,对接口参数的具体类型进行判断(目前还未全部实现,只实现了is, !is)
 
 ```v
 fn perform(s Speaker) {
-	if s is Dog { //通过is操作符,判断接口类型是否是某一个具体类型
+	if s is Dog { // 通过is操作符,判断接口类型是否是某一个具体类型
 		println('s is Dog')
 	}
-  if s !is Dog {  //通过!is操作符,判断接口类型不是某一个具体类型
-    
-  }
+	if s !is Dog { // 通过!is操作符,判断接口类型不是某一个具体类型
+		println('s is not Dog')
+	}
 
 	println(s.speak())
 }
+//match未实现的接口类型匹配
+	match s {
+		Dog { println('s is Dog struct') }
+		Cat { println('s is Cat struct') }
+		else { println(typeof(s)) }
+	}
 ```
 
