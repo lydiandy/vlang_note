@@ -14,7 +14,24 @@ pub interface Speaker {
 }
 ```
 
-目前没有看到接口可以进行组合或者继承的代码
+### 接口组合
+
+目前还没有,计划0.3版本实现
+
+```v
+pub interface Reader{
+	 read(mut buf []byte) ?int
+}
+pub interface Writer {
+  write(bug []byte) ?int
+}
+pub interface ReaderWriter {
+	Reader
+  Writer
+}
+```
+
+
 
 ### 接口实现
 
