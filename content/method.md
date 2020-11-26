@@ -37,44 +37,6 @@ fn (mut u User) set_name(name string) {
 ```v
 module main
 
-fn main() {
-	// 枚举方法
-	c := Color.white
-	println(c.str())
-	// 类型别名方法
-	i := Myint(11)
-	println(i.str())
-	// 联合类型方法
-	mut m := Mysumtype{}
-	m = int(11)
-	println(m.str())
-	// 函数类型方法
-	fn2(add)
-	// 直接定义函数类型
-	f :=MyFn(add)
-	println(f.str2()) //调用函数类型的方法
-	// 自定义数组类型方法
-	p := Point{
-		x: 1
-		y: 2
-	}
-	mut p_array := []Point{}
-	p_array << p
-	println(p_array.point_arr_method())
-	// 自定义字典类型方法
-	mut mp := map[string]Point{}
-	println(mp.point_map_method())
-}
-
-fn fn2(f MyFn) {
-	println(f(1, 3)) // 直接调用函数
-	println(f.str2()) // 调用函数类型的方法
-}
-
-fn add(x int, y int) int {
-	return x + y
-}
-
 struct Point {
 	x int
 	y int
@@ -88,7 +50,7 @@ enum Color {
 
 type Myint = int
 
-type MyFn = fn ( int,  int) int
+type MyFn = fn (int, int) int
 
 type Mysumtype = int | string
 
@@ -116,9 +78,44 @@ pub fn (mymap map[string]Point) point_map_method() string { // 自定义字典�
 	return 'from map[string]Point'
 }
 
+fn fn2(f MyFn) {
+	println(f(1, 3)) // 直接调用函数
+	println(f.str2()) // 调用函数类型的方法
+}
+
+fn add(x int, y int) int {
+	return x + y
+}
+
+fn main() {
+	// 枚举方法
+	c := Color.white
+	println(c.str())
+	// 类型别名方法
+	i := Myint(11)
+	println(i.str())
+	// 联合类型方法
+	mut m := Mysumtype{}
+	m = int(11)
+	println(m.str())
+	// 函数类型方法
+	fn2(add)
+	// 直接定义函数类型
+	f := main.MyFn(add)
+	println(f.str2()) // 调用函数类型的方法
+	// 自定义数组类型方法
+	p := Point{
+		x: 1
+		y: 2
+	}
+	mut p_array := []Point{}
+	p_array << p
+	println(p_array.point_arr_method())
+	// 自定义字典类型方法
+	mut mp := map[string]Point{}
+	println(mp.point_map_method())
+}
 ```
-
-
 
 ### 方法链式调用
 
