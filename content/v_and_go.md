@@ -1,8 +1,8 @@
-## V和Go基本语法代码参照
+### V和Go基本语法代码参照
 
 V和Go的基本语法代码参照,方便熟悉Go的开发者,快速了解V:
 
-### 模块
+#### 模块
 
 ```v
 module mymodule
@@ -29,7 +29,7 @@ import (
 )
 ```
 
-### 函数
+#### 函数
 
 ```v
 fn add(x int, y int) int {
@@ -49,7 +49,7 @@ func Foo() (int, int) {
 }
 ```
 
-### 结构体
+#### 结构体
 
 ```v
 struct User {
@@ -66,7 +66,7 @@ type User struct {
 }
 ```
 
-### 方法
+#### 方法
 
 ```v
 fn (m &User) str() string {
@@ -80,7 +80,7 @@ func (u User) str() string {
 }
 ```
 
-### hello world
+#### hello world
 
 ```v
 fn main() {
@@ -96,7 +96,7 @@ func main() {
 }
 ```
 
-### 切片初始化
+#### 切片初始化
 
 ```v
 numbers := [1, 2, 3, 4]
@@ -106,7 +106,7 @@ numbers := [1, 2, 3, 4]
 numbers := []int{1, 2, 3, 4}
 ```
 
-### 追加元素到切片
+#### 追加元素到切片
 
 ```v
 numbers << 5
@@ -118,7 +118,7 @@ numbers = append(numbers, 5)
 
 
 
-### 过滤切片中满足条件的元素
+#### 过滤切片中满足条件的元素
 
 ```v
 even := numbers.filter(it % 2 == 0)
@@ -135,7 +135,7 @@ for _, num := range numbers {
 
 
 
-### 检查切片是否包含某个元素
+#### 检查切片是否包含某个元素
 
 ```v
 contains := x in numbers
@@ -151,7 +151,7 @@ for _, num := range numbers {
     }
 ```
 
-### 读取文件
+#### 读取文件
 
 ```v
 import os
@@ -174,7 +174,7 @@ if err != nil {
 text := string(b)
 ```
 
-### 测试函数
+#### 测试函数
 
 ```v
 fn test_hello() {
