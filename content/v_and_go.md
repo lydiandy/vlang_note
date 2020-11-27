@@ -1,8 +1,8 @@
 ## V和Go基本语法代码参照
 
-V和Go的基本语法代码参照,方便熟悉Go的开发者,快速了解V
+V和Go的基本语法代码参照,方便熟悉Go的开发者,快速了解V:
 
-### 定义模块
+### 模块
 
 ```v
 module mymodule
@@ -12,7 +12,7 @@ module mymodule
 package mymodule
 ```
 
-### 导入模块
+导入模块
 
 ```v
 import os
@@ -32,34 +32,53 @@ import (
 ### 函数
 
 ```v
-
+fn add(x int, y int) int {
+	return x + y
+}
+pub fn foo() (int, int) {
+	return 2, 3
+}
 ```
 
 ```go
-
+func add(x int, y int) int {
+    return x + y
+}
+func Foo() (int, int) {
+    return 2, 3
+}
 ```
 
 ### 结构体
 
 ```v
-
+struct User {
+	name string
+pub mut:
+	age  int
+}
 ```
 
 ```go
-
+type User struct {
+	name string
+	Age  int
+}
 ```
 
 ### 方法
 
 ```v
-
+fn (m &User) str() string {
+	return 'name:$m.name,age:$m.age'
+}
 ```
 
 ```go
-
+func (u User) str() string {
+	return "name:"+u.name+","+"age:"+strconv.Itoa(u.Age)
+}
 ```
-
-### 接口
 
 ### hello world
 
