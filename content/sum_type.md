@@ -57,6 +57,7 @@ pub type Stmt = AssertStmt | AssignStmt | Block | BranchStmt | CompFor | ConstDe
 
 - 联合类型作为函数的参数或返回值,也可以作为变量声明,结构体字段
 - 使用match语句,进行类型的进一步判断
+- 使用match语句,如果需要修改联合类型的值,需要在变量前加mut
 - 使用is关键字联合类型具体是哪一种类型
 - 使用as关键字将联合类型转换为另一种类型,当然要转换的类型在联合类型定义的类型范围内
 
@@ -119,6 +120,23 @@ fn main() {
 		string { println('res is:$res') }
 		User { println('res is:$res.str()') }
 	}
+	match mut res { // 如果需要在分支中修改res,需要加mut
+		int {
+			res = MySum(3)
+			println('new res value is: $res')
+		}
+		string {
+			res = 'abc'
+			println('new res value is: $res')
+		}
+		User {
+			res = User{
+				name: 'jack'
+				age: 12
+			}
+			println('new res value is:$res.str()')
+		}
+	}
 	user := res as User // 也可以通过as,进行显示造型
 	println(user.name)
 	add(i)
@@ -173,5 +191,38 @@ pub fn (mysum Mysumtype) str() string { // 联合类型的方法
 	return 'from mysumtype'
 }
 
+```
+
+### 联合类型作为结构体字段
+
+结构体字段的类型也可以是联合体类型
+
+```v
+struct MyStruct {
+	x int
+}
+
+struct MyStruct2 {
+	y string
+}
+
+type MySumType = MyStruct | MyStruct2
+
+struct Abc {
+	bar MySumType // bar字段的类型也可以是联合类型
+}
+
+fn main() {
+	x := Abc{
+		bar: MyStruct{123}
+	}
+	if x.bar is MyStruct {
+		println(x.bar)
+	}
+	match x.bar { // match匹配也可以使用
+		MyStruct { println(x.bar.x) } // 也会自动造型为具体类型
+		else {}
+	}
+}
 ```
 
