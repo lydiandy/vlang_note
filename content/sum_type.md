@@ -226,3 +226,17 @@ fn main() {
 }
 ```
 
+### 子类不允许是指针类型
+
+使用联合类型时,有一点需要注意:联合类型的子类中不允许出现指针类型,编译器会检查并报错
+
+```v
+struct Abc {
+    val string
+}
+struct Xyz {
+    foo string
+}
+type Alphabet1 = Abc | string | &Xyz //不允许指针类型
+```
+
