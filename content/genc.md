@@ -1006,18 +1006,21 @@ fn main() {
 	}
 }
 //C代码
-void main__main() {
-#ifdef _WIN32
-#endif
-   ;
-#ifdef __linux__
-#endif
-   ;
-#ifdef __APPLE__
-   println(tos3("mac"));
-#endif
-   ;
- }
+VV_LOCAL_SYMBOL void main__main() {
+	#if defined(_WIN32)
+	{
+	}
+	#endif
+	#if defined(__linux__)
+	{
+	}
+	#endif
+	#if defined(__APPLE__)
+	{
+		println(tos_lit("mac"));
+	}
+	#endif
+}
 ```
 
 ```v

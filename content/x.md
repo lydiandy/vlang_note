@@ -46,7 +46,7 @@ pub fn encode<T>(typ T) string //类型需要实现序列化接口的to_json函�
 
 ```v
 //泛型版本的解码函数
-pub fn decode<T>(src string) T //直接返回类型为T的变量,类型需要实现序列化接口的from_json函数
+pub fn decode<T>(src string) ?T //返回类型为T的变量,类型需要实现序列化接口的from_json函数
 //解码函数,会自动转换节点的值为对应类型
 pub fn raw_decode(src string) ?Any //仅仅返回Any类型
 //快速解码函数,忽略类型转换,节点的值都是字符串
@@ -96,7 +96,9 @@ fn main() {
 	s := json2.encode<Employee>(x)
 	println(s)
 	// generic decode
-	gy := json2.decode<Employee>(s)
+	gy := json2.decode<Employee>(s) or {
+		panic(err)
+	}
 	println('Employee y: $gy')
 	// raw_decode
 	y := json2.raw_decode(s) or {
@@ -104,9 +106,8 @@ fn main() {
 	}
 	println('Employee y: $y')
 }
+
 ```
-
-
 
 ### websocket
 
@@ -219,7 +220,7 @@ s.on_close(fn (mut ws websocket.Client, code int, reason string) ?  //关闭连�
 pub fn (mut s Server) listen() ?
 ```
 
-#### 演示实例代码:
+#### 演示实例代码
 
 ```v
 module main
