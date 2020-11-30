@@ -34,5 +34,5 @@
 
 特点：名称中间的标点被替换成连字符（`-`），所有单词都小写，例如`"get-user-name"`
 
-来源:https://github.com/whinc/blog/issues/7
+参考:https://zhuanlan.zhihu.com/p/35098504
 
