@@ -51,12 +51,9 @@ v outdated	 //列出所有过时需要升级的包
 
 当使用import xxx导入模块时,编译器会按以下顺序搜索模块:
 
-1. 当前编译文件所在的目录
-2. v编译器vlib目录中的标准模块
-3. 如果有指定-vpath参数,则使用vpath目录,如果没有指定-vpath参数,则使用通过vpm安装到VMODULES目录中的第三方模块,如果设置了环境变量VMODULES,则会安装到VMODULES环境变量指向的目录,如果没有设置环境变量,则默认安装到~/.vmodules目录
-4. 如果有指定-user_mod_path参数,则使用该目录
-
-一般来说,vpath和user_mod_path参数都很少额外配置,所以模块搜索路径就是前3个路径
+1. 当前目录
+2. 标准模块目录,即v/vlib
+3. 第三方模块目录:如果设置了环境变量VMODULES,就是VMODULES环境变量指向的目录,如果没有设置VMODULES,默认是~/.vmodules目录
 
 ### 模块描述文件
 
@@ -94,3 +91,4 @@ vm := vmod.decode( @VMOD_FILE ) or { panic(err) } //@VMOD_FILE是内置的全局
 eprintln('$vm.name $vm.version\n $vm.description')
 ```
 
+``
