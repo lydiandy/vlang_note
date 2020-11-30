@@ -1,18 +1,38 @@
 ## 编码风格
 
-V语言中主要的命名风格是采用snake case命名风格
+### V语言命名风格
 
-**snake case：蛇形命名法**
+- 模块,常量,变量,枚举值,函数,方法,内置类型
 
-这是书写复合词或短语的一种惯例（practice）。复合词或短语中的各个单词之间用**下划线**（_）分隔并且没有空格。复合词中的每一个单词的首字母通常都是小写的，并且复合词的第一个字母既可以是大写的又可以是小写的，例如：“foo_bar”和“Hello_world”。一般认为 Snake Case 的可读性要比 Camel Case 要强
+  强制采用小蛇式命名风格(lower snake case)
 
-**Upper Camel Case：大驼峰命名法**
+- 枚举,结构体,接口等自定义类型
 
-每一个单词的首字母都大写。例如：FirstName、LastName、CamelCase。也被称为 **Pascal 命名法**（Pascal Case）,源自于 Pascal 语言的命名惯例。
+  强制采用大骆驼峰式命名风格(upper camel case)
 
-------
+  V语言以小蛇命名风格为主,使得代码阅读起来非常舒服,不会那么突兀,甚至连常量也是小蛇风格.
 
-枚举,结构体,接口的命名,约定是采用大骆驼峰命名风格
+---
 
-模块名,常量,变量,枚举值,函数,方法的命名,约定是采用蛇形命名风格
+### 常用命名风格参考
+
+#### camel case(驼峰式)
+
+特点：名称中间没有空格和标点，除第一个单词外后面的单词首字母均大写
+
+如果第一个单词首字母大写，称之为`upper camel case`（`CamelCase`，大驼峰式），例如`"GetUserName"`
+如果第一个单词首字母小写，称之为`lower camel case`（`camelCase`，小驼峰式），例如`"getUserName"`
+
+#### snake case(蛇式)
+
+特点：名称中间的标点被替换成下划线（`_`）
+
+如果所有单词都小写，称之为`lower snake case`（小蛇式），例如`"get_user_name"`
+如果所有单词都大写，称之为`upper snake case`（大蛇式），例如`"GET_USER_NAME"`
+
+#### kebab case(烤肉串式)
+
+特点：名称中间的标点被替换成连字符（`-`），所有单词都小写，例如`"get-user-name"`
+
+来源:https://github.com/whinc/blog/issues/7
 
