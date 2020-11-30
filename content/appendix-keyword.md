@@ -1,6 +1,6 @@
 ## 附录1 关键字
 
-V语言目前一共有42个关键字:
+V语言目前一共有41个关键字:
 
 ```v
 as
@@ -13,7 +13,6 @@ const
 continue
 defer
 else
-embed
 enum
 false
 fn
