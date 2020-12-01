@@ -210,3 +210,32 @@
 - os.path_separator
 
     不同平台的路径分隔符
+
+### 子模块os.cmdline
+
+目前一共有6个公共函数,用于获取选项之后/之前的参数
+
+- cmdline.options(args []string,param string) []string
+
+  获取数组args中,param之后的参数值,如果param在数组中多次出现,之后的参数值都取出来,按顺序保存在返回的参数值数组中
+
+- cmdline.option(args []string,param string,default string) string
+
+  获取数组args中,param之后的参数值,如果param没有出现在数组args中,则返回default 默认值
+
+- cmdline.options_before(args []string,what []string) []string
+
+  获取数组args中,如果元素有包含在数组what中,返回元素之前的参数值
+
+- cmdline.options_after(args []string,what []string) []string
+
+  获取数组args中,如果元素有包含在数组what中,返回元素之后的参数值
+
+- cmdline.only_non_options(args []string) []string
+
+  获取数组args中,所有不是以-开头的元素
+
+- cmdline.only_options(args []string) []string
+
+  获取数组arg中,所有以-开头的元素
+
