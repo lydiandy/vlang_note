@@ -42,13 +42,13 @@
 
 ### 执行命令
 
-- exec(string) ?Result 
+- os.exec(string) ?Result 
 
-    执行命令,然后等待执行结果,根据返回的exit_code和output进行处理
+    运行命令,运行完成后返回Result, Result.exit_code为运行结果码,Result.output为运行结果的字符串内容,运行结果并不输出到终端中
 
-- system(string) int
+- os.system(string) int
 
-  执行系统命令  
+  运行命令,将命令运行结果输出到终端,然后返回结果码,跟exit()的结果码一样
   
   ```
   os.system('ln -sf $vexe $link_path')
@@ -79,11 +79,11 @@
 
     返回路径中的最后一个元素，根据分隔符判断，如果没有分隔符则返回path本身
 
-- is_abs(path string) bool
+- is_abs_path(path string) bool
 
     判断路径是否是绝对路径
 
-- join(base string, dir ...string) string
+- join_path(base string, dir ...string) string
 
     把参数中的字符串连接成一个路径
 
@@ -117,11 +117,7 @@
 
 - is_dir(path) bool
 
-    判断是否是目录
-
-- dir_exists(path) bool
-
-    判断目录是否存在
+    如果目录存在返回true,目录不存在返回false
 
 - ls(path string) [ ]string
 
