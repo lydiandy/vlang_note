@@ -463,6 +463,20 @@ fn main() {
 }
 ```
 
+​	filter参数还可以是匿名函数
+
+```v
+module main
+
+fn main() {
+	nums := [1, 2, 3, 4, 5, 6]
+	even_fn := nums.filter(fn (x int) bool { //参数为匿名函数
+		return x % 2 == 0
+	})
+	println(even_fn)
+}
+```
+
 - a.map() 	
 
     对数组的每一个元素进行一个运算,返回运算后的新数组
@@ -479,7 +493,19 @@ fn main() {
 }
 ```
 
+​	map参数还可以是匿名函数
 
+```v
+module main
+
+fn main() {
+	words := ['hello', 'world']
+	upper_fn := words.map(fn (w string) string { //参数为匿名函数
+		return w.to_upper()
+	})
+	println(upper_fn) // ['HELLO', 'WORLD']
+}
+```
 
 - []int.reduce(iter fn (accum, curr int) int, accum_start int) int	
 

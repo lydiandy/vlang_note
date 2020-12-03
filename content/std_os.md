@@ -123,11 +123,31 @@
 
     获取该目录的所有文件和文件夹
 
+- is_writable_folder(folder string) ?bool
+
+    判断目录是否可写
+    
 - walk_ext(path string,ext string) []string
 
     返回改目录,及其下级子目录中所有,文件扩展名为ext的所有文件
 
 ### 文件相关
+
+- exists(path string) bool
+
+    判断文件或者目录是否存在
+
+- is_executable(path string) bool
+
+    判断文件是否是可执行文件
+
+- is_writable(path string) bool
+
+    判断文件是否可写
+
+- is_readable(path string) bool
+
+    判断文件是否可读
 
 - realpath(path string) string
 
@@ -172,6 +192,7 @@
 - File.writeln(s string)
 
     写入一行到文件
+    
 - File.close()
 
   关闭文件
