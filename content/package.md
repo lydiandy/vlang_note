@@ -51,9 +51,10 @@ v outdated	 //列出所有过时需要升级的包
 
 当使用import xxx导入模块时,编译器会按以下顺序搜索模块:
 
-1. 当前目录
-2. 标准模块目录,即v/vlib
-3. 第三方模块目录:如果设置了环境变量VMODULES,就是VMODULES环境变量指向的目录,如果没有设置VMODULES,默认是~/.vmodules目录
+1. 当前编译目录
+2. 当前编译目录中的modules子目录
+3. 标准模块目录,即v/vlib
+4. 第三方模块目录:如果设置了环境变量VMODULES,就是VMODULES环境变量指向的目录,如果没有设置VMODULES,默认是~/.vmodules目录
 
 ### 模块描述文件
 
