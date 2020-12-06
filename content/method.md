@@ -19,7 +19,7 @@ fn (u User) get_name() string {
 	return u.name
 }
 
-fn (mut u User) set_name(name string) {
+fn (mut u User) set_name(name string) { //需要修改接收者,要加上mut
 	u.name = name
 }
 
@@ -119,9 +119,7 @@ fn main() {
 
 ### 方法链式调用
 
-结构体方法支持链式调用
-
-按照目前的测试结果,&取地址符号,在函数返回值上加就可以了,不需要在接收者上也添加
+方法支持链式调用
 
 ```v
 module main
