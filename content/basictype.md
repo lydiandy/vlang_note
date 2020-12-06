@@ -164,6 +164,41 @@ pub: 					 //pub表示这两个字符串的属性都是：公共且只读的
 }
 ```
 
+**字符串单引号和双引号混合使用**
+
+主要的基本处理方式是:
+
+- 一般来说以单引号为主要使用的符号,双引号也可以
+- 如果有字符串嵌套使用,内外必须不能同时是单引号或者同时是双引号,不然无法正确配对
+- 如果有加上反斜杠进行转义,则都可以
+
+```v
+module main
+
+fn main() {
+	s0:='name=tom' 		//ok
+	s1:="name=tom" 		//ok
+	s2:="name='tom'" 	//ok
+	s3:='name="tom"' 	//ok
+	//s4:='name='tom''	//error
+	//s5:="name="tom""	//error
+	s6:='name=\'tom\''  //ok
+	s7:="name=\'tom\'"	//ok
+	s8:="name=\"tom\""	//ok
+	s9:='name=\"tom\"'	//ok
+	println(s0)
+	println(s1)
+	println(s2)
+	println(s3)
+	// println(s4)
+	// println(s5)
+	println(s6)
+	println(s7)
+	println(s8)
+	println(s9)
+}
+```
+
 ------
 
 ### 单字符类型
