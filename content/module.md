@@ -69,7 +69,7 @@ import mymodule as mymod
 
 - 直接导入模块内元素(短名称导入)
 
-  目前仅限函数和结构体,使用时不需要模块名前缀
+  目前支持模块内公共的函数,结构体,常量可以直接导入,使用时不需要模块名前缀
 
   跟rust的use导入的方式一样
 
@@ -78,14 +78,17 @@ import mymodule as mymod
 ```v
 module main
 
-import os { user_os } //大括号内是直接导入的模块函数
-import time { now,utc }
-// import time as t { now, utc, Time } //也可以模块别名和直接导入同时使用,不过很少场景会同时使用
+// 大括号内是从time模块直接导入的公共函数,结构体,常量
+import os { user_os }
+import time { now, utc, Time }
 
+// import time as t { now, utc, Time } //也可以模块别名和直接导入同时使用,不过很少场景会同时使用
 fn main() {
-	println(user_os()) //直接通过函数名调用,不需要模块前缀
+	println(user_os()) // 直接通过函数名调用,不需要模块前缀
 	println(now())
 	// println(t.now())
+	t := Time{}
+	println(t)
 }
 ```
 

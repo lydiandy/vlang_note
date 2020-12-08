@@ -100,6 +100,9 @@ v test mymodule //执行mymodule中的测试文件
 
 v test-compiler  //执行v源代码中所有的测试文件,用于测试编译器本身
 
+v vlib/v/compiler_errors_test.v //执行编译器错误测试,checker/tests,parser/tests
+VTEST_ONLY=xxx v vlib/v/compiler_errors_test.v //执行编译器错误测试,并且名字包含xxx
+
 v doctor //输出当前电脑的基本环境信息,主要跟V编译相关,用于提单到github时,报告环境信息,方便排查
 
 ```
