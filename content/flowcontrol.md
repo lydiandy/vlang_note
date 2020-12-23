@@ -30,8 +30,6 @@ println(c)
 
 ```
 
-
-
 ### match分支语句
 
 match要求穷尽所有可能,所以基本都要带上else语句
@@ -74,45 +72,39 @@ match os {
 match赋值(match表达式)
 
 ```v
-os:='macos'
-price:=match os {
-    'windows' {
-        100
-    }
-    'linux' {
-        120
-    }
-    'macos' {
-        150
-    }
-    else {
-        0
-    }
+os := 'macos'
+price := match os {
+	'windows' { 100 }
+	'linux' { 120 }
+	'macos' { 150 }
+	else { 0 }
 }
-println(price) //输出150
+println(price)
+//输出150
 //多变量match赋值
-a,b,c := match false {
-		true { 1,2,3 }
-		false { 4,5,6 }
-		else { 7,8,9 }
+a, b, c := match false {
+	true { 1, 2, 3 }
+	false { 4, 5, 6 }
+	else { 7, 8, 9 }
 }
 println(a)
 println(b)
 println(c)
+
 ```
 
 match的同时,加上mut ,可以修改匹配变量,通常是配合for in 语句结合使用
 
 ```v
 //参考代码
-	for stmt in file.stmts {
-			match mut stmt {
+for stmt in file.stmts {
+		match mut stmt {
 				ast.ConstDecl {
 					c.stmt(*it)
 				}
 				else {}
-			}
 		}
+}
 ```
 
 使用match判断联合类型的具体类型
@@ -122,33 +114,33 @@ module main
 
 struct User {
 	name string
-	age int
+	age  int
 }
+
 pub fn (m &User) str() string {
 	return 'name:$m.name,age:$m.age'
 }
 
-type MySum= int|string|User //联合类型声明
+type MySum = User | int | string //联合类型声明
 
 pub fn (ms MySum) str() string {
 	match ms { //如果函数的参数或者接收者是联合类型,可以使用match进一步判断类型
-		int { 
+		int {
 			return ms.str()
 		}
-		string { 
-			return ms //ms的类型是string
+		string {
+			return ms // ms的类型是string
 		}
-		User { 
-			return ms.str() //ms的类型是User
+		User {
+			return ms.str() // ms的类型是User
 		}
 		// else { //如果之前的分支已经穷尽了所有可能,else语句不需要,如果没有穷尽所有可能,则else语句是必须的
 		// 	return 'unknown'
 		// }
 	}
 }
+
 ```
-
-
 
 ### for 循环语句
 
@@ -250,11 +242,15 @@ println(sum)	// 55
 遍历字典:
 
 ```v
-m:={"name":"jack","age":"20","desc":"good man"}
-
-for key,value in m {
+m := {
+	'name': 'jack'
+	'age':  '20'
+	'desc': 'good man'
+}
+for key, value in m {
 	println('key:$key,value:$value')
 }
+
 ```
 
 跟其他语言一样continue用来重新继续当前循环,break用来跳出当前循环
@@ -265,14 +261,13 @@ for key,value in m {
 fn main() {
 	mut i := 4
 	goto L1
-	L1: for {
+	L1: for { //在for前加标签
 		i++
 		for {
 			if i < 7 {continue L1} //从顶层循环继续
 			else {break L1} //直接跳出顶层循环
 		}
 	}
-	assert i == 7
 	println(i)
 
 	goto L2
@@ -282,7 +277,6 @@ fn main() {
 			else {break L2}
 		}
 	}
-	assert i == 17
 	println(i)
 	goto L3
 	L3: for e in [1,2,3,4] {
@@ -292,12 +286,9 @@ fn main() {
 			else {break L3}
 		}
 	}
-	assert i == 3
 	println(i)
 }
 ```
-
-
 
 ### for select语句
 
@@ -341,9 +332,8 @@ goto语句只能在函数内部跳转
 ```v
 fn main() {
 	mut i := 0
-	a:	//定义跳转标签
+	a: //定义跳转标签
 	i++
-
 	// a: i++ //标签和语句在同一行也可以正常运行
 	if i < 3 {
 		goto a //跳转到a标签

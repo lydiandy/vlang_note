@@ -92,8 +92,9 @@ fn foo() (int, int) { //多返回值
 }
 
 fn some_multiret_fn(a int, b int) (int, int) {
-	return a+1, b+1 //可以返回表达式
+	return a + 1, b + 1 //可以返回表达式
 }
+
 fn main() {
 	a, b := foo()
 	println(a) // 2
@@ -184,26 +185,23 @@ from defer_fn2
 
 相同的函数签名,表示同一类函数,可以用type定义为函数类型
 
-有一个注意点,如果函数的参数是可变mut的,也需要在函数类型中体现出来,否则编译器会报错
-
 ```v
-type mid_fn = fn(int,string) int
-type mid_fn = fn(mut int,mut string) int
+type Mid_fn = fn (int, string) int
 ```
 
 ### 函数作为参数
 
 ```v
 fn sqr(n int) int {
-        return n * n
+	return n * n
 }
 
-fn run(value int, op fn(int) int) int {
-        return op(value)
+fn run(value int, op fn (int) int) int {
+	return op(value)
 }
 
-fn main()  {
-        println(run(5, sqr)) // "25" sql函数作为参数传递
+fn main() {
+	println(run(5, sqr)) // "25" sql函数作为参数传递
 }
 ```
 
@@ -243,18 +241,7 @@ V不会有函数重载
 
 ### 函数默认值
 
-函数的参数目前还没有参数默认值这个特性,
-
-看了issue中有人提问了作者,作者明确回复:V将不会有函数重载和函数参数的默认值
-
-但是考虑有这个特性,还未实现:
-
-```v
-fn foo(args struct {bar int, baz int = 10}) { //参数是一个结构体,结构体的字段有默认值
-	...
-}
-foo({bar:1}) //调用的时候,如果结构体的字段没有明确赋值,则采用字段的默认值
-```
+函数的参数目前还没有参数默认值这个特性
 
 ### 内联函数
 

@@ -28,7 +28,7 @@ struct mapnode {  //键值对节点
 
 ```v
 fn main() {
-    mut m := map[string]int{}
+  	mut m := map[string]int{}
     m['one'] = 1
     m['two'] = 2
     println(m['one']) //返回对应的value

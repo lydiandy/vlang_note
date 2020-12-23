@@ -10,11 +10,13 @@ struct Point {
 	y int
 }
 
-p := Point{
-	x: 10
-	y: 20
+fn main() {
+	p := Point{
+		x: 10
+		y: 20
+	}
+	println(p.x) // 结构体字段通过点号来访问
 }
-println(p.x) // 结构体字段通过点号来访问
 ```
 
 结构体被分配到内存的栈中,引用类型
@@ -22,8 +24,8 @@ println(p.x) // 结构体字段通过点号来访问
 取结构体地址:&
 
 ```v
-p := &Point{10, 10}
-println(p.x)
+p2 := &Point{10, 10}
+println(p2.x)
 ```
 
 空结构体:
@@ -68,13 +70,20 @@ struct Foo {
 	a int
 	b int = 7 //默认值7
 }
+
 fn main() {
-	foo := Foo{a:1}
+	foo := Foo{
+		a: 1
+	}
 	println(foo.a) //输出1
 	println(foo.b) //输出默认值7
-	foo2:= Foo{a:1,b:2}
+	foo2 := Foo{
+		a: 1
+		b: 2
+	}
 	println(foo2.b) //输出2
 }
+
 ```
 
 结构体变量基于另一个变量创建,同时合并新的字段值
@@ -84,12 +93,20 @@ struct Foo {
 	a int
 	b int = 7 //默认值7
 }
+
 fn main() {
-	foo := Foo{a:1}
-	foo2 := { foo | a: 42 }  //foo2是在foo的基础上,通过|合并新的字段值
+	foo := Foo{
+		a: 1
+		b: 33
+	}
+	foo2 := {
+		foo |
+		a: 42
+	} // foo2是在foo的基础上,通过|合并新的字段值
 	println(foo2.a) //输出合并后的新值42
-	println(foo2.b) //输出未改变的值7
+	println(foo2.b) //输出未改变的值33
 }
+
 ```
 
 短字面量创建结构体变量
@@ -222,7 +239,7 @@ pub fn new_waitgroup() &WaitGroup { //不能被复制,只能以引用的方式�
 struct Point {
 	x int
 	y int
-	z int   [required] 	//字段标注required表示必须初始化赋值
+	z int [required] //字段标注required表示必须初始化赋值
 }
 
 fn main() {
@@ -234,7 +251,7 @@ fn main() {
 	b := Point{
 		x: 2
 		y: 4
-    // z: 6     //报错: field `Point.z` is required
+		// z: 6     //报错: field `Point.z` must be initialized
 	}
 	println(a)
 	println(b)
