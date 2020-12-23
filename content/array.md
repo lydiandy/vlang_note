@@ -36,24 +36,31 @@ println(arr.element_size) //返回4
 
 数组元素的类型必须是一样的,不允许异构数组,[1, 'a'] 编译不会通过
 
-定义固定长度的数组,然后赋值:
+### 固定长度数组
 
-这种固定长度定义的数组,无法像字面量定义的那样,不能使用arr.len,无法使用<<追加元素
+对于固定长度数组来说,长度也是类型的一部分,[5]int和[6]int是两个不同的类型
+
+固定长度数组无法使用<<追加元素
 
 ```v
 fn main() {
-	mut arr:=[8]int //定义长度固定的数组,所有数组元素默认都是0值初始化
+	mut arr := [8]int{} //声明长度固定的数组,所有数组元素默认都是0值初始化
 	println(arr[1]) //返回0
-	arr=[0,1,2,3,4,5,6,7]!!  //注意数组后面有2个!!,否则会报错
+	arr = [0, 1, 2, 3, 4, 5, 6, 7]!! //初始化,注意数组后面有2个!!,否则会报错
+	// arr = [0, 1, 2, 3, 4, 5, 6]!! //报错,因为长度不匹配
 	println(arr[1]) //赋值成功后,返回1
 	println(arr[2]) //赋值成功后,返回2
-
+	arr[2] = 222
+	println(arr)
+	println(arr.len) //固定长度数组,返回长度8
+	// arr << 9 //报错,固定长度数组无法使用<<动态追加元素
 	x := 2.32
-	mut v := [8]f32
+	mut v := [8]f64{}
 	println(v[1]) //返回0.000000
-	v = [1.0, x, 3.0,4.0,5.0,6.0,7.0,8.0]!! 
+	v = [1.0, x, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]!!
 	println(v[1]) //赋值成功后,返回2.320000
 }
+
 ```
 
 ### 数组初始化
@@ -64,8 +71,8 @@ fn main() {
 module main
 
 fn main() {
-  //定义初始len为5,cap为20,初始值为10的数组
-	mut arr := []int{len:5,cap:20,init:10} 
+	//定义初始len为5,cap为20,初始值为10的数组
+	mut arr := []int{len: 5, cap: 20, init: 10}
 	println(arr) //输出[10, 10, 10, 10, 10]
 	println('$arr.len,$arr.cap') //输出5,20
 	arr << 3
@@ -112,16 +119,17 @@ println(nums) // "[1, 2, 3, 4, 5, 6, 7]"
 指针类型数组:
 
 ```v
-mut arr := []&int
-	a := 1
-	b := 2
-	c := 3
-	arr << &a
-	arr << &b
-	arr << &c
-  for i in arr {
-    println(i) //输出数组的3个地址元素
-  }
+mut arr := []&int{}
+a := 1
+b := 2
+c := 3
+arr << &a
+arr << &b
+arr << &c
+for i in arr {
+	println(i) //输出数组的3个地址元素
+}
+
 ```
 
 ### in操作符
@@ -150,13 +158,14 @@ numbers := [1, 2, 3, 4, 5]
 for num in numbers {
 	println('num:$num')
 }
-for i,num in numbers {
+for i, num in numbers {
 	println('i:$i,num:$num')
 }
-//或者这种区间的写法也可以
-for i in 0..numbers.len {
+//或者这种区间的写法也可以,不过不推荐使用,用上面的就够了
+for i in 0 .. numbers.len {
 	println('num:${numbers[i]}')
 }
+
 ```
 
 ### 数组切片/区间

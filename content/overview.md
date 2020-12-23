@@ -14,7 +14,7 @@
 
 - 提供跟go一样的并发
 
-- 6个1级元素:const常量,enum枚举,fn函数/方法,struct结构体,interface接口,type类型
+- 6个一级元素:const常量,enum枚举,fn函数/方法,struct结构体,interface接口,type类型
 
 ------
 
@@ -31,7 +31,7 @@
 
 ------
 
-  
+
 
 - Vscript可以像python脚本那样简单,方便地写系统shell
 
@@ -59,7 +59,7 @@
 
 有些未实现的特性好得让人感觉不真实,拭目以待吧,毕竟语言的发展周期都是按年来计算的
 
-未实现的功能正在逐步实现,计划在2020年5月份发布0.2版本,相对完善一些，稳定一些
+未实现的功能正在逐步实现
 
 希望作者和开发团队能持续下去,周边生态能起来
 
@@ -69,97 +69,110 @@ V语言代码初步印象:
 
 ```v
 //单行注释
-
 /*
 多行注释
+多行注释
 */
+//定义主模块,编译生成可执行程序
+module main
 
-module main  	//定义主模块,编译生成可执行程序
-
-import os 		//导入模块
-import strings
+//导入模块
+import os
 import time
 
-fn main() {  	//主函数,程序运行入口
-    println('say hello world')  //语句结尾不需要分号
+//主函数,程序运行入口
+fn main() {
+	println('say hello world') //语句结尾不需要分号
+	println(os.args) //使用os模块的args变量
+	println(time.now()) //调用time模块的now函数
 }
 
-//模块内7个主要一级元素:常量,枚举,函数,结构体,方法,接口,类型
-
-//1.常量
-pub const (
-	Version = '0.1.21'
+//模块内6个一级元素:常量,枚举,函数/方法,结构体,接口,类型
+// 1.常量
+const (
+	version             = '0.1.21'
 	supported_platforms = ['windows', 'mac', 'linux']
 )
 
-//2.枚举
-pub enum OS {
+// 2.枚举
+enum OS {
 	mac
 	linux
 	windows
 }
 
-//3.函数-函数的定义风格基本跟go一样,只是关键字改为更简短的fn，支持不确定个数参数，支持多返回值
-//pub表示公共级别的访问控制，可以被模块外使用，否则只能在模块内使用
-pub fn my_fn(x int,y int) int {
-    i:=1 			//强类型，类型推断
-    s:='abc' 	//变量默认不可变,约定用单引号表示字符串,双引号也可以,反引号才是单字符
-    mut a:=3 	//可变用mut
-    a=5 			//声明可变后,才可修改
-		println(i)
-		println(s)
-    return a
-}
-//3.函数-泛型函数
-pub fn g_fn<T>(p T) T {
-    return p
+// 3.函数-函数的定义风格基本跟go一样,只是关键字改为更简短的fn，支持不确定个数参数，支持多返回值
+// pub表示公共级别的访问控制，可以被模块外使用，否则只能在模块内使用
+fn my_fn(x int, y int) int {
+	i := 1 //强类型，类型推断
+	s := 'abc' //变量默认不可变,约定用单引号表示字符串,双引号也可以,反引号才是单字符
+	mut a := 3 //可变用mut
+	a = 5 //声明可变后,才可修改
+	println(i)
+	println(s)
+	return a
 }
 
-//4.结构体-结构体定义
-pub struct Point { //结构体字段一共有5种访问控制
-//默认私有且不可变
-  a int  
-//私有，但可变
-mut:     
+// 3.函数-泛型函数
+fn g_fn<T>(p T) T {
+	return p
+}
+
+// 3.方法-方法只是指定了接收者的函数，跟go一样
+fn (mut p Point) move(x int, y int) {
+	p.x += x
+	p.y += y
+}
+
+// 4.结构体-结构体定义
+struct Point {
+	//结构体字段一共有5种访问控制
+	//1.默认私有且不可变
+	a int
+	//2.私有，但可变
+mut:
 	x int
 	y int
-//公共，但不可变
-pub:    
-	d int 
-//模块内可访问且可变;模块外可访问,但是只读
+	//3.公共，但不可变
+pub:
+	d int
+	//4.模块内可访问且可变;模块外可访问,但是只读
 pub mut:
-    e int 
-//全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用
+	e int
+	//5.全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用
 __global:
-	f int 
+	f int
 }
 
-//4.结构体-泛型结构体
-struct Repo<T> {
-	db DB
+// 4.结构体-泛型结构体
+struct Repo <T> {
+	db    DB
 mut:
-	model  T
+	model T
 }
 
-//5.方法-方法只是指定了接收者的函数，跟go一样
-pub fn (mut p Point) move(x,y int) {
-    p.x+=x
-    p.y+=y
-}
-//6.接口-接口无须显式声明实现,鸭子类型,跟go一样
-pub interface Walker {
-    walk(int,int) int
+struct DB {
 }
 
-//7.类型-类型别名,可以基于基本类型,也可基于结构体类型创建类型别名
-pub type myint = int
+// 5.接口-接口无须显式声明实现,鸭子类型,跟go一样
+interface Walker {
+	walk(int, int) int
+}
 
-//7.类型-函数类型，表示这一类相同签名的函数
-pub type fn_type = fn(int) int
+// 6.类型-类型别名,可以基于基本类型,也可基于结构体类型创建类型别名
+type Myint = int
 
-//7.类型-联合类型，跟typescript类似，表示类型Expr可以是这几种类型的其中一种
-pub type Expr = Foo | BoolExpr |  BinExpr | UnaryExpr
+// 6.类型-函数类型，表示这一类相同签名的函数
+type Fn_type = fn (int) int
 
+// 6.类型-联合类型，跟typescript类似，表示类型Expr可以是这几种类型的其中一种
+struct BinExpr {}
+
+struct BoolExpr {}
+
+struct UnaryExpr {}
+
+type Expr = BinExpr | BoolExpr | UnaryExpr
 
 ```
 

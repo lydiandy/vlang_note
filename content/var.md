@@ -92,7 +92,7 @@ fn main() {
 	f1()
 	f2()
 	f3()
-  f4()
+	f4()
 }
 
 fn f1() {
@@ -119,12 +119,14 @@ fn f3() {
 	println(c) // 45
 	println(d) // -33
 }
+
 fn f4() {
-  mut a, mut b, mut c := 1, 2, 3 //多变量+可变赋值
+	mut a, mut b, mut c := 1, 2, 3 //多变量+可变赋值
 	println(a)
 	println(b)
 	println(c)
 }
+
 ```
 
 条件赋值
@@ -140,11 +142,11 @@ d, e, f := if true {
 匹配赋值
 
 ```v
-a,b,c := match false {
-		true { 1,2,3 }
-		false { 4,5,6 }
-		else { 7,8,9 }
-	}
+a, b, c := match false {
+	true { 1, 2, 3 }
+	false { 4, 5, 6 }
+	else { 7, 8, 9 }
+}
 ```
 
 

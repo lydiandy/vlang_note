@@ -62,12 +62,12 @@ true是常量1，false是常量0
 也可以增加下划线,进行视觉上的分隔,不影响本来的值
 
 ```v
-	mut c := 0xa_0 //十六进制数字a0
-	println(c) //输出160
-	c = 0b10_01 //二进制数字1001
-	println(c) //输出9
-	c = 1_000_000 //十进制数字1000000
-	println(c) //输出1000000
+mut c := 0xa_0 //十六进制数字a0
+println(c) //输出160
+c = 0b10_01 //二进制数字1001
+println(c) //输出9
+c = 1_000_000 //十进制数字1000000
+println(c) //输出1000000
 ```
 
 显示指定类型
@@ -132,14 +132,14 @@ println('hello ${name}') //方式2,效果一样,更常用于复杂的表达式,�
 遍历字符串:
 
 ```v
-str:='abcdef'
+str := 'abcdef'
 //遍历value
 for s in str {
-    println(s.str())
+	println(s.str())
 }
 //遍历index和value
-for i,s in str {
-    println('index:$i,value:${s.str()}')
+for i, s in str {
+	println('index:$i,value:$s.str()')
 }
 ```
 
@@ -247,10 +247,10 @@ typedef char* charptr;
 指针本身占用的内存大小:就是C语言里面的size_t类型,通常在32位系统上的长度是32位,64位系统上是64位
 
 ```v
-	//测试机器是64位操作系统
-	println(sizeof(voidptr)) //输出8个字节
-	println(sizeof(byteptr)) //输出8个字节
-	println(sizeof(charptr)) //输出8个字节
+//测试机器是64位操作系统
+println(sizeof(voidptr)) //输出8个字节
+println(sizeof(byteptr)) //输出8个字节
+println(sizeof(charptr)) //输出8个字节
 ```
 
 变量前加&表示取地址,返回指针类型
@@ -314,7 +314,7 @@ struct Point {
 
 type MySumType = Point | f32 | int
 
-type MyFn = fn ( int) int
+type MyFn = fn (int) int
 
 type MyFn2 = fn ()
 
@@ -351,6 +351,7 @@ fn main() {
 	println(typeof(myfn)) // fn (int) int
 	println(typeof(myfn2)) // fn ()
 }
+
 ```
 
 ### 类型推断及类型转换

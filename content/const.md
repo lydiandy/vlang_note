@@ -12,20 +12,21 @@ const关键字定义常量
 module mymodule
 
 //公共常量，可以全局使用
-pub const (  
-	p_my_const = 'abc'  	//注意是=号,而不是:=
+pub const (
+	p_my_const     = 'abc' //注意是=号,而不是:=
 	p_my_int_const = 123
 )
 
 //模块常量,只能在模块内部使用
-const (  
-	my_const = 'abc'  
+const (
+	my_const     = 'abc'
 	my_int_const = 123
 )
 
 fn my_fn() {
 	//不能在函数内部定义常量
 }
+
 ```
 
 ### 常量类型
@@ -79,16 +80,17 @@ fn main() {
 module main
 
 const (
-    PI=3.14 //警告
-    Version='1.1.1' //警告
-    num=3
-    built_mode='mode'
+	PI         = 3.14 //警告
+	Version    = '1.1.1' //警告
+	num        = 3
+	built_mode = 'mode'
 )
 
 fn main() {
-    println(PI)
-    println(num)
-    println(built_mode)
-    println(Version)
+	println(PI)
+	println(num)
+	println(built_mode)
+	println(Version)
 }
+
 ```

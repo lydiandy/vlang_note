@@ -28,24 +28,26 @@ fn main() {
 
 ```v
 enum Color2 {
-	blue =2 //可以指定初始值
+	blue = 2 //可以指定初始值
 	green
 	white
 	black
 }
-enum Color3 {
-	blue =-4  //初始值也可以是负数
-	green
-	white
-	black
-}
-fn main() {
-    mut c:=Color2.green
-    println(c) //输出green
 
-    c=.blue
-    println(c) //输出blue
+enum Color3 {
+	blue = -4 //初始值也可以是负数
+	green
+	white
+	black
 }
+
+fn main() {
+	mut c := Color2.green
+	println(c) //输出green
+	c = .blue
+	println(c) //输出blue
+}
+
 ```
 
 也可以指定枚举的值为16进制
@@ -56,6 +58,7 @@ enum W_hex {
 	b = 0x010
 	c = 0x100
 }
+
 fn main() {
 	println(W_hex.a) //输出a
 	println(W_hex.b) //输出b
