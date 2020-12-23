@@ -43,43 +43,49 @@ len表示当前被使用的缓冲大小,len不能在声明时指定,初始值为
 channel从底层实现上来说,是一个队列,通过push()把数据写入到队列中,通过pop()把数据读取出来,
 
 ```v
+
 fn main() {
 	ch := chan int{cap: 1000} //声明一个channel变量,类型为int,缓冲区大小为1000,即异步channel
-	println(ch.len) //0
-	println(ch.cap) //1000
-  
-  ch2 := chan int{} //不指定cap,默认为0,即同步channel
-  println(ch2.len) //0
-	println(ch2.cap) //0
-  
+	println(ch.len) // 0
+	println(ch.cap) // 1000
+	ch2 := chan int{} //不指定cap,默认为0,即同步channel
+	println(ch2.len) // 0
+	println(ch2.cap) // 0
 	ch <- 1
-	println(ch.len) //1
-	println(ch.cap) //1000
+	println(ch.len) // 1
+	println(ch.cap) // 1000
 }
+
 ```
 
 ### 读取channel/接收消息
 
 ```v
-ch:=chan int{cap:100}
-sum:= <-ch //读取channel
+fn main() {
+	ch := chan int{cap: 100}
+	sum := <-ch //读取channel
+	println(sum)
+	//也可以使用try_pop()
+	//尝试读channel,把channel的值,读取到i变量中,并返回ChanState枚举:.success/.not_ready/.colsed
+	i := 0
+	res := ch.try_pop(&i)
+	println(res)
+}
 
-//也可以使用try_pop()
-//尝试读channel,把channel的值,读取到i变量中,并返回ChanState枚举:.success/.not_ready/.colsed
-i:=0
-res:=ch.try_pop(&i) 
 ```
 
 ### 写入channel/发送消息
 
 ```v
-ch:=chan int{cap:100}
-ch <-2 //写入channel
-
-//也可以使用try_push()
-//尝试写channel,把i的值写入到channel中,并返回ChanState枚举:.success/.not_ready/.colsed
-i:=3
-res:=ch.try_push(&i)
+fn main() {
+	ch := chan int{cap: 100}
+	ch <- 2 //写入channel
+	//也可以使用try_push()
+	//尝试写channel,把i的值写入到channel中,并返回ChanState枚举:.success/.not_ready/.colsed
+	i := 3
+	res := ch.try_push(&i)
+	println(res)
+}
 
 ```
 
@@ -123,7 +129,7 @@ fn main() {
 	}
 }
 
-fn send(ch1, ch2 chan int) {
+fn send(ch1 chan int, ch2 chan int) {
 	ch1 <- 1
 	ch2 <- 2
 	ch1 <- 3
@@ -131,6 +137,7 @@ fn send(ch1, ch2 chan int) {
 	ch1 <- 5
 	ch2 <- 6
 }
+
 
 ```
 
@@ -159,11 +166,12 @@ fn main() {
 	}
 }
 
-fn send(ch1, ch2 chan int) {
+fn send(ch1 chan int, ch2 chan int) {
 	ch1 <- 1
 	ch2 <- 2
 	println('from send')
 }
+
 
 ```
 

@@ -40,18 +40,19 @@ fn test_generic_struct() {
 判断2个数组是否相等的泛型函数
 
 ```v
-//vlib/builtin/array.v
-fn array_eq<T>(a1, a2 []T) bool {
-   if a1.len != a2.len {
-      return false
-   }
-   for i := 0; i < a1.len; i++ {
-      if a1[i] != a2[i] {
-         return false
-      }
-   }
-   return true
+// vlib/builtin/array.v
+fn array_eq<T>(a1 []T, a2 []T) bool {
+	if a1.len != a2.len {
+		return false
+	}
+	for i := 0; i < a1.len; i++ {
+		if a1[i] != a2[i] {
+			return false
+		}
+	}
+	return true
 }
+
 ```
 
 ### 泛型方法

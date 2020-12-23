@@ -234,9 +234,11 @@ fn main() {
 struct Abc {
     val string
 }
+
 struct Xyz {
     foo string
 }
+
 type Alphabet1 = Abc | string | &Xyz //不允许指针类型
 ```
 

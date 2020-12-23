@@ -9,19 +9,21 @@
 ```v
 union MyAnything {
 mut:
-    bytes [10]byte
-    xu64 u64
-    xu32 u32
-    xu16 u16
-    xint int
+	bytes [10]byte
+	xu64  u64
+	xu32  u32
+	xu16  u16
+	xint  int
 }
-fn main(){
-    mut x := MyAnything{}
-    x.xint = 1234
-    for i, b in x.bytes {
-        println('x.bytes[$i]: ${b.hex()}')
-    }
+
+fn main() {
+	mut x := MyAnything{}
+	x.xint = 1234
+	for i, b in x.bytes {
+		println('x.bytes[$i]: $b.hex()')
+	}
 }
+
 ```
 
 ### 联合体方法

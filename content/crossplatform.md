@@ -219,7 +219,9 @@ fn (mut app App) int_method2() int {
 fn (mut app App) string_arg(x string) {
 }
 
-fn no_lines(s string) string { return s.replace('\n', ' ') }
+fn no_lines(s string) string {
+	return s.replace('\n', ' ')
+}
 
 fn f1() {
 	println(@FN)
@@ -234,7 +236,7 @@ fn f2() {
 	println(@FN)
 	$for method in App.methods { //遍历结构体所有方法
 		println('  method: ' + no_lines('$method'))
-		$if method.Type is fn() {
+		$if method.Type is fn () {
 			assert method.name in ['run', 'method2']
 		}
 		$if method.ReturnType is int {
@@ -282,7 +284,7 @@ fn main() {
 
 目前可以是:linux, mac, windows, msvc
 
-```v
+```shell
 v -os linux ./main.v
 ```
 

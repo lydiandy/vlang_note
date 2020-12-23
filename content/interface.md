@@ -55,7 +55,7 @@ fn (c Cat) speak() string {
 }
 
 interface Speaker {
-	speak()string
+	speak() string
 }
 
 fn perform(s Speaker) {

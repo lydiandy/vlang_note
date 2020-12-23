@@ -101,7 +101,7 @@ fn main() {
 	// 函数类型方法
 	fn2(add)
 	// 直接定义函数类型
-	f := main.MyFn(add)
+	f := MyFn(add)
 	println(f.str2()) // 调用函数类型的方法
 	// 自定义数组类型方法
 	p := Point{
@@ -115,6 +115,7 @@ fn main() {
 	mut mp := map[string]Point{}
 	println(mp.point_map_method())
 }
+
 ```
 
 ### 方法链式调用

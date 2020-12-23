@@ -24,20 +24,22 @@ pub fn my_fn() { // 公共函数
 }
 
 pub struct Point { // 公共结构体
+mut:
 	x int
 	y int
 }
 
 pub fn (mut p Point) move(x int, y int) { // 公共方法
 	p.x += x
-	p.u += y
+	p.y += y
 }
 
 pub interface MyReader { // 公共接口
 	read() int
 }
 
-pub type myint = int  // 公共类型别名
+pub type Myint = int  // 公共类型别名
+
 
 ```
 

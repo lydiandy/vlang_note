@@ -11,7 +11,7 @@ fn main() {
 	a := 10
 	b := 0
 	unsafe {	//unsafe代码块
-		asm {	//asm代码块,里面可以直接写汇编代码
+		asm x64 {	//asm代码块,里面可以直接写汇编代码
 			"movl %1, %%eax;"
 			"movl %%eax, %0;"
 			:"=r"(b)
@@ -24,7 +24,7 @@ fn main() {
 
 	e := 0
 	unsafe {
-		asm {
+		asm x64 {
 			"movl $5, %0"
 			:"=a"(e)
 		}

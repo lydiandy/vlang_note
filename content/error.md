@@ -19,46 +19,44 @@ or代码块必须以:return/panic/exit/continue/break结尾
 ```v
 //函数定义
 fn my_fn(i int) ?int {
-	if i==0 {
+	if i == 0 {
 		return error('Not ok!') //抛出错误,err的值为Not ok!
 	}
-	if i==1 {
-	    return none //抛出错误,但是没有错误信息,err的值为空字符串
+	if i == 1 {
+		return none //抛出错误,但是没有错误信息,err的值为空字符串
 	}
 	return i //正常返回
 }
-fn my_fn2(i int) ?(int,int) { //多返回值时,?放在括号前面
-  
+
+fn my_fn2(i int) ?(int, int) { //多返回值时,?放在括号前面
 }
 
 fn main() {
-    //函数调用
-    //触发错误,执行or代码块,程序中断,报错:V panic: Not ok!
-	v1:=my_fn(0) or {
-	    println('from 0')
-	    println(err)
-	    panic(err) //默认会传递err参数给or代码块,包含错误信息
+	//函数调用
+	//触发错误,执行or代码块,程序中断,报错:V panic: Not ok!
+	v1 := my_fn(0) or {
+		println('from 0')
+		println(err)
+		panic(err) //默认会传递err参数给or代码块,包含错误信息
 	}
 	println(v1)
-
-    //触发错误,执行or代码块,因为是return none,所以err为空,
+	//触发错误,执行or代码块,因为是return none,所以err为空,
 	v2 := my_fn(1) or {
-	    println('from 1')
-	    if err=='' {
-	        println('err is empty')
-	    }
+		println('from 1')
+		if err == '' {
+			println('err is empty')
+		}
 		return
 	}
 	println(v2)
-
-    //未触发错误,不执行or代码块,返回函数的返回值 
-	v3:=my_fn(2) or {
-	    println('from 2')
-	    return
+	//未触发错误,不执行or代码块,返回函数的返回值 
+	v3 := my_fn(2) or {
+		println('from 2')
+		return
 	}
 	println(v3)
-
 }
+
 ```
 
 error函数是内置函数,定义在:vlib/builtin/option.v
@@ -128,9 +126,7 @@ pub fn error_with_code(s string, code int) Option { //带错误信息和错误�
 module main
 
 fn main() {
-	exec('') or {
-		panic('error is :$err')
-	}
+	exec('') or { panic('error is :$err') }
 }
 
 fn exec(stmt string) ? { //无返回值,也可抛出错误
@@ -139,6 +135,7 @@ fn exec(stmt string) ? { //无返回值,也可抛出错误
 	}
 	println(stmt)
 }
+
 ```
 
 返回错误码
@@ -148,8 +145,8 @@ module main
 
 fn main() {
 	exec('') or {
-    //约定的变量名err和errcode
-		panic('error text is :$err;error code is $errcode') 
+		//约定的变量名err和errcode
+		panic('error text is :$err;error code is $errcode')
 	}
 }
 

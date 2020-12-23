@@ -18,7 +18,7 @@
 
   
 
-  ```
+  ```v
   struct Vec {
   	x int
   	y int
