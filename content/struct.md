@@ -156,25 +156,37 @@ mut:
 	y int
 }
 
+pub fn (mut w Widget) move(x_step int, y_step int) {
+	w.x += x_step
+	w.y += y_step
+}
+
 struct Widget2 {
 mut:
 	z int
 }
 
+pub fn (mut w Widget2) move_z(z_step int) {
+	w.z += z_step
+}
+
 struct Button {
 	Widget 	//组合
-	Widget2	//多个组合
-	title   string
+	Widget2 //多个组合
+	title string
 }
 
 fn main() {
 	mut button := Button{
 		title: 'Click me'
 	}
-	button.x = 3
-	button.z = 4
-	println(button.x)
-	println(button.z)
+	button.x = 3 // Button的x字段来自Widget
+	button.z = 4 // Button的z字段来自Widget2
+	println('x:$button.x,y:$button.y,z:$button.z')
+	button.move(3, 4) // Button的move方法来自Widget
+	println('x:$button.x,y:$button.y,z:$button.z')
+	button.move_z(5) // Button的move_z方法来自Widget2
+	println('x:$button.x,y:$button.y,z:$button.z')
 }
 
 ```
