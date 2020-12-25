@@ -26,28 +26,31 @@ V命令行代码位于cmd目录
 | cmd/v/help | V命令行的帮助文本                               |
 | cmd/tools  | 各种工具类,如vup,vfmt,vpm,vrepl,vtest,vcreate等 |
 
-V编译器代码位于vlib/v目录
+V编译器源代码位于标准库中:vlib/v
 
-| 子目录   | 说明                                |
-| -------- | ----------------------------------- |
-| ast      | AST抽象语法树相关                   |
-| token    | 词法单元相关                        |
-| table    | 符号表相关                          |
-| prep     | 编译选项/参数相关                   |
-| scanner  | 词法分析/扫描器相关                 |
-| parser   | 语法分析/解析器相关                 |
-| checker  | 语法检查器相关                      |
-| eval     | 表达式求值相关                      |
-| depgraph | 模块依赖相关                        |
-| builder  | 代码生成器相关                      |
-| gen      | 生成具体平台代码相关,如生成C,js,x64 |
-| fmt      | 代码格式化相关                      |
-| doc      | 代码文档生成相关                    |
-| tests    | 编译器测试代码                      |
-| errors   | 编译器报错和警告                    |
-| vmod     | 解析v.mod文件                       |
-| cflag    | 解析cflag标识                       |
-| util     | 编译器各种辅助类                    |
+| 子目录    | 说明                                    |
+| --------- | --------------------------------------- |
+| ast       | AST抽象语法树相关                       |
+| token     | 词法单元相关                            |
+| table     | 全局符号表相关                          |
+| pref      | 编译选项/参数相关                       |
+| scanner   | 词法分析/扫描器相关                     |
+| parser    | 语法分析/解析器相关                     |
+| checker   | 语法检查器相关                          |
+| eval      | 表达式求值相关                          |
+| depgraph  | 模块依赖相关                            |
+| builder   | 代码生成器相关                          |
+| gen       | 生成具体平台代码相关,如生成C,js,x64     |
+| fmt       | 代码格式化相关                          |
+| doc       | 代码文档生成相关                        |
+| tests     | 编译器测试代码                          |
+| errors    | 编译器报错和警告                        |
+| vmod      | 解析v.mod文件                           |
+| cflag     | 解析cflag标识                           |
+| vcache    | 编译器缓存相关                          |
+| vet       | 小工具,用于分析项目代码存在的错误       |
+| pkgconfig | 小工具,用于配置C代码的编译标记(C flags) |
+| util      | 编译器各种辅助类                        |
 
 ### 主要编译过程
 

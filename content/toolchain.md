@@ -15,11 +15,11 @@ Usage:v [options] [command] [arguments]
 ```shell
 Usage:v [options] [command] [arguments]
 The commands are:
-   build             编译器的默认子命令,编译指定的V源文件或目录
    new               创建新的V项目,主要是生成v.mod项目文件
    init              对现有已存在的V项目生成v.mod项目文件
    doc               生成指定模块的文档
-   fmt               格式化
+   fmt               格式化代码
+   vet							 分析代码存在的错误
    repl              运行交互式模式
    run               编译并运行指定的V源文件或目录
    symlink           unix系统在/usr/local/bin/v生成链接,windows生成环境变量
@@ -29,6 +29,7 @@ The commands are:
    self [-prod]      让V编译器自己编译自己(不执行git pull,不使用make),
    									 可使用-prod优化编译
    version           查看编译器版本
+   vlib-docs 				 调用v doc生成vlib标准库的文档	
 
    install           从https://vpm.vlang.io/安装指定的一个或多个模块
    remove            删除已安装的模块
@@ -97,6 +98,9 @@ v up //升级V编译器到最新版本,等价于git pull && make
 v install xxx模块 //从https://vpm.vlang.io/安装指定的模块
 
 v fmt -w main.v //统一格式化指定源文件或目录中的代码
+
+v vet ./main.v //分析main.v源文件代码中存在的错误
+v vet .			//分析当前目录中所有V源文件代码中存在的错误
 
 v test mymodule //执行mymodule中的测试文件
 
