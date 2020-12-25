@@ -22,14 +22,17 @@
 
 - 操作系统(os)
 
-  | 后缀名   | 编译条件                                                  |
-  | :------- | --------------------------------------------------------- |
-  | _nix     | linux,unix,mac,solaris下才会参与编译,或者说是非windows    |
-  | _darwin  | mac下才会参与编译                                         |
-  | _linux   | linux下才会参与编译                                       |
-  | _solaris | solaris下才会参与编译                                     |
-  | _windows | windows下才会参与编译                                     |
-  | _bare    | 编译成裸机(metal)环境运行代码,才会参与编译,不进行排列组合 |
+  | 后缀名           | 编译条件                                                     |
+  | :--------------- | ------------------------------------------------------------ |
+  | _default         | 默认的,表示所有操作系统都参与编译,比如file_default.c.v.同个目录中,如果同时存在默认的和平台特有的,平台特有的文件会参与编译,默认的被忽略 |
+  | _nix             | linux,unix,darwin,solaris下才会参与编译,或者说是非windows    |
+  | _macos或 _darwin | mac下才会参与编译                                            |
+  | _linux           | linux下才会参与编译                                          |
+  | _solaris         | solaris下才会参与编译                                        |
+  | _windows         | windows下才会参与编译                                        |
+  | _android         | android平台下才会参与编译                                    |
+  | _ios             | ios平台下才会参与编译                                        |
+  | _bare            | 编译成裸机(metal)环境运行代码,才会参与编译,不进行排列组合    |
 
 - 编译器后端(backend)
 
@@ -41,11 +44,17 @@
 
   以上2个维度排列组合:
 
-  ```
-  file.v
+  ```shell
+  file.v	//所有操作系统,所有编译后端都参与编译
+  file.c.v	//所有操作系统,C编译后端才参与编译,不会被特定平台覆盖,而是都编译
+  file.js.v	//所有操作系统,js编译后端才参与编译,不会被特定平台覆盖,而是都编译
+  
+  file_default.c.v //同目录如果存在特定平台的C后端文件,此文件会被忽略,不参与编译
   file_linux.c.v
+  file_macos.c.v
   file_windows.c.v
   file_windows.js.v
+  file_windows.x64.v
   ...
   ```
 
