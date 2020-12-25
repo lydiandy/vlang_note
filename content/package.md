@@ -47,7 +47,7 @@ v list			 //列出所有已安装的包
 v outdated	 //列出所有过时需要升级的包
 ```
 
-### 模块搜索路径
+###模块搜索路径
 
 当使用import xxx导入模块时,编译器会按以下顺序搜索模块:
 
@@ -92,4 +92,7 @@ vm := vmod.decode( @VMOD_FILE ) or { panic(err) } //@VMOD_FILE是内置的全局
 eprintln('$vm.name $vm.version\n $vm.description')
 ```
 
-``
+### 标准模块缓存
+
+V编译器默认会启用vlib标准库的缓存,编译一次标准模块后会缓存在~/.vmodules/cache中,缩短编译时间
+
