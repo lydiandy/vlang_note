@@ -145,3 +145,18 @@ fn main() {
 
 ```
 
+###  枚举标注
+
+​	可以像结构体和函数那样,给枚举添加自定义标注
+
+```v
+[attr1]
+[attr2]
+pub enum Color {
+	black
+	white
+	blue
+}
+```
+
+关于标注的进一步使用,可以参考[标注章节](attribute.md)
