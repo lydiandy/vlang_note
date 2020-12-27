@@ -992,7 +992,7 @@ generate AST:
 
 
 
-## Function/Method
+## Variable
 
 AST struct:
 
@@ -1010,6 +1010,877 @@ generate AST:
 
 ```json
 
+```
+
+
+
+## Function/Method
+
+### Function declaration
+
+AST struct:
+
+```v
+//function or method declaration
+pub struct FnDecl {
+pub:
+	name            string
+	mod             string
+	params          []table.Param
+	is_deprecated   bool
+	is_pub          bool
+	is_variadic     bool
+	is_anon         bool
+	receiver        Field
+	receiver_pos    token.Position
+	is_method       bool
+	method_type_pos token.Position
+	method_idx      int
+	rec_mut         bool // is receiver mutable
+	rec_share       table.ShareType
+	language        table.Language
+	no_body         bool // just a definition `fn C.malloc()`
+	is_builtin      bool // this function is defined in builtin/strconv
+	pos             token.Position
+	body_pos        token.Position
+	file            string
+	is_generic      bool
+	is_direct_arr   bool // direct array access
+	attrs           []table.Attr
+pub mut:
+	stmts           []Stmt
+	return_type     table.Type
+	comments        []Comment // comments *after* the header, but *before* `{`; used for InterfaceDecl
+	source_file     &File = 0
+	scope           &Scope
+}
+
+//function or method call
+pub struct CallExpr {
+pub:
+	pos                token.Position
+	left               Expr // `user` in `user.register()`
+	mod                string
+pub mut:
+	name               string // left.name()
+	is_method          bool
+	is_field           bool // temp hack, remove ASAP when re-impl CallExpr / Selector (joe)
+	args               []CallArg
+	expected_arg_types []table.Type
+	language           table.Language
+	or_block           OrExpr
+	left_type          table.Type // type of `user`
+	receiver_type      table.Type // User
+	return_type        table.Type
+	should_be_skipped  bool
+	generic_type       table.Type // TODO array, to support multiple types
+	generic_list_pos   token.Position
+	free_receiver      bool // true if the receiver expression needs to be freed
+	scope              &Scope
+	from_embed_type    table.Type // holds the type of the embed that the method is called from
+}
+
+//function call argument
+pub struct CallArg {
+pub:
+	is_mut          bool
+	share           table.ShareType
+	expr            Expr
+	comments        []Comment
+pub mut:
+	typ             table.Type
+	is_tmp_autofree bool // this tells cgen that a tmp variable has to be used for the arg expression in order to free it after the call
+	pos             token.Position
+	// tmp_name        string // for autofree
+}
+
+//return statement
+pub struct Return {
+pub:
+	pos      token.Position
+	exprs    []Expr
+	comments []Comment
+pub mut:
+	types    []table.Type
+}
+```
+
+example code:
+
+```v
+module main
+
+fn main() {
+	s := add(1, 3)
+	println(s)
+}
+
+pub fn add(x int, y int) int {
+	return x + y
+}
+```
+
+generate AST:
+
+```json
+"stmts": [
+		{
+			"ast_type": "FnDecl",
+			"name": "main.main",
+			"mod": "main",
+			"is_deprecated": false,
+			"is_pub": false,
+			"is_variadic": false,
+			"is_anon": false,
+			"receiver": {
+				"ast_type": "Field",
+				"name": "",
+				"typ": "void",
+				"pos": {
+					"line_nr": 0,
+					"pos": 0,
+					"len": 0
+				}
+			},
+			"receiver_pos": {
+				"line_nr": 0,
+				"pos": 0,
+				"len": 0
+			},
+			"is_method": false,
+			"method_idx": 0,
+			"rec_mut": false,
+			"rec_share": 0,
+			"language": 0,
+			"no_body": false,
+			"is_builtin": false,
+			"is_generic": false,
+			"is_direct_arr": false,
+			"pos": {
+				"line_nr": 2,
+				"pos": 13,
+				"len": 9
+			},
+			"body_pos": {
+				"line_nr": 3,
+				"pos": 26,
+				"len": 1
+			},
+			"file": "main.v",
+			"return_type": "void",
+			"source_file": 0,
+			"scope": 1388436464,
+			"attrs": [],
+			"params": [],
+			"stmts": [
+				{
+					"ast_type": "AssignStmt",
+					"left": [
+						{
+							"ast_type": "Ident",
+							"name": "s",
+							"mod": "main",
+							"language": 0,
+							"is_mut": false,
+							"tok_kind": 35,
+							"kind": 0,
+							"info": {
+								"ast_type": "IdentVar",
+								"typ": null,
+								"is_mut": false,
+								"is_static": false,
+								"is_optional": false,
+								"share": 0
+							},
+							"pos": {
+								"line_nr": 3,
+								"pos": 26,
+								"len": 1
+							},
+							"mut_pos": {
+								"line_nr": 3,
+								"pos": 26,
+								"len": 1
+							},
+							"obj": {},
+							"scope": 1388436464
+						}
+					],
+					"left_types": [],
+					"right": [
+						{
+							"ast_type": "CallExpr",
+							"left": null,
+							"is_method": false,
+							"mod": "main",
+							"name": "add",
+							"language": 0,
+							"scope": 1388436464,
+							"args": [
+								{
+									"ast_type": "CallArg",
+									"typ": null,
+									"is_mut": false,
+									"share": 0,
+									"expr": {
+										"ast_type": "IntegerLiteral",
+										"val": "1",
+										"pos": {
+											"line_nr": 3,
+											"pos": 35,
+											"len": 1
+										}
+									},
+									"is_tmp_autofree": false,
+									"pos": {
+										"line_nr": 3,
+										"pos": 35,
+										"len": 1
+									},
+									"comments": []
+								},
+								{
+									"ast_type": "CallArg",
+									"typ": null,
+									"is_mut": false,
+									"share": 0,
+									"expr": {
+										"ast_type": "IntegerLiteral",
+										"val": "3",
+										"pos": {
+											"line_nr": 3,
+											"pos": 38,
+											"len": 1
+										}
+									},
+									"is_tmp_autofree": false,
+									"pos": {
+										"line_nr": 3,
+										"pos": 38,
+										"len": 1
+									},
+									"comments": []
+								}
+							],
+							"expected_arg_types": [],
+							"or_block": {
+								"ast_type": "OrExpr",
+								"stmts": [],
+								"kind": 0,
+								"pos": {
+									"line_nr": 4,
+									"pos": 42,
+									"len": 7
+								}
+							},
+							"left_type": null,
+							"receiver_type": null,
+							"return_type": null,
+							"should_be_skipped": false,
+							"generic_type": "void",
+							"generic_list_pos": {
+								"line_nr": 3,
+								"pos": 34,
+								"len": 1
+							},
+							"free_receiver": false,
+							"from_embed_type": null,
+							"pos": {
+								"line_nr": 3,
+								"pos": 31,
+								"len": 9
+							}
+						}
+					],
+					"right_types": [],
+					"op": 35,
+					"_op": ":=",
+					"is_static": false,
+					"is_simple": false,
+					"has_cross_var": false,
+					"pos": {
+						"line_nr": 3,
+						"pos": 28,
+						"len": 2
+					}
+				},
+				{
+					"ast_type": "ExprStmt",
+					"typ": null,
+					"is_expr": false,
+					"expr": {
+						"ast_type": "CallExpr",
+						"left": null,
+						"is_method": false,
+						"mod": "main",
+						"name": "println",
+						"language": 0,
+						"scope": 1388436464,
+						"args": [
+							{
+								"ast_type": "CallArg",
+								"typ": null,
+								"is_mut": false,
+								"share": 0,
+								"expr": {
+									"ast_type": "Ident",
+									"name": "s",
+									"mod": "main",
+									"language": 0,
+									"is_mut": false,
+									"tok_kind": 49,
+									"kind": 0,
+									"info": {
+										"ast_type": "IdentVar",
+										"typ": null,
+										"is_mut": false,
+										"is_static": false,
+										"is_optional": false,
+										"share": 0
+									},
+									"pos": {
+										"line_nr": 4,
+										"pos": 50,
+										"len": 1
+									},
+									"mut_pos": {
+										"line_nr": 4,
+										"pos": 50,
+										"len": 1
+									},
+									"obj": {},
+									"scope": 1388436464
+								},
+								"is_tmp_autofree": false,
+								"pos": {
+									"line_nr": 4,
+									"pos": 50,
+									"len": 1
+								},
+								"comments": []
+							}
+						],
+						"expected_arg_types": [],
+						"or_block": {
+							"ast_type": "OrExpr",
+							"stmts": [],
+							"kind": 0,
+							"pos": {
+								"line_nr": 5,
+								"pos": 53,
+								"len": 1
+							}
+						},
+						"left_type": null,
+						"receiver_type": null,
+						"return_type": null,
+						"should_be_skipped": false,
+						"generic_type": "void",
+						"generic_list_pos": {
+							"line_nr": 4,
+							"pos": 49,
+							"len": 1
+						},
+						"free_receiver": false,
+						"from_embed_type": null,
+						"pos": {
+							"line_nr": 4,
+							"pos": 42,
+							"len": 10
+						}
+					},
+					"pos": {
+						"line_nr": 4,
+						"pos": 42,
+						"len": 10
+					},
+					"comments": []
+				}
+			],
+			"comments": []
+		},
+		{
+			"ast_type": "FnDecl",
+			"name": "main.add",
+			"mod": "main",
+			"is_deprecated": false,
+			"is_pub": true,
+			"is_variadic": false,
+			"is_anon": false,
+			"receiver": {
+				"ast_type": "Field",
+				"name": "",
+				"typ": "void",
+				"pos": {
+					"line_nr": 0,
+					"pos": 0,
+					"len": 0
+				}
+			},
+			"receiver_pos": {
+				"line_nr": 0,
+				"pos": 0,
+				"len": 0
+			},
+			"is_method": false,
+			"method_idx": 0,
+			"rec_mut": false,
+			"rec_share": 0,
+			"language": 0,
+			"no_body": false,
+			"is_builtin": false,
+			"is_generic": false,
+			"is_direct_arr": false,
+			"pos": {
+				"line_nr": 7,
+				"pos": 56,
+				"len": 28
+			},
+			"body_pos": {
+				"line_nr": 8,
+				"pos": 88,
+				"len": 6
+			},
+			"file": "main.v",
+			"return_type": "int",
+			"source_file": 0,
+			"scope": 1388439776,
+			"attrs": [],
+			"params": [
+				{
+					"ast_type": "Param",
+					"name": "x",
+					"typ": "int",
+					"is_mut": false
+				},
+				{
+					"ast_type": "Param",
+					"name": "y",
+					"typ": "int",
+					"is_mut": false
+				}
+			],
+			"stmts": [
+				{
+					"ast_type": "Return",
+					"exprs": [
+						{
+							"ast_type": "InfixExpr",
+							"op": 7,
+							"_op": "+",
+							"left": {
+								"ast_type": "Ident",
+								"name": "x",
+								"mod": "main",
+								"language": 0,
+								"is_mut": false,
+								"tok_kind": 7,
+								"kind": 0,
+								"info": {
+									"ast_type": "IdentVar",
+									"typ": null,
+									"is_mut": false,
+									"is_static": false,
+									"is_optional": false,
+									"share": 0
+								},
+								"pos": {
+									"line_nr": 8,
+									"pos": 95,
+									"len": 1
+								},
+								"mut_pos": {
+									"line_nr": 8,
+									"pos": 95,
+									"len": 1
+								},
+								"obj": {},
+								"scope": 1388439776
+							},
+							"left_type": null,
+							"right": {
+								"ast_type": "Ident",
+								"name": "y",
+								"mod": "main",
+								"language": 0,
+								"is_mut": false,
+								"tok_kind": 47,
+								"kind": 0,
+								"info": {
+									"ast_type": "IdentVar",
+									"typ": null,
+									"is_mut": false,
+									"is_static": false,
+									"is_optional": false,
+									"share": 0
+								},
+								"pos": {
+									"line_nr": 8,
+									"pos": 99,
+									"len": 1
+								},
+								"mut_pos": {
+									"line_nr": 8,
+									"pos": 99,
+									"len": 1
+								},
+								"obj": {},
+								"scope": 1388439776
+							},
+							"right_type": null,
+							"auto_locked": "",
+							"pos": {
+								"line_nr": 8,
+								"pos": 97,
+								"len": 1
+							}
+						}
+					],
+					"types": [],
+					"pos": {
+						"line_nr": 8,
+						"pos": 88,
+						"len": 12
+					}
+				}
+			],
+			"comments": []
+		}
+	]
+```
+
+### Function call
+
+
+
+### Anonymous function
+
+AST struct:
+
+```v
+//anonymous function
+pub struct AnonFn {
+pub:
+	decl FnDecl
+pub mut:
+	typ  table.Type
+}
+```
+
+example code:
+
+```v
+module main
+
+fn main() {
+	f1 := fn (x int, y int) int {
+		return x + y
+	}
+	f1(1,3)
+}
+
+```
+
+generate AST:
+
+```json
+			"stmts": [
+				{
+					"ast_type": "AssignStmt",
+					"left": [
+						{
+							"ast_type": "Ident",
+							"name": "f1",
+							"mod": "main",
+							"language": 0,
+							"is_mut": false,
+							"tok_kind": 35,
+							"kind": 0,
+							"info": {
+								"ast_type": "IdentVar",
+								"typ": null,
+								"is_mut": false,
+								"is_static": false,
+								"is_optional": false,
+								"share": 0
+							},
+							"pos": {
+								"line_nr": 3,
+								"pos": 26,
+								"len": 2
+							},
+							"mut_pos": {
+								"line_nr": 3,
+								"pos": 26,
+								"len": 2
+							},
+							"obj": {},
+							"scope": 1388597776
+						}
+					],
+					"left_types": [],
+					"right": [
+						{
+							"ast_type": "AnonFn",
+							"decl": {
+								"ast_type": "FnDecl",
+								"name": "anon_75_7_7_7",
+								"mod": "main",
+								"is_deprecated": false,
+								"is_pub": false,
+								"is_variadic": false,
+								"is_anon": true,
+								"receiver": {
+									"ast_type": "Field",
+									"typ": null,
+									"pos": {
+										"line_nr": 0,
+										"pos": 0,
+										"len": 0
+									}
+								},
+								"receiver_pos": {
+									"line_nr": 0,
+									"pos": 0,
+									"len": 0
+								},
+								"is_method": false,
+								"method_idx": 0,
+								"rec_mut": false,
+								"rec_share": 0,
+								"language": 0,
+								"no_body": false,
+								"is_builtin": false,
+								"is_generic": false,
+								"is_direct_arr": false,
+								"pos": {
+									"line_nr": 3,
+									"pos": 32,
+									"len": 2
+								},
+								"body_pos": {
+									"line_nr": 0,
+									"pos": 0,
+									"len": 0
+								},
+								"file": "/Users/zhijiayou02/v/vprojects/tony_test/main.v",
+								"return_type": "int",
+								"source_file": 0,
+								"scope": 1388597776,
+								"attrs": [],
+								"params": [
+									{
+										"ast_type": "Param",
+										"name": "x",
+										"typ": "int",
+										"is_mut": false
+									},
+									{
+										"ast_type": "Param",
+										"name": "y",
+										"typ": "int",
+										"is_mut": false
+									}
+								],
+								"stmts": [
+									{
+										"ast_type": "Return",
+										"exprs": [
+											{
+												"ast_type": "InfixExpr",
+												"op": 7,
+												"_op": "+",
+												"left": {
+													"ast_type": "Ident",
+													"name": "x",
+													"mod": "main",
+													"language": 0,
+													"is_mut": false,
+													"tok_kind": 7,
+													"kind": 0,
+													"info": {
+														"ast_type": "IdentVar",
+														"typ": null,
+														"is_mut": false,
+														"is_static": false,
+														"is_optional": false,
+														"share": 0
+													},
+													"pos": {
+														"line_nr": 4,
+														"pos": 65,
+														"len": 1
+													},
+													"mut_pos": {
+														"line_nr": 4,
+														"pos": 65,
+														"len": 1
+													},
+													"obj": {},
+													"scope": 1388598896
+												},
+												"left_type": null,
+												"right": {
+													"ast_type": "Ident",
+													"name": "y",
+													"mod": "main",
+													"language": 0,
+													"is_mut": false,
+													"tok_kind": 47,
+													"kind": 0,
+													"info": {
+														"ast_type": "IdentVar",
+														"typ": null,
+														"is_mut": false,
+														"is_static": false,
+														"is_optional": false,
+														"share": 0
+													},
+													"pos": {
+														"line_nr": 4,
+														"pos": 69,
+														"len": 1
+													},
+													"mut_pos": {
+														"line_nr": 4,
+														"pos": 69,
+														"len": 1
+													},
+													"obj": {},
+													"scope": 1388598896
+												},
+												"right_type": null,
+												"auto_locked": "",
+												"pos": {
+													"line_nr": 4,
+													"pos": 67,
+													"len": 1
+												}
+											}
+										],
+										"types": [],
+										"pos": {
+											"line_nr": 4,
+											"pos": 58,
+											"len": 12
+										}
+									}
+								],
+								"comments": []
+							},
+							"typ": "anon_75_7_7_7"
+						}
+					],
+					"right_types": [],
+					"op": 35,
+					"_op": ":=",
+					"is_static": false,
+					"is_simple": false,
+					"has_cross_var": false,
+					"pos": {
+						"line_nr": 3,
+						"pos": 29,
+						"len": 2
+					}
+				},
+				{
+					"ast_type": "ExprStmt",
+					"typ": null,
+					"is_expr": false,
+					"expr": {
+						"ast_type": "CallExpr",
+						"left": null,
+						"is_method": false,
+						"mod": "main",
+						"name": "f1",
+						"language": 0,
+						"scope": 1388597776,
+						"args": [
+							{
+								"ast_type": "CallArg",
+								"typ": null,
+								"is_mut": false,
+								"share": 0,
+								"expr": {
+									"ast_type": "IntegerLiteral",
+									"val": "1",
+									"pos": {
+										"line_nr": 6,
+										"pos": 78,
+										"len": 1
+									}
+								},
+								"is_tmp_autofree": false,
+								"pos": {
+									"line_nr": 6,
+									"pos": 78,
+									"len": 1
+								},
+								"comments": []
+							},
+							{
+								"ast_type": "CallArg",
+								"typ": null,
+								"is_mut": false,
+								"share": 0,
+								"expr": {
+									"ast_type": "IntegerLiteral",
+									"val": "3",
+									"pos": {
+										"line_nr": 6,
+										"pos": 80,
+										"len": 1
+									}
+								},
+								"is_tmp_autofree": false,
+								"pos": {
+									"line_nr": 6,
+									"pos": 80,
+									"len": 1
+								},
+								"comments": []
+							}
+						],
+						"expected_arg_types": [],
+						"or_block": {
+							"ast_type": "OrExpr",
+							"stmts": [],
+							"kind": 0,
+							"pos": {
+								"line_nr": 7,
+								"pos": 83,
+								"len": 1
+							}
+						},
+						"left_type": null,
+						"receiver_type": null,
+						"return_type": null,
+						"should_be_skipped": false,
+						"generic_type": "void",
+						"generic_list_pos": {
+							"line_nr": 6,
+							"pos": 77,
+							"len": 1
+						},
+						"free_receiver": false,
+						"from_embed_type": null,
+						"pos": {
+							"line_nr": 6,
+							"pos": 75,
+							"len": 7
+						}
+					},
+					"pos": {
+						"line_nr": 6,
+						"pos": 75,
+						"len": 7
+					},
+					"comments": []
+				}
+			],
+			"comments": []
+		}
+	]
 ```
 
 
@@ -1126,7 +1997,31 @@ generate AST:
 
 
 
-## common AST
+### FlowControl
+
+#### if
+
+
+
+#### match
+
+
+
+#### for
+
+
+
+## Generic
+
+### Generic Struct
+
+
+
+### Generic Function
+
+
+
+## common
 
 ### Comment
 
