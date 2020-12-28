@@ -994,10 +994,27 @@ generate AST:
 
 ## Variable
 
+### Assign
+
 AST struct:
 
 ```v
-
+// variable assign statement
+pub struct AssignStmt {
+pub:
+	right         []Expr
+	op            token.Kind // include: =,:=,+=,-=,*=,/= and so on,all the assigns can see vlib/token/token.v
+	pos           token.Position
+	comments      []Comment
+	end_comments  []Comment
+pub mut:
+	left          []Expr
+	left_types    []table.Type
+	right_types   []table.Type
+	is_static     bool // for translated code only
+	is_simple     bool // `x+=2` in `for x:=1; ; x+=2`
+	has_cross_var bool
+}
 ```
 
 example code:
@@ -1012,7 +1029,11 @@ generate AST:
 
 ```
 
+### Identifier
 
+
+
+### Literal
 
 ## Function/Method
 

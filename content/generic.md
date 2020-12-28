@@ -60,19 +60,18 @@ fn array_eq<T>(a1 []T, a2 []T) bool {
 ```v
 struct Point {
 mut:
-    x f64
-    y f64
+    x int
+    y int
 }
 
-fn (mut p Point) translate<T>(x, y T) {
+fn (mut p Point) translate<T>(x T, y T) {
     p.x += x
     p.y += y
 }
 
-fn test_generic_method() {
+fn main() {
     mut p := Point{}
-    p.translate(2, 1.0)
-    assert p.x == 2.0 && p.y == 1.0
+    p.translate(1,3)
 }
 ```
 
