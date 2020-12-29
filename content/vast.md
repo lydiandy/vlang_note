@@ -721,6 +721,36 @@ fn main() {
 
 ```
 
+### CastExpr
+
+AST struct
+
+```v
+pub struct CastExpr {
+pub:
+	expr      Expr // `buf` in `string(buf, n)`
+	arg       Expr // `n` in `string(buf, n)`
+	typ       table.Type // `string` TODO rename to `type_to_cast_to`
+	pos       token.Position
+pub mut:
+	typname   string
+	expr_type table.Type // `byteptr`
+	has_arg   bool
+	in_prexpr bool // is the parent node an ast.PrefixExpr
+}
+```
+
+example code ( todo: need more about string(buf,n) )
+
+```v
+module main
+
+fn main() {
+	x:=byte(3)
+	y:=f32(2.1)
+}
+```
+
 ## Array
 
 ### ArrayInit
@@ -764,7 +794,6 @@ fn main() {
 	arr[1] = 'b'
 	println(arr)
 }
-
 ```
 
 ### IndexExpr
@@ -772,6 +801,7 @@ fn main() {
 AST struct
 
 ```v
+//index expr, can be used for array and map, e.g. `array[index]` or `map[key]`
 pub struct IndexExpr {
 pub:
 	pos       token.Position
@@ -787,10 +817,47 @@ pub mut:
 example code
 
 ```v
+module main
 
+fn main() {
+	mut arr := []string{len: 3, cap: 6, init: 'default'}
+	arr[0] = 'a' //index expr
+	arr[1] = 'b'
+	println(arr)
+  mut m := map[string]string{}
+	m['name'] = 'tom' //index expr
+	m['age'] = '33'
+}
 ```
 
+### RangeExpr
 
+AST struct
+
+```v
+// s[10..20]
+pub struct RangeExpr {
+pub:
+	low      Expr
+	high     Expr
+	has_high bool
+	has_low  bool
+	pos      token.Position
+}
+```
+
+example code
+
+```v
+module main
+
+fn main() {
+	n := [1, 2, 3, 4, 5]
+	a1 := n[..2] //[1, 2]
+	a2 := n[2..] //[3, 4, 5]
+	a3 := n[2..4] //[3, 4]
+}
+```
 
 ## Map
 
@@ -801,9 +868,9 @@ AST struct
 ```v
 pub struct MapInit {
 pub:
+	keys       []Expr 	//save all keys, when it is map literal init
+	vals       []Expr 	//save all values, when it is map literal init
 	pos        token.Position
-	keys       []Expr
-	vals       []Expr
 pub mut:
 	typ        table.Type
 	key_type   table.Type
@@ -820,98 +887,115 @@ fn main() {
 	mut m := map[string]string{}
 	m['name'] = 'tom'
 	m['age'] = '33'
-	println(m)
+	//map literal init
 	m2 := {
 		'one':   1
 		'two':   2
 		'three': 3
 	}
-	println(m2)
 }
-
 ```
 
-## Expr
-
-### RangeExpr
-
-AST struct
-
-```v
-
-```
-
-example code
-
-```v
-
-```
-
-
-
-### CastExpr
-
-AST struct
-
-```v
-
-```
-
-example code
-
-```v
-
-```
-
-
+## Operator
 
 ### PrefixExpr
 
 AST struct
 
 ```v
-
+// See: token.Kind.is_prefix
+pub struct PrefixExpr {
+pub:
+	op         token.Kind 	//prefix operator, e.g. -, &, *, !, ~
+	right      Expr
+	pos        token.Position
+pub mut:
+	right_type table.Type
+	or_block   OrExpr
+}
 ```
 
 example code
 
 ```v
+module main
+
+fn main() {
+	x := -1 // minus
+	p := &x // get address of variable
+	x2 := *p // get value of pointer
+	b := !true // logic not
+	bit := ~0x0000 // bit not
+}
 
 ```
-
-
 
 ### InfixExpr
 
 AST struct
 
 ```v
-
+// left op right e.g. `1 + 2`
+// See: token.Kind.is_infix
+pub struct InfixExpr {
+pub:
+	op          token.Kind
+	pos         token.Position
+pub mut:
+	left        Expr
+	right       Expr
+	left_type   table.Type
+	right_type  table.Type
+	auto_locked string
+}
 ```
 
 example code
 
 ```v
+module main
 
+fn main() {
+	x := 1 + 2
+	y := 1 - 2
+	a := x == y // equal
+	b := x > y // compare
+	c := 1 in [1, 2] // in operator
+	d := (x > y) && (1 < 2) // logic and
+	e := 2 == 2 || 3 == 3 // logic or
+	mut arr := [1, 2] // array append
+	arr << 3
+}
 ```
-
-
 
 ### PostfixExpr
 
 AST struct
 
 ```v
-
+// ++, --
+pub struct PostfixExpr {
+pub:
+	op          token.Kind
+	expr        Expr
+	pos         token.Position
+pub mut:
+	auto_locked string
+}
 ```
 
 example code
 
 ```v
+module main
+
+fn main() {
+	mut x:=1
+	x++
+	x--
+}
 
 ```
-
-
 
 ### ConcatExpr
 
@@ -934,16 +1018,49 @@ example code
 AST struct
 
 ```v
-
+// `foo.bar`
+pub struct SelectorExpr {
+pub:
+	pos             token.Position
+	expr            Expr // expr.field_name
+	field_name      string
+	is_mut          bool // is used for the case `if mut ident.selector is MyType {`, it indicates if the root ident is mutable
+	mut_pos         token.Position
+pub mut:
+	expr_type       table.Type // type of `Foo` in `Foo.bar`
+	typ             table.Type // type of the entire thing (`Foo.bar`)
+	name_type       table.Type // T in `T.name` or typeof in `typeof(expr).name`
+	scope           &Scope
+	from_embed_type table.Type // holds the type of the embed that the method is called from
+}
 ```
 
 example code
 
 ```v
+module main
+
+struct Point {
+mut:
+	x int
+	y int
+}
+
+fn (mut p Point) move(a int, b int) {
+	p.x += a // selector for struct field assign
+	p.y += b
+}
+
+fn main() {
+	mut p := Point{
+		x: 1
+		y: 3
+	}
+	p.x // selector for access field value
+	p.move(2, 3)
+}
 
 ```
-
-
 
 ### AtExpr
 
@@ -974,8 +1091,6 @@ example code
 ```v
 
 ```
-
-
 
 ### ParExpr
 
@@ -1644,16 +1759,23 @@ example code
 AST struct
 
 ```v
-
+//assert statement in test
+pub struct AssertStmt {
+pub:
+	pos  token.Position
+pub mut:
+	expr Expr
+}
 ```
 
 example code
 
 ```v
-
+fn test_abc() {
+	x := 1
+	assert x == 1
+}
 ```
-
-
 
 ## Compile time
 
