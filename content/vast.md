@@ -1,4 +1,4 @@
-# Vlang AST(Abstract Syntax Tree) introduction
+# Vlang abstract syntax tree(AST) introduction
 
 ## Overview
 
@@ -24,7 +24,7 @@ pub type Stmt = AssertStmt | AssignStmt | Block | BranchStmt | CompFor | ConstDe
 
 ## File
 
-AST struct:
+AST struct
 
 ```v
 //Each V source file will generate an ast.File.
@@ -45,115 +45,182 @@ pub mut:
 }
 ```
 
-example code:
+example code
 
 ```v
 module main
 
 import os
 import time
+
+fn main() {
+  
+}
 ```
 
-generate AST:
+generate AST json
 
 ```json
 {
-	"ast_type":	"ast.File",
-	"path":	"your/source file/path",
-	"mod":	{
-		"ast_type":	"Module",
-		"name":	"main",
-		"is_skipped":	false,
-		"pos":	{
-			"line_nr":	0,
-			"pos":	0,
-			"len":	19
+	"ast_type": "ast.File",
+	"path": "/Users/xxx/v/vprojects/v_test/main.v",
+	"mod": {
+		"ast_type": "Module",
+		"name": "main",
+		"is_skipped": false,
+		"pos": {
+			"line_nr": 0,
+			"pos": 0,
+			"len": 19
 		}
 	},
-	"imports":	[{
-			"ast_type":	"Import",
-			"mod":	"os",
-			"alias":	"os",
-			"syms":	[],
-			"pos":	{
-				"line_nr":	2,
-				"pos":	20,
-				"len":	2
+	"imports": [
+		{
+			"ast_type": "Import",
+			"mod": "os",
+			"alias": "os",
+			"syms": [],
+			"pos": {
+				"line_nr": 2,
+				"pos": 20,
+				"len": 2
 			}
-		}, {
-			"ast_type":	"Import",
-			"mod":	"time",
-			"alias":	"time",
-			"syms":	[],
-			"pos":	{
-				"line_nr":	3,
-				"pos":	30,
-				"len":	4
-			}
-		}],
-	"global_scope":	{
-		"ast_type":	"Scope",
-		"parent":	"0",
-		"children":	[],
-		"start_pos":	0,
-		"end_pos":	0,
-		"objects":	{
 		},
-		"struct_fields":	[]
+		{
+			"ast_type": "Import",
+			"mod": "time",
+			"alias": "time",
+			"syms": [],
+			"pos": {
+				"line_nr": 3,
+				"pos": 30,
+				"len": 4
+			}
+		}
+	],
+	"global_scope": {
+		"ast_type": "Scope",
+		"parent": "0",
+		"children": [],
+		"start_pos": 0,
+		"end_pos": 0,
+		"objects": {},
+		"struct_fields": []
 	},
-	"scope":	{
-		"ast_type":	"Scope",
-		"parent":	"7ff5ffc07740",
-		"children":	[],
-		"start_pos":	0,
-		"end_pos":	35,
-		"objects":	{
+	"scope": {
+		"ast_type": "Scope",
+		"parent": "7f970ef07c90",
+		"children": [
+			{
+				"parent": "7f970ef081f0",
+				"start_pos": 39,
+				"end_pos": 51
+			}
+		],
+		"start_pos": 0,
+		"end_pos": 53,
+		"objects": {},
+		"struct_fields": []
+	},
+	"errors": [],
+	"warnings": [],
+	"imported_symbols": {},
+	"generic_fns": [],
+	"stmts": [
+		{
+			"ast_type": "Module",
+			"name": "main",
+			"is_skipped": false,
+			"pos": {
+				"line_nr": 0,
+				"pos": 0,
+				"len": 19
+			}
 		},
-		"struct_fields":	[]
-	},
-	"errors":	[],
-	"warnings":	[],
-	"imported_symbols":	{
-	},
-	"generic_fns":	[],
-	"stmts":	[{
-			"ast_type":	"Module",
-			"name":	"main",
-			"is_skipped":	false,
-			"pos":	{
-				"line_nr":	0,
-				"pos":	0,
-				"len":	19
+		{
+			"ast_type": "Import",
+			"mod": "os",
+			"alias": "os",
+			"syms": [],
+			"pos": {
+				"line_nr": 2,
+				"pos": 20,
+				"len": 2
 			}
-		}, {
-			"ast_type":	"Import",
-			"mod":	"os",
-			"alias":	"os",
-			"syms":	[],
-			"pos":	{
-				"line_nr":	2,
-				"pos":	20,
-				"len":	2
+		},
+		{
+			"ast_type": "Import",
+			"mod": "time",
+			"alias": "time",
+			"syms": [],
+			"pos": {
+				"line_nr": 3,
+				"pos": 30,
+				"len": 4
 			}
-		}, {
-			"ast_type":	"Import",
-			"mod":	"time",
-			"alias":	"time",
-			"syms":	[],
-			"pos":	{
-				"line_nr":	3,
-				"pos":	30,
-				"len":	4
-			}
-		}]
+		},
+		{
+			"ast_type": "FnDecl",
+			"name": "main.main",
+			"mod": "main",
+			"is_deprecated": false,
+			"is_pub": false,
+			"is_variadic": false,
+			"is_anon": false,
+			"receiver": {
+				"ast_type": "Field",
+				"name": "",
+				"typ": "void",
+				"pos": {
+					"line_nr": 0,
+					"pos": 0,
+					"len": 0
+				}
+			},
+			"receiver_pos": {
+				"line_nr": 0,
+				"pos": 0,
+				"len": 0
+			},
+			"is_method": false,
+			"method_idx": 0,
+			"rec_mut": false,
+			"rec_share": "enum:0(mut)",
+			"language": "enum:0(v)",
+			"no_body": false,
+			"is_builtin": false,
+			"is_generic": false,
+			"is_direct_arr": false,
+			"pos": {
+				"line_nr": 5,
+				"pos": 36,
+				"len": 9
+			},
+			"body_pos": {
+				"line_nr": 7,
+				"pos": 51,
+				"len": 1
+			},
+			"file": "/Users/xxx/v/vprojects/v_test/main.v",
+			"return_type": "void",
+			"source_file": 0,
+			"scope": 250645264,
+			"attrs": [],
+			"params": [],
+			"stmts": [],
+			"comments": [],
+			"next_comments": []
+		}
+	]
 }
+
 ```
 
 ##  Module
 
 ### module declaration
 
-AST struct:
+AST struct
 
 ```v
 // module declaration
@@ -167,36 +234,47 @@ pub:
 }
 ```
 
-genereate AST:
+example code
+
+```v
+module main
+
+fn main() {
+	
+}
+```
+
+generate AST json
 
 ```json
 {
-			"ast_type":	"Module",
-			"name":	"main",
-			"is_skipped":	false,
-			"pos":	{
-				"line_nr":	0,
-				"pos":	1,
-				"len":	20
-			}
+	"ast_type": "Module",
+	"name": "main",
+	"is_skipped": false,
+	"pos": {
+		"line_nr": 0,
+		"pos": 0,
+		"len": 15
+	}
 }
 ```
 
 ### module import
 
-AST struct:
+AST struct
 
 ```v
 // import statement
 pub struct Import {
 pub:
+	mod   string // the module name of the import
+	alias string // the `x` in `import xxx as x`
 	pos   token.Position
-	mod   string	//imported module name
-	alias string	//if use import xxx as x,alias is different from mod
 pub mut:
-	syms  []ImportSymbol //use for import {symbol},Parser find symbol=>module.symbol
+	syms  []ImportSymbol // the list of symbols in `import {symbol1, symbol2}`
 }
 
+// import symbol,for import {symbol} syntax
 pub struct ImportSymbol {
 pub:
 	pos  token.Position
@@ -204,7 +282,7 @@ pub:
 }
 ```
 
-example code:
+example code
 
 ```v
 module main
@@ -214,94 +292,91 @@ import time as t
 import math { min, max }
 ```
 
-generate AST:
+generate AST json
 
 ```json
-"stmts":	[{
-			"ast_type":	"Module",
-			"name":	"main",
-			"is_skipped":	false,
-			"pos":	{
-				"line_nr":	0,
-				"pos":	0,
-				"len":	18
+{
+	"ast_type": "Import",
+	"mod": "os",
+	"alias": "os",
+	"syms": [],
+	"pos": {
+		"line_nr": 2,
+		"pos": 20,
+		"len": 2
+	}
+},
+{
+	"ast_type": "Import",
+	"mod": "time",
+	"alias": "t",
+	"syms": [],
+	"pos": {
+		"line_nr": 3,
+		"pos": 30,
+		"len": 4
+	}
+},
+{
+	"ast_type": "Import",
+	"mod": "math",
+	"alias": "math",
+	"syms": [
+		{
+			"name": "min",
+			"pos": {
+				"line_nr": 4,
+				"pos": 54,
+				"len": 3
 			}
-		}, {
-			"ast_type":	"Import",
-			"mod":	"os",
-			"alias":	"os",
-			"syms":	[],
-			"pos":	{
-				"line_nr":	1,
-				"pos":	19,
-				"len":	2
+		},
+		{
+			"name": "max",
+			"pos": {
+				"line_nr": 4,
+				"pos": 59,
+				"len": 3
 			}
-		}, {
-			"ast_type":	"Import",
-			"mod":	"time",
-			"alias":	"t",
-			"syms":	[],
-			"pos":	{
-				"line_nr":	2,
-				"pos":	29,
-				"len":	4
-			}
-		}, {
-			"ast_type":	"Import",
-			"mod":	"math",
-			"alias":	"math",
-			"syms":	[{
-					"name":	"min",
-					"pos":	{
-						"line_nr":	3,
-						"pos":	53,
-						"len":	3
-					}
-				}, {
-					"name":	"max",
-					"pos":	{
-						"line_nr":	3,
-						"pos":	58,
-						"len":	3
-					}
-				}],
-			"pos":	{
-				"line_nr":	3,
-				"pos":	46,
-				"len":	4
-			}
-		}]
+		}
+	],
+	"pos": {
+		"line_nr": 4,
+		"pos": 47,
+		"len": 4
+	}
+}
 ```
 
 ## Const
 
-AST struct:
+AST struct
 
 ```v
-//const declaration
+// const declaration
 pub struct ConstDecl {
 pub:
 	is_pub       bool
 	pos          token.Position
 pub mut:
-	fields       []ConstField 	//all the const fields
-	end_comments []Comment			//comments that after last const field
+	fields       []ConstField // all the const fields in the `const (...)` block
+	end_comments []Comment // comments that after last const field
 }
 
+// const field in const declaration group
 pub struct ConstField {
 pub:
 	mod      string
 	name     string
-  expr     Expr		//the value expr of field,after =
+	expr     Expr // the value expr of field; everything after `=`
 	is_pub   bool
 	pos      token.Position
 pub mut:
-	typ      table.Type	//type of const field,const field in V can be any type
-	comments []Comment	//comments before current const field
+	typ      table.Type // the type of the const field, it can be any type in V
+	comments []Comment // comments before current const field
 }
 ```
 
-example code:
+example code
 
 ```v
 module main
@@ -316,201 +391,201 @@ const (
 	//end comment 1
 	//end comment 2
 )
-
 ```
 
-generate AST:
+generate AST json
 
 ```json
-	"stmts": [
+{
+	"ast_type": "ConstDecl",
+	"is_pub": false,
+	"fields": [
 		{
-			"ast_type": "ConstDecl",
-			"is_pub": false,
-			"fields": [
-				{
-					"ast_type": "ConstField",
-					"mod": "main",
-					"name": "main.version",
-					"expr": {
-						"ast_type": "StringLiteral",
-						"val": "0.2.0",
-						"is_raw": false,
-						"language": 0,
-						"pos": {
-							"line_nr": 4,
-							"pos": 54,
-							"len": 7
-						}
-					},
-					"is_pub": false,
-					"typ": null,
-					"pos": {
-						"line_nr": 4,
-						"pos": 44,
-						"len": 7
-					},
-					"comments": [
-						{
-							"ast_type": "Comment",
-							"text": "\u0001 version comment 1",
-							"pos": {
-								"line_nr": 3,
-								"pos": 21,
-								"len": 21
-							}
-						}
-					]
-				},
-				{
-					"ast_type": "ConstField",
-					"mod": "main",
-					"name": "main.usage",
-					"expr": {
-						"ast_type": "StringLiteral",
-						"val": "usage:xxxx",
-						"is_raw": false,
-						"language": 0,
-						"pos": {
-							"line_nr": 6,
-							"pos": 113,
-							"len": 12
-						}
-					},
-					"is_pub": false,
-					"typ": null,
-					"pos": {
-						"line_nr": 6,
-						"pos": 103,
-						"len": 5
-					},
-					"comments": [
-						{
-							"ast_type": "Comment",
-							"text": " version comment 2",
-							"pos": {
-								"line_nr": 4,
-								"pos": 62,
-								"len": 20
-							}
-						},
-						{
-							"ast_type": "Comment",
-							"text": "\u0001usage comment 1",
-							"pos": {
-								"line_nr": 5,
-								"pos": 83,
-								"len": 18
-							}
-						}
-					]
-				},
-				{
-					"ast_type": "ConstField",
-					"mod": "main",
-					"name": "main.pi",
-					"expr": {
-						"ast_type": "FloatLiteral",
-						"val": "3.14",
-						"pos": {
-							"line_nr": 8,
-							"pos": 172,
-							"len": 4
-						}
-					},
-					"is_pub": false,
-					"typ": null,
-					"pos": {
-						"line_nr": 8,
-						"pos": 162,
-						"len": 2
-					},
-					"comments": [
-						{
-							"ast_type": "Comment",
-							"text": " usage comment 2",
-							"pos": {
-								"line_nr": 6,
-								"pos": 126,
-								"len": 18
-							}
-						},
-						{
-							"ast_type": "Comment",
-							"text": "\u0001pi comment 1",
-							"pos": {
-								"line_nr": 7,
-								"pos": 145,
-								"len": 15
-							}
-						}
-					]
+			"ast_type": "ConstField",
+			"mod": "main",
+			"name": "main.version",
+			"expr": {
+				"ast_type": "StringLiteral",
+				"val": "0.2.0",
+				"is_raw": false,
+				"language": "enum:0(v)",
+				"pos": {
+					"line_nr": 4,
+					"pos": 54,
+					"len": 7
 				}
-			],
+			},
+			"is_pub": false,
+			"typ": null,
 			"pos": {
-				"line_nr": 2,
-				"pos": 13,
+				"line_nr": 4,
+				"pos": 44,
+				"len": 7
+			},
+			"comments": [
+				{
+					"ast_type": "Comment",
+					"text": "\u0001 version comment 1",
+					"pos": {
+						"line_nr": 3,
+						"pos": 21,
+						"len": 21
+					}
+				}
+			]
+		},
+		{
+			"ast_type": "ConstField",
+			"mod": "main",
+			"name": "main.usage",
+			"expr": {
+				"ast_type": "StringLiteral",
+				"val": "usage:xxxx",
+				"is_raw": false,
+				"language": "enum:0(v)",
+				"pos": {
+					"line_nr": 6,
+					"pos": 113,
+					"len": 12
+				}
+			},
+			"is_pub": false,
+			"typ": null,
+			"pos": {
+				"line_nr": 6,
+				"pos": 103,
 				"len": 5
 			},
-			"end_comments": [
+			"comments": [
 				{
 					"ast_type": "Comment",
-					"text": " pi comment 2",
+					"text": " version comment 2",
 					"pos": {
-						"line_nr": 8,
-						"pos": 177,
+						"line_nr": 4,
+						"pos": 62,
+						"len": 20
+					}
+				},
+				{
+					"ast_type": "Comment",
+					"text": "\u0001usage comment 1",
+					"pos": {
+						"line_nr": 5,
+						"pos": 83,
+						"len": 18
+					}
+				}
+			]
+		},
+		{
+			"ast_type": "ConstField",
+			"mod": "main",
+			"name": "main.pi",
+			"expr": {
+				"ast_type": "FloatLiteral",
+				"val": "3.14",
+				"pos": {
+					"line_nr": 8,
+					"pos": 172,
+					"len": 4
+				}
+			},
+			"is_pub": false,
+			"typ": null,
+			"pos": {
+				"line_nr": 8,
+				"pos": 162,
+				"len": 2
+			},
+			"comments": [
+				{
+					"ast_type": "Comment",
+					"text": " usage comment 2",
+					"pos": {
+						"line_nr": 6,
+						"pos": 126,
+						"len": 18
+					}
+				},
+				{
+					"ast_type": "Comment",
+					"text": "\u0001pi comment 1",
+					"pos": {
+						"line_nr": 7,
+						"pos": 145,
 						"len": 15
-					}
-				},
-				{
-					"ast_type": "Comment",
-					"text": "\u0001end comment 1",
-					"pos": {
-						"line_nr": 9,
-						"pos": 193,
-						"len": 16
-					}
-				},
-				{
-					"ast_type": "Comment",
-					"text": "\u0001end comment 2",
-					"pos": {
-						"line_nr": 10,
-						"pos": 210,
-						"len": 16
 					}
 				}
 			]
 		}
+	],
+	"pos": {
+		"line_nr": 2,
+		"pos": 13,
+		"len": 5
+	},
+	"end_comments": [
+		{
+			"ast_type": "Comment",
+			"text": " pi comment 2",
+			"pos": {
+				"line_nr": 8,
+				"pos": 177,
+				"len": 15
+			}
+		},
+		{
+			"ast_type": "Comment",
+			"text": "\u0001end comment 1",
+			"pos": {
+				"line_nr": 9,
+				"pos": 193,
+				"len": 16
+			}
+		},
+		{
+			"ast_type": "Comment",
+			"text": "\u0001end comment 2",
+			"pos": {
+				"line_nr": 10,
+				"pos": 210,
+				"len": 16
+			}
+		}
 	]
+}
 ```
 
 ## Enum
 
- AST struct:
+ AST struct
 
 ```v
+// enum declaration
 pub struct EnumDecl {
 pub:
 	name             string
 	is_pub           bool
 	is_flag          bool // true when the enum has [flag] tag,for bit field enum
 	is_multi_allowed bool // true when the enum has [_allow_multiple_values] tag
-	comments         []Comment //comments before the first EnumField
-	fields           []EnumField
-	attrs            []table.Attr
+	comments         []Comment // comments before the first EnumField
+	fields           []EnumField // all the enum fields
+	attrs            []table.Attr // attributes of enum declaration
 	pos              token.Position
 }
 
+// enum field in enum declaration
 pub struct EnumField {
 pub:
 	name          string
 	pos           token.Position
-	comments      []Comment	//comment after Enumfield in the same line
-	next_comments []Comment 	//comments between current EnumField and next EnumField
-	expr          Expr	//the value of current EnumField
-	has_expr      bool	//true,when expr is not null
+	comments      []Comment // comment after Enumfield in the same line
+	next_comments []Comment // comments between current EnumField and next EnumField
+	expr          Expr // the value of current EnumField; 123 in `ename = 123`
+	has_expr      bool // true, when .expr has a value
 }
 
+// an enum value, like OS.macos or .macos
 pub struct EnumVal {
 pub:
 	enum_name string
@@ -522,7 +597,7 @@ pub mut:
 }
 ```
 
-example code:
+example code
 
 ```v
 module main
@@ -560,434 +635,483 @@ fn main() {
 }
 ```
 
-generate AST:
+generate AST json
 
 ```json
-	"stmts":	[{
-			"ast_type":	"EnumDecl",
-			"name":	"main.Color",
-			"is_pub":	false,
-			"is_flag":	false,
-			"is_multi_allowed":	false,
-			"pos":	{
-				"line_nr":	4,
-				"pos":	37,
-				"len":	10
-			},
-			"fields":	[{
-					"ast_type":	"EnumField",
-					"name":	"black",
-					"has_expr":	true,
-					"expr":	{
-						"ast_type":	"IntegerLiteral",
-						"val":	"2",
-						"pos":	{
-							"line_nr":	7,
-							"pos":	117,
-							"len":	1
-						}
-					},
-					"pos":	{
-						"line_nr":	7,
-						"pos":	109,
-						"len":	5
-					},
-					"comments":	[{
-							"ast_type":	"Comment",
-							"text":	" black comment 3",
-							"pos":	{
-								"line_nr":	7,
-								"pos":	119,
-								"len":	18
-							}
-						}],
-					"next_comments":	[{
-							"ast_type":	"Comment",
-							"text":	"\u0001 white comment 1",
-							"pos":	{
-								"line_nr":	8,
-								"pos":	138,
-								"len":	19
-							}
-						}, {
-							"ast_type":	"Comment",
-							"text":	"\u0001 white comment 2",
-							"pos":	{
-								"line_nr":	9,
-								"pos":	158,
-								"len":	19
-							}
-						}]
-				}, {
-					"ast_type":	"EnumField",
-					"name":	"white",
-					"has_expr":	false,
-					"expr":	null,
-					"pos":	{
-						"line_nr":	10,
-						"pos":	179,
-						"len":	5
-					},
-					"comments":	[{
-							"ast_type":	"Comment",
-							"text":	" white comment 3",
-							"pos":	{
-								"line_nr":	10,
-								"pos":	185,
-								"len":	18
-							}
-						}],
-					"next_comments":	[]
-				}, {
-					"ast_type":	"EnumField",
-					"name":	"blue",
-					"has_expr":	false,
-					"expr":	null,
-					"pos":	{
-						"line_nr":	11,
-						"pos":	205,
-						"len":	4
-					},
-					"comments":	[],
-					"next_comments":	[]
-				}, {
-					"ast_type":	"EnumField",
-					"name":	"green",
-					"has_expr":	false,
-					"expr":	null,
-					"pos":	{
-						"line_nr":	12,
-						"pos":	211,
-						"len":	5
-					},
-					"comments":	[{
-							"ast_type":	"Comment",
-							"text":	" green comment",
-							"pos":	{
-								"line_nr":	12,
-								"pos":	217,
-								"len":	16
-							}
-						}],
-					"next_comments":	[{
-							"ast_type":	"Comment",
-							"text":	"\u0001 end comment 1",
-							"pos":	{
-								"line_nr":	13,
-								"pos":	234,
-								"len":	17
-							}
-						}, {
-							"ast_type":	"Comment",
-							"text":	"\u0001 end comment 2",
-							"pos":	{
-								"line_nr":	14,
-								"pos":	252,
-								"len":	17
-							}
-						}]
-				}],
-			"comments":	[{
-					"ast_type":	"Comment",
-					"text":	" enum comment 1",
-					"pos":	{
-						"line_nr":	4,
-						"pos":	50,
-						"len":	17
-					}
-				}, {
-					"ast_type":	"Comment",
-					"text":	"\u0001 black comment 1",
-					"pos":	{
-						"line_nr":	5,
-						"pos":	68,
-						"len":	19
-					}
-				}, {
-					"ast_type":	"Comment",
-					"text":	"\u0001 black comment 2",
-					"pos":	{
-						"line_nr":	6,
-						"pos":	88,
-						"len":	19
-					}
-				}],
-			"attrs":	[{
-					"ast_type":	"Attr",
-					"name":	"attr1",
-					"is_string":	false,
-					"is_ctdefine":	false,
-					"arg":	"",
-					"is_string_arg":	false
-				}, {
-					"ast_type":	"Attr",
-					"name":	"attr2=123",
-					"is_string":	true,
-					"is_ctdefine":	false,
-					"arg":	"",
-					"is_string_arg":	false
-				}]
-		}, {
-			"ast_type":	"EnumDecl",
-			"name":	"main.BitEnum",
-			"is_pub":	false,
-			"is_flag":	true,
-			"is_multi_allowed":	false,
-			"pos":	{
-				"line_nr":	18,
-				"pos":	280,
-				"len":	12
-			},
-			"fields":	[{
-					"ast_type":	"EnumField",
-					"name":	"e1",
-					"has_expr":	false,
-					"expr":	null,
-					"pos":	{
-						"line_nr":	19,
-						"pos":	296,
-						"len":	2
-					},
-					"comments":	[],
-					"next_comments":	[]
-				}, {
-					"ast_type":	"EnumField",
-					"name":	"e2",
-					"has_expr":	false,
-					"expr":	null,
-					"pos":	{
-						"line_nr":	20,
-						"pos":	300,
-						"len":	2
-					},
-					"comments":	[],
-					"next_comments":	[]
-				}, {
-					"ast_type":	"EnumField",
-					"name":	"e3",
-					"has_expr":	false,
-					"expr":	null,
-					"pos":	{
-						"line_nr":	21,
-						"pos":	304,
-						"len":	2
-					},
-					"comments":	[],
-					"next_comments":	[]
-				}],
-			"comments":	[],
-			"attrs":	[{
-					"ast_type":	"Attr",
-					"name":	"flag",
-					"is_string":	false,
-					"is_ctdefine":	false,
-					"arg":	"",
-					"is_string_arg":	false
-				}]
-		}, {
-			"ast_type":	"EnumDecl",
-			"name":	"main.MultipleEnum",
-			"is_pub":	false,
-			"is_flag":	false,
-			"is_multi_allowed":	true,
-			"pos":	{
-				"line_nr":	25,
-				"pos":	335,
-				"len":	17
-			},
-			"fields":	[{
-					"ast_type":	"EnumField",
-					"name":	"v1",
-					"has_expr":	true,
-					"expr":	{
-						"ast_type":	"IntegerLiteral",
-						"val":	"1",
-						"pos":	{
-							"line_nr":	26,
-							"pos":	361,
-							"len":	1
-						}
-					},
-					"pos":	{
-						"line_nr":	26,
-						"pos":	356,
-						"len":	2
-					},
-					"comments":	[],
-					"next_comments":	[]
-				}],
-			"comments":	[],
-			"attrs":	[{
-					"ast_type":	"Attr",
-					"name":	"_allow_multiple_values",
-					"is_string":	false,
-					"is_ctdefine":	false,
-					"arg":	"",
-					"is_string_arg":	false
-				}]
-		}, {
-			"ast_type":	"FnDecl",
-			"name":	"main.main",
-			"mod":	"main",
-			"is_deprecated":	false,
-			"is_pub":	false,
-			"is_variadic":	false,
-			"is_anon":	false,
-			"receiver":	{
-				"ast_type":	"Field",
-				"name":	"",
-				"typ":	"void",
-				"pos":	{
-					"line_nr":	0,
-					"pos":	0,
-					"len":	0
+{
+	"ast_type": "EnumDecl",
+	"name": "main.Color",
+	"is_pub": false,
+	"is_flag": false,
+	"is_multi_allowed": false,
+	"pos": {
+		"line_nr": 4,
+		"pos": 35,
+		"len": 10
+	},
+	"fields": [
+		{
+			"ast_type": "EnumField",
+			"name": "black",
+			"has_expr": true,
+			"expr": {
+				"ast_type": "IntegerLiteral",
+				"val": "2",
+				"pos": {
+					"line_nr": 7,
+					"pos": 115,
+					"len": 1
 				}
 			},
-			"receiver_pos":	{
-				"line_nr":	0,
-				"pos":	0,
-				"len":	0
+			"pos": {
+				"line_nr": 7,
+				"pos": 107,
+				"len": 5
 			},
-			"is_method":	false,
-			"method_idx":	0,
-			"rec_mut":	false,
-			"rec_share":	0,
-			"language":	0,
-			"no_body":	false,
-			"is_builtin":	false,
-			"is_generic":	false,
-			"is_direct_arr":	false,
-			"pos":	{
-				"line_nr":	29,
-				"pos":	366,
-				"len":	9
-			},
-			"body_pos":	{
-				"line_nr":	30,
-				"pos":	379,
-				"len":	3
-			},
-			"file":	"main.v",
-			"return_type":	"void",
-			"source_file":	0,
-			"scope":	-1921948768,
-			"attrs":	[],
-			"params":	[],
-			"stmts":	[{
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"color",
-							"mod":	"main",
-							"language":	0,
-							"is_mut":	true,
-							"tok_kind":	35,
-							"kind":	0,
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	true,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	0
-							},
-							"pos":	{
-								"line_nr":	30,
-								"pos":	383,
-								"len":	5
-							},
-							"mut_pos":	{
-								"line_nr":	30,
-								"pos":	379,
-								"len":	3
-							},
-							"obj":	{
-							},
-							"scope":	-1921948768
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"EnumVal",
-							"enum_name":	"main.Color",
-							"mod":	"",
-							"val":	"black",
-							"typ":	null,
-							"pos":	{
-								"line_nr":	31,
-								"pos":	405,
-								"len":	5
-							}
-						}],
-					"right_types":	[],
-					"op":	35,
-					"_op":	":=",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	30,
-						"pos":	389,
-						"len":	2
+			"comments": [
+				{
+					"ast_type": "Comment",
+					"text": " black comment 3",
+					"pos": {
+						"line_nr": 7,
+						"pos": 117,
+						"len": 18
 					}
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"color",
-							"mod":	"main",
-							"language":	0,
-							"is_mut":	false,
-							"tok_kind":	34,
-							"kind":	0,
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	0
-							},
-							"pos":	{
-								"line_nr":	31,
-								"pos":	405,
-								"len":	5
-							},
-							"mut_pos":	{
-								"line_nr":	31,
-								"pos":	405,
-								"len":	5
-							},
-							"obj":	{
-							},
-							"scope":	-1921948768
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"EnumVal",
-							"enum_name":	"",
-							"mod":	"",
-							"val":	"blue",
-							"typ":	null,
-							"pos":	{
-								"line_nr":	31,
-								"pos":	413,
-								"len":	5
-							}
-						}],
-					"right_types":	[],
-					"op":	34,
-					"_op":	"=",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	31,
-						"pos":	411,
-						"len":	1
+				}
+			],
+			"next_comments": [
+				{
+					"ast_type": "Comment",
+					"text": "\u0001 white comment 1",
+					"pos": {
+						"line_nr": 8,
+						"pos": 136,
+						"len": 19
 					}
-				}],
-			"comments":	[]
-		}]
+				},
+				{
+					"ast_type": "Comment",
+					"text": "\u0001 white comment 2",
+					"pos": {
+						"line_nr": 9,
+						"pos": 156,
+						"len": 19
+					}
+				}
+			]
+		},
+		{
+			"ast_type": "EnumField",
+			"name": "white",
+			"has_expr": false,
+			"expr": null,
+			"pos": {
+				"line_nr": 10,
+				"pos": 177,
+				"len": 5
+			},
+			"comments": [
+				{
+					"ast_type": "Comment",
+					"text": " white comment 3",
+					"pos": {
+						"line_nr": 10,
+						"pos": 183,
+						"len": 18
+					}
+				}
+			],
+			"next_comments": []
+		},
+		{
+			"ast_type": "EnumField",
+			"name": "blue",
+			"has_expr": false,
+			"expr": null,
+			"pos": {
+				"line_nr": 11,
+				"pos": 203,
+				"len": 4
+			},
+			"comments": [],
+			"next_comments": []
+		},
+		{
+			"ast_type": "EnumField",
+			"name": "green",
+			"has_expr": false,
+			"expr": null,
+			"pos": {
+				"line_nr": 12,
+				"pos": 209,
+				"len": 5
+			},
+			"comments": [
+				{
+					"ast_type": "Comment",
+					"text": " green comment",
+					"pos": {
+						"line_nr": 12,
+						"pos": 215,
+						"len": 16
+					}
+				}
+			],
+			"next_comments": [
+				{
+					"ast_type": "Comment",
+					"text": "\u0001 end comment 1",
+					"pos": {
+						"line_nr": 13,
+						"pos": 232,
+						"len": 17
+					}
+				},
+				{
+					"ast_type": "Comment",
+					"text": "\u0001 end comment 2",
+					"pos": {
+						"line_nr": 14,
+						"pos": 250,
+						"len": 17
+					}
+				}
+			]
+		}
+	],
+	"comments": [
+		{
+			"ast_type": "Comment",
+			"text": " enum comment 1",
+			"pos": {
+				"line_nr": 4,
+				"pos": 48,
+				"len": 17
+			}
+		},
+		{
+			"ast_type": "Comment",
+			"text": "\u0001 black comment 1",
+			"pos": {
+				"line_nr": 5,
+				"pos": 66,
+				"len": 19
+			}
+		},
+		{
+			"ast_type": "Comment",
+			"text": "\u0001 black comment 2",
+			"pos": {
+				"line_nr": 6,
+				"pos": 86,
+				"len": 19
+			}
+		}
+	],
+	"attrs": [
+		{
+			"ast_type": "Attr",
+			"name": "attr1",
+			"is_string": false,
+			"is_ctdefine": false,
+			"arg": "",
+			"is_string_arg": false
+		},
+		{
+			"ast_type": "Attr",
+			"name": "attr2=123",
+			"is_string": true,
+			"is_ctdefine": false,
+			"arg": "",
+			"is_string_arg": false
+		}
+	]
+},
+{
+	"ast_type": "EnumDecl",
+	"name": "main.BitEnum",
+	"is_pub": false,
+	"is_flag": true,
+	"is_multi_allowed": false,
+	"pos": {
+		"line_nr": 18,
+		"pos": 278,
+		"len": 12
+	},
+	"fields": [
+		{
+			"ast_type": "EnumField",
+			"name": "e1",
+			"has_expr": false,
+			"expr": null,
+			"pos": {
+				"line_nr": 19,
+				"pos": 294,
+				"len": 2
+			},
+			"comments": [],
+			"next_comments": []
+		},
+		{
+			"ast_type": "EnumField",
+			"name": "e2",
+			"has_expr": false,
+			"expr": null,
+			"pos": {
+				"line_nr": 20,
+				"pos": 298,
+				"len": 2
+			},
+			"comments": [],
+			"next_comments": []
+		},
+		{
+			"ast_type": "EnumField",
+			"name": "e3",
+			"has_expr": false,
+			"expr": null,
+			"pos": {
+				"line_nr": 21,
+				"pos": 302,
+				"len": 2
+			},
+			"comments": [],
+			"next_comments": []
+		}
+	],
+	"comments": [],
+	"attrs": [
+		{
+			"ast_type": "Attr",
+			"name": "flag",
+			"is_string": false,
+			"is_ctdefine": false,
+			"arg": "",
+			"is_string_arg": false
+		}
+	]
+},
+{
+	"ast_type": "EnumDecl",
+	"name": "main.MultipleEnum",
+	"is_pub": false,
+	"is_flag": false,
+	"is_multi_allowed": true,
+	"pos": {
+		"line_nr": 25,
+		"pos": 333,
+		"len": 17
+	},
+	"fields": [
+		{
+			"ast_type": "EnumField",
+			"name": "v1",
+			"has_expr": true,
+			"expr": {
+				"ast_type": "IntegerLiteral",
+				"val": "1",
+				"pos": {
+					"line_nr": 26,
+					"pos": 359,
+					"len": 1
+				}
+			},
+			"pos": {
+				"line_nr": 26,
+				"pos": 354,
+				"len": 2
+			},
+			"comments": [],
+			"next_comments": []
+		}
+	],
+	"comments": [],
+	"attrs": [
+		{
+			"ast_type": "Attr",
+			"name": "_allow_multiple_values",
+			"is_string": false,
+			"is_ctdefine": false,
+			"arg": "",
+			"is_string_arg": false
+		}
+	]
+},
+{
+	"ast_type": "FnDecl",
+	"name": "main.main",
+	"mod": "main",
+	"is_deprecated": false,
+	"is_pub": false,
+	"is_variadic": false,
+	"is_anon": false,
+	"receiver": {
+		"ast_type": "Field",
+		"name": "",
+		"typ": "void",
+		"pos": {
+			"line_nr": 0,
+			"pos": 0,
+			"len": 0
+		}
+	},
+	"receiver_pos": {
+		"line_nr": 0,
+		"pos": 0,
+		"len": 0
+	},
+	"is_method": false,
+	"method_idx": 0,
+	"rec_mut": false,
+	"rec_share": "enum:0(mut)",
+	"language": "enum:0(v)",
+	"no_body": false,
+	"is_builtin": false,
+	"is_generic": false,
+	"is_direct_arr": false,
+	"pos": {
+		"line_nr": 29,
+		"pos": 364,
+		"len": 9
+	},
+	"body_pos": {
+		"line_nr": 30,
+		"pos": 377,
+		"len": 3
+	},
+	"file": "/Users/zhijiayou02/v/vprojects/v_test/main.v",
+	"return_type": "void",
+	"source_file": 0,
+	"scope": 250686432,
+	"attrs": [],
+	"params": [],
+	"stmts": [
+		{
+			"ast_type": "AssignStmt",
+			"left": [
+				{
+					"ast_type": "Ident",
+					"name": "color",
+					"mod": "main",
+					"language": "enum:0(v)",
+					"is_mut": true,
+					"tok_kind": "token:35(:=)",
+					"kind": "enum:0(unresolved)",
+					"info": {
+						"ast_type": "IdentVar",
+						"typ": null,
+						"is_mut": true,
+						"is_static": false,
+						"is_optional": false,
+						"share": "enum:0(mut)"
+					},
+					"pos": {
+						"line_nr": 30,
+						"pos": 381,
+						"len": 5
+					},
+					"mut_pos": {
+						"line_nr": 30,
+						"pos": 377,
+						"len": 3
+					},
+					"obj": {},
+					"scope": 250686432
+				}
+			],
+			"left_types": [],
+			"right": [
+				{
+					"ast_type": "EnumVal",
+					"enum_name": "main.Color",
+					"mod": "",
+					"val": "black",
+					"typ": null,
+					"pos": {
+						"line_nr": 31,
+						"pos": 403,
+						"len": 5
+					}
+				}
+			],
+			"right_types": [],
+			"op": "token:35(:=)",
+			"is_static": false,
+			"is_simple": false,
+			"has_cross_var": false,
+			"pos": {
+				"line_nr": 30,
+				"pos": 387,
+				"len": 2
+			},
+			"comments": [],
+			"end_comments": []
+		},
+		{
+			"ast_type": "AssignStmt",
+			"left": [
+				{
+					"ast_type": "Ident",
+					"name": "color",
+					"mod": "main",
+					"language": "enum:0(v)",
+					"is_mut": false,
+					"tok_kind": "token:34(=)",
+					"kind": "enum:0(unresolved)",
+					"info": {
+						"ast_type": "IdentVar",
+						"typ": null,
+						"is_mut": false,
+						"is_static": false,
+						"is_optional": false,
+						"share": "enum:0(mut)"
+					},
+					"pos": {
+						"line_nr": 31,
+						"pos": 403,
+						"len": 5
+					},
+					"mut_pos": {
+						"line_nr": 31,
+						"pos": 403,
+						"len": 5
+					},
+					"obj": {},
+					"scope": 250686432
+				}
+			],
+			"left_types": [],
+			"right": [
+				{
+					"ast_type": "EnumVal",
+					"enum_name": "",
+					"mod": "",
+					"val": "blue",
+					"typ": null,
+					"pos": {
+						"line_nr": 31,
+						"pos": 411,
+						"len": 5
+					}
+				}
+			],
+			"right_types": [],
+			"op": "token:34(=)",
+			"is_static": false,
+			"is_simple": false,
+			"has_cross_var": false,
+			"pos": {
+				"line_nr": 31,
+				"pos": 409,
+				"len": 1
+			},
+			"comments": [],
+			"end_comments": []
+		}
+	],
+	"comments": [],
+	"next_comments": []
+}
 ```
 
 
@@ -1037,552 +1161,7 @@ fn main() {
 generate AST:
 
 ```json
-			"stmts":	[{
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"a",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:35(:=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	3,
-								"pos":	26,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	3,
-								"pos":	26,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"StringLiteral",
-							"val":	"abc",
-							"is_raw":	false,
-							"language":	"enum:0(v)",
-							"pos":	{
-								"line_nr":	3,
-								"pos":	31,
-								"len":	5
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:35(:=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	3,
-						"pos":	28,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[{
-							"ast_type":	"Comment",
-							"text":	" comment 1",
-							"pos":	{
-								"line_nr":	3,
-								"pos":	37,
-								"len":	12
-							}
-						}]
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"b",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	true,
-							"tok_kind":	"token:35(:=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	true,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	4,
-								"pos":	55,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	4,
-								"pos":	51,
-								"len":	3
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"IntegerLiteral",
-							"val":	"1",
-							"pos":	{
-								"line_nr":	4,
-								"pos":	60,
-								"len":	1
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:35(:=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	4,
-						"pos":	57,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"b",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:36(+=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	5,
-								"pos":	63,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	5,
-								"pos":	63,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"IntegerLiteral",
-							"val":	"2",
-							"pos":	{
-								"line_nr":	5,
-								"pos":	68,
-								"len":	1
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:36(+=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	5,
-						"pos":	65,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"x",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:21(,)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	6,
-								"pos":	71,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	6,
-								"pos":	71,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}, {
-							"ast_type":	"Ident",
-							"name":	"y",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:21(,)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	6,
-								"pos":	74,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	6,
-								"pos":	74,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}, {
-							"ast_type":	"Ident",
-							"name":	"z",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:35(:=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	6,
-								"pos":	77,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	6,
-								"pos":	77,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"IntegerLiteral",
-							"val":	"1",
-							"pos":	{
-								"line_nr":	6,
-								"pos":	82,
-								"len":	1
-							}
-						}, {
-							"ast_type":	"StringLiteral",
-							"val":	"y",
-							"is_raw":	false,
-							"language":	"enum:0(v)",
-							"pos":	{
-								"line_nr":	6,
-								"pos":	85,
-								"len":	3
-							}
-						}, {
-							"ast_type":	"FloatLiteral",
-							"val":	"3.3",
-							"pos":	{
-								"line_nr":	6,
-								"pos":	90,
-								"len":	3
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:35(:=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	6,
-						"pos":	79,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"c",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	true,
-							"tok_kind":	"token:35(:=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	true,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	7,
-								"pos":	99,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	7,
-								"pos":	95,
-								"len":	3
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"IntegerLiteral",
-							"val":	"1",
-							"pos":	{
-								"line_nr":	7,
-								"pos":	104,
-								"len":	1
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:35(:=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	7,
-						"pos":	101,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"d",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	true,
-							"tok_kind":	"token:35(:=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	true,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	8,
-								"pos":	111,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	8,
-								"pos":	107,
-								"len":	3
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"IntegerLiteral",
-							"val":	"2",
-							"pos":	{
-								"line_nr":	8,
-								"pos":	116,
-								"len":	1
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:35(:=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	8,
-						"pos":	113,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"c",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:21(,)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	9,
-								"pos":	119,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	9,
-								"pos":	119,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}, {
-							"ast_type":	"Ident",
-							"name":	"d",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:34(=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	9,
-								"pos":	122,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	9,
-								"pos":	122,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"Ident",
-							"name":	"d",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:21(,)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	9,
-								"pos":	126,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	9,
-								"pos":	126,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}, {
-							"ast_type":	"Ident",
-							"name":	"c",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:47(})",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	9,
-								"pos":	129,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	9,
-								"pos":	129,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	-253608480
-						}],
-					"right_types":	[],
-					"op":	"token:34(=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	true,
-					"pos":	{
-						"line_nr":	9,
-						"pos":	124,
-						"len":	1
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}],
-			"comments":	[]
-		}]
+
 ```
 
 ### Identifier
@@ -1722,443 +1301,7 @@ fn main() {
 generate AST:
 
 ```json
-			"stmts":	[{
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"a",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:35(:=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	3,
-								"pos":	26,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	3,
-								"pos":	26,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	1719771040
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"IntegerLiteral",
-							"val":	"1",
-							"pos":	{
-								"line_nr":	3,
-								"pos":	31,
-								"len":	1
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:35(:=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	3,
-						"pos":	28,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"b",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:35(:=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	4,
-								"pos":	34,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	4,
-								"pos":	34,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	1719771040
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"FloatLiteral",
-							"val":	"1.2",
-							"pos":	{
-								"line_nr":	4,
-								"pos":	39,
-								"len":	3
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:35(:=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	4,
-						"pos":	36,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"c",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:35(:=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	5,
-								"pos":	44,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	5,
-								"pos":	44,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	1719771040
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"StringLiteral",
-							"val":	"abc",
-							"is_raw":	false,
-							"language":	"enum:0(v)",
-							"pos":	{
-								"line_nr":	5,
-								"pos":	49,
-								"len":	5
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:35(:=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	5,
-						"pos":	46,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"d",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:35(:=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	6,
-								"pos":	56,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	6,
-								"pos":	56,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	1719771040
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"CharLiteral",
-							"val":	"c",
-							"pos":	{
-								"line_nr":	6,
-								"pos":	61,
-								"len":	3
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:35(:=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	6,
-						"pos":	58,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"e",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:35(:=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	7,
-								"pos":	66,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	7,
-								"pos":	66,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	1719771040
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"BoolLiteral",
-							"val":	true,
-							"pos":	{
-								"line_nr":	7,
-								"pos":	71,
-								"len":	4
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:35(:=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	7,
-						"pos":	68,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}, {
-					"ast_type":	"AssignStmt",
-					"left":	[{
-							"ast_type":	"Ident",
-							"name":	"f",
-							"mod":	"main",
-							"language":	"enum:0(v)",
-							"is_mut":	false,
-							"tok_kind":	"token:35(:=)",
-							"kind":	"enum:0(unresolved)",
-							"info":	{
-								"ast_type":	"IdentVar",
-								"typ":	null,
-								"is_mut":	false,
-								"is_static":	false,
-								"is_optional":	false,
-								"share":	"enum:0(mut)"
-							},
-							"pos":	{
-								"line_nr":	8,
-								"pos":	77,
-								"len":	1
-							},
-							"mut_pos":	{
-								"line_nr":	8,
-								"pos":	77,
-								"len":	1
-							},
-							"obj":	{
-							},
-							"scope":	1719771040
-						}],
-					"left_types":	[],
-					"right":	[{
-							"ast_type":	"StringInterLiteral",
-							"vals":	["a is ", ",b is ", ",c is ", ""],
-							"exprs":	[{
-									"ast_type":	"Ident",
-									"name":	"a",
-									"mod":	"main",
-									"language":	"enum:0(v)",
-									"is_mut":	false,
-									"tok_kind":	"token:4(string)",
-									"kind":	"enum:0(unresolved)",
-									"info":	{
-										"ast_type":	"IdentVar",
-										"typ":	null,
-										"is_mut":	false,
-										"is_static":	false,
-										"is_optional":	false,
-										"share":	"enum:0(mut)"
-									},
-									"pos":	{
-										"line_nr":	8,
-										"pos":	89,
-										"len":	1
-									},
-									"mut_pos":	{
-										"line_nr":	8,
-										"pos":	89,
-										"len":	1
-									},
-									"obj":	{
-									},
-									"scope":	1719771040
-								}, {
-									"ast_type":	"Ident",
-									"name":	"b",
-									"mod":	"main",
-									"language":	"enum:0(v)",
-									"is_mut":	false,
-									"tok_kind":	"token:4(string)",
-									"kind":	"enum:0(unresolved)",
-									"info":	{
-										"ast_type":	"IdentVar",
-										"typ":	null,
-										"is_mut":	false,
-										"is_static":	false,
-										"is_optional":	false,
-										"share":	"enum:0(mut)"
-									},
-									"pos":	{
-										"line_nr":	8,
-										"pos":	97,
-										"len":	1
-									},
-									"mut_pos":	{
-										"line_nr":	8,
-										"pos":	97,
-										"len":	1
-									},
-									"obj":	{
-									},
-									"scope":	1719771040
-								}, {
-									"ast_type":	"Ident",
-									"name":	"c",
-									"mod":	"main",
-									"language":	"enum:0(v)",
-									"is_mut":	false,
-									"tok_kind":	"token:4(string)",
-									"kind":	"enum:0(unresolved)",
-									"info":	{
-										"ast_type":	"IdentVar",
-										"typ":	null,
-										"is_mut":	false,
-										"is_static":	false,
-										"is_optional":	false,
-										"share":	"enum:0(mut)"
-									},
-									"pos":	{
-										"line_nr":	8,
-										"pos":	105,
-										"len":	1
-									},
-									"mut_pos":	{
-										"line_nr":	8,
-										"pos":	105,
-										"len":	1
-									},
-									"obj":	{
-									},
-									"scope":	1719771040
-								}],
-							"expr_types":	[],
-							"fwidths":	[0, 0, 0],
-							"precisions":	[987698, 987698, 987698],
-							"pluss":	[false, false, false],
-							"fills":	[false, false, false],
-							"fmt_poss":	[{
-									"line_nr":	8,
-									"pos":	89,
-									"len":	1
-								}, {
-									"line_nr":	8,
-									"pos":	97,
-									"len":	1
-								}, {
-									"line_nr":	8,
-									"pos":	105,
-									"len":	1
-								}],
-							"fmts":	["enum:95(_)", "enum:95(_)", "enum:95(_)"],
-							"need_fmts":	[false, false, false],
-							"pos":	{
-								"line_nr":	8,
-								"pos":	81,
-								"len":	7
-							}
-						}],
-					"right_types":	[],
-					"op":	"token:35(:=)",
-					"is_static":	false,
-					"is_simple":	false,
-					"has_cross_var":	false,
-					"pos":	{
-						"line_nr":	8,
-						"pos":	79,
-						"len":	2
-					},
-					"comments":	[],
-					"end_comments":	[]
-				}],
-			"comments":	[]
-		}]
+
 ```
 
 ### AsCast
@@ -2170,28 +1313,6 @@ generate AST:
 
 
 ### TypeOf
-
-## Expr
-
-### RangeExpr
-
-### CastExpr
-
-### PrefixExpr
-
-### InfixExpr
-
-### PostfixExpr
-
-### ConcatExpr
-
-### SelectorExpr
-
-### AtExpr
-
-### Likely
-
-### ParExpr
 
 ## Array
 
@@ -2291,7 +1412,27 @@ fn main() {
 
 ```
 
+## Expr
 
+### RangeExpr
+
+### CastExpr
+
+### PrefixExpr
+
+### InfixExpr
+
+### PostfixExpr
+
+### ConcatExpr
+
+### SelectorExpr
+
+### AtExpr
+
+### Likely
+
+### ParExpr
 
 ## Function/Method
 
