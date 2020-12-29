@@ -1184,6 +1184,73 @@ pub mut:
 }
 ```
 
+### Function call
+
+AST struct
+
+```v
+// function or method call expr
+pub struct CallExpr {
+pub:
+	pos                token.Position
+	left               Expr // `user` in `user.register()`
+	mod                string
+pub mut:
+	name               string // left.name()
+	is_method          bool
+	is_field           bool // temp hack, remove ASAP when re-impl CallExpr / Selector (joe)
+	args               []CallArg
+	expected_arg_types []table.Type
+	language           table.Language
+	or_block           OrExpr
+	left_type          table.Type // type of `user`
+	receiver_type      table.Type // User
+	return_type        table.Type
+	should_be_skipped  bool
+	generic_type       table.Type // TODO array, to support multiple types
+	generic_list_pos   token.Position
+	free_receiver      bool // true if the receiver expression needs to be freed
+	scope              &Scope
+	from_embed_type    table.Type // holds the type of the embed that the method is called from
+
+```
+
+### CallArg
+
+AST struct
+
+```v
+// function call argument: `f(callarg)`
+pub struct CallArg {
+pub:
+	is_mut          bool
+	share           table.ShareType
+	expr            Expr
+	comments        []Comment
+pub mut:
+	typ             table.Type
+	is_tmp_autofree bool // this tells cgen that a tmp variable has to be used for the arg expression in order to free it after the call
+	pos             token.Position
+	// tmp_name        string // for autofree
+}
+```
+
+### Return
+
+AST struct
+
+```v
+// function return statement
+pub struct Return {
+pub:
+	pos      token.Position
+	exprs    []Expr
+	comments []Comment
+pub mut:
+	types    []table.Type
+}
+```
+
 example code
 
 ```v
@@ -1192,46 +1259,34 @@ module main
 fn main() {
 	s := add(1, 3)
 	println(s)
+	s2 := add_generic(2, 4)
+	s3 := add_generic<int>(2, 4)
+	println(s2)
+	println(s3)
 }
 
-pub fn add(x int, y int) int {
+// function
+fn add(x int, y int) int {
+	return x + y
+}
+
+struct Point {
+	x int
+	y int
+}
+
+// method
+pub fn (p Point) move(a int, b int) (int, int) {
+	new_x := p.x + a
+	new_y := p.y + b
+	return new_x, new_y
+}
+
+// generic function
+fn add_generic<T>(x T, y T) T {
 	return x + y
 }
 ```
-
-
-
-### Function call
-
-AST struct
-
-```v
-
-```
-
-example code
-
-```v
-
-```
-
-
-
-### Return
-
-AST struct
-
-```v
-
-```
-
-example code
-
-```v
-
-```
-
-
 
 ### Anonymous function
 
@@ -1258,30 +1313,49 @@ fn main() {
 	}
 	f1(1,3)
 }
-
 ```
-
-
 
 ### DeferStmt
 
 AST struct
 
 ```v
-
+// TODO: handle this differently
+// v1 excludes non current os ifdefs so
+// the defer's never get added in the first place
+pub struct DeferStmt {
+pub:
+	stmts []Stmt
+	pos   token.Position
+pub mut:
+	ifdef string
+}
 ```
 
 example code
 
 ```v
+fn main() {
+	println('main start')
+	// defer {defer_fn1()} 
+	// defer {defer_fn2()}
+	defer {
+		defer_fn1()
+	}
+	defer {
+		defer_fn2()
+	}
+	println('main end')
+}
 
+fn defer_fn1() {
+	println('from defer_fn1')
+}
+
+fn defer_fn2() {
+	println('from defer_fn2')
+}
 ```
-
-
-
-
-
-
 
 ## Struct
 
@@ -1846,9 +1920,9 @@ example code
 
 
 
-## Other
+## Comment
 
-### Commen
+### Comment
 
 AST struct
 
@@ -1876,6 +1950,8 @@ fn main() {
 	x := 1 // behind statement comment
 }
 ```
+
+## Other
 
 ### AtExpr
 
