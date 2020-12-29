@@ -2,7 +2,7 @@
 
 ## Overview
 
-
+### AST sumtype
 
 ```v
 pub type TypeDecl = AliasTypeDecl | FnTypeDecl | SumTypeDecl
@@ -20,18 +20,22 @@ pub type Stmt = AssertStmt | AssignStmt | Block | BranchStmt | CompFor | ConstDe
 	StructDecl | TypeDecl
 ```
 
+All the AST struct declarations can be found in V source code: [vlib/v/ast/ast.v](https://github.com/vlang/v/blob/master/vlib/v/ast/ast.v)
+
+### Diagram
+
 
 
 ## AST tool
 
 If you are new of Vlang AST, You can install the [vast tool](https://github.com/lydiandy/vast). It can generate example code to AST json format.
 
-The json can help you understand the AST more.
+The json file can help you understand the AST more.
 
 ```shell
-vast example.v 			//generate example.json file and exit.
+vast example.v       //generate example.json file and exit.
 
-vast -w example.v 	//generate example.json and watch,if file change,regenerate.
+vast -w example.v    //generate example.json and watch,if file change,regenerate.
 
 ```
 
@@ -255,21 +259,6 @@ module main
 
 fn main() {
 	
-}
-```
-
-generate AST json
-
-```json
-{
-	"ast_type": "Module",
-	"name": "main",
-	"is_skipped": false,
-	"pos": {
-		"line_nr": 0,
-		"pos": 0,
-		"len": 15
-	}
 }
 ```
 
@@ -592,7 +581,7 @@ pub:
 }
 ```
 
-example code:
+example code
 
 ```v
 module main
@@ -607,25 +596,61 @@ fn main() {
 }
 ```
 
-generate AST:
 
-```json
+
+### AsCast
+
+AST struct
+
+```v
 
 ```
 
-### AsCast
+example code
+
+```v
+
+```
 
 
 
 ### SizeOf
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
 
 
 ### TypeOf
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ## Array
 
 ### ArrayInit
+
+AST struct
 
 ```v
 pub struct ArrayInit {
@@ -653,6 +678,8 @@ pub mut:
 
 ```
 
+example code
+
 ```v
 module main
 
@@ -665,11 +692,9 @@ fn main() {
 
 ```
 
-```json
-
-```
-
 ### IndexExpr
+
+AST struct
 
 ```v
 pub struct IndexExpr {
@@ -684,11 +709,19 @@ pub mut:
 }
 ```
 
+example code
+
+```v
+
+```
+
 
 
 ## Map
 
 ### MapInit
+
+AST struct
 
 ```v
 pub struct MapInit {
@@ -702,6 +735,8 @@ pub mut:
 	value_type table.Type
 }
 ```
+
+example code
 
 ```v
 module main
@@ -725,29 +760,169 @@ fn main() {
 
 ### RangeExpr
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ### CastExpr
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
 
 ### PrefixExpr
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ### InfixExpr
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
 
 ### PostfixExpr
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ### ConcatExpr
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
 
 ### SelectorExpr
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ### AtExpr
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
 
 ### Likely
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ### ParExpr
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
 
 ## Function/Method
 
 ### Function declaration
 
-AST struct:
+AST struct
 
 ```v
 //function or method declaration
@@ -834,7 +1009,7 @@ pub mut:
 }
 ```
 
-example code:
+example code
 
 ```v
 module main
@@ -853,15 +1028,39 @@ pub fn add(x int, y int) int {
 
 ### Function call
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
 
 
 ### Return
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
 
 
 
 ### Anonymous function
 
-AST struct:
+AST struct
 
 ```v
 //anonymous function
@@ -873,7 +1072,7 @@ pub mut:
 }
 ```
 
-example code:
+example code
 
 ```v
 module main
@@ -891,6 +1090,18 @@ fn main() {
 
 ### DeferStmt
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
 
 
 
@@ -901,29 +1112,47 @@ fn main() {
 
 ### StructDecl
 
-AST struct:
+AST struct
 
 ```v
 
 ```
 
-example code:
+example code
 
 ```v
-
-```
-
-generate AST:
-
-```json
 
 ```
 
 ### StructInit
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
 
 
 ### Assoc
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
 
 
 
@@ -931,21 +1160,15 @@ generate AST:
 
 ### InterfaceDecl
 
-AST struct:
+AST struct
 
 ```v
 
 ```
 
-example code:
+example code
 
 ```v
-
-```
-
-generate AST:
-
-```json
 
 ```
 
@@ -955,21 +1178,15 @@ generate AST:
 
 ### Alias Type 
 
-AST struct:
+AST struct
 
 ```v
 
 ```
 
-example code:
+example code
 
 ```v
-
-```
-
-generate AST:
-
-```json
 
 ```
 
@@ -977,21 +1194,15 @@ generate AST:
 
 ### Function Type
 
-AST struct:
+AST struct
 
 ```v
 
 ```
 
-example code:
+example code
 
 ```v
-
-```
-
-generate AST:
-
-```json
 
 ```
 
@@ -999,21 +1210,15 @@ generate AST:
 
 ### SumType
 
-AST struct:
+AST struct
 
 ```v
 
 ```
 
-example code:
+example code
 
 ```v
-
-```
-
-generate AST:
-
-```json
 
 ```
 
@@ -1025,51 +1230,283 @@ generate AST:
 
 Block
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ### if
 
 IfExpr
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 IfGuardExpr
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
 
 ### match
 
 MatchExpr
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 BranchStmt
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
 
 ### for
 
 ForCStmt
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ForInStmt
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ForStmt
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
 
 ### goto
 
 GotoLabel
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 GotoStmt
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
 
 ## Error handle
 
 ### OrExpr
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ### None
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
 
 ## Concurrent
 
 ### ChanInit
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
 
 
 ### GoStmt
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
 
 
 
 ### SelectExpr
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ### LockExpr
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
 
 
 
@@ -1077,13 +1514,51 @@ GotoStmt
 
 ### UnsafeExpr
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
 
 
 ## SQL
 
 ### SqlStmt
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ### SqlExpr
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
 
 
 
@@ -1091,13 +1566,51 @@ GotoStmt
 
 ### AssertStmt
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ## Compile time
 
 ### ComptimeCall
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
 
 
 ### CompFor
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
 
 
 
@@ -1105,9 +1618,49 @@ GotoStmt
 
 ### GlobalDecl
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ### HashStmt
 
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
+
+
+
 ### CTempVar
+
+AST struct
+
+```v
+
+```
+
+example code
+
+```v
+
+```
 
 
 
