@@ -30,7 +30,7 @@ All the AST struct declarations can be found in V source code: [vlib/v/ast/ast.v
 
 If you are new of Vlang AST, You can install the [vast tool](https://github.com/lydiandy/vast). It can generate example code to AST json format.
 
-The json file can help you understand the AST more.
+The json file can help you more understand the AST.
 
 ```shell
 vast example.v       //generate example.json file and exit.
@@ -46,20 +46,21 @@ vast -w example.v    //generate example.json and watch,if file change,regenerate
 AST struct
 
 ```v
-//Each V source file will generate an ast.File.
-//When V compiler runs,the Parser will generate from [ ]os.File to [ ]ast.File
+// Each V source file is represented by one ast.File structure.
+// When the V compiler runs, the parser will fill an []ast.File.
+// That array is then passed to V's checker.
 pub struct File {
 pub:
-	path             string				//path of the source file
-	mod              Module				//current module
+	path             string // path of the source file
+	mod              Module // the module of the source file (from `module xyz` at the top)
 	global_scope     &Scope
 pub mut:
 	scope            &Scope
-	stmts            []Stmt					//all the source code AST
-	imports          []Import				//all the imports
-  imported_symbols map[string]string	 //use for import {symbol},Parser find symbol=>module.symbol
-	errors           []errors.Error		//all the checker errors in the file
-	warnings         []errors.Warning	//all the checker warings in the file
+	stmts            []Stmt // all the statements in the source file
+	imports          []Import // all the imports
+	imported_symbols map[string]string // used for `import {symbol}`, it maps symbol => module.symbol
+	errors           []errors.Error // all the checker errors in the file
+	warnings         []errors.Warning // all the checker warings in the file
 	generic_fns      []&FnDecl
 }
 ```
@@ -332,16 +333,12 @@ module main
 const (
 	// version comment 1
 	version = '0.2.0' // version comment 2
-	//usage comment 1
-	usage   = 'usage:xxxx' // usage comment 2
-	//pi comment 1
-	pi      = 3.14 // pi comment 2
+	usage   = 'usage:xxxx'
+	pi      = 3.14
 	//end comment 1
 	//end comment 2
 )
 ```
-
-
 
 ## Enum
 
@@ -422,8 +419,6 @@ fn main() {
 }
 ```
 
-
-
 ## Variable
 
 ### Assign
@@ -435,7 +430,7 @@ AST struct
 pub struct AssignStmt {
 pub:
 	right         []Expr
-	op            token.Kind // include: =,:=,+=,-=,*=,/= and so on,all the assigns can see vlib/token/token.v
+	op            token.Kind // include: =,:=,+=,-=,*=,/= and so on; for a list of all the assign operators, see vlib/token/token.v
 	pos           token.Position
 	comments      []Comment
 	end_comments  []Comment
@@ -455,18 +450,26 @@ example code
 module main
 
 fn main() {
-	a := 'abc' // comment 1
+	// signle assign
+	a := 'abc' // comment for a
 	mut b := 1
+	// more operator
+	b = 2
 	b += 2
+	b -= 2
+	b *= 2
+	b /= 2
+	b %= 2
+	// multi assign
 	x, y, z := 1, 'y', 3.3
+	mut xx, mut yy, zz := 1, 3, 5
+	// swap variable
 	mut c := 1
 	mut d := 2
 	c, d = d, c
 }
 
 ```
-
-
 
 ### Identifier
 
@@ -518,13 +521,19 @@ pub mut:
 }
 ```
 
-example code
+example code(need more)
 
 ```v
+module main
+
+fn main() {
+	i := 123 // common(unresolved) identifier
+	_, x := 1, 2 // blank identifier
+	mut s := 'abc' // with mut
+	s = 'aaa'
+}
 
 ```
-
-
 
 ### Literal
 
@@ -587,64 +596,130 @@ example code
 module main
 
 fn main() {
-	a := 1
-	b := 1.2
-	c := 'abc'
-	d := `c`
-	e := true
-	f := 'a is $a,b is $b,c is $c'
+	a := 1 // integer literal
+	b := 1.2 // float literal
+	c := 'abc' // string literal
+  name:='tom'
+	age:= 33
+  //string literal with `$xx` or `${xxx}`
+	s1 := 'a is $a,b is $b,c is $c' 
+	s2 := 'name is ${name}, age is ${age}'
+	e := `c` // char literal
+	f := true // bool literal
 }
 ```
-
-
 
 ### AsCast
 
 AST struct
 
 ```v
-
+// as cast statement
+pub struct AsCast {
+pub:
+	expr      Expr // `x` in `x as int`
+	typ       table.Type // `int` in `x as int`
+	pos       token.Position
+pub mut:
+	expr_type table.Type
+}
 ```
 
 example code
 
 ```v
+module main
 
+type Mysumtype = bool | f64 | int | string
+
+fn main() {
+	x := Mysumtype(3)
+	x2 := x as int // as must be used for sumtype
+	println(x2)
+}
 ```
-
-
 
 ### SizeOf
 
 AST struct
 
 ```v
-
+// the builtin sizeof function,can be used for type and variable
+pub struct SizeOf {
+pub:
+	is_type   bool // true, if argument is a type
+	typ       table.Type
+	type_name string
+	expr      Expr
+	pos       token.Position
+}
 ```
 
 example code
 
 ```v
+module main
 
+struct Point {
+	x int
+	y int
+}
+
+fn main() {
+	a := sizeof(int) // basic type
+	b := sizeof(bool) // basic type
+	p := Point{
+		x: 1
+		y: 2
+	}
+	s1 := sizeof(Point) // struct type
+	s2 := sizeof(p) // variable
+}
 ```
-
-
 
 ### TypeOf
 
 AST struct
 
 ```v
-
+//the builtin typeof function
+pub struct TypeOf {
+pub:
+	expr      Expr
+	pos       token.Position
+pub mut:
+	expr_type table.Type
+}
 ```
 
 example code
 
 ```v
+module main
+
+type MySumType = f32 | int
+
+fn myfn(i int) int {
+	return i
+}
+
+fn main() {
+	a := 123
+	s := 'abc'
+	aint := []int{}
+	astring := []string{}
+	println(typeof(a)) // int
+	println(typeof(s)) // string
+	println(typeof(aint)) // array_int
+	println(typeof(astring)) // array_string
+	// sumtype
+	sa := MySumType(32)
+	println(typeof(sa)) // int
+	// function type
+	println(typeof(myfn)) // fn (int) int
+}
 
 ```
-
-
 
 ## Array
 

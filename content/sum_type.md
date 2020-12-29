@@ -145,6 +145,20 @@ fn main() {
 
 ```
 
+### as类型转换
+
+```v
+module main
+
+type Mysumtype = bool | f64 | int | string
+
+fn main() {
+	x := Mysumtype(3)
+	x2 := x as int
+	println(x2)
+}
+```
+
 ### 联合类型嵌套
 
 联合类型还可以嵌套使用,支持更复杂的场景
