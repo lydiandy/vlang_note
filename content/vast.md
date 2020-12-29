@@ -560,11 +560,11 @@ pub:
 	pos      token.Position
 }
 
-// 'name: $name'
+// string literal with `$xx` or `${xxx}`, e.g. 'name: $name'
 pub struct StringInterLiteral {
 pub:
-	vals       []string
-	exprs      []Expr
+	vals       []string // the string literal will be split by `$xxx` in vals array
+	exprs      []Expr // all `$xxx` in string literal
 	fwidths    []int
 	precisions []int
 	pluss      []bool
@@ -600,7 +600,7 @@ fn main() {
 	b := 1.2 // float literal
 	c := 'abc' // string literal
   name:='tom'
-	age:= 33
+  age:= 33
   //string literal with `$xx` or `${xxx}`
 	s1 := 'a is $a,b is $b,c is $c' 
 	s2 := 'name is ${name}, age is ${age}'
@@ -997,22 +997,6 @@ fn main() {
 
 ```
 
-### ConcatExpr
-
-AST struct
-
-```v
-
-```
-
-example code
-
-```v
-
-```
-
-
-
 ### SelectorExpr
 
 AST struct
@@ -1062,42 +1046,43 @@ fn main() {
 
 ```
 
-### AtExpr
-
-AST struct
-
-```v
-
-```
-
-example code
-
-```v
-
-```
-
-
-
-### Likely
-
-AST struct
-
-```v
-
-```
-
-example code
-
-```v
-
-```
-
 ### ParExpr
 
 AST struct
 
 ```v
+// `(3+4)`
+pub struct ParExpr {
+pub:
+	expr Expr
+	pos  token.Position
+}
+```
 
+example code
+
+```v
+module main
+
+fn main() {
+	x:=(1+2)
+	y:=(1<2)
+}
+
+```
+
+### ConcatExpr
+
+AST struct
+
+```v
+pub struct ConcatExpr {
+pub:
+	vals        []Expr
+	pos         token.Position
+pub mut:
+	return_type table.Type
+}
 ```
 
 example code
@@ -1861,18 +1846,112 @@ example code
 
 
 
-## Comment
+## Other
 
 ### Commen
 
 AST struct
 
 ```v
-
+pub struct Comment {
+pub:
+	text     string
+	is_multi bool
+	line_nr  int
+	pos      token.Position
+}
 ```
 
 example code
 
 ```v
+module main
 
+/*
+multi line comment
+multi line comment
+*/
+// signle line comment
+fn main() {
+	x := 1 // behind statement comment
+}
+```
+
+### AtExpr
+
+AST struct
+
+```v
+// @FN, @STRUCT, @MOD etc. See full list in token.valid_at_tokens
+pub struct AtExpr {
+pub:
+	name string
+	pos  token.Position
+	kind token.AtKind
+pub mut:
+	val  string
+}
+pub enum AtKind {
+	unknown
+	fn_name
+	mod_name
+	struct_name
+	vexe_path
+	file_path
+	line_nr
+	column_nr
+	vhash
+	vmod_file
+}
+```
+
+example code
+
+```v
+module main
+
+fn main() {
+	println(@MOD)
+	println(@FN)
+	println(@STRUCT)
+	println(@VEXE)
+	println(@FILE)
+	println(@LINE)
+	println(@COLUMN)
+	println(@VHASH)
+	println(@VMOD_FILE)
+}
+```
+
+### Likely
+
+AST struct
+
+```v
+pub struct Likely {
+pub:
+	expr      Expr
+	pos       token.Position
+	is_likely bool // false for _unlikely_
+}
+```
+
+example code
+
+```v
+module main
+
+fn main() {
+	x := 1
+	if _likely_(x == 1) {
+		println('a')
+	} else {
+		println('b')
+	}
+	if _unlikely_(x == 1) {
+		println('a')
+	} else {
+		println('b')
+	}
+}
 ```
