@@ -1335,49 +1335,246 @@ fn defer_fn2() {
 
 ### StructDecl
 
+#### StructDecl
+
 AST struct
 
 ```v
+// struct declaration
+pub struct StructDecl {
+pub:
+	pos          token.Position
+	name         string
+	gen_types    []table.Type
+	is_pub       bool
+	mut_pos      int // mut:
+	pub_pos      int // pub:
+	pub_mut_pos  int // pub mut:
+	language     table.Language
+	is_union     bool // if true,will generate C union,instead of struct
+	attrs        []table.Attr
+	end_comments []Comment
+	embeds       []Embed
+pub mut:
+	fields       []StructField
+}
+```
 
+#### StructField
+
+AST struct
+
+```v
+pub struct StructField {
+pub:
+	pos              token.Position
+	type_pos         token.Position
+	comments         []Comment
+	default_expr     Expr
+	has_default_expr bool
+	attrs            []table.Attr
+	is_public        bool
+pub mut:
+	name             string
+	typ              table.Type
+}
+```
+
+#### Embed
+
+AST struct
+
+```v
+// struct embed
+pub struct Embed {
+pub:
+	typ table.Type
+	pos token.Position
+}
 ```
 
 example code
 
 ```v
+module main
 
+[attr1]
+[attr2]
+struct Point { //comment 1
+mut:
+	x int [attr3]
+	y int ['attr4=123']
+pub mut:
+	z int = 1
+//end comment
+}
+
+fn main() {
+}
+```
+
+example code of  embed
+
+```v
+module main
+
+struct Widget {
+mut:
+	x int
+	y int
+}
+
+pub fn (mut w Widget) move(x_step int, y_step int) {
+	w.x += x_step
+	w.y += y_step
+}
+
+struct Widget2 {
+mut:
+	z int
+}
+
+pub fn (mut w Widget2) move_z(z_step int) {
+	w.z += z_step
+}
+
+struct Button {
+	Widget //embed
+	Widget2 //embed
+	title string
+}
+
+fn main() {
+	mut button := Button{
+		title: 'Click me'
+	}
+	button.x = 3 // x comes from Widget
+	button.z = 4 // z comes from Widget2
+	println('x:$button.x,y:$button.y,z:$button.z')
+	button.move(3, 4) // move comes from Widget
+	println('x:$button.x,y:$button.y,z:$button.z')
+	button.move_z(5) // move_z comes from Widget2
+	println('x:$button.x,y:$button.y,z:$button.z')
+}
 ```
 
 ### StructInit
 
+#### StructInit
+
 AST struct
 
 ```v
-
+// struct initial
+pub struct StructInit {
+pub:
+	pos          token.Position
+	is_short     bool
+	pre_comments []Comment
+pub mut:
+	typ          table.Type
+	fields       []StructInitField
+	embeds       []StructInitEmbed
+}
 ```
 
-example code
+#### StructInitField
 
 ```v
-
+pub struct StructInitField {
+pub:
+	expr          Expr
+	pos           token.Position
+	comments      []Comment
+	next_comments []Comment
+pub mut:
+	name          string
+	typ           table.Type
+	expected_type table.Type
+}
 ```
 
+#### StructInitEmbed
 
+```v
+pub struct StructInitEmbed {
+pub:
+	expr          Expr
+	pos           token.Position
+	comments      []Comment
+	next_comments []Comment
+pub mut:
+	name          string
+	typ           table.Type
+	expected_type table.Type
+}
+```
+
+example code 
+
+```v
+module main
+
+struct User {
+	name string
+	age int
+}
+
+fn add(u User) {
+	println(u)
+}
+
+fn main(){
+	add(User{name:'jack',age:22}) //standard
+	add({name:'tom',age:23}) //short
+	add(name:'tt',age:33) // more short
+}
+```
 
 ### Assoc
 
 AST struct
 
 ```v
-
+// create new variable by associate variable,`new_var := { var_name | key: val, key: val }`
+pub struct Assoc {
+pub:
+	var_name string // `var_name`
+	fields   []string // `key`
+	exprs    []Expr // `val`
+	pos      token.Position
+pub mut:
+	typ      table.Type
+	scope    &Scope
+}
 ```
 
 example code
 
 ```v
+struct Foo {
+	a int
+	b int
+	c int = 7
+}
+
+fn main() {
+	foo := Foo{
+		a: 1
+		b: 33
+	}
+	//associate
+	foo2 := {
+		foo |
+		a: 42
+		b: 10
+	}
+	println(foo2.a) // 42
+	println(foo2.b) // 10
+	println(foo2.c) // 7
+}
 
 ```
-
-
 
 ## Interface
 
@@ -1386,16 +1583,28 @@ example code
 AST struct
 
 ```v
-
+// interface declaration
+pub struct InterfaceDecl {
+pub:
+	is_pub       bool
+	name         string
+	field_names  []string
+	methods      []FnDecl // methods need to be implemented
+	pos          token.Position
+	pre_comments []Comment
+}
 ```
 
 example code
 
 ```v
+module main
 
+interface Speaker { //comment 1
+	speak() string
+	silent()
+}
 ```
-
-
 
 ## Type
 
@@ -2296,10 +2505,17 @@ fn main() {
 AST struct
 
 ```v
-
+// CTempVar is used in cgen only, to hold nodes for temporary variables
+pub struct CTempVar {
+pub:
+	name   string // the name of the C temporary variable; used by g.expr(x)
+	orig   Expr // the original expression, which produced the C temp variable; used by x.str()
+	typ    table.Type // the type of the original expression
+	is_ptr bool // whether the type is a pointer
+}
 ```
 
-example code
+example code(todo)
 
 ```v
 
