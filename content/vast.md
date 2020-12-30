@@ -1607,7 +1607,7 @@ pub mut:
 }
 ```
 
-example code( todo: need find usage)
+example code(todo)
 
 ```v
 
@@ -2104,6 +2104,62 @@ fn test_abc() {
 
 ## Compile time
 
+### CompFor
+
+AST struct
+
+```v
+//compile time for,`$for {}`
+pub struct CompFor {
+pub:
+	val_var string
+	stmts   []Stmt
+	kind    CompForKind
+	pos     token.Position
+pub mut:
+	// expr    Expr
+	typ     table.Type
+}
+```
+
+example code
+
+```v
+struct App {
+	a string
+	b string
+mut:
+	c int
+	d f32
+pub:
+	e f32
+	f u64
+pub mut:
+	g string
+	h byte
+}
+
+fn (mut app App) m1() {
+}
+
+fn (mut app App) m2() {
+}
+
+fn (mut app App) m3() int {
+	return 0
+}
+
+fn main() {
+	$for field in App.fields {
+		println('field: $field.name')
+	}
+	$for method in App.methods {
+		println('method: $method.name')
+	}
+}
+
+```
+
 ### ComptimeCall
 
 AST struct
@@ -2112,29 +2168,11 @@ AST struct
 
 ```
 
-example code
+example code(todo)
 
 ```v
 
 ```
-
-
-
-### CompFor
-
-AST struct
-
-```v
-
-```
-
-example code
-
-```v
-
-```
-
-
 
 ## C Integration
 
@@ -2143,32 +2181,115 @@ example code
 AST struct
 
 ```v
+pub struct GlobalField {
+pub:
+	name     string
+	expr     Expr
+	has_expr bool
+	pos      token.Position
+pub mut:
+	typ      table.Type
+	comments []Comment
+}
 
+// global valiable declaration
+pub struct GlobalDecl {
+pub:
+	pos          token.Position
+pub mut:
+	fields       []GlobalField
+	end_comments []Comment
+}
 ```
 
 example code
 
 ```v
+module main
 
+// single
+__global ( g1 int )
+
+// group
+__global (
+	g2 byteptr 
+	g3 byteptr 
+)
+
+fn main() {
+	g1 = 123
+	println(g1)
+	println(g2)
+	println(g3)
+}
 ```
-
-
 
 ### HashStmt
 
 AST struct
 
 ```v
-
+// #include etc
+pub struct HashStmt {
+pub:
+	mod  string
+	pos  token.Position
+pub mut:
+	val  string // example: 'include <openssl/rand.h> # please install openssl // comment'
+	kind string // : 'include'
+	main string // : '<openssl/rand.h>'
+	msg  string // : 'please install openssl'
+}
 ```
 
 example code
 
 ```v
+module main
+    
+#include <stdio.h> 
 
+#flag -lmysqlclient
+#flag linux -I/usr/include/mysql
+#include <mysql.h>
+
+fn main() {
+
+}
 ```
 
+### Likely
 
+AST struct
+
+```v
+pub struct Likely {
+pub:
+	expr      Expr
+	pos       token.Position
+	is_likely bool // false for _unlikely_
+}
+```
+
+example code
+
+```v
+module main
+
+fn main() {
+	x := 1
+	if _likely_(x == 1) {
+		println('a')
+	} else {
+		println('b')
+	}
+	if _unlikely_(x == 1) {
+		println('a')
+	} else {
+		println('b')
+	}
+}
+```
 
 ### CTempVar
 
@@ -2264,21 +2385,6 @@ fn main() {
 	println(@VMOD_FILE)
 }
 ```
-
-### Likely
-
-AST struct
-
-```v
-pub struct Likely {
-pub:
-	expr      Expr
-	pos       token.Position
-	is_likely bool // false for _unlikely_
-}
-```
-
-example code
 
 ```v
 module main

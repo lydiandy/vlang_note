@@ -175,6 +175,37 @@ pub fn width() int {
 
 ```
 
+### 启用全局变量
+
+默认情况下编译器是没有全局变量声明的,但是为了跟C代码集成,有时候需要定义全局变量,可以在调用编译器时,通过增加 -enable-globals选项来启用
+
+```
+v -enable-globals run main.v
+```
+
+```v
+module main
+
+// 单个全局变量定义
+__global ( g1 int )
+
+// 组定义全局变量,类似常量的定义
+__global (
+	g2 byteptr 
+	g3 byteptr 
+)
+
+fn main() {
+	g1 = 123
+	println(g1)
+	println(g2)
+	println(g3)
+}
+
+```
+
+
+
 ### 函数的[inline]标注
 
 对C函数进行简单的封装时,可以给函数添加inline标注,编译生成C代码时,这个函数就会变成C语言里的static inline函数
