@@ -2,9 +2,7 @@
 
 ## Overview
 
-
-
-AST Sumtype:
+The Vlang abstract syntax tree is implemented by sum type. the following is declaration:
 
 ```v
 pub type TypeDecl = AliasTypeDecl | FnTypeDecl | SumTypeDecl
@@ -26,7 +24,7 @@ All the AST struct declarations can be found in V source code: [vlib/v/ast/ast.v
 
 ## AST tool
 
-If you are new of Vlang AST, You can install the [vast tool](https://github.com/lydiandy/vast). It can generate example code to AST json format.
+If you are new to Vlang AST, You can install the [vast tool](https://github.com/lydiandy/vast). It can generate example code to AST json file.
 
 The json file can help you more understand the AST.
 
@@ -1335,8 +1333,6 @@ fn defer_fn2() {
 
 ### StructDecl
 
-#### StructDecl
-
 AST struct
 
 ```v
@@ -1360,7 +1356,7 @@ pub mut:
 }
 ```
 
-#### StructField
+### StructField
 
 AST struct
 
@@ -1380,7 +1376,7 @@ pub mut:
 }
 ```
 
-#### Embed
+### Embed
 
 AST struct
 
@@ -1460,8 +1456,6 @@ fn main() {
 
 ### StructInit
 
-#### StructInit
-
 AST struct
 
 ```v
@@ -1478,7 +1472,7 @@ pub mut:
 }
 ```
 
-#### StructInitField
+### StructInitField
 
 ```v
 pub struct StructInitField {
@@ -1494,7 +1488,7 @@ pub mut:
 }
 ```
 
-#### StructInitEmbed
+### StructInitEmbed
 
 ```v
 pub struct StructInitEmbed {
