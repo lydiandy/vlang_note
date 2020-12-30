@@ -2167,7 +2167,7 @@ fn main() {
 AST struct
 
 ```v
-//channel initial
+// concurrent channel initial
 pub struct ChanInit {
 pub:
 	pos       token.Position
@@ -2537,7 +2537,16 @@ fn main() {
 AST struct
 
 ```v
-
+pub struct ComptimeCall {
+pub:
+	method_name string
+	left        Expr
+	is_vweb     bool
+	vweb_tmpl   File
+	args_var    string
+pub mut:
+	sym         table.TypeSymbol
+}
 ```
 
 example code(todo)
