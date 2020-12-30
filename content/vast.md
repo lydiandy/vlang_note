@@ -1493,21 +1493,35 @@ type MySumtype = User | int | string //comment 1
 
 ### Block
 
-Block
-
 AST struct
 
 ```v
-
+// `{stmts}` or `unsafe {stmts}`
+pub struct Block {
+pub:
+	stmts     []Stmt
+	is_unsafe bool
+	pos       token.Position
+}
 ```
 
 example code
 
 ```v
+fn main() {
+	my_fn()
+}
 
+fn my_fn() {
+	// block
+	{
+		println('in block')
+	}
+	// unsafe block
+	unsafe {
+	}
+}
 ```
-
-
 
 ### if
 
@@ -2016,16 +2030,18 @@ example code
 AST struct
 
 ```v
-
+pub struct UnsafeExpr {
+pub:
+	expr Expr
+	pos  token.Position
+}
 ```
 
-example code
+example code(todo)
 
 ```v
 
 ```
-
-
 
 ## SQL
 
