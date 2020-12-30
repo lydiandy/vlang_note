@@ -2167,64 +2167,150 @@ fn main() {
 AST struct
 
 ```v
-
+//channel initial
+pub struct ChanInit {
+pub:
+	pos       token.Position
+	cap_expr  Expr
+	has_cap   bool
+pub mut:
+	typ       table.Type
+	elem_type table.Type
+}
 ```
-
-example code
-
-```v
-
-```
-
-
 
 ### GoStmt
 
 AST struct
 
 ```v
-
+// concurrent go statement
+pub struct GoStmt {
+pub:
+	call_expr Expr
+	pos       token.Position
+}
 ```
 
 example code
 
 ```v
+module main
 
+const (
+	num_iterations = 10000
+)
+
+fn do_send(ch chan int) {
+	for i in 0 .. num_iterations {
+		ch <- i
+	}
+}
+
+fn main() {
+	ch := chan int{cap: 1000} // chan init
+	go do_send(ch) // go statement
+	mut sum := i64(0)
+	for _ in 0 .. num_iterations {
+		sum += <-ch
+		println(sum)
+	}
+}
 ```
-
-
 
 ### SelectExpr
 
 AST struct
 
 ```v
+//concurrent select statement
+pub struct SelectExpr {
+pub:
+	branches      []SelectBranch
+	pos           token.Position
+	has_exception bool
+pub mut:
+	is_expr       bool // returns a value
+	expected_type table.Type // for debugging only
+}
+```
 
+### SelectBranch
+
+AST struct
+
+```v
+pub struct SelectBranch {
+pub:
+	stmt          Stmt // `a := <-ch` or `ch <- a`
+	stmts         []Stmt // right side
+	pos           token.Position
+	comment       Comment // comment above `select {`
+	is_else       bool
+	is_timeout    bool
+	post_comments []Comment
+}
 ```
 
 example code
 
 ```v
+import time
+import sync
 
+fn main() {
+	ch1 := chan int{}
+	ch2 := chan int{}
+	go send(ch1, ch2)
+	mut x := 0
+	mut y := 0
+	for {
+		select { // 
+			x = <-ch1 { // read channel
+				println('$x')
+			}
+			y = <-ch2 {
+				println('$y')
+			}
+			> 2 * time.second { // timeout
+				break
+			}
+		}
+	}
+}
+
+fn send(ch1 chan int, ch2 chan int) {
+	ch1 <- 1
+	ch2 <- 2
+	ch1 <- 3
+	ch2 <- 4
+	ch1 <- 5
+	ch2 <- 6
+}
 ```
-
-
 
 ### LockExpr
 
 AST struct
 
 ```v
-
+pub struct LockExpr {
+pub:
+	stmts    []Stmt
+	is_rlock bool
+	pos      token.Position
+pub mut:
+	lockeds  []Ident // `x`, `y` in `lock x, y {`
+	is_expr  bool
+	typ      table.Type
+}
 ```
 
-example code
+example code(todo)
 
 ```v
 
 ```
-
-
 
 ## Unsafe
 
@@ -2253,32 +2339,115 @@ example code(todo)
 AST struct
 
 ```v
-
+// sql statement: insert, update, delete
+pub struct SqlStmt {
+pub:
+	kind            SqlStmtKind
+	db_expr         Expr // `db` in `sql db {`
+	object_var_name string // `user`
+	table_type      table.Type
+	pos             token.Position
+	where_expr      Expr
+	updated_columns []string // for `update set x=y`
+	update_exprs    []Expr // for `update`
+pub mut:
+	table_name      string
+	fields          []table.Field
+}
 ```
-
-example code
-
-```v
-
-```
-
-
 
 ### SqlExpr
 
 AST struct
 
 ```v
-
+// sql select statement
+pub struct SqlExpr {
+pub:
+	typ         table.Type
+	is_count    bool
+	db_expr     Expr // `db` in `sql db {`
+	where_expr  Expr
+	has_where   bool
+	has_offset  bool
+	offset_expr Expr
+	has_order   bool
+	order_expr  Expr
+	has_desc    bool
+	is_array    bool
+	table_type  table.Type
+	pos         token.Position
+	has_limit   bool
+	limit_expr  Expr
+pub mut:
+	table_name  string
+	fields      []table.Field
+}
 ```
 
 example code
 
 ```v
+module main
+
+import sqlite
+
+struct Module {
+	id           int
+	name         string
+	nr_downloads int
+}
+
+struct User {
+	id             int
+	age            int
+	name           string
+	is_customer    bool
+	skipped_string string [skip]
+}
+
+struct Foo {
+	age int
+}
+
+fn main() {
+	db := sqlite.connect(':memory:') or { panic(err) }
+	db.exec('drop table if exists User')
+	db.exec("create table User (id integer primary key, age int default 0, name text default '', is_customer int default 0);")
+	name := 'Peter'
+	db.exec("insert into User (name, age) values ('Sam', 29)")
+	db.exec("insert into User (name, age) values ('Peter', 31)")
+	db.exec("insert into User (name, age, is_customer) values ('Kate', 30, 1)")
+	nr_all_users := sql db {
+		select count from User
+	}
+	println('nr_all_users=$nr_all_users')
+	//
+	nr_users1 := sql db {
+		select count from User where id == 1
+	}
+	println('nr_users1=$nr_users1')
+	//
+	nr_peters := sql db {
+		select count from User where id == 2 && name == 'Peter'
+	}
+	//
+	new_user := User{
+		name: 'New user'
+		age: 30
+	}
+	sql db {
+		insert new_user into User
+	}
+	sql db {
+		update User set age = 31 where name == 'Kate'
+	}
+	sql db {
+		delete from User where age == 34
+	}
+}
 
 ```
-
-
 
 ## Test
 
