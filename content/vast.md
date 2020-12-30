@@ -1081,10 +1081,14 @@ pub mut:
 }
 ```
 
-example code(todo: do not find usage)
+example code
 
 ```v
-
+	a, b, c := match false {
+		true { 1, 2, 3 }
+		false { 4, 5, 6 }
+		else { 7, 8, 9 }
+	}
 ```
 
 ## Function/Method
@@ -1507,169 +1511,371 @@ example code
 
 ### if
 
-IfExpr
+#### IfExpr
 
 AST struct
 
 ```v
+// if statement or expr
+pub struct IfExpr {
+pub:
+	is_comptime   bool // true, if it is `$if`
+	tok_kind      token.Kind
+	left          Expr // `a` in `a := if ...`
+	pos           token.Position
+	post_comments []Comment
+pub mut:
+	branches      []IfBranch // includes all `else if` branches
+	is_expr       bool
+	typ           table.Type
+	has_else      bool
+}
+```
 
+#### IfBranch
+
+AST struct
+
+```v
+pub struct IfBranch {
+pub:
+	cond      Expr
+	pos       token.Position
+	body_pos  token.Position
+	comments  []Comment
+pub mut:
+	stmts     []Stmt
+	smartcast bool // true when cond is `x is SumType`, set in checker.if_expr // no longer needed with union sum types TODO: remove
+	scope     &Scope
+}
 ```
 
 example code
 
 ```v
+module main
 
+fn main() {
+	a := 10
+	b := 20
+	// if statement
+	if a < b {
+		println('$a < $b')
+	} else if a > b {
+		println('$a > $b')
+	} else {
+		println('$a == $b')
+	}
+	// if expr
+	num := 777
+	s := if num % 2 == 0 { 'even' } else { 'odd' }
+	x, y, z := if true { 1, 'awesome', 13 } else { 0, 'bad', 0 }
+	// compile time if 
+	$if macos {
+	} $else {
+	}
+}
 ```
 
-
-
-IfGuardExpr
+#### IfGuardExpr
 
 AST struct
 
 ```v
-
+// `if [x := opt()] {`
+pub struct IfGuardExpr {
+pub:
+	var_name  string
+	expr      Expr
+	pos       token.Position
+pub mut:
+	expr_type table.Type
+}
 ```
 
-example code
+example code( todo: need find usage)
 
 ```v
 
 ```
-
-
 
 ### match
 
-MatchExpr
+#### MatchExpr
 
 AST struct
 
 ```v
+// match statement or expr
+pub struct MatchExpr {
+pub:
+	tok_kind      token.Kind
+	cond          Expr
+	branches      []MatchBranch
+	pos           token.Position
+pub mut:
+	is_expr       bool // returns a value
+	return_type   table.Type
+	cond_type     table.Type // type of `x` in `match x {`
+	expected_type table.Type // for debugging only
+	is_sum_type   bool // true, if match sum type valiable
+}
+```
 
+#### MatchBranch
+
+AST struct
+
+```v
+pub struct MatchBranch {
+pub:
+	exprs         []Expr // left side
+	ecmnts        [][]Comment // inline comments for each left side expr
+	stmts         []Stmt // right side
+	pos           token.Position
+	comments      []Comment // comment above `xxx {`
+	is_else       bool
+	post_comments []Comment
+pub mut:
+	scope         &Scope
+}
 ```
 
 example code
 
 ```v
+fn main() {
+	os := 'macos'
+	// match statement
+	match os {
+		'windows' { println('windows') }
+		'macos', 'linux' { println('macos or linux') }
+		else { println('unknow') }
+	}
+	// match expr
+	price := match os {
+		'windows' { 100 }
+		'linux' { 120 }
+		'macos' { 150 }
+		else { 0 }
+	}
+	// multi assign 
+	a, b, c := match false {
+		true { 1, 2, 3 }
+		false { 4, 5, 6 }
+		else { 7, 8, 9 }
+	}
+}
 
-```
+type MySum = bool | int | string
 
-
-
-BranchStmt
-
-AST struct
-
-```v
-
-```
-
-example code
-
-```v
-
+pub fn (ms MySum) str() string {
+	// match sum type
+	match ms {
+		int { return ms.str() }
+		string { return ms }
+		else { return 'unknown' }
+	}
+}
 ```
 
 
 
 ### for
 
-ForCStmt
+#### ForCStmt
 
 AST struct
 
 ```v
-
+pub struct ForCStmt {
+pub:
+	init     Stmt // i := 0;
+	has_init bool
+	cond     Expr // i < 10;
+	has_cond bool
+	inc      Stmt // i++; i += 2
+	has_inc  bool
+	stmts    []Stmt
+	pos      token.Position
+pub mut:
+	label    string // `label: for {`
+	scope    &Scope
+}
 ```
 
 example code
 
 ```v
-
+fn main() {
+	for i := 0; i < 10; i++ {
+		if i == 6 {
+			continue
+		}
+		if i == 10 {
+			break
+		}
+		println(i)
+	}
+}
 ```
 
-
-
-ForInStmt
+#### ForInStmt
 
 AST struct
 
 ```v
-
+pub struct ForInStmt {
+pub:
+	key_var    string
+	val_var    string
+	cond       Expr
+	is_range   bool
+	high       Expr // `10` in `for i in 0..10 {`
+	stmts      []Stmt
+	pos        token.Position
+	val_is_mut bool // `for mut val in vals {` means that modifying `val` will modify the array
+	// and the array cannot be indexed inside the loop
+pub mut:
+	key_type   table.Type
+	val_type   table.Type
+	cond_type  table.Type
+	kind       table.Kind // array/map/string
+	label      string // `label: for {`
+	scope      &Scope
+}
 ```
 
 example code
 
 ```v
-
+fn main() {
+	// string
+	str := 'abcdef'
+	for s in str {
+		println(s.str())
+	}
+	// array
+	numbers := [1, 2, 3, 4, 5]
+	for num in numbers {
+		println('num:$num')
+	}
+	// range
+	mut sum := 0
+	for i in 1 .. 11 {
+		sum += i
+	}
+	// map
+	m := {
+		'name': 'jack'
+		'age':  '20'
+		'desc': 'good man'
+	}
+	for key, value in m {
+		println('key:$key,value:$value')
+	}
+}
 ```
 
-
-
-ForStmt
+#### ForStmt
 
 AST struct
 
 ```v
-
+pub struct ForStmt {
+pub:
+	cond   Expr
+	stmts  []Stmt
+	is_inf bool // `for {}`
+	pos    token.Position
+pub mut:
+	label  string // `label: for {`
+	scope  &Scope
+}
 ```
 
 example code
 
 ```v
-
+fn main() {
+	mut sum := 0
+	mut x := 0
+	for x <= 100 {
+		sum += x
+		x++
+	}
+	println(sum)
+	// label for
+	mut i := 4
+	goto L1
+	L1: for { // label for
+		i++
+		for {
+			if i < 7 {
+				continue L1
+			} else {
+				break L1
+			}
+		}
+	}
+}
 ```
 
+#### BranchStmt
 
+AST struct
+
+```V
+// break, continue
+pub struct BranchStmt {
+pub:
+	kind  token.Kind
+	label string // use in label for, `x` in `continue x` or `break x`
+	pos   token.Position
+}
+```
 
 ### goto
 
-GotoLabel
+#### GotoLabel
 
 AST struct
 
 ```v
+// goto label
+pub struct GotoLabel {
+pub:
+	name string
+	pos  token.Position
+}
+```
 
+#### GotoStmt
+
+AST struct
+
+```v
+// goto statement
+pub struct GotoStmt {
+pub:
+	name string
+	pos  token.Position
+}
 ```
 
 example code
 
 ```v
-
+fn main() {
+	mut i := 0
+	a: // goto label
+	i++
+	if i < 3 {
+		goto a
+	}
+	println(i)
+}
 ```
-
-
-
-GotoStmt
-
-AST struct
-
-```v
-
-```
-
-example code
-
-```v
-
-```
-
-
-
-AST struct
-
-```v
-
-```
-
-example code
-
-```v
-
-```
-
-
 
 ## Error handle
 
@@ -1679,9 +1885,9 @@ AST struct
 
 ```v
 pub enum OrKind {
-	absent
-	block
-	propagate
+	absent // `fn()`
+	block // `fn() or { }`
+	propagate // `fn()?`
 }
 
 // `or { ... }`

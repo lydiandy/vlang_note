@@ -3,14 +3,18 @@
 ### if条件语句
 
 ```v
-a := 10
-b := 20
-if a < b {
-	println('$a < $b')
-} else if a > b {
-	println('$a > $b')
-} else {
-	println('$a == $b')
+module main
+
+fn main() {
+	a := 10
+	b := 20
+	if a < b {
+		println('$a < $b')
+	} else if a > b {
+		println('$a > $b')
+	} else {
+		println('$a == $b')
+	}
 }
 ```
 
@@ -35,36 +39,27 @@ println(c)
 match要求穷尽所有可能,所以基本都要带上else语句
 
 ```v
-os:='macos'
-match os {
-	'windows' {
-    	println('windows')
-	}
-	'linux' {
-    	println('linux')
-	}
-	'macos' {
-    	println('macos')
-	}
-	else  {
-   	 println('unknow')
+fn main() {
+	os := 'macos'
+	match os {
+		'windows' { println('windows') }
+		'linux' { println('linux') }
+		'macos' { println('macos') }
+		else { println('unknow') }
 	}
 }
+
 ```
 
 匹配的值也可以多个,用逗号分隔:
 
 ```v
-os:='macos'
-match os {
-	'windows' {
-    	println('windows')
-	}
-	'macos','linux' {
-    	println('macos or linux')
-	}
-	else  {
-   	 println('unknow')
+fn main() {
+	os := 'macos'
+	match os {
+		'windows' { println('windows') }
+		'macos', 'linux' { println('macos or linux') }
+		else { println('unknow') }
 	}
 }
 ```
