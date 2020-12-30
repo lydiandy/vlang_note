@@ -2,7 +2,9 @@
 
 ## Overview
 
-### AST sumtype
+
+
+AST Sumtype:
 
 ```v
 pub type TypeDecl = AliasTypeDecl | FnTypeDecl | SumTypeDecl
@@ -22,10 +24,6 @@ pub type Stmt = AssertStmt | AssignStmt | Block | BranchStmt | CompFor | ConstDe
 
 All the AST struct declarations can be found in V source code: [vlib/v/ast/ast.v](https://github.com/vlang/v/blob/master/vlib/v/ast/ast.v)
 
-### Diagram
-
-
-
 ## AST tool
 
 If you are new of Vlang AST, You can install the [vast tool](https://github.com/lydiandy/vast). It can generate example code to AST json format.
@@ -38,8 +36,6 @@ vast example.v       //generate example.json file and exit.
 vast -w example.v    //generate example.json and watch,if file change,regenerate.
 
 ```
-
-
 
 ## File
 
@@ -521,7 +517,7 @@ pub mut:
 }
 ```
 
-example code(need more)
+example code(todo: need more kind)
 
 ```v
 module main
@@ -1085,13 +1081,11 @@ pub mut:
 }
 ```
 
-example code
+example code(todo: do not find usage)
 
 ```v
 
 ```
-
-
 
 ## Function/Method
 
@@ -1157,30 +1151,6 @@ pub mut:
 	free_receiver      bool // true if the receiver expression needs to be freed
 	scope              &Scope
 	from_embed_type    table.Type // holds the type of the embed that the method is called from
-}
-
-//function call argument
-pub struct CallArg {
-pub:
-	is_mut          bool
-	share           table.ShareType
-	expr            Expr
-	comments        []Comment
-pub mut:
-	typ             table.Type
-	is_tmp_autofree bool // this tells cgen that a tmp variable has to be used for the arg expression in order to free it after the call
-	pos             token.Position
-	// tmp_name        string // for autofree
-}
-
-//return statement
-pub struct Return {
-pub:
-	pos      token.Position
-	exprs    []Expr
-	comments []Comment
-pub mut:
-	types    []table.Type
 }
 ```
 
@@ -1430,45 +1400,87 @@ example code
 AST struct
 
 ```v
-
+//Alias type declaration
+pub struct AliasTypeDecl {
+pub:
+	name        string
+	is_pub      bool
+	parent_type table.Type
+	pos         token.Position
+	comments    []Comment
+}
 ```
 
 example code
 
 ```v
+module main
 
+struct Human {
+	name string
+}
+type Myint =  int /*comment 1*/ //comment 2
+type Person = Human
 ```
-
-
 
 ### Function Type
 
 AST struct
 
 ```v
-
+// function type declaration
+pub struct FnTypeDecl {
+pub:
+	name     string
+	is_pub   bool
+	typ      table.Type
+	pos      token.Position
+	comments []Comment
+}
 ```
 
 example code
 
 ```v
+module main
 
+type Mid_fn = fn (int, string) int /*comment 1*/ //comment 2
 ```
 
-
-
-### SumType
+### Sum  type
 
 AST struct
 
 ```v
+// sum type declaration
+pub struct SumTypeDecl {
+pub:
+	name     string
+	is_pub   bool
+	pos      token.Position
+	comments []Comment
+pub mut:
+	variants []SumTypeVariant
+}
 
+pub struct SumTypeVariant {
+pub:
+	typ table.Type
+	pos token.Position
+}
 ```
 
 example code
 
 ```v
+module main
 
+struct User {
+	name string
+	age  int
+}
+
+type MySumtype = User | int | string //comment 1
 ```
 
 
@@ -1666,32 +1678,64 @@ example code
 AST struct
 
 ```v
+pub enum OrKind {
+	absent
+	block
+	propagate
+}
 
+// `or { ... }`
+pub struct OrExpr {
+pub:
+	stmts []Stmt
+	kind  OrKind
+	pos   token.Position
+}
 ```
-
-example code
-
-```v
-
-```
-
-
 
 ### None
 
 AST struct
 
 ```v
-
+pub struct None {
+pub:
+	pos token.Position
+	foo int // todo
+}
 ```
 
 example code
 
 ```v
+fn my_fn(i int) ?int {
+	if i == 0 {
+		return error('Not ok!')
+	}
+	if i == 1 {
+		return none
+	}
+	return i
+}
+
+fn main() {
+	println('from main') // OrKind is absent
+	v1 := my_fn(0) or { // OrKind is block
+		println('from 0')
+		panic(err)
+	}
+	v2 := my_fn(1) or { 
+		println('from 1') 
+		panic('error msg is $err')	
+	}
+	v3 := my_fn(2) or {
+		println('from 2')
+		return
+	}
+	v4 := my_fn(3) ? // OrKind is propagate
+}
 
 ```
-
-
 
 ## Concurrent
 
