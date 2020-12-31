@@ -78,6 +78,29 @@ fn main() {
 
 ```
 
+数组可以传递给不确定参数函数,不确定参数函数之间也可以传递参数
+
+```v
+module main
+
+fn main() {
+	a := ['a', 'b', 'c'] 
+	println(variadic_fn_a(a...)) //数组可以传递给不确定参数函数
+}
+
+fn variadic_fn_a(a ...string) string {
+	return variadic_fn_b(a...) //不确定参数函数之间可以传递参数
+}
+
+fn variadic_fn_b(a ...string) string {
+	a0 := a[0]
+	a1 := a[1]
+	a2 := a[2]
+	return '$a0$a1$a2'
+}
+
+```
+
 ### 函数返回值
 
 函数的返回值可以是单返回值,也可以是多返回值
