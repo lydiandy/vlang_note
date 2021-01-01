@@ -67,7 +67,7 @@
 
     返回文件的扩展名，如果没有则返回空字符串
 
-- filename(path string) string
+- file_name(path string) string
 
     返回路径中的文件名部分
 
