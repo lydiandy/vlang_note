@@ -89,6 +89,38 @@ fn main() {
 
 ```
 
+### 错误处理
+
+可以在读写channel中增加or代码块,实现错误处理
+
+```v
+module main
+
+const n = 1000
+
+const c = 100
+
+fn f(ch chan int) {
+	for _ in 0 .. n {
+		_ := <-ch
+	}
+	ch.close()
+}
+
+fn main() {
+	ch := chan int{cap: c}
+	go f(ch)
+	mut j := 0
+	for {
+		ch <- j or {  //错误处理
+			break 
+		}
+    // ch <-j ? //向上抛转错误
+		j++
+	}
+}
+```
+
 ### 关闭channel
 
 ```v
