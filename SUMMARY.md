@@ -33,6 +33,7 @@
 * [代码测试](content/test.md)
 * [文档生成](content/doc.md)
 * [条件编译/跨平台编译](content/crossplatform.md)
+* [编译时反射](content/comptime.md)
 * [包管理器](content/package.md)
 * [单个V文件](content/singlev.md)
 * [Vscript](content/shell.md)
@@ -82,7 +83,7 @@
 * [stbi](content/stbi.md)
 * [clipboard](content/clipboard.md)
 * --
-* V[语法树](content/vast.md)
+* [V语法树](content/vast.md)
 * [V编译器源代码](content/compiler.md)
 * [生成C代码](content/genc.md)
 * --

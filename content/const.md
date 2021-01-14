@@ -23,6 +23,10 @@ const (
 	my_int_const = 123
 )
 
+//也可以定义单个常量
+const pi = 3.14
+pub const single_const = 'abc'
+
 fn my_fn() {
 	//不能在函数内部定义常量
 }

@@ -88,6 +88,8 @@ fn main() {
 
 结构体变量基于另一个变量创建,同时合并新的字段值
 
+目前有2种方式,估计会保留第2种
+
 ```v
 struct Foo {
 	a int
@@ -107,6 +109,46 @@ fn main() {
 	println(foo2.b) //输出未改变的值33
 }
 
+```
+
+```v
+module main
+
+struct City {
+	name       string
+	population int
+}
+
+struct Country {
+	name    string
+	capital City
+}
+
+fn main() {
+	c := Country{
+		name: 'test'
+		capital: City{
+			name: 'city'
+		}
+	}
+	c2 := Country{
+		...c  //第2种方式
+		capital: City{
+			name: 'city2'
+			population: 200
+		}
+	}
+	c3 := {
+		c | //第1种方式
+		name: 'test3'
+		captial: City{
+		name: 'city3'
+		population: 300
+	}
+	}
+	println(c2)
+	println(c3)
+}
 ```
 
 短字面量创建结构体变量
