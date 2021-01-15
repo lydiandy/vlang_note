@@ -193,3 +193,22 @@ fn test_nested_with_parentheses() {
 
 ```
 
+
+
+## 编译时嵌入文件
+
+可以使用$embed_file编译时函数,把各种类型的文件在编译时嵌入到二进制文件中,更方便编译打包成单一可执行文件,方便部署,目前vweb框架中有使用到.
+
+```v
+module main
+
+import os
+
+fn main() {
+	mut embedded_file := $embed_file('v.png')
+	mut fw := os.create('exported.png') or { panic(err) }
+	fw.write_bytes(embedded_file.data(), embedded_file.len)
+	fw.close()
+}
+```
+
