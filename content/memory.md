@@ -12,6 +12,33 @@ V的0.2版本发布后,增加了一个编译选项-autofree,可以实现自动�
 
 ### 手动内存管理
 
+除了使用-autofree自动管理内存,也可以使用--manualfree手动管理内存
+
+也可以在模块或函数,使用[manualfree]标注,针对某个具体模块或函数,进行手动管理内存,如果进行手动内存管理,需要自行调用变量的free()方法进行释放
+
+```v
+[manualfree] // 如果标注在模块上,该模块的所有函数都进行手动内存管理
+module main
+
+fn abc() {
+	x := 'abc should be autofreed'
+	println(x)
+}
+
+[manualfree] // 如果标注在函数/方法上,该函数内进行手动内存管理
+fn xyz() {
+	x := 'xyz should do its own memory management'
+	println(x)
+	x.free() // 手动释放
+}
+
+fn main() {
+	abc()
+	xyz()
+}
+
+```
+
 V目前依赖libc
 
 所以C标准库中手动管理内存的主要函数都可以使用,实现像C那样对内存的精确控制
