@@ -145,6 +145,57 @@ fn main() {
 
 ```
 
+### for is类型循环判断
+
+用于联合类型的类型循环判断(感觉没啥用,就是一个语法糖而已)
+
+```v
+module main
+
+struct Milk {
+mut:
+	name string
+}
+
+struct Eggs {
+mut:
+	name string
+}
+
+type Food = Eggs | Milk
+
+fn main() {
+	mut f := Food(Eggs{'test'})
+	//不带mut
+	for f is Eggs {
+		println(typeof(f).name)
+		break
+	}
+	//等价于
+	for {
+		if f is Eggs {
+			println(typeof(f).name)
+			break
+		}
+	}
+	//带mut
+	for mut f is Eggs {
+		f.name = 'eggs'
+		println(f.name)
+		break
+	}
+	//等价于
+	for {
+		if mut f is Eggs {
+			f.name = 'eggs'
+			println(f.name)
+			break
+		}
+	}
+}
+
+```
+
 ### as类型转换
 
 ```v
