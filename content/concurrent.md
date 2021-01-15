@@ -89,6 +89,33 @@ fn main() {
 
 ```
 
+### go表达式
+
+go除了可以并发执行代码块以外,也可以并发执行带有返回值的函数
+
+```v
+module main
+
+import time
+
+fn add(x int, y int) int { 
+	time.sleep(2) //休眠2秒,模拟并发持续的时间
+	return x + y
+}
+
+fn main() {
+	r := go add(3, 2) //并发调用带有返回值的函数,完成后返回
+	println('等待并发...')
+	//这段期间主线程可以继续执行别的代码...
+	z := r.wait() //阻塞等待线程结果返回
+	println('并发完成')
+	println(z)
+}
+
+```
+
+
+
 ### 错误处理
 
 可以在读写channel中增加or代码块,实现错误处理
