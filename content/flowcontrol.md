@@ -285,6 +285,57 @@ fn main() {
 }
 ```
 
+### for is语句
+
+用于联合类型的类型循环判断(感觉没啥用,就是一个语法糖而已)
+
+```v
+module main
+
+struct Milk {
+mut:
+	name string
+}
+
+struct Eggs {
+mut:
+	name string
+}
+
+type Food = Eggs | Milk
+
+fn main() {
+	mut f := Food(Eggs{'test'})
+	//不带mut
+	for f is Eggs {
+		println(typeof(f).name)
+		break
+	}
+	//等价于
+	for {
+		if f is Eggs {
+			println(typeof(f).name)
+			break
+		}
+	}
+	//带mut
+	for mut f is Eggs {
+		f.name = 'eggs'
+		println(f.name)
+		break
+	}
+	//等价于
+	for {
+		if mut f is Eggs {
+			f.name = 'eggs'
+			println(f.name)
+			break
+		}
+	}
+}
+
+```
+
 ### for select语句
 
 for select语句主要在并发中使用,用来循环监听多个chanel,更多内容可以参考[并发章节](concurrent.md)
