@@ -204,6 +204,38 @@ fn variadic_fn_b(a ...string) string {
 
 ```
 
+### 数组排序
+
+V语言提供了一个内置的数组排序语法,不仅可以对基本类型数组进行排序,也可以对结构体类型数组进行排序.
+
+```v
+module main
+
+struct User {
+	age  int
+	name string
+}
+
+fn main() {
+	//基本类型数组
+	mut numbers := [1, 3, 2]
+	numbers.sort() // 1, 2, 3,默认升序,即 a < b,小于号表示从小到大
+	println(numbers)
+	numbers.sort(a > b) // 3, 2, 1,降序排序,即 a > b,大于号表示从大到小
+	// numbers.sort(aa > bb) // 只能用a和b这两个变量名,其他变量名会编译不通过
+	println(numbers)
+	//结构体类型数组
+	mut users := [User{21, 'Bob'}, User{20, 'Zarkon'},
+		User{25, 'Alice'},
+	]
+	users.sort(a.age < b.age) //用结构体的某个字段进行排序
+	println(users)
+	users.sort(a.name > b.name) //字符串类型也可以排序
+	println(users)
+}
+
+```
+
 
 
 ### 多维数组
@@ -214,14 +246,24 @@ fn variadic_fn_b(a ...string) string {
 module main
 
 fn main() {
-  	a := [1, 2, 3]
-    b := [4, 5, 6]
-    c := [7, 8, 9]
-    d := [[a, b, c], [b, c, a], [c, a, b]]
-    println(d) 
-    println(d[0].len) //返回3
-    println(d[0][0].len) //返回3
+	// 2维数组
+	a := [1, 2, 3]
+	b := [4, 5, 6]
+	c := [7, 8, 9]
+	d := [[a, b, c], [b, c, a], [c, a, b]]
+	println(d)
+	println(d[0].len) //返回3
+	println(d[0][0].len) //返回3
+	// 2维数组
+	mut aa := [][]int{len: 2, init: []int{len: 3}}
+	aa[0][1] = 2
+	println(aa) // [[0, 2, 0], [0, 0, 0]]
+	// 3维数组
+	mut aaa := [][][]int{len: 2, init: [][]int{len: 3, init: []int{len: 2}}}
+	aaa[0][1][1] = 2
+	println(aaa) // [[[0, 0], [0, 2], [0, 0]], [[0, 0], [0, 0], [0, 0]]]
 }
+
 ```
 
 ------

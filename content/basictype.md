@@ -79,6 +79,18 @@ x:=i64(3) //x是i64类型，而不是默认推断的int
 y:=f32(3.0) //y是f32类型，而不是默认推断的f64
 ```
 
+字节类型
+
+```v
+module main
+
+fn main() {
+	b := byte(98)
+	println(b.str()) // 98
+	println(b.ascii_str()) // b
+}
+```
+
 ---
 
 ### 字符串类型
