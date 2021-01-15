@@ -213,23 +213,30 @@ fn main() {
 
 ------
 
-### 单字符类型
+### rune类型
 
-用反引号来表示单字符类型,跟字符串不是同一个类型,单字符类型对应的是byte类型
+反引号表示rune类型,用4个字节来表示一个unicode字符/编码,跟string不是同一个类型.
 
 ```v
-s1:='a' //单引号，字符串类型
-s2:="aa" //双引号，也是字符串类型
+module main
 
-c1:=`a` //反引号，字符类型,单字符
-// c2:=`aa` //编译不通过,报错,只能是单字符
-// c2:=`中` //编译不通过,报错,只能是单字符
-println(s1) //输出a
-println(s2) //输出aa
-println(c1) //输出a
-  
-//需要特别注意的是
-//'a'跟`a`不是同一类型,不能拿来比较,否则编译器会报错
+fn main() {
+	s1 := 'a' //单引号,string类型
+	s2 := 'a' //双引号,string类型
+	s3 := `a` //反引号,rune类型
+	println(typeof(s1).name)
+	println(typeof(s2).name)
+	println(typeof(s3).name)
+	println(int(s3)) // 97
+	//
+	// c2 := `aa` //编译不通过,报错,只能是单字符
+	c3 := `中`
+	println(typeof(c3).name) // rune类型
+	println(sizeof(c3)) // 4个字节,unicode4.0
+	println(int(c3)) // 20013
+	println(c3)
+}
+
 ```
 
 常用字符串内置函数,可以参考后面的[标准库](./std_builtin.md)章节,也可以直接参考vlib/builtin/string.v源代码

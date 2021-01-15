@@ -66,7 +66,7 @@ fn main() {
 	println(m2)
 	// rune key
 	mut m3 := {
-		`!`: 2
+		`!`: 2 //是反引号`,不是单引号'
 		`%`: 3
 	}
 	println(typeof(m3).name) // map[rune]int
