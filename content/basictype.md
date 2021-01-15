@@ -301,9 +301,11 @@ println(sizeof(byte)) //1
 println(sizeof(bool)) //4
 ```
 
-### 变量类型typeof()
+### 变量类型typeof().name
 
-使用内置函数typeof(var)来返回变量的类型
+非联合类型变量,可以使用内置函数typeof(var).name来返回变量的类型
+
+联合类型变量,使用内置函数type_name()来返回联合类型变量当前的类型
 
 ```v
 module main
@@ -332,24 +334,26 @@ fn main() {
 	astring := []string{}
 	astruct_static := [2]Point{}
 	astruct_dynamic := [Point{}, Point{}]
-	println(typeof(a)) // int
-	println(typeof(s)) // string
-	println(typeof(aint)) // array_int
-	println(typeof(astring)) // array_string
-	println(typeof(astruct_static)) // [2]Point
-	println(typeof(astruct_dynamic)) // array_Point
-	// 联合类型也可以判断具体的类型
+	//非联合类型使用typeof().name
+	println(typeof(a).name) // int
+	println(typeof(s).name) // string
+	println(typeof(aint).name) // array_int
+	println(typeof(astring).name) // array_string
+	println(typeof(astruct_static).name) // [2]Point
+	println(typeof(astruct_dynamic).name) // array_Point
+	//函数类型也一样
+	println(typeof(myfn).name) // fn (int) int
+	println(typeof(myfn2).name) // fn ()
+	// 联合类型使用type_name()
 	sa := MySumType(32)
 	sb := MySumType(f32(123.0))
 	sc := MySumType(Point{
 		x: 43
 	})
-	println(typeof(sa)) // int
-	println(typeof(sb)) // f32
-	println(typeof(sc)) // Point
-	// 函数类型
-	println(typeof(myfn)) // fn (int) int
-	println(typeof(myfn2)) // fn ()
+	println(sa.type_name()) // int
+	println(sb.type_name()) // f32
+	println(sc.type_name()) // Point
+
 }
 
 ```
