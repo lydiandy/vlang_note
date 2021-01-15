@@ -36,13 +36,48 @@ fn main() {
 }
 ```
 
-目前map的key只能是string类型
+map的key除了string类型,也可以是其他类型
+
+string类型的key
 
 ```v
 map[string]int
 map[string]User
 map[string][]int
-...
+```
+
+非string类型的key
+
+```v
+module main
+
+fn main() {
+	//非字符串key
+	// int key
+	mut m1 := map[int]int{}
+	m1[3] = 9
+	m1[4] = 16
+	println(m1)
+	// voidptr key
+	mut m2 := map[voidptr]string{}
+	v := 5
+	m2[&v] = 'var'
+	m2[&m2] = 'map'
+	println(m2)
+	// rune key
+	mut m3 := {
+		`!`: 2
+		`%`: 3
+	}
+	println(typeof(m3).name) // map[rune]int
+	println(m3)
+	// byte key
+	mut m4:=map[byte]string{}
+	m4[byte(1)]='a'
+	m4[byte(2)]='b'
+	println(m4)
+}
+
 ```
 
 map字面量初始化
