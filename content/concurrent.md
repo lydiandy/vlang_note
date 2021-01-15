@@ -242,7 +242,7 @@ fn do_send(ch1 chan int, ch2 chan f64) {
 }
 ```
 
-### 更多例子
+### 主进程阻塞等待
 
 一般来说,主进程执行完毕后,不会等待其他子线程的结果,就直接退出返回,其他子线程也随着终止
 
@@ -266,6 +266,45 @@ fn main() {
 	println('main exit...$i')
 }
 
+```
+
+### 泛型函数/方法
+
+除了使用标准函数/方法作为go的并发单元,泛型函数/方法也可以
+
+```v
+module main
+
+import time
+
+struct Point {
+}
+
+fn (p Point) add<T>(c chan int, x T, y T) T {
+	println('from generic method')
+	c <- 1
+	return x + y
+}
+
+fn add<T>(c chan int, x T, y T) T {
+	println('from generic function')
+	c <- 2
+	return x + y
+}
+
+fn main() {
+	ch := chan int{}
+	//泛型函数
+	go add<int>(ch, 1, 3)
+	go add<f64>(ch, 1.1, 3.3)
+	//泛型方法
+	p := Point{}
+	go p.add<int>(ch, 2, 4)
+	go p.add<f64>(ch, 2.2, 4.4)
+	i := <-ch
+	println(i)
+	time.sleep(1)
+}
 ```
 
 ### sync标准模块
