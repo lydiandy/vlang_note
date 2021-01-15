@@ -334,6 +334,46 @@ fn main() {
 }
 ```
 
+### 线程之间的变量共享/锁定
+
+可以使用shared/lock/rlock来实现
+
+两个线程之间,可以通过定义shared类型的变量,来实现共享,这俩个线程都可以访问
+
+当某个线程要进行读写共享变量时,为了防止线程之间的数据竞争,可以使用lock代码块(读写锁)或rlock代码块(只读锁)来锁定共享变量
+
+```v
+module main
+
+import time
+
+struct St {
+mut:
+	x f64
+}
+
+fn f(x int, y f64, shared s St) {
+	time.usleep(50000)
+	lock s { //在这个线程中,如果要对共享变量进行读写,使用lock代码块来锁定,对于读写锁,其他线程只能阻塞等待,不能读写该变量,退出代码块后,自动解锁
+		s.x = x * y
+		println(s.x)
+	}
+	return
+}
+
+fn main() {
+	shared t := &St{} //定义共享变量
+	r := go f(3, 4.0, shared t) //把共享变量传递给另一个线程
+	r.wait()
+	rlock t { //在这个线程中,如果只是要读共享变量,使用rlock代码来锁定,对于只读锁,其他线程可以读该变量,不能修改,退出代码块后,自动解锁
+		println(t.x)
+	}
+}
+
+```
+
+
+
 ### sync标准模块
 
 **Channel**
