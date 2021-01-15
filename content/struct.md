@@ -260,6 +260,32 @@ pub fn new_waitgroup() &WaitGroup { //不能被复制,只能以引用的方式�
 }
 ```
 
+**[noinit]**
+
+使用[noinit]标志后,结构体只能在本模块内使用Foo{}来创建变量,在其他模块中被禁止使用Foo{}来初始化变量
+
+```v
+module mymodule
+
+[noinit]
+pub struct Result {
+}
+```
+
+```v
+module main
+
+import mymodule
+
+fn main() {
+	res := mymodule.Result{}
+	println(res)
+}
+
+```
+
+
+
 ### 结构体字段标注
 
 1. 用于内置json解析支持
