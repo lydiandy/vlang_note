@@ -84,12 +84,12 @@ fn main() {
 module main
 
 fn main() {
-	a := ['a', 'b', 'c'] 
-	println(variadic_fn_a(a...)) //数组可以传递给不确定参数函数
+	a := ['a', 'b', 'c']
+	println(variadic_fn_a(...a)) //数组解构赋值后,传递给不确定参数数组
 }
 
 fn variadic_fn_a(a ...string) string {
-	return variadic_fn_b(a...) //不确定参数函数之间可以传递参数
+	return variadic_fn_b(...a) //数组解构赋值后,传递给不确定参数数组
 }
 
 fn variadic_fn_b(a ...string) string {
@@ -98,6 +98,7 @@ fn variadic_fn_b(a ...string) string {
 	a2 := a[2]
 	return '$a0$a1$a2'
 }
+
 
 ```
 

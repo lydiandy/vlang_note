@@ -179,6 +179,33 @@ println(n[2..])  //返回[3, 4, 5]
 println(n[2..4]) //返回[3, 4]
 ```
 
+### 数组解构赋值
+
+目前数组的解构赋值只能用在传递给不确定参数函数,不像js中那样灵活
+
+```v
+module main
+
+fn main() {
+	a := ['a', 'b', 'c']
+	println(variadic_fn_a(...a)) //数组解构赋值后,传递给不确定参数数组
+}
+
+fn variadic_fn_a(a ...string) string {
+	return variadic_fn_b(...a) //数组解构赋值后,传递给不确定参数数组
+}
+
+fn variadic_fn_b(a ...string) string {
+	a0 := a[0]
+	a1 := a[1]
+	a2 := a[2]
+	return '$a0$a1$a2'
+}
+
+```
+
+
+
 ### 多维数组
 
 维度的数量不仅仅于1,2维,不限
