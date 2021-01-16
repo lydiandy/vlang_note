@@ -366,24 +366,34 @@ mut:
 	x f64
 }
 
-fn f(x int, y f64, shared s St) {
+fn f(x int, y f64, shared s St,shared m map[string]string) {
 	time.usleep(50000)
-	lock s { //在这个线程中,如果要对共享变量进行读写,使用lock代码块来锁定,对于读写锁,其他线程只能阻塞等待,不能读写该变量,退出代码块后,自动解锁
+	//在这个线程中,如果要对共享变量进行读写,使用lock代码块来锁定,对于读写锁,其他线程只能阻塞等待,不能读写该变量,退出代码块后,自动解锁
+	lock s,m {  //可以同时对多个共享变量进行锁定
 		s.x = x * y
 		println(s.x)
+		unsafe {
+			m['a']='aa'
+		}
+		println(m['a'])
 	}
 	return
 }
 
 fn main() {
-	shared t := &St{} //定义共享变量
-	r := go f(3, 4.0, shared t) //把共享变量传递给另一个线程
+	//共享变量一定是结构体,数组,字典的引用
+	shared t := &St{} 
+	shared m := &map[string]string
+	unsafe {
+		m['a']='aa'
+	}
+	r := go f(3, 4.0, shared t,shared m)  //把共享变量传递给另一个线程
 	r.wait()
-	rlock t { //在这个线程中,如果只是要读共享变量,使用rlock代码来锁定,对于只读锁,其他线程可以读该变量,不能修改,退出代码块后,自动解锁
+	//在这个线程中,如果只是要读共享变量,使用rlock代码来锁定,对于只读锁,其他线程可以读该变量,不能修改,退出代码块后,自动解锁
+	rlock t { 
 		println(t.x)
 	}
 }
-
 ```
 
 ### sync标准模块
