@@ -91,27 +91,37 @@ fn main() {
 
 ### go表达式
 
-go除了可以并发执行代码块以外,也可以并发执行带有返回值的函数
+除了使用标准的chanel和waitgroup方式外,还可以使用go表达式来简化并发代码,go表达式更像是一种并发语法糖/简化版.
 
 ```v
 module main
 
 import time
 
-fn add(x int, y int) int { 
+//无返回值的函数
+fn do_something() { 
+  println('start do_something...')
 	time.sleep(2) //休眠2秒,模拟并发持续的时间
+	println('end do_something')
+}
+//有返回值的函数
+fn add(x int, y int) int { 
+	println('add并发开始...')
+	time.sleep(4) //休眠4秒,模拟并发持续的时间
+	println('add并发完成')
 	return x + y
 }
 
 fn main() {
-	r := go add(3, 2) //并发调用带有返回值的函数,完成后返回
-	println('等待并发...')
+  //并发调用无返回值的函数
+  g:=go do_something()
+	//并发调用带有返回值的函数,完成后返回
+  g2 := go add(3, 2) 
 	//这段期间主线程可以继续执行别的代码...
-	z := r.wait() //阻塞等待线程结果返回
-	println('并发完成')
-	println(z)
+  g.wait() //阻塞等待线程完成
+	result := g2.wait() //阻塞等待线程结果返回
+	println(result)
 }
-
 ```
 
 
