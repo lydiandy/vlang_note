@@ -131,6 +131,30 @@ fn main() {
 }
 ```
 
+### 访问字典成员错误处理
+
+```v
+fn main() {
+	sm := {
+		'abc': 'xyz'
+	}
+	val := sm['bad_key']
+	println(val) // 如果字典元素不存在,会返回该类型的默认值:空字符串
+	intm := {
+		1: 1234
+		2: 5678
+	}
+	s := intm[3]
+	println(s) // 如果字典元素不存在,会返回该类型的默认值:0
+	//也可以加上or代码块来进行错误处理
+	mm := map[string]int{}
+	val2 := mm['bad_key'] or { panic('key not found') }
+	println(val2)
+}
+```
+
+
+
 ------
 
 字典相关的源代码可以参考v源代码中的：vlib/builtin/map.v
