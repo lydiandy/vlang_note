@@ -184,13 +184,23 @@ println(n[2..4]) //返回[3, 4]
 当访问数组成员的索引越界或者别的错误,可以使用or代码块来进行错误处理
 
 ```v
+module main
+
 fn main() {
 	arr := [1, 2, 3]
 	large_index := 999
 	// var1:=arr[large_index] //直接报数组越界错误
 	//增加or代码块后,可以进行错误的处理,而不是直接报错
-	val := arr[large_index] or { panic('out of bounds') }
-	println(val)
+	x := arr[large_index] or { panic('out of bounds') }
+	println(x)
+	myfn()
+}
+
+fn myfn() ? {
+	arr:=[1,2,3]
+	large_index:=999
+	x := arr[large_index] ? //也可以本层级不处理,向上抛转错误
+	println(x)
 }
 ```
 

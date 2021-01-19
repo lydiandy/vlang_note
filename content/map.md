@@ -134,6 +134,8 @@ fn main() {
 ### 访问字典成员错误处理
 
 ```v
+module main
+
 fn main() {
 	sm := {
 		'abc': 'xyz'
@@ -150,6 +152,13 @@ fn main() {
 	mm := map[string]int{}
 	val2 := mm['bad_key'] or { panic('key not found') }
 	println(val2)
+	myfn()
+}
+
+fn myfn() ? {
+	mm := map[string]int{}
+	x := mm['bad_key']? //也可以本层级不处理,向上抛转错误
+	println(x)
 }
 ```
 
