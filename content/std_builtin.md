@@ -254,14 +254,6 @@
 
     转大写
 
-- s.left(n int) string
-
-    取字符串从左边开始,到第几个字符的部分
-
-- s.right(n int) string
-
-    取字符串从左边开始第几个字符开始,所有右边的部分
-
 - s.substr(start int,end int) string
 
     取给定开始和结束位置的子字符串

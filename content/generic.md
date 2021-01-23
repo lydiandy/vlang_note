@@ -5,33 +5,51 @@
 ### 泛型结构体
 
 ```v
-struct DB {
-    driver string
-}
+module main
 
 struct User {
-	db DB
 mut:
 	name string
 }
 
-struct Repo<T> {
+struct DB {
+	driver string
+}
+
+struct Group {
+pub mut:
+	name       string
+	group_name string
+}
+
+struct Permission {
+pub mut:
+	name string
+}
+
+struct Repo <T, U> {
 	db DB
-mut:
-	model  T
+pub mut:
+	model      T
+	permission U
 }
 
-fn new_repo<U>(db DB) Repo<U> {
-	return Repo<U>{db: db}
-}
-
-fn test_generic_struct() {
-	mut a :=  new_repo<User>(DB{})
-	a.model.name = 'joe'
-	mut b := Repo<User>{db: DB{}}
-	b.model.name = 'joe'
-	assert a.model.name == 'joe'
-	assert b.model.name == 'joe'
+fn main() {
+	mut a := Repo<User,Permission>{
+		model: User{
+			name: 'joe'
+		}
+	}
+	println(a.model.name)
+	mut b := Repo<Group,Permission>{
+		permission: Permission{
+			name: 'superuser'
+		}
+	}
+	println(b.model.name)
+	println(b.permission.name)
+	println(typeof(a.model).name)
+	println(typeof(b.model).name)
 }
 ```
 
@@ -49,6 +67,13 @@ fn get<T>(typ T) T {
 	return typ
 }
 
+//多类型泛型函数
+fn get_multi<T,U>(typ T,user U) T {
+	println(typ)
+	println(user)
+	return typ
+}
+
 fn main() {
 	a1 := get<string>('hello') //标准的泛型调用方式,带<T>
 	a2 := get<int>(1)
@@ -58,6 +83,9 @@ fn main() {
 	b2 := get(1)
 	println(b1)
 	println(b2)
+
+	x:=get_multi<int,f64>(2,2.2)
+	println(x)
 }
 ```
 
