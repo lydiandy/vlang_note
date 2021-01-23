@@ -14,6 +14,16 @@ pub interface Speaker {
 }
 ```
 
+### 接口包含字段
+
+目前还没有,计划0.3版本实现
+
+```v
+pub interface Entity {
+  id int //实现该接口的结构体必须包含id字段
+}
+```
+
 ### 接口组合
 
 目前还没有,计划0.3版本实现
