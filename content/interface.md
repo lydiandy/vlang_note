@@ -20,11 +20,13 @@ pub interface Speaker {
 
 V语言中接口除了可以包含方法签名,也可以包含字段,虽然包含字段也可以转为方法签名,但是直接约束字段,代码看起来更舒服.
 
+编译时会检查结构体是否实现接口字段,只有字段名,字段类型,是否可变都跟接口中的字段一致,才算实现了这个接口字段.
+
 ```v
 module main
 
-
 interface PointInterface {
+mut:
   x int //定义接口包含字段
   y int
 }
@@ -55,6 +57,24 @@ fn main() {
 	println('x:$p3.x,y:$p3.y')
 }
 ```
+
+```v
+interface Animal {
+mut:
+	name string
+}
+
+struct Cat {
+	name string //mut不匹配,编译不通过
+}
+
+fn main() {
+	mut animals := []Animal{}
+	animals << Cat{}
+}
+```
+
+
 
 ### 接口组合
 
