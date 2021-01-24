@@ -67,11 +67,11 @@ fn get<T>(typ T) T {
 	return typ
 }
 
-//多类型泛型函数
-fn get_multi<T,U>(typ T,user U) T {
+//多个类型的泛型函数,参数,函数体,返回值都可以使用
+fn get_multi<T,U>(typ T,user U) (T,U) { 
 	println(typ)
 	println(user)
-	return typ
+	return typ,user
 }
 
 fn main() {
@@ -84,8 +84,10 @@ fn main() {
 	println(b1)
 	println(b2)
 
-	x:=get_multi<int,f64>(2,2.2)
-	println(x)
+	x,y:=get_multi<int,f64>(2,2.2) //标准的泛型调用方式,带<T,U>
+	println('x is $x,y is $y')
+	c,d:=get_multi(3,3.3)  //简短的泛型调用方式,不用带<T,U>
+	println('c is $c,d is $d')
 }
 ```
 
