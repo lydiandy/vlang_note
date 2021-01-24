@@ -16,11 +16,43 @@ pub interface Speaker {
 
 ### 接口包含字段
 
-目前还没有,计划0.3版本实现
+接口在其他编程语言中大部分都只能包含方法签名
+
+V语言中接口除了可以包含方法签名,也可以包含字段,虽然包含字段也可以转为方法签名,但是直接约束字段,代码看起来更舒服.
 
 ```v
-pub interface Entity {
-  id int //实现该接口的结构体必须包含id字段
+module main
+
+
+interface PointInterface {
+  x int //定义接口包含字段
+  y int
+}
+
+struct Point {
+mut:
+	x int //接口字段实现
+	y int
+}
+
+fn add(p1 PointInterface,p2 PointInterface) PointInterface {
+	mut p:=Point {}
+	p.x=p1.x+p2.x
+	p.y=p1.y+p2.y
+	return p
+}
+
+fn main() {	
+	p1:=Point{
+		x:1
+		y:2
+	}
+	p2:=Point {
+		x:3
+		y:4
+	}
+	p3:=add(p1,p2)
+	println('x:$p3.x,y:$p3.y')
 }
 ```
 
@@ -40,8 +72,6 @@ pub interface ReaderWriter {
   Writer
 }
 ```
-
-
 
 ### 接口实现
 
