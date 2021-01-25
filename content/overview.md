@@ -81,7 +81,7 @@ import os
 import time
 
 //主函数,程序运行入口
-fn main() {
+pub fn main() {
 	println('say hello world') //语句结尾不需要分号
 	println(os.args) //使用os模块的args变量
 	println(time.now()) //调用time模块的now函数
@@ -89,13 +89,16 @@ fn main() {
 
 //模块内6个一级元素:常量,枚举,函数/方法,结构体,接口,类型
 // 1.常量
-const (
+pub const usage = 'usage ...' // 定义单行常量
+
+// 定义常量组
+pub const ( 
 	version             = '0.1.21'
 	supported_platforms = ['windows', 'mac', 'linux']
 )
 
 // 2.枚举
-enum OS {
+pub enum OS {
 	mac
 	linux
 	windows
@@ -103,7 +106,7 @@ enum OS {
 
 // 3.函数-函数的定义风格基本跟go一样,只是关键字改为更简短的fn，支持不确定个数参数，支持多返回值
 // pub表示公共级别的访问控制，可以被模块外使用，否则只能在模块内使用
-fn my_fn(x int, y int) int {
+pub fn my_fn(x int, y int) int {
 	i := 1 //强类型，类型推断
 	s := 'abc' //变量默认不可变,约定用单引号表示字符串,双引号也可以,反引号才是单字符
 	mut a := 3 //可变用mut
@@ -114,65 +117,65 @@ fn my_fn(x int, y int) int {
 }
 
 // 3.函数-泛型函数
-fn g_fn<T>(p T) T {
-	return p
+pub fn g_fn<T,U>(x T,y U) (T,U) {
+	return x,y
 }
 
 // 3.方法-方法只是指定了接收者的函数，跟go一样
-fn (mut p Point) move(x int, y int) {
+pub fn (mut p Point) move(x int, y int) {
 	p.x += x
 	p.y += y
 }
 
 // 4.结构体-结构体定义
-struct Point {
+pub struct Point {
 	//结构体字段一共有5种访问控制
-	//1.默认私有且不可变
+	// 1.默认私有且不可变
 	a int
-	//2.私有，但可变
+	// 2.私有，但可变
 mut:
 	x int
 	y int
-	//3.公共，但不可变
+	// 3.公共，但不可变
 pub:
 	d int
-	//4.模块内可访问且可变;模块外可访问,但是只读
+	// 4.模块内可访问且可变;模块外可访问,但是只读
 pub mut:
 	e int
-	//5.全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用
-__global:
+	// 5.全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用
 	f int
 }
 
 // 4.结构体-泛型结构体
-struct Repo <T> {
-	db    DB
+pub struct Repo <T> {
+	db DB
 mut:
 	model T
 }
 
-struct DB {
+pub struct DB {
 }
 
 // 5.接口-接口无须显式声明实现,鸭子类型,跟go一样
-interface Walker {
+pub interface Walker {
+	name string  //接口支持字段约束
 	walk(int, int) int
 }
 
 // 6.类型-类型别名,可以基于基本类型,也可基于结构体类型创建类型别名
-type Myint = int
+pub type Myint = int
 
 // 6.类型-函数类型，表示这一类相同签名的函数
-type Fn_type = fn (int) int
+pub type Fn_type = fn (int) int
 
 // 6.类型-联合类型，跟typescript类似，表示类型Expr可以是这几种类型的其中一种
-struct BinExpr {}
+pub struct BinExpr {}
 
-struct BoolExpr {}
+pub struct BoolExpr {}
 
-struct UnaryExpr {}
+pub struct UnaryExpr {}
 
-type Expr = BinExpr | BoolExpr | UnaryExpr
+pub type Expr = BinExpr | BoolExpr | UnaryExpr
 
 ```
 
