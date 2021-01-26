@@ -74,6 +74,34 @@ fn main() {
 }
 ```
 
+### 接口方法
+
+接口也可以像结构体那样有自己的方法,只要结构体实现了接口,就可以调用接口的方法
+
+```v
+struct Cat {
+	breed string
+}
+
+interface Animal {
+	breed string
+}
+
+//接口自己实现的方法
+fn (a Animal) info() string {
+	return "I'm a ${a.breed} ${typeof(a).name}"
+}
+
+fn new_animal(breed string) Animal {
+	return &Cat{ breed }
+}
+
+fn main() {
+	mut a := new_animal('persian')
+	println(a.info())
+}	
+```
+
 
 
 ### 接口组合
