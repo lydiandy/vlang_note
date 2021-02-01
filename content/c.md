@@ -129,6 +129,23 @@ fn C.XFlush(d &Display)
 fn C.XDestroyWindow(d &Display, w C.Window)
 ```
 
+### 使用$env编译时函数
+
+$env也可以在#flay和#include等C宏中使用,让C宏的定义更灵活
+
+```v
+module main
+
+//可以在C宏语句中使用,让C宏的定义更灵活
+#flag linux -I $env('JAVA_HOME')/include
+
+fn main() {
+	compile_time_env := $env('PATH')
+	println(compile_time_env)
+}
+
+```
+
 
 
 ### 简单封装

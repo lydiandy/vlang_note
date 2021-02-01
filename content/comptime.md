@@ -205,8 +205,13 @@ fn test_nested_with_parentheses() {
 
 运行时代码中os.get_env函数也可以实现相同的效果
 
+比较特别的是,$env也可以在#flay和#include等C宏中使用,让C宏的定义更灵活
+
 ```v
 module main
+
+//可以在C宏语句中使用,让C宏的定义更灵活
+#flag linux -I $env('JAVA_HOME')/include
 
 fn main() {
 	compile_time_env := $env('PATH')
