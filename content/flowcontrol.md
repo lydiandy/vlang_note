@@ -34,6 +34,30 @@ println(c)
 
 ```
 
+likely/unlikely
+
+_likely_和_unlikely_这两个内置函数实现的是跟C的likely一样的效果,可以实现给条件分支的性能做优化,一般的代码来说,使用的场景不多
+
+```v
+module main
+
+fn main() {
+	x := 1
+	if _likely_(x == 1) { //告诉编译器,大部分情况的分支是这个,做代码优化
+		println('a')
+	} else {
+		println('b')
+	}
+	if _unlikely_(x == 1) { //告诉编译器,大部分情况的分支不是这个,做代码优化
+		println('a')
+	} else {
+		println('b')
+	}
+}
+```
+
+
+
 ### match分支语句
 
 match要求穷尽所有可能,所以基本都要带上else语句

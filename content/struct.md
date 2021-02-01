@@ -334,3 +334,27 @@ pub fn (p Point) position() (int, int) {
 可以通过编译时反射,实现动态获取结构体的所有字段,素有方法,并且可以动态设置字段值
 
 具体可以参考[编译时反射章节](comptime.md)
+
+### 结构体字段内存位置偏移
+
+__offsetof函数实现C的offsetof函数那样,返回结构体中某个字段的内存偏移量
+
+```v
+module main
+
+struct User {
+	name [50]byte
+	age int
+	desc string
+}
+
+fn main() {
+	offset_name:=__offsetof(User,name)
+	offset_age:=__offsetof(User,age)
+	offset_desc:=__offsetof(User,desc)
+	println(offset_name)
+	println(offset_age)
+	println(offset_desc)
+}
+```
+
