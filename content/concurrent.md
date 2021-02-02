@@ -381,13 +381,12 @@ fn f(x int, y f64, shared s St,shared m map[string]string) {
 }
 
 fn main() {
-	//共享变量一定是结构体,数组,字典的引用
-	shared t := &St{} 
-	shared m := &map[string]string
+	shared t := St{} 
+	shared m := map[string]string
 	unsafe {
 		m['a']='aa'
 	}
-	r := go f(3, 4.0, shared t,shared m)  //把共享变量传递给另一个线程
+	r := go f(3, 4.0, shared t,shared m)  //把共享变量传递给另一个线程,默认传递引用
 	r.wait()
 	//在这个线程中,如果只是要读共享变量,使用rlock代码来锁定,对于只读锁,其他线程可以读该变量,不能修改,退出代码块后,自动解锁
 	rlock t { 
