@@ -56,6 +56,8 @@ v -b x64 ./main.v	 //指定编译器后端类型为x64,目前还是试验性质�
   
 v -o main.c ./main.v //编译生成C源文件,而不是可执行文件
 v -prod xxx.v //生产优化模式编译,生成更小的可执行文件
+v -usecache xxx.v  //使用标准库的缓存,而不是每次都重新编译标准库,编译速度快很多
+v -usecache -prod xxx.v //使用标准库缓存,生产优化编译,速度也会快很多
 v -autofree xxx.v //以自动释放内容方式生成可执行文件
 v -obf或-obfuscate //混淆编译生成可执行文件
 v -stats //编译时显示额外的统计信息,比如:`v -stats test .`
@@ -72,6 +74,7 @@ v -shared  //编译生成共享库
 
 ```shell
 v main.v 			//编译当前目录中的main.v源文件,生成同名的main可执行文件
+v -usecache main.v //使用标准库缓存进行编译
 v run main.v 	//编译当前目录中的main.v源文件,生成同名的main可执行文件，并运行
 v -autofree run main.v //以自动释放内容方式,编译,并运行
 
