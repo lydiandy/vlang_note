@@ -76,14 +76,25 @@ fn main() {
 	m4[byte(1)]='a'
 	m4[byte(2)]='b'
 	println(m4)
+  // float key
+  mut m5 := map[f64]string{}
+  m5[1.2] = 'a'
+  m5[2.0] = 'b'
+  println(m5)
 }
+
 
 ```
 
 map字面量初始化
 
 ```v
-m:={'one':1,'two':2,'three':3}
+fn main() {
+	m := map {'one':1,'two':2,'three':3}
+	m2 := map {1 :'a', 2 :'b', 3 :'c'}
+	println(m)
+	println(m2)
+}
 ```
 
 map.len返回字典的大小

@@ -222,7 +222,7 @@ fn main() {
 
 
 
-## 编译时嵌入文件
+### 编译时嵌入文件
 
 可以使用$embed_file编译时函数,把各种类型的文件在编译时嵌入到二进制文件中,更方便编译打包成单一可执行文件,方便部署,目前vweb框架中有使用到.
 
@@ -237,5 +237,36 @@ fn main() {
 	fw.write_bytes(embedded_file.data(), embedded_file.len)
 	fw.close()
 }
+```
+
+### 编译模板
+
+V内置了一个简单的txt和html模板,可以通过$tmpl编译时函数,进行渲染
+
+```v
+fn build() string {
+	name := 'Peter'
+	age := 25
+	numbers := [1, 2, 3]
+	return $tmpl('1.txt') //读取模板文件,然后把变量替换到模板中对应的同名变量
+}
+
+fn main() {
+	println(build())
+}
+```
+
+1.txt模板文件内容
+
+```
+name: @name //@开头的都是模板文件中需要替换的同名变量
+
+age: @age
+
+numbers: @numbers
+
+@for number in numbers //也可以遍历数组类型变量
+  @number
+@end
 ```
 

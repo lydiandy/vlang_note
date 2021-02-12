@@ -356,6 +356,8 @@ fn main() {
 
 在只读之前,要使用rlock代码块(只读锁)来锁定共享变量
 
+共享变量可以是基本类型,array,map,struct类型
+
 ```v
 module main
 
@@ -366,34 +368,96 @@ mut:
 	x f64
 }
 
-fn f(x int, y f64, shared s St,shared m map[string]string) {
+fn f(x int, y f64, shared s St,shared a []string, shared m map[string]string) {
 	time.usleep(50000)
 	//在这个线程中,如果要对共享变量进行读写,使用lock代码块来锁定,对于读写锁,其他线程只能阻塞等待,不能读写该变量,退出代码块后,自动解锁
-	lock s,m {  //可以同时对多个共享变量进行锁定
+	lock s,a,m {  //可以同时对多个共享变量进行锁定
 		s.x = x * y
 		println(s.x)
+		a[0]='abc'
 		unsafe {
 			m['a']='aa'
 		}
+		println(a[0])
 		println(m['a'])
 	}
 	return
 }
 
 fn main() {
-	shared t := St{} 
-	shared m := map[string]string
+	shared s := St{}  // struct共享变量
+	shared a := []string{len:1} // 数组共享变量
+	shared m := map[string]string // 字典共享变量
 	unsafe {
 		m['a']='aa'
 	}
-	r := go f(3, 4.0, shared t,shared m)  //把共享变量传递给另一个线程,默认传递引用
+	r := go f(3, 4.0, shared s,shared a, shared m)  //把共享变量传递给另一个线程,默认传递引用
 	r.wait()
 	//在这个线程中,如果只是要读共享变量,使用rlock代码来锁定,对于只读锁,其他线程可以读该变量,不能修改,退出代码块后,自动解锁
-	rlock t { 
-		println(t.x)
+	rlock s { 
+		println(s.x)
 	}
 }
 ```
+
+函数返回shared类型
+
+```v
+struct St {
+mut:
+	x f64
+}
+
+fn f() shared St { //函数可以返回shared的变量,用于线程之间的读写锁
+	shared x := St{ x: 3.25 }
+	return x
+}
+
+fn g(good bool) ?shared St { //函数可以返回shared的变量,用于线程之间的读写锁,结合错误处理
+	if !good {
+		return error('no shared St created')
+	}
+	shared x := St{ x: 12.75 }
+	return x
+}
+
+fn shared_opt_propagate(good bool) ?f64 {
+	shared x := g(good) ?
+	ret := rlock x { x.x }
+	return ret
+}
+
+fn main() {
+	shared x := f()
+	val := rlock x { x.x }
+	println(val)
+
+	res := shared_opt_propagate(true) or { 1.25 }
+	println(res)
+}
+
+```
+
+读写锁表达式
+
+```v
+struct St {
+mut:
+	i int
+}
+
+fn main() {
+	shared xx := St{ i: 173 }
+	shared y := St{ i: -57 }
+	mut m := 0
+	m = lock y { y.i } //读写锁表达式
+	n := rlock xx { xx.i } //读表达式
+	println(m)
+	println(n)
+}
+```
+
+
 
 ### sync标准模块
 
