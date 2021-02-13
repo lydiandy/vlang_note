@@ -217,12 +217,12 @@ struct Point {
 
 typedef标注目前主要用在集成C代码库,详细参考:
 
-**[ref_only]**
+**[heap]**
 
-ref_only表示该结构体创建的变量不能被复制,只能以引用的形式被使用
+heap表示该结构体只能在内存的堆上创建,只能以引用的形式被使用
 
   ```v
-[ref_only]
+[heap]
 struct Window {  //只能通过引用的形式(&Window)来使用这个结构体
 }
 
@@ -233,7 +233,7 @@ struct Window {  //只能通过引用的形式(&Window)来使用这个结构体
 vlib/sync/waitgroup.v
 
 ```v
-[ref_only] 
+[heap] 
 struct WaitGroup {
 mut:
 	task_count       int 
@@ -272,8 +272,6 @@ fn main() {
 }
 
 ```
-
-
 
 ### 结构体字段标注
 
@@ -346,4 +344,3 @@ fn main() {
 	println(offset_desc)
 }
 ```
-
