@@ -8,14 +8,14 @@
 
 所有的C函数调用都是内存不安全的,不可信的,
 
-如果要把某个V函数定义为内存不安全的,要给函数加上unsafe标注,
+如果要把某个V函数定义为内存不安全的,要给函数加上unsafe注解,
 
-如果要把C函数定义为内存安全的,可信的,要给函数加上trusted标注,
+如果要把C函数定义为内存安全的,可信的,要给函数加上trusted注解,
 
 不管是V函数还是C函数,所有内存不安全的函数都要在unsafe代码块中调用,否则编译器会报错.
 
 ```v
-[unsafe] //标注V函数为不安全的函数,因为里面有手动的内存控制或指针运算等内存不安全操作
+[unsafe] //注解V函数为不安全的函数,因为里面有手动的内存控制或指针运算等内存不安全操作
 pub fn (a array) free() {
 	//if a.is_slice {
 		//return
@@ -26,7 +26,7 @@ pub fn (a array) free() {
 
 ```v
 // v/builtin/cfns.c.v
-[trusted] //标注C函数为安全的,信任的函数
+[trusted] //注解C函数为安全的,信任的函数
 fn C.calloc(int, int) byteptr
 
 fn C.malloc(int) byteptr

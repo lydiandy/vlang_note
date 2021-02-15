@@ -99,7 +99,7 @@ pub fn connect(server, user, passwd, dbname string) ?DB {
 
 另一个集成C代码库的例子:vlib/clipboard/clipboard_linux.c.v
 
-使用了结构体标注[typedef]来定义C语言的结构体
+使用了结构体注解[typedef]来定义C语言的结构体
 
 ```v
 //定义C宏
@@ -180,7 +180,7 @@ pub fn init_sokol() {
 //也可以进行简单的封装
 module sapp
 
-[inline] //可以给函数添加inline标注,变为内联函数
+[inline] //可以给函数添加inline注解,变为内联函数
 pub fn isvalid() bool {
 	return C.sapp_isvalid()
 }
@@ -223,9 +223,9 @@ fn main() {
 
 
 
-### 函数的[inline]标注
+### 函数的[inline]注解
 
-对C函数进行简单的封装时,可以给函数添加inline标注,编译生成C代码时,这个函数就会变成C语言里的static inline函数
+对C函数进行简单的封装时,可以给函数添加inline注解,编译生成C代码时,这个函数就会变成C语言里的static inline函数
 
 内联函数有些类似于宏,内联函数的代码会被直接嵌入在它被调用的地方，调用几次就嵌入几次，没有使用call指令。这样省去了函数调用时的一些额外开销,不过调用次数多的话，会使可执行文件变大，这样会降低整个程序的运行速度
 

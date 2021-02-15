@@ -14,10 +14,10 @@ V的0.2版本发布后,增加了一个编译选项-autofree,可以实现自动�
 
 除了使用-autofree自动管理内存,也可以使用--manualfree手动管理内存
 
-也可以在模块或函数,使用[manualfree]标注,针对某个具体模块或函数,进行手动管理内存,如果进行手动内存管理,需要自行调用变量的free()方法进行释放
+也可以在模块或函数,使用[manualfree]注解,针对某个具体模块或函数,进行手动管理内存,如果进行手动内存管理,需要自行调用变量的free()方法进行释放
 
 ```v
-[manualfree] // 如果标注在模块上,该模块的所有函数都进行手动内存管理
+[manualfree] // 如果注解在模块上,该模块的所有函数都进行手动内存管理
 module main
 
 fn abc() {
@@ -25,7 +25,7 @@ fn abc() {
 	println(x)
 }
 
-[manualfree] // 如果标注在函数/方法上,该函数内进行手动内存管理
+[manualfree] // 如果注解在函数/方法上,该函数内进行手动内存管理
 fn xyz() {
 	x := 'xyz should do its own memory management'
 	println(x)

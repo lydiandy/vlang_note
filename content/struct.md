@@ -205,7 +205,7 @@ fn main() {
 
 参考[泛型章节](./generic.md)
 
-### 结构体标注
+### 结构体注解
 
 **[typedef]**
 
@@ -215,7 +215,7 @@ struct Point {
 }
 ```
 
-typedef标注目前主要用在集成C代码库,详细参考:
+typedef注解目前主要用在集成C代码库,详细参考:
 
 **[heap]**
 
@@ -273,19 +273,19 @@ fn main() {
 
 ```
 
-### 结构体字段标注
+### 结构体字段注解
 
 1. 用于内置json解析支持
 
    详细参考:[json章节](./json.md)
 
-2. 结构体字段必须初始化赋值标注
+2. 结构体字段必须初始化赋值注解
 
 ```v
 struct Point {
 	x int
 	y int
-	z int [required] //字段标注required表示必须初始化赋值
+	z int [required] //字段注解required表示必须初始化赋值
 }
 
 fn main() {
@@ -305,12 +305,12 @@ fn main() {
 
 ```
 
-### 结构体方法标注
+### 结构体方法注解
 
-跟函数标注一样,也可以对结构体方法进行标注
+跟函数注解一样,也可以对结构体方法进行注解
 
 ```v
-[inline] //方法标注
+[inline] //方法注解
 pub fn (p Point) position() (int, int) {
 	return p.x, p.y
 }

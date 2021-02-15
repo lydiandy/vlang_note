@@ -923,7 +923,7 @@ https://github.com/lydiandy/vast
 |           | interface  |                           | 识别接口声明            |
 |           |    enum    | EnumDecl                  | 识别枚举声明            |
 |           |    type    | TypeDecl                  | 识别类型别名/联合类型   |
-|     [     |            | Attr                      | 识别函数标注            |
+|     [     |            | Attr                      | 识别函数注解            |
 | __global  |            | GlobalDecl                | 识别全局变量            |
 |   const   |            | ConstDecl                 | 识别一组常量声明        |
 |    fn     |            | FnDecl                    | 识别函数声明或方法声明  |

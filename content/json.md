@@ -30,9 +30,9 @@ json.encode(object) string
 
 如果解码失败,抛出错误
 
-### 结构体标注
+### 结构体注解
 
-可以在结构体的字段上增加标注:
+可以在结构体的字段上增加注解:
 
 [skip]          //忽略这个字段不解析
 
@@ -51,7 +51,7 @@ struct User { // 定义结构体模板
 	last_name     string [json:lastName] // 设置对应的json字段名
 	is_registered bool [json:IsRegistered] // 设置对应的json字段名
 	typ           int [json:'type'] //如果json中的字段是V关键字,需要加''
-	skip_filed    string [skip] // 使用了skip标注,这个字段会被忽略不参与编码和解码
+	skip_filed    string [skip] // 使用了skip注解,这个字段会被忽略不参与编码和解码
 }
 
 struct Color { // 定义结构体模板

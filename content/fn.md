@@ -267,7 +267,7 @@ V不会有函数重载
 
 ### 内联函数
 
-可以对函数添加[inline]标注,主要的用途是在调用C代码库的时候使用最多,内联函数跟C的内联函数概念一样,生成的也是C的内联函数
+可以对函数添加[inline]注解,主要的用途是在调用C代码库的时候使用最多,内联函数跟C的内联函数概念一样,生成的也是C的内联函数
 
 ```v
 [inline]
@@ -307,43 +307,43 @@ fn main() {
 }
 ```
 
-### 函数标注
+### 函数注解
 
-- deprecated标注
+- deprecated注解
 
-  模块发布给其他用户使用后,如果模块的某个函数想要声明作废,可以使用作废标注
+  模块发布给其他用户使用后,如果模块的某个函数想要声明作废,可以使用作废注解
 
 ```v
-[deprecated] //函数作废标注
+[deprecated] //函数作废注解
 pub fn ext(path string) string {
 	panic('Use `filepath.ext` instead of `os.ext`') //结合panic进行报错提示
 }
-[deprecated] //方法作废标注
+[deprecated] //方法作废注解
 pub fn (p Point) position() (int, int) {
 	return p.x, p.y
 }
 ```
 
-- inline标注
+- inline注解
 
-  inline标注的功能跟C函数的inline函数一样
+  inline注解的功能跟C函数的inline函数一样
 
 ```v
-[inline] //函数inline标注
+[inline] //函数inline注解
 pub fn sum(x y int) int {
   return x+y
 }
 
-[inline] //方法inline标注
+[inline] //方法inline注解
 pub fn (p Point) position() (int, int) {
 	return p.x, p.y
 }
 ```
 
-- unsafe标注
+- unsafe注解
 
   参考[不安全代码章节](unsafe.md)
 
-- trusted标注
+- trusted注解
 
   参考[不安全代码章节](unsafe.md)
