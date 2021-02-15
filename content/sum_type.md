@@ -145,6 +145,32 @@ fn main() {
 
 ```
 
+### 获取联合类型的具体类型
+
+联合类型使用内置方法type_name()来返回变量的具体类型
+
+```v
+module main
+
+struct Point {
+	x int
+}
+
+type MySumType = Point | f32 | int
+
+fn main() {
+	// 联合类型使用type_name()
+	sa := MySumType(32)
+	sb := MySumType(f32(123.0))
+	sc := MySumType(Point{
+		x: 43
+	})
+	println(sa.type_name()) // int
+	println(sb.type_name()) // f32
+	println(sc.type_name()) // Point
+}
+```
+
 ### for is类型循环判断
 
 用于联合类型的类型循环判断(感觉没啥用,就是一个语法糖而已)

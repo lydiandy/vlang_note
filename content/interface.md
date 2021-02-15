@@ -87,7 +87,7 @@ interface Animal {
 	breed string
 }
 
-//接口自己实现的方法
+//接口自己实现的方法,接口方法的默认实现
 fn (a Animal) info() string {
 	return "I'm a ${a.breed} ${typeof(a).name}"
 }
@@ -101,8 +101,6 @@ fn main() {
 	println(a.info())
 }	
 ```
-
-
 
 ### 接口组合
 
@@ -156,7 +154,6 @@ fn main() {
 	perform(dog) // "woof"
 	perform(cat) // "meow"
 }
-
 ```
 
 接口可以作为结构体字段类型使用:
@@ -168,11 +165,66 @@ struct Foo {
 }	
 ```
 
-### 接口参数类型判断
+### 获取接口变量的具体类型
 
-可以使用跟联合类型那样的match,as,is,对接口参数的具体类型进行判断(目前还未全部实现,只实现了is, !is)
+接口类型使用内置方法type_name()来返回接口变量的具体类型
 
 ```v
+module main
+
+pub interface Animal {
+	speak() string
+}
+
+pub struct Cat {}
+pub fn (c Cat) speak() string {
+	return 'miao'
+}
+
+pub struct Dog {}
+
+pub fn (d Dog) speak() string {
+	return 'wang'
+}
+
+pub fn say(animal Animal) {
+	println(typeof(animal).name) // 只会返回接口名字Animal,不会返回具体类型
+	println(animal.type_name()) // 返回接口的具体类型
+	println(animal.speak())
+}
+
+fn main() {
+	cat:=Cat {}
+	say(cat)
+
+	dog:=Dog{}
+	say(dog)
+}
+```
+
+### 接口变量类型判断
+
+可以使用match,as,is,对接口参数的具体类型进行判断(目前还未全部实现,只实现了is, !is)
+
+```v
+module main
+
+struct Dog {}
+
+struct Cat {}
+
+fn (d Dog) speak() string {
+	return 'wang'
+}
+
+fn (c Cat) speak() string {
+	return 'miao'
+}
+
+interface Speaker {
+	speak() string
+}
+
 fn perform(s Speaker) {
 	if s is Dog { // 通过is操作符,判断接口类型是否是某一个具体类型
 		println('s is Dog')
@@ -181,13 +233,59 @@ fn perform(s Speaker) {
 		println('s is not Dog')
 	}
 
-	println(s.speak())
-}
-//match未实现的接口类型匹配
+	//match未实现的接口类型匹配
 	match s {
 		Dog { println('s is Dog struct') }
 		Cat { println('s is Cat struct') }
-		else { println(typeof(s)) }
+		else { println('s is: $s.type_name()') }
 	}
+}
+
+fn main() {
+	dog := Dog{}
+	cat := Cat{}
+	perform(dog) // "wang"
+	perform(cat) // "miao"
+}
+module main
+
+struct Dog {}
+
+struct Cat {}
+
+fn (d Dog) speak() string {
+	return 'wang'
+}
+
+fn (c Cat) speak() string {
+	return 'miao'
+}
+
+interface Speaker {
+	speak() string
+}
+
+fn perform(s Speaker) {
+	if s is Dog { // 通过is操作符,判断接口类型是否是某一个具体类型
+		println('s is Dog')
+	}
+	if s !is Dog { // 通过!is操作符,判断接口类型不是某一个具体类型
+		println('s is not Dog')
+	}
+
+	//match未实现的接口类型匹配
+	match s {
+		Dog { println('s is Dog struct') }
+		Cat { println('s is Cat struct') }
+		else { println('s is: $s.type_name()') }
+	}
+}
+
+fn main() {
+	dog := Dog{}
+	cat := Cat{}
+	perform(dog) // "wang"
+	perform(cat) // "miao"
+}
 ```
 
