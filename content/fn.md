@@ -350,6 +350,10 @@ pub fn (p Point) position() (int, int) {
 
 #### live
 
+代码热更新功能,实际生产用处不大
+
+开发时可以使用,像脚本语言那样,保存即生效,不用重启服务器,正式发布的时候还是要去除live注解,有些麻烦
+
 ```v
 module main
 
@@ -367,5 +371,11 @@ fn main() {
 		time.sleep_ms(1000)
 	}
 }
+```
+
+运行时也需要加上-live选项,才会有效果
+
+```
+v -live run  main.v
 ```
 
