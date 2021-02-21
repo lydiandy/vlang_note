@@ -309,9 +309,9 @@ fn main() {
 
 ### 函数注解
 
-- deprecated注解
+#### deprecated
 
-  模块发布给其他用户使用后,如果模块的某个函数想要声明作废,可以使用作废注解
+模块发布给其他用户使用后,如果模块的某个函数想要声明作废,可以使用作废注解
 
 ```v
 [deprecated] //函数作废注解
@@ -324,9 +324,9 @@ pub fn (p Point) position() (int, int) {
 }
 ```
 
-- inline注解
+#### inline
 
-  inline注解的功能跟C函数的inline函数一样
+inline注解的功能跟C函数的inline函数一样
 
 ```v
 [inline] //函数inline注解
@@ -340,10 +340,32 @@ pub fn (p Point) position() (int, int) {
 }
 ```
 
-- unsafe注解
+#### unsafe
 
-  参考[不安全代码章节](unsafe.md)
+参考[不安全代码章节](unsafe.md)
 
-- trusted注解
+#### trusted
 
-  参考[不安全代码章节](unsafe.md)
+参考[不安全代码章节](unsafe.md)
+
+#### live
+
+```v
+module main
+
+import time
+
+[live]
+fn print_message() {
+	println('更新时间:${time.now()}')
+	println('该函数范围内的代码修改后,不需要重新编译运行,保存即生效')
+}
+
+fn main() {
+	for {
+		print_message()
+		time.sleep_ms(1000)
+	}
+}
+```
+
