@@ -318,7 +318,7 @@ fn main() {
 pub fn ext(path string) string {
 	panic('Use `filepath.ext` instead of `os.ext`') //结合panic进行报错提示
 }
-[deprecated] //方法作废注解
+[deprecated:'可以在这里写说明'] //带说明的作废注解,编译器提示函数作废的时候会显示出来
 pub fn (p Point) position() (int, int) {
 	return p.x, p.y
 }
