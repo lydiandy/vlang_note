@@ -124,7 +124,52 @@ fn main() {
 }
 ```
 
+### thread线程数组
 
+go表达式实现了并发执行后,然后返回单个结果给主线程
+
+而thread线程数组实现了并发执行多个线程,然后返回结果数组给主线程,用起来挺简洁明了的
+
+```v
+module main
+
+fn f(x f64) f64 {
+	y := x * x
+	return y
+}
+
+fn g(shared a []int, i int) {
+	lock a { //读写锁定,共享变量a
+		a[i] *= a[i] + 1
+	}
+}
+
+fn main() {
+	mut r := []thread f64{cap: 10} //轻量级线程数组,每一个线程的返回值类型是f64
+	for i in  0 .. 10 {
+		r << go f(f64(i) + 0.5)
+	}
+	x := r.wait() //线程数组有一个内置的wait方法,等待线程数组的所有线程全部运行完毕,并返回结果数组
+	println(x) //[0.25, 2.25, 6.25, 12.25, 20.25, 30.25, 42.25, 56.25, 72.25, 90.25]
+
+	shared a := [2 3 5 7 11 13 17]
+	t := [
+		go g(shared a, 0)
+		go g(shared a, 3)
+		go g(shared a, 6)
+		go g(shared a, 2)
+		go g(shared a, 1)
+		go g(shared a, 5)
+		go g(shared a, 4)
+	]
+	println('threads started')
+	t.wait()
+	rlock a {
+		println(a) //[6, 12, 30, 56, 132, 182, 306]
+	}
+}
+
+```
 
 ### 错误处理
 
