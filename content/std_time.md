@@ -40,10 +40,19 @@ pub fn (t Time) relative() string
 pub fn now() Time
 //返回时间
 pub fn new_time(t Time) Time
-//进程休眠,按秒
-pub fn wait(seconds int)
-//进程休眠,按毫秒
-pub fn wait_ms(milliseconds int) 
+//进程休眠,等待参数指定的时间长度:
+//秒:  n*time.second
+//毫秒: n*time.millisecond
+//微秒: n*time.microsecond
+//纳秒: n*time.nanosecond
+
+//nanosecond  = Duration(1)
+//microsecond = Duration(1000 * nanosecond)
+//millisecond = Duration(1000 * microsecond)
+//second      = Duration(1000 * millisecond)
+//minute      = Duration(60 * second)
+//hour        = Duration(60 * minute)
+pub fn wait(duration Duration)
 //判断是否闰年
 pub fn is_leap_year(year int) bool
 ...
