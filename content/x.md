@@ -230,7 +230,7 @@ import time
 
 fn main() {
 	go start_server()
-	time.sleep_ms(100)
+	time.wait(100*time.millisecond)
 	ws_client('ws://localhost:30000') ?
 }
 
@@ -291,11 +291,11 @@ fn ws_client(uri string) ? {
 		ws.write(msg.bytes(), .text_frame) or {
 			panic('fail to write to websocket')
 		}
-		// sleep to give time to recieve response before send a new one
-		time.sleep_ms(100)
+		// wait to give time to recieve response before send a new one
+		time.wait(100*time.millisecond)
 	}
-	// sleep to give time to recieve response before asserts
-	time.sleep_ms(500)
+	// wait to give time to recieve response before asserts
+	time.wait(500*time.millisecond)
 }
 ```
 

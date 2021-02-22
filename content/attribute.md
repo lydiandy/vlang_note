@@ -54,6 +54,10 @@ V语言可以针对结构体,结构体字段,函数/方法进行注解
 
   参考:[unsafe章节](unsafe.md)
 
+- [trusted]
+
+  参考:[unsafe章节](unsafe.md)
+  
 - [if debug]
 
   ```v
@@ -62,8 +66,20 @@ V语言可以针对结构体,结构体字段,函数/方法进行注解
 
 - [windows_stdcall]
 
-  ```v
+  这个注解只能用于Win32 API,如果需要传递回调函数的时候使用
   
+  ```v
+  [windows_stdcall]
+  fn C.DefWindowProc(hwnd int, msg int, lparam int, wparam int)
+  ```
+
+- [console]
+
+  这个注解只能用在main函数前,导入了图形库模块(比如gg,ui)后,命令行窗口就不再显示了,查看不到命令行输出,加上这个注解,命令行窗口就会出现
+
+  ```v
+  [console]
+  fn main() {}
   ```
 
 ### 自定义注解

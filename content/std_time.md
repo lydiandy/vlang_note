@@ -41,9 +41,9 @@ pub fn now() Time
 //返回时间
 pub fn new_time(t Time) Time
 //进程休眠,按秒
-pub fn sleep(seconds int)
+pub fn wait(seconds int)
 //进程休眠,按毫秒
-pub fn sleep_ms(milliseconds int) 
+pub fn wait_ms(milliseconds int) 
 //判断是否闰年
 pub fn is_leap_year(year int) bool
 ...

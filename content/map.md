@@ -51,38 +51,48 @@ map[string][]int
 ```v
 module main
 
+enum Token {
+	aa = 2
+	bb
+	cc
+}
+
 fn main() {
 	//非字符串key
-	// int key
+	// int key 整数
 	mut m1 := map[int]int{}
 	m1[3] = 9
 	m1[4] = 16
 	println(m1)
-	// voidptr key
+	// voidptr key 通用指针
 	mut m2 := map[voidptr]string{}
 	v := 5
 	m2[&v] = 'var'
 	m2[&m2] = 'map'
 	println(m2)
-	// rune key
+	//rune key unicode码
 	mut m3 := {
 		`!`: 2 //是反引号`,不是单引号'
 		`%`: 3
 	}
 	println(typeof(m3).name) // map[rune]int
 	println(m3)
-	// byte key
-	mut m4:=map[byte]string{}
-	m4[byte(1)]='a'
-	m4[byte(2)]='b'
+	// byte key 字节
+	mut m4 := map[byte]string{}
+	m4[byte(1)] = 'a'
+	m4[byte(2)] = 'b'
 	println(m4)
-  // float key
-  mut m5 := map[f64]string{}
-  m5[1.2] = 'a'
-  m5[2.0] = 'b'
-  println(m5)
+	// float key 小数
+	mut m5 := map[f64]string{}
+	m5[1.2] = 'a'
+	m5[2.0] = 'b'
+	println(m5)
+	// enum key 枚举值
+	mut m6 := map[Token]string{}
+	m6[Token.aa] = 'abc'
+	m6[Token.bb] = 'def'
+	println(m6)
 }
-
 
 ```
 

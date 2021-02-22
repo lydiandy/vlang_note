@@ -368,7 +368,7 @@ fn print_message() {
 fn main() {
 	for {
 		print_message()
-		time.sleep_ms(1000)
+		time.wait(1*time.second)
 	}
 }
 ```
