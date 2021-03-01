@@ -1,5 +1,21 @@
 ## 错误处理
 
+### 内置函数和结构体
+
+V语言内置了以下内置错误函数和结构体,用来进行错误处理:
+
+```v
+//内置错误类型
+pub struct Error {
+pub:
+	msg  string //错误消息
+	code int //错误码
+}
+//内置错误函数抛出错误,实际上是返回Option,这样写更好理解
+pub fn error(msg string) Error //抛出带消息的错误
+pub fn error_with_code(msg string,code int) Error //带错误消息和错误码
+```
+
 ### 错误定义
 
 函数定义时,返回类型前面加?,表示这个函数可能返回一个错误
@@ -21,6 +37,7 @@ or代码块必须以:return/panic/exit/continue/break结尾
 fn my_fn(i int) ?int {
 	if i == 0 {
 		return error('Not ok!') //抛出错误,err的值为Not ok!
+		// return Error{msg:'Not ok!', code: 1} //直接使用Error类型也可以,效果一样
 	}
 	if i == 1 {
 		return none //抛出错误,但是没有错误信息,err的值为空字符串
@@ -29,6 +46,7 @@ fn my_fn(i int) ?int {
 }
 
 fn my_fn2(i int) ?(int, int) { //多返回值时,?放在括号前面
+	return 1,1
 }
 
 fn main() {
@@ -36,14 +54,14 @@ fn main() {
 	//触发错误,执行or代码块,程序中断,报错:V panic: Not ok!
 	v1 := my_fn(0) or {
 		println('from 0')
-		println(err)
-		panic(err) //默认会传递err参数给or代码块,包含错误信息
+		println(err.msg)
+		panic(err.msg) //默认会传递err参数给or代码块,包含错误信息
 	}
 	println(v1)
 	//触发错误,执行or代码块,因为是return none,所以err为空,
 	v2 := my_fn(1) or {
 		println('from 1')
-		if err == '' {
+		if err.msg == '' {
 			println('err is empty')
 		}
 		return
@@ -57,67 +75,7 @@ fn main() {
 	println(v3)
 }
 
-```
 
-error函数是内置函数,定义在:vlib/builtin/option.v
-
-```v
-module builtin
-
-struct Option {
-	ok      bool
-	is_none bool
-	error   string
-	ecode   int
-	data    [400]byte
-}
-
-pub fn (o Option) str() string {
-   if o.ok && !o.is_none {
-	  return 'Option{ data: ' + o.data[0..32].hex() + ' }'
-   }
-   if o.is_none {
-	  return 'Option{ none }'
-   }
-   return 'Option{ error: "${o.error}" }'
-}
-
-// `fn foo() ?Foo { return foo }` => `fn foo() ?Foo { return opt_ok(foo); }`
-fn opt_ok(data voidptr, size int) Option {
-	if size >= 400 {
-		panic('option size too big: $size (max is 400), this is a temporary limit')
-	}
-	res := Option{
-		ok: true
-	}
-	C.memcpy(res.data, data, size)
-	return res
-}
-
-// used internally when returning `none`
-fn opt_none() Option {
-	return Option{
-		ok: false
-		is_none: true
-	}
-}
-
-pub fn error(s string) Option { //只带错误信息,不带错误码
-	return Option{
-		ok: false
-		is_none: false
-		error: s
-	}
-}
-
-pub fn error_with_code(s string, code int) Option { //带错误信息和错误码
-	return Option{
-		ok: false
-		is_none: false
-		error: s
-		ecode: code
-	}
-}
 ```
 
 若函数无返回值,仍需抛出错误,要使用?
@@ -145,8 +103,8 @@ module main
 
 fn main() {
 	exec('') or {
-		//约定的变量名err和errcode
-		panic('error text is :$err;error code is $errcode')
+		//约定的变量名err
+		panic('error text is :$err.msg;error code is $err.code')
 	}
 }
 
@@ -158,8 +116,6 @@ fn exec(stmt string) ? {
 }
 
 ```
-
-
 
 ### 向上抛转错误
 
