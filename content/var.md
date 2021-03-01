@@ -170,15 +170,55 @@ fn main() {
 }
 ```
 
+### 静态局部变量
+
+跟C的静态局部变量一样,用关键字 static 声明,静态局部变量的值在函数调用结束之后不会消失，而仍然保留其原值.
+
+一般来说,普通的V代码很少会用到静态局部变量,只有跟C集成的时候才会用到.
+
+使用静态局部变量有以下2种方式:
+
+- 在-translated模式中使用
+- 在unsafe函数和代码块中使用
+
+```v
+module main
+
+fn f() int {
+	mut x:= 1 //普通的局部变量
+	x++
+	return x
+}
+
+[unsafe] //一定要在unsafe函数中
+fn f_static() int {
+	unsafe { //在unsafe代码块中定义
+		mut static x:= 1 //静态局部变量
+		x++
+		return x
+	}
+
+}
+
+fn main() {
+	println(f()) //2
+	println(f()) //2
+	println(f()) //2
+	unsafe { //调用的时候也要使用unsafe代码块
+		println(f_static()) //2
+		println(f_static()) //3
+		println(f_static()) //4
+	}
+}
+```
+
+
+
 #### 没有模块级变量/全局变量
 
 跟其他语言比较不同的是,V语言中的变量只能在函数中定义,就是局部变量,
 
 这意味着V语言中没有全局变量,没有模块级变量
-
-
-
-
 
 
 
