@@ -203,6 +203,39 @@ fn main() {
 }
 ```
 
+go表达式和go线程数组也支持同样的错误处理方式
+
+```v
+module main
+
+import time
+
+//无返回值的函数
+fn do_something() ? {  //函数带错误处理
+  println('start do_something...')
+	time.sleep(2*time.second) //休眠2秒,模拟并发持续的时间
+	println('end do_something')
+}
+//有返回值的函数
+fn add(x int, y int) ?int {  //函数带错误处理
+	println('add并发开始...')
+	time.sleep(4*time.second) //休眠4秒,模拟并发持续的时间
+	println('add并发完成')
+	return x + y
+}
+
+fn main() {
+  //并发调用无返回值的函数
+  g :=go do_something() 
+	//并发调用带有返回值的函数,完成后返回
+ 	g2 := go add(3, 2)
+	//这段期间主线程可以继续执行别的代码...
+  g.wait() or { panic(err) } //支持错误处理的并发
+	result := g2.wait() or { panic(err) } //支持错误处理的并发
+	println(result)
+}
+```
+
 ### 关闭channel
 
 ```v
