@@ -101,13 +101,13 @@ import time
 //无返回值的函数
 fn do_something() { 
   println('start do_something...')
-	time.wait(2*time.second) //休眠2秒,模拟并发持续的时间
+	time.sleep(2*time.second) //休眠2秒,模拟并发持续的时间
 	println('end do_something')
 }
 //有返回值的函数
 fn add(x int, y int) int { 
 	println('add并发开始...')
-	time.wait(4*time.second) //休眠4秒,模拟并发持续的时间
+	time.sleep(4*time.second) //休眠4秒,模拟并发持续的时间
 	println('add并发完成')
 	return x + y
 }
@@ -338,7 +338,7 @@ import time
 fn main() {
 	ch := chan int{} //创建同步channel
 	go fn (c chan int) {
-		time.wait(3*time.second)
+		time.sleep(3*time.second)
 		println('goroutine done')
 		c.close() //关闭子线程或者写channel
 		// c <- 333
@@ -385,7 +385,7 @@ fn main() {
 	go p.add<f64>(ch, 2.2, 4.4)
 	i := <-ch
 	println(i)
-	time.wait(1*time.second)
+	time.sleep(1*time.second)
 }
 ```
 
@@ -414,7 +414,7 @@ mut:
 }
 
 fn f(x int, y f64, shared s St,shared a []string, shared m map[string]string) {
-	time.wait(50*time.second)
+	time.sleep(50*time.second)
 	//在这个线程中,如果要对共享变量进行读写,使用lock代码块来锁定,对于读写锁,其他线程只能阻塞等待,不能读写该变量,退出代码块后,自动解锁
 	lock s,a,m {  //可以同时对多个共享变量进行锁定
 		s.x = x * y
@@ -549,7 +549,7 @@ fn main() {
 			defer {
 				w.done() //完成后递减计数
 			}
-			time.wait(1*time.second)
+			time.sleep(1*time.second)
 			println('goroutine $i done')
 		}(i, mut wg)
 	}
