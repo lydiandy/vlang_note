@@ -77,8 +77,9 @@ Module {
 
 ### 创建模块项目
 
-```
+```shell
 v new //创建一个新项目,根据提示输入项目名称,描述等,生成的项目目录带有v.mod
+v new <project_name> <description> <version> <license>
 v init //把当前目录作为项目，创建项目v.mod
 ```
 
