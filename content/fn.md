@@ -379,3 +379,40 @@ fn main() {
 v -live run  main.v
 ```
 
+### 内置函数
+
+V内置了一些函数,可以全局使用
+
+#### dump函数
+
+跟C语言中的dump函数功能一样,把某个表达式的内存数据转储,并输出
+
+```v
+fn factorial(n u32) u32 {
+	if dump(n <= 1) {
+		return dump(1)
+	}
+	return dump(n * factorial(n - 1))
+}
+
+fn main() {
+	println(factorial(5))
+}
+
+```
+
+输出:
+
+```shell
+[xxx/main.v:2] n <= 1: false
+[xxx/main.v:2] n <= 1: false
+[xxx/main.v:2] n <= 1: false
+[xxx/main.v:2] n <= 1: false
+[xxx/main.v:2] n <= 1: true
+[xxx/main.v:3] 1: 1
+[xxx/main.v:5] n * factorial(n - 1): 2
+[xxx/main.v:5] n * factorial(n - 1): 6
+[xxx/main.v:5] n * factorial(n - 1): 24
+[xxx/main.v:5] n * factorial(n - 1): 120
+```
+
