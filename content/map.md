@@ -183,6 +183,24 @@ fn myfn() ? {
 }
 ```
 
+### if条件语句判断字典成员是否存在
+
+```v
+fn main() {
+	mut m := {'xy': 5, 'zu': 7}
+	mut res := []int{cap:2}
+	for k in ['jk', 'zu'] {
+    //检查字典m[k]是否存在,如果存在,则赋值,if条件返回true,如果不存在,则返回false
+		if x := m[k] { 
+			res << x
+		} else {
+			res << -17
+		}
+	}
+	println(res) //[-17,7]
+}
+```
+
 
 
 ------

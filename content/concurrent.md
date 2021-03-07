@@ -236,6 +236,27 @@ fn main() {
 }
 ```
 
+### if条件语句读取chan
+
+```v
+fn main() {
+	mut res := []f64{cap:3}
+	ch := chan f64{cap: 10}
+	ch <- 6.75
+	ch <- -3.25
+	ch.close()
+	for _ in 0 .. 3 {
+		//读取chan成功,则if条件表达式返回true;读取chan失败,chan被关闭,if条件表达式返回false
+		if x:= <-ch {
+			res << x
+		} else {
+			res << -37.5
+		}
+	}
+	println(res) // 返回[6.75, -3.25, -37.5]
+}
+```
+
 ### 关闭channel
 
 ```v
