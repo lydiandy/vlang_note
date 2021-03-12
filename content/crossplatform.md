@@ -58,8 +58,17 @@
   ...
   ```
 
-
 ### $if条件编译
+
+以下表格是所有可以在编译时进行条件判断的变量:
+
+| OS                            | Compilers        | Platforms          | Other                     |
+| ----------------------------- | ---------------- | ------------------ | ------------------------- |
+| `windows`, `linux`, `macos`   | `gcc`, `tinyc`   | `amd64`, `aarch64` | `debug`, `prod`, `test`   |
+| `mac`, `darwin`, `ios`,       | `clang`, `mingw` | `x64`, `x32`       | `js`, `glibc`, `prealloc` |
+| `android`,`mach`, `dragonfly` | `msvc`           | `little_endian`    | `no_bounds_checking`      |
+| `gnu`, `hpux`, `haiku`, `qnx` | `cplusplus`      | `big_endian`       |                           |
+| `solaris`, `linux_or_macos`   |                  |                    |                           |
 
 ```v
 fn main() {
@@ -163,6 +172,20 @@ fn main() {
 	}
 }
 ```
+
+判断是否-prod生产编译
+
+```v
+fn main() {
+	$if prod {
+		println('prod')
+	} $else {
+		println('not prod')
+	}
+}
+```
+
+
 
 ------
 

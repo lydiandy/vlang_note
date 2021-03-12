@@ -196,8 +196,50 @@ fn test_nested_with_parentheses() {
 ### 动态调用方法
 
 ```v
+struct TestStruct {}
+
+fn (t TestStruct) one_arg(a string) {
+	println(a)
+}
+
+fn (t TestStruct) two_args(a string, b int) {
+	println('$a:$b')
+}
+
+fn main() {
+	t := TestStruct{}
+	$for method in TestStruct.methods { // 获取结构体的所有方法
+    	if method.name == 'two_args' {
+      	  t.$method('hello', 42) // 动态调用方法
+    	}
+	}
+}
 
 ```
+
+```v
+struct MyStruct {}
+
+struct TestStruct {}
+
+fn (t TestStruct) three_args(m MyStruct, arg1 string, arg2 int) {
+	println('$arg1,$arg2')
+}
+
+fn main() {
+	t := TestStruct{}
+	m := MyStruct{}
+	args := ['one' '2'] //数组参数
+	$for method in TestStruct.methods {
+    	if method.name == 'three_args' {
+        	t.$method(m, args) //动态调用方法时,也可以传递一个数组,会自动解构展开
+    	}
+	}
+}
+
+```
+
+
 
 ### 编译时获取环境变量
 
@@ -219,8 +261,6 @@ fn main() {
 }
 
 ```
-
-
 
 ### 编译时嵌入文件
 
