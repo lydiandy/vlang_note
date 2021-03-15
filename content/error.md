@@ -5,15 +5,20 @@
 V语言内置了以下内置错误函数和结构体,用来进行错误处理:
 
 ```v
-//内置错误类型
-pub struct Error {
-pub:
-	msg  string //错误消息
+//内置错误接口
+pub interface IError {
+	msg string //错误消息
 	code int //错误码
 }
-//内置错误函数抛出错误,实际上是返回Option,这样写更好理解
-pub fn error(msg string) Error //抛出带消息的错误
-pub fn error_with_code(msg string,code int) Error //带错误消息和错误码
+//内置错误类型,实现错误接口
+pub struct Error {
+pub:
+	msg  string 
+	code int 
+}
+//内置函数,创建一个错误
+pub fn error(msg string) IError //抛出带消息的错误
+pub fn error_with_code(msg string,code int) IError //带错误消息和错误码
 ```
 
 ### 错误定义
@@ -54,7 +59,6 @@ fn main() {
 	//触发错误,执行or代码块,程序中断,报错:V panic: Not ok!
 	v1 := my_fn(0) or {
 		println('from 0')
-		println(err.msg)
 		panic(err.msg) //默认会传递err参数给or代码块,包含错误信息
 	}
 	println(v1)
