@@ -1,36 +1,37 @@
-## 内联汇编代码
+## 内联汇编代码(inline asm)
 
-V语言可以像C语言那样,在v代码中直接编写/嵌入汇编代码(inline asm)
+V语言可以像C语言那样,在V代码中直接编写/嵌入汇编代码
 
-使用asm代码块来编写汇编代码,asm代码块必须被包含在unsafe代码块中
+使用asm代码块来编写汇编代码
 
 ```v
-module main
-
 fn main() {
-	a := 10
-	b := 0
-	unsafe {	//unsafe代码块
-		asm x64 {	//asm代码块,里面可以直接写汇编代码
-			"movl %1, %%eax;"
-			"movl %%eax, %0;"
-			:"=r"(b)
-			:"r"(a)
-			:"%eax"
-		}
+	a := 100
+	b := 20
+	mut c := 0
+	asm amd64 { //行内汇编代码块
+		mov eax, a
+		add eax, b
+		mov c, eax
+		; =r (c) // output 
+		; r (a) // input 
+		  r (b)
 	}
-	println(a) //返回10
-	println(b) //返回10,直接通过汇编代码修改了b的值
-
-	e := 0
-	unsafe {
-		asm x64 {
-			"movl $5, %0"
-			:"=a"(e)
-		}
-	}
-	println(e) //返回5,直接通过汇编代码修改了e的值
+	println('a: $a') // 100
+	println('b: $b') // 20
+	println('c: $c') // 120
 }
- 
+
 ```
+
+目前支持的架构:
+
+| 架构名称                               | 推荐使用名称 | 描述          |
+| -------------------------------------- | ------------ | ------------- |
+| amd64, x86_64, x64, x86                | amd64        | x86_64        |
+| aarch64, arm64                         | aarch64      | 64-bit arm    |
+| arm32, aarch32, arm                    | aarch32      | 32-bit arm    |
+| rv64, riscv64, risc-v64, riscv, risc-v | rv64         | 64-bit risc-v |
+| rv32, riscv32                          | rv32         | 32-bit risc-v |
+| x86_32, x32, i386, IA-32, ia-32, ia32  | i386         | i386          |
 
