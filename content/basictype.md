@@ -15,21 +15,24 @@ x:=true
 y:=false
 println(x) //true
 println(y) //false
-println(sizeof(bool)) //4
+println(sizeof(bool)) //1
 ```
 
-bool类型从定义的C代码看，是C的一个int类型别名
+bool类型从定义的C代码看，是C的一个byte(uint8_t)的类型别名
 
 true是常量1，false是常量0
 
-使用sizeof(bool)，可以看到bool类型的长度是4个字节
+使用sizeof(bool)，可以看到bool类型的长度是1个字节
 
-```v
+```c
+typedef uint8_t byte;
+...
 #ifndef bool
-	typedef int bool;
-	#define true 1
-	#define false 0
-#endif
+		typedef int bool;
+		typedef byte bool;
+		#define true 1
+		#define false 0
+	#endif
 ```
 
 ------
