@@ -206,9 +206,9 @@ fn main() {
 }
 ```
 
-### 接口变量类型判断
+### 接口变量类型判断及匹配
 
-可以使用match,as,is,对接口参数的具体类型进行判断(目前还未全部实现,只实现了is, !is)
+可以使用match,as,is,对接口参数的具体类型进行判断和匹配
 
 ```v
 module main
@@ -237,7 +237,7 @@ fn perform(s Speaker) {
 		println('s is not Dog')
 	}
 
-	//match未实现的接口类型匹配
+	//match对接口参数的类型匹配
 	match s {
 		Dog { println('s is Dog struct') }
 		Cat { println('s is Cat struct') }
@@ -277,7 +277,7 @@ fn perform(s Speaker) {
 		println('s is not Dog')
 	}
 
-	//match未实现的接口类型匹配
+	//match对接口参数的类型匹配
 	match s {
 		Dog { println('s is Dog struct') }
 		Cat { println('s is Cat struct') }
