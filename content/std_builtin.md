@@ -499,6 +499,36 @@ fn main() {
 }
 ```
 
+- a.any()
+
+    ```v
+    fn main() {
+    	a := [1, 2, 3, 4, 5]
+    	
+    	x:= a.any( it > 2) == true // 只要有任何一个元素满足条件,表达式就成立
+    	println(x) // true
+    
+    	y:=a.all( it > 2 ) == true // 必须是所有元素都满足条件,表达式才成立
+    	println(y) // false
+    }
+    ```
+    
+- a.all()
+
+    ```v
+    fn main() {
+    	a := [1, 2, 3, 4, 5]
+    	
+    	x:= a.any( it > 2) == true // 只要有任何一个元素满足条件,表达式就成立
+    	println(x) // true
+    
+    	y:=a.all( it >2 ) == true // 必须是所有元素都满足条件,表达式才成立
+    	println(y) // false
+    }
+    ```
+    
+    
+    
 - []int.reduce(iter fn (accum, curr int) int, accum_start int) int	
 
     针对int数组,给定一个初始的累计值accum_start,以及累计值与数组元素的累加关系,返回最终的累加结果
