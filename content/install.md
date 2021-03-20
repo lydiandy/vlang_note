@@ -90,3 +90,12 @@ sudo ./v symlink
 会创建v环境变量
 
 以上命令只需执行一次,如果v命令更换了位置,每次启动会自动更新快捷方式和环境变量
+
+###安装技巧：
+有时也可能存在`https://github.com`访问不了的情况，可以按照以下办法安装或者更新vlang：
+1. git clone --depth=1 --single-branch `git`://github.com/vlang/v(更新时跳过)
+2. cd v
+3. (更新时)git pull
+4. git clone --depth=1 --single-branch `git`://github.com/vlang/vc （更新时cd vc, git pull）
+5. gcc -std=c99 -w -municode -o v1.exe vc/v_win.c
+6. v1 -o v.exe cmd/v
