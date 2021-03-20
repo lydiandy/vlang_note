@@ -28,6 +28,31 @@ V的0.2版本发布后,增加了一个编译选项-autofree,可以实现自动�
 
 目前该选项还没有正式发布,不是编译器默认选项,需要人工添加,计划在0.3版本作为默认选项
 
+### 可选的GC
+
+在V的内存管理没有成熟之前,可选的GC算是一个备用方案
+
+ Boehm garbage collector基本介绍
+
+boehm的发音是/bame/，是美式英语中一个从德文来的姓氏,是一个C的垃圾回收器
+
+使用mark and sweep算法的增量式分代垃圾回收器
+
+
+llvm, mono, gnu d compiler, gnu java compiler等也都使用该gc
+
+一般的C代码中，只要将malloc, realloc替换成boehm相应的分配函数，再删除free调用，就带gc功能
+
+1. 安装: https://github.com/ivmai/bdwgc
+
+   
+
+2. 编译选项:
+
+```shell
+v -gc boehm xxx.v
+```
+
 ### 手动内存管理
 
 除了使用-autofree自动管理内存,也可以使用--manualfree手动管理内存
