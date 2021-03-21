@@ -28,11 +28,15 @@ V的0.2版本发布后,增加了一个编译选项-autofree,可以实现自动�
 
 目前该选项还没有正式发布,不是编译器默认选项,需要人工添加,计划在0.3版本作为默认选项
 
-### 可选的GC
+### 可选GC
 
-在V的内存管理没有成熟之前,可选的GC算是一个备用方案
+在V的内存管理没有成熟之前,可选GC算是一个备用方案 
 
- Boehm garbage collector基本介绍
+V使用的是开源的,通用的,C的垃圾回收器: 
+
+Boehm-Demers-Weiser Garbage Collector (bdwgc)
+
+源代码: https://github.com/ivmai/bdwgc
 
 boehm的发音是/bame/，是美式英语中一个从德文来的姓氏,是一个C的垃圾回收器
 
@@ -43,15 +47,66 @@ llvm, mono, gnu d compiler, gnu java compiler等也都使用该gc
 
 一般的C代码中，只要将malloc, realloc替换成boehm相应的分配函数，再删除free调用，就带gc功能
 
-1. 安装: https://github.com/ivmai/bdwgc
+#### 安装(mac环境)
 
-   
+- 安装libgc-dev包
 
-2. 编译选项:
+  ```shell
+  brew install libgc
+  ```
+
+- 也可手工下载发布的稳定版本: 
+
+  https://github.com/ivmai/bdwgc/releases, 目前最新的稳定版是8系列
+
+  下载完成后编译:
+
+  ```shell
+  cd bdwgc
+  ./configure
+  make -j
+  make check
+  ```
+
+  编译完成后,把bdwgc目录复制到V源代码目录的thirdparty中
+
+#### 使用
+
+在编译的时候加上 -gc boehm就可以把GC加入到你自己的代码中
 
 ```shell
-v -gc boehm xxx.v
+v -gc boehm xxx.v       // 带GC的编译
+v -gc boehm run main.v  // 带GC的运行
+v -prod -gc boehm main.v  // 生产编译带GC的代码
 ```
+
+#### 编译后文件大小对比
+
+最简单的测试代码:
+
+```v
+fn main() {
+    println('from main')
+}
+```
+
+带GC的大概增加300K左右的大小
+
+|  v   | v -gc boehm | v -prod | v -prod -gc boehm |
+| :--: | :---------: | :-----: | :---------------: |
+| 209K |    509K     |   52K   |       351K        |
+
+#### 代码中判断是否启用GC
+
+一般的V代码很少用到
+
+```v
+$if gcboehm  {
+	
+}
+```
+
+
 
 ### 手动内存管理
 
