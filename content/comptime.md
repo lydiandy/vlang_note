@@ -18,7 +18,7 @@ FieldData {
     attrs: [] 		//字段注解
     is_pub: false //是否公共
     is_mut: false //是否可变
-    Type: 18		 	//字段类型
+    typ: 18		 	//字段类型
 }
 ```
 
@@ -29,8 +29,8 @@ FunctionData {
     name: 'int_method1' //方法名称
     attrs: []						//方法注解
     args: []						//方法参数
-    ReturnType: 7				//方法返回类型
-    Type: 0							//未知
+    return_type: 7				//方法返回类型
+    typ: 0							//未知
 }
 ```
 
@@ -87,13 +87,13 @@ fn f2() {
 	println(@FN)
 	$for method in App.methods { //遍历结构体所有方法
 		println('  method: ' + no_lines('$method'))
-		$if method.Type is fn () {
+		$if method.typ is fn () {
 			assert method.name in ['run', 'method2']
 		}
-		$if method.ReturnType is int {
+		$if method.return_type is int {
 			assert method.name in ['int_method1', 'int_method2']
 		}
-		$if method.args[0].Type is string {
+		$if method.args[0].typ is string {
 			assert method.name == 'string_arg'
 		}
 	}
@@ -103,10 +103,10 @@ fn main() {
 	println(@FN)
 	$for field in App.fields { //遍历结构体所有字段
 		println('  field: $field.name | ' + no_lines('$field'))
-		$if field.Type is string {
+		$if field.typ is string {
 			assert field.name in ['a', 'b', 'g']
 		}
-		$if field.Type is f32 {
+		$if field.typ is f32 {
 			assert field.name in ['d', 'e']
 		}
 		if field.is_mut {
