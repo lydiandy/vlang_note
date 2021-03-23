@@ -171,6 +171,39 @@ fn main() {
 }
 ```
 
+### 联合类型相等判断
+
+```v
+type Str = string | ustring
+
+struct Foo {
+	v int
+}
+
+struct Bar {
+	v int
+}
+
+type FooBar = Foo | Bar
+
+fn main() {
+	s1 := Str('s')
+	s2 := Str('s')
+	u1 := Str('s'.ustring())
+	u2 := Str('s'.ustring())
+	println( s1 == s1 ) //联合类型判断相等或不等:同类型,同值
+	println( s1 == s2 )
+	println( u1 == u1 )
+	println( u1 == u2 )
+
+    //类型不同,值相同也不等
+	foo := FooBar( Foo{v: 0} )
+	bar := FooBar( Bar{v: 0} )
+	println( foo.v == bar.v )
+	println( foo != bar )
+}
+```
+
 ### for is类型循环判断
 
 用于联合类型的类型循环判断(感觉没啥用,就是一个语法糖而已)
