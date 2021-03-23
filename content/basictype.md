@@ -144,6 +144,17 @@ println('hello $name') //方式1
 println('hello ${name}') //方式2,效果一样,更常用于复杂的表达式,把表达式放在{}里面
 ```
 
+判断字符串是否包含子字符串:
+
+```v
+fn main() {
+    s:='abcd'
+    println(s.contains('c')) //true
+    println(s.contains('bc')) //true
+    println(s.contains('bb')) //false
+}
+```
+
 遍历字符串:
 
 ```v
