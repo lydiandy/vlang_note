@@ -322,6 +322,14 @@ pub fn ext(path string) string {
 pub fn (p Point) position() (int, int) {
 	return p.x, p.y
 }
+
+[deprecated:'这是作废说明']
+[deprecated_after: '2021-03-01']  //在某个日期后开始作废,一定要放在deprecated后,才会警告
+pub fn fn1() (int, int) (int, int) {
+	return p.x, p.y
+}
+//函数被调用,就会出现如下警告:
+//warning: function `fn1` has been deprecated since 2021-03-01; 这是作废说明
 ```
 
 #### inline

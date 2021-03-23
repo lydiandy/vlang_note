@@ -36,6 +36,8 @@ V使用的是开源的,通用的,C的垃圾回收器:
 
 Boehm-Demers-Weiser Garbage Collector (bdwgc)
 
+官网: https://www.hboehm.info/gc/
+
 源代码: https://github.com/ivmai/bdwgc
 
 boehm的发音是/bame/，是美式英语中一个从德文来的姓氏,是一个C的垃圾回收器
