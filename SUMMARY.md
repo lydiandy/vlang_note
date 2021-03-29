@@ -44,7 +44,7 @@
 * [vui](content/gui.md)
 * [vweb框架](content/vweb.md)
 * [数据库](content/db.md)
-* [在浏览器运行V代码](content/gen_js.md)
+* [在浏览器运行V代码](content/run_in_web.md)
 * --
 * [常用标准库:](content/std_builtin.md)
 * [builtin](content/std_builtin.md)
@@ -85,7 +85,8 @@
 * --
 * [V语法树](content/vast.md)
 * [V编译器源代码](content/compiler.md)
-* [生成C代码](content/genc.md)
+* [生成C代码](content/gen_c.md)
+* [生成js代码](content/gen_js.md)
 * --
 * [附录1 关键字](content/appendix-keyword.md)
 * [附录2 编码风格](content/style.md)

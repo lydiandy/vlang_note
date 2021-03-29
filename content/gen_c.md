@@ -14,11 +14,11 @@ V语言的开发重点在编译器前端,C就是编译器后端
 
 ------
 
-### 查看生成的C代码
+### 生成C代码
 
-想要查看V代码生成的C代码,只要使用-o参数就可以了,编译器会生成C代码
+使用-o参数就可以
 
-比如,想把当前目录的main.v代码生成main.c代码,执行以下命令就可以:
+把当前目录的main.v代码生成main.c代码:
 
 ```
 v -o main.c ./main.v 
@@ -67,15 +67,17 @@ typedef map map_string;
 typedef byte array_fixed_byte_300 [300];
 typedef byte array_fixed_byte_400 [400];
 
+typedef uint8_t byte;
+...
 #ifndef bool
-	typedef int bool; //布尔类型在C里面通过int类型来实现,4字节
-	#define true 1 //true是整数常量1
-	#define false 0 //false是整数常量0
+		typedef int bool; //布尔类型在C里面通过int类型来实现,1字节
+		typedef byte bool;
+		#define true 1 //true是整数常量1
+		#define false 0 //false是整数常量0
 #endif
-
 ```
 
-### V代码生成C代码对照表
+### 代码对照表
 
 #### 常量
 
