@@ -30,9 +30,8 @@ V编译器源代码位于标准库中:vlib/v
 
 | 子目录    | 说明                                    |
 | --------- | --------------------------------------- |
-| ast       | AST抽象语法树相关                       |
+| ast       | AST抽象语法树和全局符号表               |
 | token     | 词法单元相关                            |
-| table     | 全局符号表相关                          |
 | pref      | 编译选项/参数相关                       |
 | scanner   | 词法分析/扫描器相关                     |
 | parser    | 语法分析/解析器相关                     |
@@ -184,7 +183,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | parse_files(paths []string)                | 对一组源文件进行语法分析          |
   | ...                                        |                                   |
 
-- **table.table**
+- **ast.table**
 
   符号表,保存着语法分析后,得到的所有变量,函数,类型等
 
@@ -342,7 +341,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | key_offsetof      | 关键字__offsetof,未使用                                      |
   | keyword_end       | 表示在keyword_beg和keyword_end之间的都是关键字,本身无意义    |
 
-- **table.Fn**
+- **ast.Fn**
   
   函数类型
   
@@ -353,7 +352,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
 | return_type Type | 函数的返回类型     |
   | is_variadic bool | 是不是可变参数函数 |
   
-- **table.Var**
+- **ast.Var**
   
   变量和常量类型
   
@@ -367,7 +366,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | scope_level int | 作用域级别           |
   | typ    Type     | 变量类型             |
   
-- **table.Field**
+- **ast.Field**
   
   结构体字段类型
   
@@ -376,7 +375,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | name string | 字段名称 |
   | typ Type    | 字段类型 |
 
-- **table.Scope**
+- **ast.Scope**
   
   作用域
   | 字段/方法         | 说明           |
@@ -386,7 +385,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | start_pos int     | 作用域开始位置 |
   | end_pos  int      | 作用域结束位置 |
   
-- **table.TypeSymbol**
+- **ast.TypeSymbol**
   
   类型,描述类型的类型
   
@@ -397,7 +396,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
 | info    TypeInfo    | 类型的额外信息类,只对6个类型有用 |
   | name    string      | 类型的名字                       |
   
-- **table.Type**
+- **ast.Type**
 
   类型引用,i32的类型别名,表示每一个类型在符号表中的唯一ID
 
@@ -409,7 +408,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   pub type Type int
   ```
 
-- **table.AccessMod**
+- **ast.AccessMod**
 
   结构体字段的访问控制枚举
 
@@ -421,7 +420,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | public_mut  | 所有模块可访问,且可变                       |
   | global      | 全局字段,所有模块可访问,且可修改,不推荐使用 |
 
-- **table.Kind**
+- **ast.Kind**
   
   类型的种类,包含了V语言中的所有类型种类,包括基本类型,内置类型,结构体类型等其他种类,对类型进行分类以后,就可以针对不同的种类进行不同的语法分析,语法检查
   
@@ -456,7 +455,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | alias        | 类型别名     |
   | unresolved   |              |
   
-- **table.TypeInfo**
+- **ast.TypeInfo**
 
   类型信息类,该类型是一个联合类型,作为几种特殊类型的额外信息
 
@@ -465,7 +464,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   MultiReturn | Alias
   ```
 
-- **table.Struct**
+- **ast.Struct**
   
   结构体类型,TypeInfo联合类型的其中一种类型
   
@@ -475,7 +474,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | -------------- | ---------------- |
   | fields []Field | 结构体的所有字段 |
   
-- **table.Array**
+- **ast.Array**
 
   数组类型,TypeInfo联合类型的其中一种类型
 
@@ -484,7 +483,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | elem_type Type | 数组类型 |
   | nr_dims    int | 数组维度 |
 
-- **table.ArrayFixed**
+- **ast.ArrayFixed**
   
   固定大小数组类型,TypeInfo联合类型的其中一种类型
   
@@ -494,7 +493,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | nr_dims    int | 数组维度 |
   | size      int  | 数组大小 |
   
-- **table.Map**
+- **ast.Map**
   
   字典类型,TypeInfo联合类型的其中一种类型
   
@@ -503,7 +502,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | key_type  Type  | 键的类型 |
   | value_type Type | 值的类型 |
   
-- **table.MultiReturn**
+- **ast.MultiReturn**
   
   多返回值类型,TypeInfo联合类型的其中一种类型
   
@@ -514,7 +513,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | name string  | 类型名字               |
   | types []Type | 包含多返回值的类型数组 |
   
-- **table.Alias**
+- **ast.Alias**
   
   类型别名,TypeInfo联合类型的其中一种类型
   
