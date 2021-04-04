@@ -78,7 +78,7 @@ __global:
 ```v
 struct string {
 pub:
-	str byteptr  //都是公共,不可变
+	str &byte  //都是公共,不可变
 	len int 		//都是公共,不可变
 }
 ```

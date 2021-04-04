@@ -70,13 +70,13 @@
 
 ------
 
-- malloc(n int) byteptr    
+- malloc(n int) &byte    
 
   分配所需的内存空间，并返回一个指向它的指针,对C标准库的malloc的简单封装,成为内置函数,用途一样
 
 ------
 
-- calloc(n int) byteptr      
+- calloc(n int) &byte      
 
   分配所需的内存空间，并返回一个指向它的指针,对C标准库的calloc的简单封装,不一样的是C的calloc有2个参数,V简化为1个size参数,成为内置函数,用途一样.malloc 和 calloc 之间的不同点是，malloc 不会设置内存为零，而 calloc 会设置分配的内存为零
 
@@ -96,20 +96,20 @@
 
 以下3个常用的C分配内存函数没有定义成为内置函数,还需要通过C.xxx来使用:
 
-- C.realloc(byteptr,int) voidptr
+- C.realloc(&byte,int) voidptr
 
     重新调整内存大小
 
 ------
 
 
-- C.memcpy(byteptr,byteptr,int)  voidptr
+- C.memcpy(&byte,&byte,int)  voidptr
 
     内存拷贝
 
 ------
 
-- C.memmove(byteptr,byteptr,int) voidptr
+- C.memmove(&byte,&byte,int) voidptr
 
   内存移动
 
@@ -128,19 +128,19 @@
 
 **字符串函数:**
 
-- vstrlen(s byteptr) int
+- vstrlen(s &byte) int
     传入字节指针,计算指针指向的字符串的长度,一般用于C指针指向的字符串
-- tos(s byteptr,len int) string
+- tos(s &byte,len int) string
     传入字节指针和长度,转换成字符串,一般用于C指针转换成V字符串
-- tos2(s byteptr) string
+- tos2(s &byte) string
 
     传入字节指针,转换成字符串,字符串的长度自动识别,一般用于C指针转换成V字符串
 
-- tos3(s charptr) string
+- tos3(s &char) string
 
     传入字符指针,转换成字符串,一般用于C指针转换成V字符串
 
-- tos_clone(s byteptr) string
+- tos_clone(s &byte) string
 
     传入字节指针,通过克隆的方式,生成新的字符串,内容跟字节指针指向的字符串一致
 

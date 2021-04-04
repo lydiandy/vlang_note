@@ -137,8 +137,8 @@ fn multi_voidptr_ret() (voidptr, bool) { //返回通用指针
 	return voidptr(0), true
 }
 
-fn multi_byteptr_ret() (byteptr, bool) { //返回字节指针
-	return byteptr(0), true
+fn multi_&byte_ret() (&byte, bool) { //返回字节指针
+	return &byte(0), true
 }
 ```
 

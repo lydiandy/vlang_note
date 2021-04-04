@@ -46,10 +46,10 @@ typedef uint32_t rune;
 typedef float f32;
 typedef double f64;
 
-typedef unsigned char* byteptr; //字节指针
+typedef unsigned char* &byte; //字节指针
 typedef int* intptr; //整型指针
 typedef void* voidptr; //通用指针
-typedef char* charptr; //C字符指针
+typedef char* &char; //C字符指针
 
 typedef struct array array;
 typedef struct map map;
@@ -406,7 +406,7 @@ pub struct string {
 	// var:
 	// hash_cache int
 pub:
-	str byteptr // points to a C style 0 terminated string of bytes.
+	str &byte // points to a C style 0 terminated string of bytes.
 	len int // the length of the .str field, excluding the ending 0 byte. It is always equal to strlen(.str).
 }
 //string的各种内置方法:

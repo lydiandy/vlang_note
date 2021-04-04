@@ -141,7 +141,7 @@ OpenGL 1.x样式的立即模式渲染API,基于sokol_gfx.h
   fn cleanup_cb() {
   
   }
-  fn fail_cb(msg byteptr) {
+  fn fail_cb(msg &byte) {
   
   }
   fn event_cb(e voidptr) {

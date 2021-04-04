@@ -33,7 +33,7 @@ pub mut:
 
     追加写入单个字节
 
-- Builder.write_bytes(bytes byteptr,howmany int)
+- Builder.write_bytes(bytes &byte,howmany int)
 
     追加写入多个字节
 

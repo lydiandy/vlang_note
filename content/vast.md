@@ -1655,8 +1655,8 @@ __global ( g1 int )
 
 // group
 __global (
-	g2 byteptr 
-	g3 byteptr 
+	g2 &byte 
+	g3 &byte 
 )
 
 fn main() {

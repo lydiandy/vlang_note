@@ -188,7 +188,7 @@ println(s[2..5]) //输出llo
 ```v
 pub struct string {
 pub: 					 //pub表示这两个字符串的属性都是：公共且只读的
-	str byteptr //一个byte类型的指针,指向字符串的首字节地址
+	str &byte //一个byte类型的指针,指向字符串的首字节地址
 	len int  //字符串的长度
 }
 ```
@@ -268,9 +268,9 @@ byteptr: 字节类型指针 //已作废,统一使用 &byte
 
 charptr: 字符类型指针 //已作废,统一使用 &char
 
-V代码中使用的最多的是byteptr和voidptr
+V代码中使用的最多的是&byte和voidptr
 
-V代码中比较少用charptr,只有在跟C代码集成时或底层代码用得多,C的很多字符串都是charptr指针
+V代码中比较少用&char,只有在跟C代码集成时或底层代码用得多,C的很多字符串都是&char指针
 
 以下是3种指针类型,生成C代码对应的类型定义:
 

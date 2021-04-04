@@ -27,11 +27,11 @@ pub fn (a array) free() {
 ```v
 // v/builtin/cfns.c.v
 [trusted] //注解C函数为安全的,信任的函数
-fn C.calloc(int, int) byteptr
+fn C.calloc(int, int) &byte
 
-fn C.malloc(int) byteptr
+fn C.malloc(int) &byte
 
-fn C.realloc(a byteptr, b int) byteptr
+fn C.realloc(a &byte, b int) &byte
 
 fn C.free(ptr voidptr)
 
@@ -85,7 +85,7 @@ fn main() {
 module main
 
 fn main() {
-	mut q := byteptr(10)
+	mut q := &byte(10)
 	println(q)
 	unsafe {
 		q -= 2
