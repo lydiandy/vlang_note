@@ -1,6 +1,6 @@
 ## V编译器命令行使用
 
-V编译器文件大小就1.5M左右,实在是小巧得很
+V编译器文件大小就2M左右,实在是小巧得很
 
 执行v help就可以查看到下面的命令行使用说明
 
@@ -74,6 +74,10 @@ v -shared  //编译生成共享库
 
 ```shell
 v main.v 			//编译当前目录中的main.v源文件,生成同名的main可执行文件
+v run main.v  //编译并运行当前目录中的main.v源文件
+v -watch main.v ////编译当前目录中的main.v源文件,并监控,保存自动重新编译
+v -watch run main.v //编译并运行当前目录中的main.v源文件,并监控,保存自动重新运行
+
 v -usecache main.v //使用标准库缓存进行编译
 v run main.v 	//编译当前目录中的main.v源文件,生成同名的main可执行文件，并运行
 v -autofree run main.v //以自动释放内容方式,编译,并运行
