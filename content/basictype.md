@@ -48,12 +48,15 @@ typedef uint8_t byte;
 | int       | 4字节  | -2,147,483,648 到 2,147,483,647           | int总是32位整数,即i32 |
 | i64       | 8字节  | -9223372036854775808到9223372036854775807 | 有符号64位整数        |
 | i128      | 16字节 | 未实现                                    | 有符号128位整数       |
+|           |        |                                           |                       |
 | byte      | 1字节  | 0 到 255                                  | 无符号8位整数,即u8    |
 | u16       | 2字节  | 0 到 65,535                               | 无符号16位整数        |
 | u32       | 4字节  | 0 到 4,294,967,295                        | 无符号32位整数        |
 | u64       | 8字节  | 0 到 18446744073709551615                 | 无符号64位整数        |
 | u128      | 16字节 | 未实现                                    | 无符号128位整数       |
+|           |        |                                           |                       |
 | rune      | 4字节  | 0 到 4,294,967,295,跟U32一样              | 表示一个unicode码点   |
+|           |        |                                           |                       |
 | f32       | 4字节  |                                           | 32位小数              |
 | f64       | 8字节  |                                           | 64位小数              |
 |           |        |                                           |                       |
@@ -259,11 +262,11 @@ fn main() {
 
 ### 指针类型
 
-byteptr: 字节类型指针
-
 voidptr: 通用指针,可以指向任何类型
 
-charptr: 字符类型指针
+byteptr: 字节类型指针 //已作废,统一使用 &byte
+
+charptr: 字符类型指针 //已作废,统一使用 &char
 
 V代码中使用的最多的是byteptr和voidptr
 
@@ -280,10 +283,14 @@ typedef char* charptr;
 指针本身占用的内存大小:就是C语言里面的size_t类型,通常在32位系统上的长度是32位,64位系统上是64位
 
 ```v
+module main
+
+fn main() {
 //测试机器是64位操作系统
 println(sizeof(voidptr)) //输出8个字节
-println(sizeof(byteptr)) //输出8个字节
-println(sizeof(charptr)) //输出8个字节
+println(sizeof(byte)) //输出1个字节
+println(sizeof(char)) //输出1个字节
+}
 ```
 
 变量前加&表示取地址,返回指针类型
@@ -331,7 +338,7 @@ fn main() {
 ```v
 println(sizeof(int)) //4
 println(sizeof(byte)) //1
-println(sizeof(bool)) //4
+println(sizeof(bool)) //1
 ```
 
 ### 变量类型typeof().name
