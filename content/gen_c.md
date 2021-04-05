@@ -49,7 +49,7 @@ typedef double f64;
 typedef unsigned char* &byte; //字节指针
 typedef int* intptr; //整型指针
 typedef void* voidptr; //通用指针
-typedef char* &char; //C字符指针
+typedef char* charptr; //C字符指针
 
 typedef struct array array;
 typedef struct map map;
