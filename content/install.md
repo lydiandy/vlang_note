@@ -22,9 +22,30 @@ cd v
 make
   ```
 
-编译成功后,会在当前目录生成V编译器的可执行文件,大小1M左右,小巧得很.
+编译成功后,会在当前目录生成V编译器的可执行文件,大小2M左右,小巧得很.
 
-可以使用v version查看当前的版本
+使用v version查看V编译器的版本
+
+#### 运行代码
+
+编译成功后,可以尝试运行代码:
+
+```v
+//main.v
+module main
+
+fn main() {
+	println("hello V")
+}
+```
+
+在终端中执行:
+
+```shell
+v run main.v
+```
+
+输出hello V,则安装成功.
 
 编译器命令行的使用参考:[编译器命令行使用章节](toolchain.md)
 
@@ -61,8 +82,6 @@ git pull
 make
   ```
 
-
-
 ### 下载预编译安装包
 
 在[官网](https://vlang.io/)直接下载对应平台的安装包
@@ -91,7 +110,8 @@ sudo ./v symlink
 
 以上命令只需执行一次,如果v命令更换了位置,每次启动会自动更新快捷方式和环境变量
 
-###安装技巧：
+###安装技巧
+
 有时也可能存在`https://github.com`访问不了的情况，可以按照以下办法安装或者更新vlang：
 1. git clone --depth=1 --single-branch `git`://github.com/vlang/v(更新时跳过)
 2. cd v
