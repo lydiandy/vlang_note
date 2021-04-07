@@ -66,7 +66,7 @@ v run main.v
 
 如果需要编译http相关模块,需要安装openssl
 
-```
+```shell
 macOS:
 brew install openssl
 

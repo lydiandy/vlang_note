@@ -43,6 +43,7 @@
 * [裸机环境](content/bare_metal.md)
 * [vui](content/gui.md)
 * [vweb框架](content/vweb.md)
+* [websocket](content/websocket.v)
 * [数据库](content/db.md)
 * [在浏览器运行V代码](content/run_in_web.md)
 * --
