@@ -60,8 +60,9 @@ v -usecache xxx.v  //使用标准库的缓存,而不是每次都重新编译标�
 v -usecache -prod xxx.v //使用标准库缓存,生产优化编译,速度也会快很多
 v -autofree xxx.v //以自动释放内容方式生成可执行文件
 v -obf或-obfuscate //混淆编译生成可执行文件
-v -stats //编译时显示额外的统计信息,比如:`v -stats test .`
-v -cg run ./main.v //如果编译报错,-cg选项可以提示报错更多的信息,以及报错对应的C代码行,可以更快地定位错误
+v -stats //编译时显示额外的统计信息,编译多少行,多少字节,编译时间,每秒编译行数
+v -show-timings xxx.v //显示每个编译阶段花费多少时间:扫描,解析,检查,生成C,编译C
+v -cg run xxx.v //如果编译报错,-cg选项可以提示报错更多的信息,以及报错对应的C代码行,可以更快地定位错误
 v -compress //调用upx，压缩加壳生成二进制文件
 v -os <os> //跨平台交叉编译,编译生成指定os的可执行文件,OS可以是:linux, mac, windows, msvc
 v -arch x64 //指定编译的架构,可以是x86或x64,默认是x64
