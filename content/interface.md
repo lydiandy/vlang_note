@@ -208,14 +208,22 @@ fn main() {
 
 ### 接口变量类型判断及匹配
 
-可以使用match,as,is,对接口参数的具体类型进行判断和匹配
+使用is,!is对接口参数的具体类型进行判断
+
+使用as对接口参数进行类型转换
+
+使用match对接口类型参数进行匹配,跟match匹配联合类型一样,每一个分支都会自动造型,非常的好用
 
 ```v
 module main
 
-struct Dog {}
+struct Dog {
+	name1 string
+}
 
-struct Cat {}
+struct Cat {
+	name2 string
+}
 
 fn (d Dog) speak() string {
 	return 'wang'
@@ -237,57 +245,17 @@ fn perform(s Speaker) {
 		println('s is not Dog')
 	}
 
-	//match对接口参数的类型匹配
+	//match对接口参数的类型匹配,跟匹配联合类型一样,每一个分支都会自动造型,非常的好用
 	match s {
-		Dog { println('s is Dog struct') }
-		Cat { println('s is Cat struct') }
+		Dog { println('s is Dog struct,name is $s.name1') }
+		Cat { println('s is Cat struct,name is $s.name2') }
 		else { println('s is: $s.type_name()') }
 	}
 }
 
 fn main() {
-	dog := Dog{}
-	cat := Cat{}
-	perform(dog) // "wang"
-	perform(cat) // "miao"
-}
-module main
-
-struct Dog {}
-
-struct Cat {}
-
-fn (d Dog) speak() string {
-	return 'wang'
-}
-
-fn (c Cat) speak() string {
-	return 'miao'
-}
-
-interface Speaker {
-	speak() string
-}
-
-fn perform(s Speaker) {
-	if s is Dog { // 通过is操作符,判断接口类型是否是某一个具体类型
-		println('s is Dog')
-	}
-	if s !is Dog { // 通过!is操作符,判断接口类型不是某一个具体类型
-		println('s is not Dog')
-	}
-
-	//match对接口参数的类型匹配
-	match s {
-		Dog { println('s is Dog struct') }
-		Cat { println('s is Cat struct') }
-		else { println('s is: $s.type_name()') }
-	}
-}
-
-fn main() {
-	dog := Dog{}
-	cat := Cat{}
+	dog := Dog{ name1:'dog' }
+	cat := Cat{ name2:'cat' }
 	perform(dog) // "wang"
 	perform(cat) // "miao"
 }
