@@ -372,6 +372,14 @@ fn main() {
 	f3 := f64(f) // 强制转换为f64
 	s := 'abc' // 默认推断为string
 	c := `c` // 默认推断为byte,也就是单字符类型
+
+	// 布尔类型可以转换为byte/int或其他整数类型
+	yes := true
+	no := false
+  yes_byte := byte(yes) // 输出1
+	no_byte := byte(no) // 输出0
+	yes_int := int(yes)  // 输出1
+	no_int := int(no) // 输出0
 	// 将字节数组转成字符串
 	mut byte_arr := []byte{} // 字节数组
 	byte_arr << `a`
