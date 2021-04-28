@@ -76,8 +76,7 @@ v -shared  //编译生成共享库
 ```shell
 v main.v 			//编译当前目录中的main.v源文件,生成同名的main可执行文件
 v run main.v  //编译并运行当前目录中的main.v源文件
-v -watch main.v ////编译当前目录中的main.v源文件,并监控,保存自动重新编译
-v -watch run main.v //编译并运行当前目录中的main.v源文件,并监控,保存自动重新运行
+v watch main.v //编译并运行当前目录中的main.v源文件,并监控,保存自动重新运行
 
 v -usecache main.v //使用标准库缓存进行编译
 v run main.v 	//编译当前目录中的main.v源文件,生成同名的main可执行文件，并运行
