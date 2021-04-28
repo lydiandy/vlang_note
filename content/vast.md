@@ -1651,16 +1651,18 @@ example code
 module main
 
 // single
-__global ( g1 int )
+__global  g1 int
 
 // group
 __global (
-	g2 &byte 
-	g3 &byte 
+	g2 byte 
+	g3 byte 
 )
 
 fn main() {
-	g1 = 123
+	g1 = 1
+	g2 = 2
+	g3 = 3
 	println(g1)
 	println(g2)
 	println(g3)

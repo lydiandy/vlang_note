@@ -226,21 +226,22 @@ v -enable-globals run main.v
 module main
 
 // 单个全局变量定义
-__global ( g1 int )
+__global g1 int
 
-// 组定义全局变量,类似常量的定义
+// 组定义全局变量,类似常量组的定义
 __global (
-	g2 &byte 
-	g3 &byte 
+	g2 byte 
+	g3 byte 
 )
 
 fn main() {
-	g1 = 123
+	g1 = 1
+	g2 = 2
+	g3 = 3
 	println(g1)
 	println(g2)
 	println(g3)
 }
-
 ```
 
 
