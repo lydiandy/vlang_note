@@ -14,7 +14,7 @@ pub interface Speaker {
 }
 ```
 
-### 接口包含字段
+### 接口字段
 
 接口在其他编程语言中大部分都只能包含方法签名
 
@@ -108,18 +108,74 @@ fn main() {
 
 ### 接口组合
 
-目前还没有,计划0.3版本实现
+接口也像结构体那样支持组合
 
 ```v
+module main
+
 pub interface Reader{
-	 read(mut buf []byte) ?int
+	read(mut buf []byte) ?int
 }
+
 pub interface Writer {
-  write(bug []byte) ?int
+	write(bug []byte) ?int
 }
+
+// 接口组合
 pub interface ReaderWriter {
-	Reader
-  Writer
+		Reader
+  	Writer
+}
+
+//接口组合
+interface WalkerTalker {
+	Walker 
+	Talker
+}
+
+interface Talker {
+	nspeeches int
+	talk(msg string)
+}
+
+interface Walker {
+	nsteps int
+	walk(newx int, newy int)
+}
+
+struct Abc {
+mut:
+	x         int
+	y         int
+	phrases   []string
+	nsteps    int = 1000 //实现接口中要求的字段
+	nspeeches int = 1000 //实现接口中要求的字段
+}
+
+//实现接口要求的方法
+fn (mut s Abc) talk(msg string) {
+	s.phrases << msg
+	s.nspeeches++
+}
+
+//实现接口要求的方法
+fn (mut s Abc) walk(x int, y int) {
+	s.x = x
+	s.y = y
+	s.nsteps++
+}
+
+fn main() {
+	mut wt := WalkerTalker(Abc{ 
+		x: 1
+		y: 1
+		phrases: ['hi']
+	})
+	wt.talk('my name is Wally')
+	wt.walk(100, 100)
+	if wt is Abc {
+		println(wt)
+	}
 }
 ```
 
