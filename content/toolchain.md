@@ -56,6 +56,9 @@ v -b x64 ./main.v	 //指定编译器后端类型为x64,目前还是试验性质�
   
 v -o main.c ./main.v //编译生成C源文件,而不是可执行文件
 v -prod xxx.v //生产优化模式编译,生成更小的可执行文件
+v -skip-unused xxx.v //V代码编译生成C代码时,忽略未使用的C函数,可以进一步缩小可执行文件大小
+v -skip-unused -prod xxx.v //V代码编译生成C代码时,忽略未使用的C函数,并且进行生产编译,可以进一步缩小可执行文件大小
+v -skip-unused -o xxx.c xxx.v //生成最小的C文件,忽略未使用的C函数
 v -usecache xxx.v  //使用标准库的缓存,而不是每次都重新编译标准库,编译速度快很多
 v -usecache -prod xxx.v //使用标准库缓存,生产优化编译,速度也会快很多
 v -autofree xxx.v //以自动释放内容方式生成可执行文件
