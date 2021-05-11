@@ -317,3 +317,42 @@ fn main() {
 }
 ```
 
+### 判断类型是否实现接口
+
+```v
+module main
+
+struct Dog {
+	name string
+}
+
+struct Foo {
+}
+
+fn (d Dog) speak() string {
+	return 'wang'
+}
+
+interface Speaker {
+	speak() string
+}
+
+fn my_fn<T>() {
+	$if T is Speaker { //使用$if,在泛型函数中判断类型是否实现了某个接口
+		println('type T implements Speaker interface')
+	} $else {
+		println('type T do not implements Speaker interface')
+	}
+}
+
+fn main() {
+	my_fn<Dog>()
+	// my_fn<Foo>()
+
+	// $if Dog is Speaker {
+	// 	println('type Dog implements Speaker interface')
+	// }
+}
+
+```
+
