@@ -14,23 +14,30 @@ Usage:v [options] [command] [arguments]
 
 ```shell
 Usage:v [options] [command] [arguments]
-The commands are:
+
+新建项目子命令:
    new               创建新的V项目,主要是生成v.mod项目文件
    init              对现有已存在的V项目生成v.mod项目文件
-   doc               生成指定模块的文档
+   
+标准开发子命令:
+   run               编译并运行指定的V源文件或目录
+   test              运行指定目录的测试文件
    fmt               格式化代码
    vet							 分析代码存在的错误
+   doc               生成指定模块的文档
    repl              运行交互式模式
-   run               编译并运行指定的V源文件或目录
+   watch 						 编译项目,并监控源文件修改,保存后自动重新编译
+   vlib-docs 				 调用v doc生成vlib标准库的文档	
+   
+安装和升级子命令:
    symlink           unix系统在/usr/local/bin/v生成链接,windows生成环境变量
-   test              运行指定目录的测试文件
-   translate         把C源代码翻译成V源代码[开发中,估计0.3版本才可以使用]
+
    up                升级编译器V到最新版本,等同于git pull,然后make
    self [-prod]      让V编译器自己编译自己(不执行git pull,不使用make),
    									 可使用-prod优化编译
    version           查看编译器版本
-   vlib-docs 				 调用v doc生成vlib标准库的文档	
-
+   
+包管理子命令:
    install           从https://vpm.vlang.io/安装指定的一个或多个模块
    remove            删除已安装的模块
    search            搜索模块
@@ -38,29 +45,41 @@ The commands are:
    upgrade					 升级所有已安装的模块
    list							 列出所有已安装的模块
    outdated					 列出所有过时需要升级的模块
+   show 						 显示模块的详细信息
+   
+其他子命令:
+   translate         把C源代码翻译成V源代码[开发中,估计0.3版本才可以使用]
+   doctor						 输出当前电脑的基本环境信息,用于提单到github时,报告环境信息
+   tracev						 生成一个带跟踪调试信息的V编译器
 ```
 
 可以使用v help xxx进一步查看各个子命令的具体帮助文本:
 
-```
+```shell
 v help build //显示编译通用选项
 v help build-c //显示编译器后端为c(默认)时的编译选项
 ```
 
 可查看build和run的子命令详细内容,此部分较为重要,同时build和run子命令的编译选项是共用的
 
-```v
+```shell
 v -b或-backend c ./main.v //指定编译器后端类型:默认是c,也可以是js,x64
 v -b js ./main.v	 //指定编译器后端类型为js,目前还是试验性质的,不完善
 v -b x64 ./main.v	 //指定编译器后端类型为x64,目前还是试验性质的,不完善
   
-v -o main.c ./main.v //编译生成C源文件,而不是可执行文件
+v -o或-output main.c ./main.v //编译生成C源文件,而不是可执行文件
+
 v -prod xxx.v //生产优化模式编译,生成更小的可执行文件
+
 v -skip-unused xxx.v //V代码编译生成C代码时,忽略未使用的C函数,可以进一步缩小可执行文件大小
 v -skip-unused -prod xxx.v //V代码编译生成C代码时,忽略未使用的C函数,并且进行生产编译,可以进一步缩小可执行文件大小
 v -skip-unused -o xxx.c xxx.v //生成最小的C文件,忽略未使用的C函数
+
 v -usecache xxx.v  //使用标准库的缓存,而不是每次都重新编译标准库,编译速度快很多
 v -usecache -prod xxx.v //使用标准库缓存,生产优化编译,速度也会快很多
+v -nocache -prod xxx.v  //取消标准库的缓存,全部重新编译
+v -wipe-cache xxx.v //取消标准库的缓存,全部重新编译
+
 v -autofree xxx.v //以自动释放内容方式生成可执行文件
 v -obf或-obfuscate //混淆编译生成可执行文件
 v -stats //编译时显示额外的统计信息,编译多少行,多少字节,编译时间,每秒编译行数
@@ -122,3 +141,4 @@ VTEST_ONLY=xxx v vlib/v/compiler_errors_test.v //执行编译器错误测试,并
 v doctor //输出当前电脑的基本环境信息,主要跟V编译相关,用于提单到github时,报告环境信息,方便排查
 
 ```
+
