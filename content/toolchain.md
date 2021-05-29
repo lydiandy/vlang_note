@@ -27,6 +27,7 @@ Usage:v [options] [command] [arguments]
    doc               生成指定模块的文档
    repl              运行交互式模式
    watch 						 编译项目,并监控源文件修改,保存后自动重新编译
+   ast							 将V源代码生成json格式的AST语法树,直观展现V的语法树
    vlib-docs 				 调用v doc生成vlib标准库的文档	
    
 安装和升级子命令:
@@ -127,6 +128,10 @@ v up //升级V编译器到最新版本,等价于git pull && make
 v install xxx模块 //从https://vpm.vlang.io/安装指定的模块
 
 v fmt -w main.v //统一格式化指定源文件或目录中的代码
+
+v ast main.v //将V源代码生成json格式的AST语法树,生成main.json
+v ast -w main.v //生成main.json,并且监控源文件变化,保存后自动重新生成
+v ast -c main.v //将V源代码同时生成AST语法树文件main.json和C源代码main.c,并且监控源文件变化,保存后自动重新生成
 
 v vet ./main.v //分析main.v源文件代码中存在的错误
 v vet .			//分析当前目录中所有V源文件代码中存在的错误
