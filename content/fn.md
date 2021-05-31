@@ -170,7 +170,7 @@ fn foo() (int, int) {
 
 在函数退出前执行defer代码块,一般用来在函数执行完毕后,释放资源的占用.
 
-一个函数可以有多个defer代码块,采用先定义先执行的原则.
+一个函数可以有多个defer代码块,采用后定义先执行(后进先出)的原则.
 
 同时在defer代码块内有一些特殊的注意事项:
 
@@ -207,8 +207,8 @@ fn defer_fn2() {
 ```
 main start
 main end
-from defer_fn1
 from defer_fn2
+from defer_fn1
 ```
 
 ### 函数类型
