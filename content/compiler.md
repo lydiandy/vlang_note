@@ -50,33 +50,34 @@ V编译器基于AST(抽象语法树)的方式来编译
 
 #### thirdparty - 第三方C代码依赖库
 
-| 子目录    | 说明                    |
-| --------- | ----------------------- |
-| bignumber | C大整数运算库           |
-| cJSON     | C的JSON解析库           |
-| fontstash | C字体库                 |
-| stb_image | C图像库                 |
-| sokol     | vui依赖的C图形库,跨平台 |
-| stdatomic | C的原子操作库           |
-| vschannel |                         |
-| ios       | ios依赖库               |
-| zip       | C的zip压缩库            |
-
-
+| 子目录         | 说明                                                         |
+| -------------- | ------------------------------------------------------------ |
+| bignumber      | C大整数运算库                                                |
+| cJSON          | [C的JSON解析库](https://github.com/DaveGamble/cJSON)         |
+| fontstash      | [C字体库](https://github.com/memononen/fontstash)            |
+| stb_image      | [C图像库](https://github.com/nothings/stb)                   |
+| sokol          | [vui依赖的C图形库,跨平台](https://github.com/floooh/sokol)   |
+| picoev         | [C的高性能网络库](https://github.com/kazuho/picoev)          |
+| picohttpparser | [C的高性能http解析库]( https://github.com/h2o/picohttpparser) |
+| stdatomic      | C的原子操作库                                                |
+| tcc            | [Tiny C Compiler](https://bellard.org/tcc/) / [github库](https://github.com/TinyCC/tinycc) |
+| vschannel      |                                                              |
+| ios            | ios依赖库                                                    |
+| zip            | C的zip压缩库                                                 |
 
 ### 主要编译过程
 
 - V命令行的入口文件是v/cmd/v/v.v
 
-  .
+  
 
 - V命令行负责处理命令参数,创建编译器参数对象(pref.Preferences)
 
-  .
+  
 
 - V命令行根据参数调用builder.compiler()开始编译,或调用tools目录中的各种工具,比如vfmt代码格式化工具
 
-  . 		
+  ​	
 
 - V编译器对象根据编译参数,分析得到所有需要编译的源文件数组[ ]os.File,源文件列表也包括了vlib/builtin中的内置源文件
 
