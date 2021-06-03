@@ -239,8 +239,6 @@ fn main() {
 
 ```
 
-
-
 ### 编译时获取环境变量
 
 可以使用$env函数获取环境变量
@@ -309,4 +307,3 @@ numbers: @numbers
   @number
 @end
 ```
-

@@ -96,13 +96,13 @@ V语言可以针对结构体,结构体字段,函数/方法进行注解
 
 注解的扩展性还是比较灵活的
 
-目前结构体注解和结构体字段注解,已经可以通过$for编译时反射来获取所有的注解内容,具体内容可以参考:[编译时反射章节](crossplatform.md)
+目前结构体注解和结构体字段注解,已经可以通过$for编译时反射来获取所有的注解内容,具体内容可以参考:[编译时反射章节](comptime.md)
 
 ```v
 [testing]
 struct StructAttrTest {
-	foo string
-	bar int
+	foo string [attr1;required] //结构体字段自定义注解
+	bar int [attr1; attr2; required]
 }
 
 [testing]
@@ -123,14 +123,14 @@ enum PubEnumAttrTest {
 	two
 }
 
-[attrone]
-[attrtwo]
+[attrone] 
+[attrtwo] //可以同时有多个注解
 enum EnumMultiAttrTest {
 	one
 	two
 }
 
-[testing]
+[attr1;attr2] //在同一个注解中括号内,注解用分号来区隔
 fn fn_attribute() {
 }
 
@@ -147,6 +147,5 @@ fn fn_multi_attribute() {
 [attrtwo]
 fn fn_multi_attribute_single() {
 }
-
 ```
 

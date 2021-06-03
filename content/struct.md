@@ -86,6 +86,64 @@ fn main() {
 
 ```
 
+结构体字段的类型可以是任何类型,甚至可以是函数类型
+
+```v
+module main
+
+struct Abc {
+	f1 int             
+	f2 int
+	f3 fn (int, int) int //结构体字段类型为函数类型
+}
+
+fn add(x int, y int) int {
+	return x + y
+}
+
+fn main() {
+	a1 := Abc{
+		f1: 123
+		f3: fn (x int, y int) int {
+			return x + y
+		}
+	}
+	a2 := Abc{
+		f1: 123
+		f2: 789
+		f3: add
+	}
+	println(a1)
+	println(a2)
+}
+
+```
+
+结构体字段初始化时必录
+
+```v
+struct Point {
+	x int
+	y int
+	z int [required] //字段注解required表示必须初始化赋值
+}
+
+fn main() {
+	a := Point{
+		// x: 1 		//不会报错,x不是必须初始化赋值
+		y: 3
+		z: 5
+	}
+	b := Point{
+		x: 2
+		y: 4
+		// z: 6     //报错: field `Point.z` must be initialized
+	}
+	println(a)
+	println(b)
+}
+```
+
 结构体变量可以基于另一个变量创建,同时合并新的字段值
 
 ```v
@@ -206,6 +264,8 @@ fn main() {
 参考[泛型章节](./generic.md)
 
 ### 结构体注解
+
+结构体像函数那样支持注解,可以针对结构体,结构体字段,结构体方法进行注解
 
 **[typedef]**
 

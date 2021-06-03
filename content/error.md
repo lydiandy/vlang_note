@@ -82,6 +82,23 @@ fn main() {
 
 ```
 
+for循环结合or代码块使用:
+
+```v
+module main
+
+import os
+
+fn main() {
+  //for循环结合or代码块,更简洁一些
+	for line in os.read_lines(@FILE) or { panic('文件不存在') } { 
+	// 报错
+  // for line in os.read_lines('不存在的文件') or { panic('文件不存在') } { 
+		println(line)
+	}
+}
+```
+
 若函数无返回值,仍需抛出错误,要使用?
 
 ```v

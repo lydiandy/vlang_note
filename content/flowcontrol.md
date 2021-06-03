@@ -213,7 +213,6 @@ println(num)
 4. 遍历：for i in xxx {}
 
     for in可以用来遍历字符串,数组,区间,字典这四种类型
-    
 
 遍历字符串:
 
@@ -360,6 +359,23 @@ fn main() {
 
 ```
 
+### for循环结合or代码块
+
+```v
+module main
+
+import os
+
+fn main() {
+  //for循环结合or代码块,更简洁一些
+	for line in os.read_lines(@FILE) or { panic('文件不存在') } { 
+	// 报错
+  // for line in os.read_lines('不存在的文件') or { panic('文件不存在') } { 
+		println(line)
+	}
+
+```
+
 ### for select语句
 
 for select语句主要在并发中使用,用来循环监听多个chanel,更多内容可以参考[并发章节](concurrent.md)
@@ -394,6 +410,8 @@ fn do_send(ch1 chan int, ch2 chan f64) {
 	ch1.close()
 }
 ```
+
+
 
 ### goto语句
 
