@@ -1,8 +1,6 @@
 ## UI模块
 
-ui是V语言的标准ui库,基于sokol C图形库(以下简称sokol)创建
-
-ui模块一开始是基于glfw模块,后来作者看到sokol的一些优秀特性,就决定改为基于sokol
+ui是V语言的标准ui库,基于sokol C图形库(以下简称sokol)创建.
 
 ### sokol介绍
 
@@ -31,34 +29,6 @@ sokol优点:
 sokol库更多内容可以参考[sokol图形库](sokol.md)章节
 
 ### ui模块安装
-
-#### 安装依赖
-
-ui依赖freetype和sokol,而sokol是单C文件,免安装,已内置在v/thirdparty/sokol中,所以要安装的依赖只有freetype:
-
-```shell
-macOS:
-brew install freetype
-
-Debian/Ubuntu:
-sudo apt install libfreetype6-dev
-
-Arch/Manjaro:
-sudo pacman -S freetype2
-
-Fedora:
-sudo dnf install freetype-devel
-
-ClearLinux:
-sudo swupd bundle-add devpkg-libX11 devpkg-mesa devpkg-freetype
-
-Windows:
-v setup-freetype  
-```
-
-
-
-#### 安装ui
 
 ui模块并不在vlib标准库中,是一个单独的代码库:https://github.com/vlang/ui
 
@@ -153,14 +123,6 @@ OpenGl中在进行图形变换的时候需要使用几何数学库
 
 代码:https://github.com/g-truc/glm
 
-#### freetype模块
-
-源代码位置:vlib/freetype
-
-FreeType是一个完全开源的、可扩展、可定制且可移植的字体引擎，它提供TrueType字体驱动的实现统一的接口来访问多种字体格式文件
-
-官网:https://www.freetype.org/
-
 #### stbi模块
 
 源代码位置:vlib/stbi
@@ -171,7 +133,9 @@ FreeType是一个完全开源的、可扩展、可定制且可移植的字体引
 
 ### ui组件
 
-基本的思路是:使用sokol的window,context,event,然后在窗体上自行绘制所有组件,可以在所有组件代码的draw()函数中看到自行绘制的代码
+#### 基本思路
+
+使用sokol的window,context,event,然后在窗体上自行绘制所有组件,可以在所有组件代码的draw()函数中看到自行绘制的代码.
 
 以window组件为例,显示通用的组件创建过程
 
@@ -255,5 +219,4 @@ window中的ui用来进行绘制图形,绘制文字,处理剪贴板
 
 
 #### TransitionValue 动画
-
 
