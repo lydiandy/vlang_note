@@ -1,27 +1,24 @@
-# Vlang abstract syntax tree(AST) introduction
+# V语言抽象语法树(AST)
 
-## Overview
+V语言所有的语法树结构体都在标准库的v.ast子模块中定义.
 
-The Vlang abstract syntax tree is implemented by using sum type. 
+主要是通过联合类型来实现,用联合类型来实现语法树,代码显得非常的简洁,清晰.
 
-All the AST struct declarations can be found in V source code: [vlib/v/ast/ast.v](https://github.com/vlang/v/blob/master/vlib/v/ast/ast.v).
+## v ast子命令
 
-## AST tool
-
-If you are new to the V's AST, you can install the [vast tool](https://github.com/lydiandy/vast). 
-
-It will generate example code to AST json file, which can help you understand the AST better.
+可使用v ast子命令来生成语法树结构,这样你就可以边写代码,边查看代码对应的语法树,有助于加深对V语言语法树的理解.
 
 ```shell
-vast example.v       //generate example.json.
-
-vast -w example.v    //generate example.json and watch example.v.
-
+v ast main.v 			//将V源代码生成json格式的AST语法树,生成main.json
+v ast -w main.v 	//生成main.json,并且监控源文件变化,保存后自动重新生成
+v ast -c main.v 	//将V源代码同时生成AST语法树文件main.json和C源代码main.c,并且监控源文件变化,保存后自动重新生成
 ```
 
-## File
+## ast.File语法树文件
 
-example code
+整个编译过程主要的步骤就是: [ ]os.File => [ ]ast.File => 目标代码(c/x64/js) => 可执行文件.
+
+一个os.File(源代码文件)会生成一个对应的ast.File(语法树文件).
 
 ```v
 module main
@@ -34,7 +31,7 @@ fn main() {
 }
 ```
 
-generate AST json
+生成的AST:
 
 ```json
 {
@@ -191,17 +188,17 @@ generate AST json
 }
 ```
 
-##  Module
+##  Module模块
 
-AST struct
+AST结构体
 
 ```
-Module
+Module 模块声明语句
 
-Import
+Import 模块导入语句
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -211,15 +208,16 @@ import time as t
 import math { min, max }
 ```
 
-## Const
+## Const常量
 
-AST struct
+AST结构体
 
 ```
-Const
+ConstDecl 常量声明语句
+ConstField 常量字段
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -234,17 +232,17 @@ const (
 )
 ```
 
-## Enum
+## Enum枚举
 
 ```
-EnumDecl
+EnumDecl 枚举声明语句
 
-EnumField
+EnumField 枚举字段语句
 
-EnumVal
+EnumVal 枚举值表达式
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -282,17 +280,17 @@ fn main() {
 }
 ```
 
-## Variable
+## Variable变量
 
-### Assign
+### Assign变量赋值语句
 
-AST struct
+AST结构体
 
 ```
-AssignStmt
+AssignStmt 变量赋值语句
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -319,19 +317,19 @@ fn main() {
 
 ```
 
-### Identifier
+### Identifier标识符
 
-AST struct
+AST结构体
 
 ```
-Ident
+Ident 标识符表达式
 
-IdentFn
+IdentFn 函数标识符
 
-IdentVar
+IdentVar 变量标识符
 ```
 
-example code(todo: need more kind)
+示例代码
 
 ```v
 module main
@@ -345,27 +343,25 @@ fn main() {
 
 ```
 
-### Literal
+### Literal字面量
 
-AST struct
+AST结构体
 
 ```v
-IntegerLiteral
+IntegerLiteral 整数字面量
 
-FloatLiteral
+FloatLiteral	小数字面量
 
-StringLiteral
+StringLiteral	字符串字面量
 
-StringLiteral
+StringInterLiteral 字符串模板字面量
 
-StringInterLiteral
+CharLiteral 单字符字面量
 
-CharLiteral
-
-BoolLiteral
+BoolLiteral 布尔值字面量
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -384,15 +380,15 @@ fn main() {
 }
 ```
 
-### AsCast
+### AsCast as造型语句
 
-AST struct
+AST结构体
 
 ```v
-AsCast
+AsCast as造型语句
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -406,15 +402,15 @@ fn main() {
 }
 ```
 
-### SizeOf
+### SizeOf sizeof语句
 
-AST struct
+AST结构体
 
 ```v
-SizeOf
+SizeOf sizeof语句
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -436,15 +432,15 @@ fn main() {
 }
 ```
 
-### TypeOf
+### TypeOf typeof语句
 
-AST struct
+AST结构体
 
 ```v
-TypeOf
+TypeOf  typeof语句
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -473,15 +469,15 @@ fn main() {
 
 ```
 
-### CastExpr
+### CastExpr 造型表达式
 
-AST struct
+AST结构体
 
 ```v
-CastExpr
+CastExpr 造型表达式
 ```
 
-example code ( todo: need more about string(buf,n) )
+示例代码 ( todo: need more about string(buf,n) )
 
 ```v
 module main
@@ -492,17 +488,17 @@ fn main() {
 }
 ```
 
-## Array
+## Array数组
 
-### ArrayInit
+### ArrayInit数组初始化语句
 
-AST struct
+AST结构体
 
 ```v
-ArrayInit
+ArrayInit 数组初始化语句
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -515,15 +511,15 @@ fn main() {
 }
 ```
 
-### IndexExpr
+### IndexExpr索引表达式
 
-AST struct
+AST结构体
 
 ```v
 IndexExpr
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -539,15 +535,15 @@ fn main() {
 }
 ```
 
-### RangeExpr
+### RangeExpr数组区间表达式
 
-AST struct
+AST结构体
 
 ```v
 RangeExpr
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -560,15 +556,15 @@ fn main() {
 }
 ```
 
-### ArrayDecompose
+### ArrayDecompose数组解构
 
-AST struct
+AST结构体
 
 ```v
 ArrayDecompose
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -591,17 +587,17 @@ fn variadic_fn_b(a ...string) string {
 
 ```
 
-## Map
+## Map字典
 
-### MapInit
+### MapInit字典初始化
 
-AST struct
+AST结构体
 
 ```v
 MapInit
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -619,17 +615,17 @@ fn main() {
 }
 ```
 
-## Operator
+## Operator操作符
 
-### PrefixExpr
+### PrefixExpr前缀表达式
 
-AST struct
+AST结构体
 
 ```v
 PrefixExpr
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -644,15 +640,15 @@ fn main() {
 
 ```
 
-### InfixExpr
+### InfixExpr中缀表达式
 
-AST struct
+AST结构体
 
 ```v
 InfixExpr
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -670,15 +666,15 @@ fn main() {
 }
 ```
 
-### PostfixExpr
+### PostfixExpr后缀表达式
 
-AST struct
+AST结构体
 
 ```v
 PostfixExpr
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -691,15 +687,15 @@ fn main() {
 
 ```
 
-### SelectorExpr
+### SelectorExpr选择器表达式
 
-AST struct
+AST结构体
 
 ```v
 SelectorExpr
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -726,15 +722,15 @@ fn main() {
 
 ```
 
-### ParExpr
+### ParExpr括号表达式
 
-AST struct
+AST结构体
 
 ```v
 ParExpr
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -746,15 +742,15 @@ fn main() {
 
 ```
 
-### ConcatExpr
+### ConcatExpr连接表达式
 
-AST struct
+AST结构体
 
 ```v
 ConcatExpr
 ```
 
-example code
+示例代码
 
 ```v
 a, b, c := match false {
@@ -764,11 +760,11 @@ a, b, c := match false {
 }
 ```
 
-## Function
+## Function函数
 
-### FnDecl
+### FnDecl函数声明
 
-AST struct
+AST结构体
 
 ```v
 FnDecl
@@ -780,7 +776,7 @@ CallArg
 Return
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -817,15 +813,15 @@ fn add_generic<T>(x T, y T) T {
 }
 ```
 
-### AnonFn
+### AnonFn匿名函数
 
-AST struct
+AST结构体
 
 ```v
 AnonFn
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -838,15 +834,15 @@ fn main() {
 }
 ```
 
-### DeferStmt
+### DeferStmt函数defer语句
 
-AST struct
+AST结构体
 
 ```v
 DeferStmt
 ```
 
-example code
+示例代码
 
 ```v
 fn main() {
@@ -871,11 +867,11 @@ fn defer_fn2() {
 }
 ```
 
-## Struct
+## Struct结构体
 
-### StructDecl
+### StructDecl结构体声明语句
 
-AST struct
+AST结构体
 
 ```v
 StructDecl
@@ -885,7 +881,7 @@ StructField
 Embed
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -905,7 +901,7 @@ fn main() {
 }
 ```
 
-example code of  embed
+示例代码
 
 ```v
 module main
@@ -950,9 +946,9 @@ fn main() {
 }
 ```
 
-### StructInit
+### StructInit 结构体初始化表达式
 
-AST struct
+AST结构体
 
 ```v
 StructInit
@@ -962,7 +958,7 @@ StructInitField
 StructInitEmbed
 ```
 
-example code 
+示例代码 
 
 ```v
 module main
@@ -983,15 +979,44 @@ fn main(){
 }
 ```
 
-### Assoc
+```v
+struct City {
+	name       string
+	population int
+}
 
-AST struct
+struct Country {
+	name    string
+	capital City
+}
+
+fn main() {
+	ccc := Country{
+		name: 'test'
+		capital: City{
+			name: 'city'
+		}
+	}
+	c2 := Country{
+		...ccc  //update_expr
+		capital: City{
+			name: 'city2'
+			population: 200
+		}
+	}
+	println(c2)
+}
+```
+
+### Assoc结构体关联创建表达式(已作废,使用update_expr)
+
+AST结构体
 
 ```v
 Assoc
 ```
 
-example code
+示例代码
 
 ```v
 struct Foo {
@@ -1018,15 +1043,15 @@ fn main() {
 
 ```
 
-## Interface
+## Interface接口
 
-AST struct
+AST结构体
 
 ```v
-InterfaceDecl
+InterfaceDecl 接口声明语句
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -1037,25 +1062,17 @@ interface Speaker { //comment 1
 }
 ```
 
-## Type
+## Type类型
 
-### Alias Type
+### Alias Type类型别名声明语句
 
-AST struct
+AST结构体
 
 ```v
-//Alias type declaration
-pub struct AliasTypeDecl {
-pub:
-	name        string
-	is_pub      bool
-	parent_type table.Type
-	pos         token.Position
-	comments    []Comment
-}
+AliasTypeDecl 
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -1067,15 +1084,15 @@ type Myint =  int /*comment 1*/ //comment 2
 type Person = Human
 ```
 
-### Function Type
+### Function Type函数类型
 
-AST struct
+AST结构体
 
 ```v
 FnTypeDecl
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -1083,15 +1100,15 @@ module main
 type Mid_fn = fn (int, string) int /*comment 1*/ //comment 2
 ```
 
-### Sum  type
+### Sum  type联合类型
 
-AST struct
+AST结构体
 
 ```v
-SumTypeDecl
+SumTypeDecl 联合类型声明语句
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -1104,17 +1121,17 @@ struct User {
 type MySumtype = User | int | string //comment 1
 ```
 
-## FlowControl
+## FlowControl流程控制
 
-### Block
+### Block代码块
 
-AST struct
+AST结构体
 
 ```v
 Block
 ```
 
-example code
+示例代码
 
 ```v
 fn main() {
@@ -1132,17 +1149,17 @@ fn my_fn() {
 }
 ```
 
-### if
+### if 条件语句
 
-AST struct
+AST结构体
 
 ```v
-IfExpr
+IfExpr if表达式
 
-IfBranch
+IfBranch if分支
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -1169,17 +1186,17 @@ fn main() {
 }
 ```
 
-### match
+### match 分支匹配
 
-AST struct
+AST结构体
 
 ```v
-MatchExpr
+MatchExpr 匹配表达式
 
-MatchBranch
+MatchBranch 匹配分支
 ```
 
-example code
+示例代码
 
 ```v
 fn main() {
@@ -1217,21 +1234,21 @@ pub fn (ms MySum) str() string {
 }
 ```
 
-### for
+### for 循环语句
 
-AST struct
+AST结构体
 
 ```v
-ForCStmt
+ForCStmt forC循环语句
 
-ForInStmt
+ForInStmt forin循环语句
 
-ForStmt
+ForStmt for循环语句
 
-BranchStmt
+BranchStmt 分支语句
 ```
 
-example code
+示例代码
 
 ```v
 fn main() {
@@ -1247,7 +1264,7 @@ fn main() {
 }
 ```
 
-example code
+示例代码
 
 ```v
 fn main() {
@@ -1278,7 +1295,7 @@ fn main() {
 }
 ```
 
-example code
+示例代码
 
 ```v
 fn main() {
@@ -1305,17 +1322,17 @@ fn main() {
 }
 ```
 
-### goto
+### goto 跳转语句
 
-AST struct
+AST结构体
 
-```v
-GotoLabel
+```
+GotoLabel 跳转标签
 
-GotoStmt
+GotoStmt 跳转语句
 ```
 
-example code
+示例代码
 
 ```v
 fn main() {
@@ -1329,17 +1346,17 @@ fn main() {
 }
 ```
 
-## Error handle
+## Error handle错误控制
 
-AST struct
+AST结构体
 
 ```v
-OrExpr
+OrExpr or表达式
 
-None
+None none表达式
 ```
 
-example code
+示例代码
 
 ```v
 fn my_fn(i int) ?int {
@@ -1371,19 +1388,19 @@ fn main() {
 
 ```
 
-## Concurrent
+## Concurrent并发
 
-### ChanInit
+### ChanInit通道初始化
 
-AST struct
+AST结构体
 
 ```v
-ChanInit
+ChanInit 通道初始化语句
 
-GoStmt
+GoStmt go并发语句
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -1409,17 +1426,17 @@ fn main() {
 }
 ```
 
-### SelectExpr
+### SelectExpr通道监听表达式
 
-AST struct
+AST结构体
 
 ```v
-SelectExpr
+SelectExpr 通道监听表达式
 
-SelectBranch
+SelectBranch 通道监听分支
 ```
 
-example code
+示例代码
 
 ```v
 import time
@@ -1456,29 +1473,98 @@ fn send(ch1 chan int, ch2 chan int) {
 }
 ```
 
-### LockExpr
+### LockExpr并发锁表达式
 
-AST struct
-
-```v
-LockExpr
-```
-
-example code(todo)
+AST结构体
 
 ```v
-
+LockExpr 并发锁表达式
 ```
 
-## Unsafe
-
-AST struct
+示例代码
 
 ```v
-UnsafeExpr
+module main
+
+import time
+
+struct St {
+mut:
+	x f64
+}
+
+fn f(x int, y f64, shared s St,shared m map[string]string) {
+	time.usleep(50000)
+	lock s,m { 
+		s.x = x * y
+		println(s.x)
+		unsafe {
+			m['a']='aa'
+		}
+		println(m['a'])
+	}
+	return
+}
+
+fn main() {
+	shared t := &St{}
+	shared m := &map[string]string
+	unsafe {
+		m['a']='aa'
+	}
+	r := go f(3, 4.0, shared t,shared m) 
+	r.wait()
+	rlock t { 
+		println(t.x)
+	}
+}
 ```
 
-example code
+### GoExpr并发表达式
+
+AST结构体
+
+```
+GoExpr
+```
+
+示例代码
+
+```v
+module main
+
+import time
+
+fn do_something() { 
+ println('start do_something...')
+	time.sleep(2) 
+	println('end do_something')
+}
+fn add(x int, y int) int { 
+	println('add start...')
+	time.sleep(4) //
+	println('end add')
+	return x + y
+}
+
+fn main() {
+  g:= go do_something()
+  g2 := go add(3, 2) 
+  g.wait() 
+	result := g2.wait()
+	println(result)
+}
+```
+
+## Unsafe不安全代码
+
+AST结构体
+
+```
+UnsafeExpr 不安全代码表达式
+```
+
+示例代码
 
 ```v
 module main
@@ -1490,17 +1576,55 @@ fn main() {
 }
 ```
 
-## SQL
+## ASM汇编语句
 
-AST struct
+AST结构体
 
 ```v
-SqlStmt
+AsmStmt
 
-SqlExpr
+AsmTemplate
+AsmClobbered
+AsmIO
+AsmArg
+AsmAddressing
+AsmAlias
+AsmRegister
 ```
 
-example code
+示例代码
+
+```v
+fn main() {
+	a := 100
+	b := 20
+	mut c := 0
+	asm amd64 {
+		mov eax, a
+		add eax, b
+		mov c, eax
+		; =r (c) // output 
+		; r (a) // input 
+		  r (b)
+	}
+	println('a: $a') // 100
+	println('b: $b') // 20
+	println('c: $c') // 120
+}
+
+```
+
+## SQL数据库SQL语句
+
+AST结构体
+
+```
+SqlStmt sql语句
+
+SqlExpr sql表达式
+```
+
+示例代码
 
 ```v
 module main
@@ -1564,17 +1688,17 @@ fn main() {
 
 ```
 
-## Test
+## Test代码测试
 
-### AssertStmt
+### AssertStmt测试断言语句
 
-AST struct
+AST结构体
 
 ```v
 AssertStmt
 ```
 
-example code
+示例代码
 
 ```v
 fn test_abc() {
@@ -1583,11 +1707,11 @@ fn test_abc() {
 }
 ```
 
-## Compile time
+## Compile time编译时
 
-### CompFor
+### CompFor编译时循环语句
 
-AST struct
+AST结构体
 
 ```v
 CompFor
@@ -1595,7 +1719,7 @@ CompFor
 ComptimeCall
 ```
 
-example code
+示例代码
 
 ```v
 struct App {
@@ -1633,19 +1757,19 @@ fn main() {
 
 ```
 
-## C Integration
+## C Integration C代码互操作
 
-### GlobalDecl
+### GlobalDecl全局变量声明
 
-AST struct
+AST结构体
 
 ```v
-GlobalDecl
+GlobalDecl 全局变量声明
 
-GlobalField
+GlobalField 全局字段声明
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -1671,13 +1795,13 @@ fn main() {
 
 ### HashStmt
 
-AST struct
+AST结构体
 
 ```v
 HashStmt
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -1693,15 +1817,15 @@ fn main() {
 }
 ```
 
-### Likely
+### Likely likely表达式
 
-AST struct
+AST结构体
 
 ```v
 Likely
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -1721,29 +1845,46 @@ fn main() {
 }
 ```
 
-### CTempVar
+### OffsetOf
 
-AST struct
-
-```v
-CTempVar
-```
-
-example code(todo)
+AST结构体
 
 ```v
-
+OffsetOf
 ```
 
-## Comment
+示例代码
 
-AST struct
+```v
+module main
+
+struct User {
+	name [50]byte
+	age int
+	desc string
+}
+
+fn main() {
+	offset_name:=__offsetof(User,name)
+	offset_age:=__offsetof(User,age)
+	offset_desc:=__offsetof(User,desc)
+	println(offset_name)
+	println(offset_age)
+	println(offset_desc)
+}
+```
+
+
+
+## Comment代码注释
+
+AST结构体
 
 ```v
 Comment
 ```
 
-example code
+示例代码
 
 ```v
 module main
@@ -1757,17 +1898,17 @@ fn main() {
 }
 ```
 
-## Other
+## Other其他
 
-### AtExpr
+### AtExpr at表达式
 
-AST struct
+AST结构体
 
 ```v
 AtExpr
 ```
 
-example code
+示例代码
 
 ```v
 module main

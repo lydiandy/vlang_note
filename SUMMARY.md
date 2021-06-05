@@ -84,7 +84,7 @@
 * [stbi](content/stbi.md)
 * [clipboard](content/clipboard.md)
 * --
-* [V语法树](content/vast.md)
+* [V抽象语法树](content/vast.md)
 * [V编译器源代码](content/compiler.md)
 * [生成C代码](content/gen_c.md)
 * [生成js代码](content/gen_js.md)
