@@ -9,12 +9,12 @@ V语言所有的语法树结构体都在标准库的v.ast子模块中定义.
 可使用v ast子命令来生成语法树结构,这样你就可以边写代码,边查看代码对应的语法树,有助于加深对V语言语法树的理解.
 
 ```shell
-v ast main.v 			//将V源代码生成json格式的AST语法树,生成main.json
+v ast main.v 	//将V源代码生成json格式的AST语法树,生成main.json
 v ast -w main.v 	//生成main.json,并且监控源文件变化,保存后自动重新生成
 v ast -c main.v 	//将V源代码同时生成AST语法树文件main.json和C源代码main.c,并且监控源文件变化,保存后自动重新生成
 ```
 
-## 语法树整体总览
+## 语法树结构体总览
 
 ![](vast.assets/image-20210605235205591.png)
 
