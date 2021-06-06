@@ -9,10 +9,12 @@ V语言所有的语法树结构体都在标准库的v.ast子模块中定义.
 可使用v ast子命令来生成语法树结构,这样你就可以边写代码,边查看代码对应的语法树,有助于加深对V语言语法树的理解.
 
 ```shell
-v ast main.v 	//将V源代码生成json格式的AST语法树,生成main.json
+v ast main.v 	 //将V源代码生成json格式的AST语法树,生成main.json
 v ast -w main.v 	//生成main.json,并且监控源文件变化,保存后自动重新生成
 v ast -c main.v 	//将V源代码同时生成AST语法树文件main.json和C源代码main.c,并且监控源文件变化,保存后自动重新生成
 ```
+
+使用v ast子命令,将本章节中的示例代码生成语法树,即可查看到各种不同代码对应的语法树.
 
 ## 语法树结构体总览
 
@@ -23,6 +25,14 @@ v ast -c main.v 	//将V源代码同时生成AST语法树文件main.json和C源�
 整个编译过程主要的步骤就是: [ ]os.File => [ ]ast.File => 目标代码(c/x64/js) => 可执行文件.
 
 一个os.File(源代码文件)会生成一个对应的ast.File(语法树文件).
+
+AST结构体
+
+```
+File 语法树文件
+```
+
+示例代码
 
 ```v
 module main
@@ -36,6 +46,8 @@ fn main() {
 ```
 
 生成的AST:
+
+整个源文件的所有语句都保存在stmts语句数组节点中
 
 ```json
 {
@@ -198,7 +210,6 @@ AST结构体
 
 ```
 Module 模块声明语句
-
 Import 模块导入语句
 ```
 
@@ -1547,12 +1558,12 @@ fn main() {
 }
 ```
 
-## ASM汇编语句
+## ASM汇编
 
 AST结构体
 
 ```v
-AsmStmt
+AsmStmt 汇编语句
 
 AsmTemplate
 AsmClobbered
@@ -1764,12 +1775,12 @@ fn main() {
 }
 ```
 
-### HashStmt
+### HashStmt C语言宏指令语句
 
 AST结构体
 
 ```v
-HashStmt
+HashStmt C语言宏指令语句
 ```
 
 示例代码
@@ -1816,12 +1827,12 @@ fn main() {
 }
 ```
 
-### OffsetOf
+### OffsetOf 结构体字段内存偏移量
 
 AST结构体
 
 ```v
-OffsetOf
+OffsetOf 结构体字段内存偏移量
 ```
 
 示例代码
@@ -1845,14 +1856,12 @@ fn main() {
 }
 ```
 
-
-
 ## Comment代码注释
 
 AST结构体
 
 ```v
-Comment
+Comment 代码注释
 ```
 
 示例代码
@@ -1876,7 +1885,7 @@ fn main() {
 AST结构体
 
 ```v
-AtExpr
+AtExprAtExpr 
 ```
 
 示例代码
