@@ -416,7 +416,6 @@ fn factorial(n u32) u32 {
 fn main() {
 	println(factorial(5))
 }
-
 ```
 
 输出:

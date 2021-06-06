@@ -302,6 +302,7 @@ AST结构体
 
 ```
 AssignStmt 变量赋值语句
+Var 变量
 ```
 
 示例代码
@@ -1074,7 +1075,7 @@ module main
 type Mid_fn = fn (int, string) int /*comment 1*/ //comment 2
 ```
 
-### Sum  type 联合类型
+### Sumtype 联合类型
 
 AST结构体
 
@@ -1130,6 +1131,7 @@ AST结构体
 ```v
 IfExpr if表达式
 IfBranch if分支
+IfGuardExpr `if [x := opt()] {`
 ```
 
 示例代码
@@ -1659,7 +1661,7 @@ fn main() {
 AST结构体
 
 ```v
-AssertStmt
+AssertStmt 测试断言语句
 ```
 
 示例代码
@@ -1671,6 +1673,29 @@ fn test_abc() {
 }
 ```
 
+### DumpE 转储函数表达式xpr
+
+AST结构体
+
+```v
+DumpExpr 转储函数表达式
+```
+
+示例代码
+
+```v
+fn factorial(n u32) u32 {
+	if dump(n <= 1) {
+		return dump(1)
+	}
+	return dump(n * factorial(n - 1))
+}
+
+fn main() {
+	println(factorial(5))
+}
+```
+
 ## Compile time 编译时
 
 ### CompFor 编译时循环语句
@@ -1678,8 +1703,9 @@ fn test_abc() {
 AST结构体
 
 ```v
-CompFor
-ComptimeCall
+CompFor 编译时循环语句
+ComptimeCall 编译时调用表达式
+ComptimeSelector 编译时选择器表达式
 ```
 
 示例代码
@@ -1859,6 +1885,62 @@ fn main() {
 ```
 
 ## Other 其他
+
+### EmptyExpr 空表达式
+
+AST结构体
+
+```v
+EmptyExpr 空表达式
+```
+
+示例代码
+
+```v
+
+```
+
+### EmptyStmt 空语句
+
+AST结构体
+
+```v
+EmptyStmt 空语句
+```
+
+示例代码
+
+```v
+
+```
+
+### TypeNode 类型节点
+
+AST结构体
+
+```v
+TypeNode 类型节点
+```
+
+示例代码
+
+```v
+
+```
+
+### NodeError 错误节点语句/表达式
+
+AST结构体
+
+```v
+NodeError 错误节点语句/表达式
+```
+
+示例代码
+
+```v
+
+```
 
 ### AtExpr at表达式
 
