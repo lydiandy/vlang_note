@@ -9,7 +9,7 @@ V语言所有的语法树结构体都在标准库的v.ast子模块中定义.
 可使用v ast子命令来生成语法树结构,这样你就可以边写代码,边查看代码对应的语法树,有助于加深对V语言语法树的理解.
 
 ```shell
-v ast main.v    //生成json格式的AST语法树文件main.json
+v ast main.v       //生成json格式的AST语法树文件main.json
 v ast -w main.v    //生成main.json,并且监控源文件变化,保存后自动重新生成
 v ast -c main.v    //同时生成AST语法树文件main.json和C源代码main.c,并监控源文件变化,保存后自动重新生成
 ```
@@ -216,11 +216,16 @@ Import 模块导入语句
 示例代码
 
 ```v
-module main
+module  main
 
-import os
+import os // comment for mod
+//comment for time
 import time as t
 import math { min, max }
+
+fn main() {
+  
+}
 ```
 
 ## Const 常量
@@ -237,7 +242,7 @@ ConstField 常量字段
 ```v
 module main
 
-const p = 3.14
+pub const p = 3.14
 const (
 	// version comment 1
 	version = '0.2.0' // version comment 2
@@ -1729,10 +1734,9 @@ fn main() {
 		delete from User where age == 34
 	}
 }
-
 ```
 
-## Test 测试
+## TestAssert 测试断言
 
 ### AssertStmt 测试断言语句
 
@@ -1751,7 +1755,7 @@ fn test_abc() {
 }
 ```
 
-### DumpE 转储函数表达式xpr
+### DumpExpr 转储函数表达式
 
 AST结构体
 
@@ -1888,12 +1892,12 @@ fn main() {
 }
 ```
 
-### HashStmt C语言宏指令语句
+### HashStmt C宏指令语句
 
 AST结构体
 
 ```v
-HashStmt C语言宏指令语句
+HashStmt C宏指令语句
 ```
 
 示例代码
@@ -1969,12 +1973,12 @@ fn main() {
 }
 ```
 
-## Comment 代码注释
+## Comment 注释
 
 AST结构体
 
 ```v
-Comment 代码注释
+Comment 注释
 ```
 
 示例代码
