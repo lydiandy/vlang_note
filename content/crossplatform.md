@@ -185,8 +185,6 @@ fn main() {
 }
 ```
 
-
-
 ------
 
 ## 跨平台交叉编译
@@ -199,8 +197,6 @@ fn main() {
 v -os linux ./main.v
 ```
 
-
-
 ## 内置全局变量
 
 编译器中内置了开发和测试时需要的几个全局变量,方便编译,测试使用:
@@ -209,15 +205,18 @@ v -os linux ./main.v
 module main
 
 fn main() {
-	println(@MOD) 		// 当前模块main
-	println(@FN) 		// 当前函数
-	println(@STRUCT) 	// 当前结构体
-	println(@VEXE) 		// 编译器的当前位置
-	println(@FILE) 		// 当前源文件
-	println(@LINE) 		// 当前行数
-	println(@COLUMN) 	// 当前列数
-	println(@VHASH)		// 当前V编译器的vhash号
-	println(@VMOD_FILE) // 当前v.mod文件内容,以字符串形式返回.执行前确保存在v.mod文件,否则会编译报错
+	println('module: ${@MOD}')			//当前模块
+	println('fn: ${@FN}')				//当前函数
+	println('sturct: ${@STRUCT}')		//当前结构体
+	println('method: ${@METHOD}')		//当前方法
+	println('vexe: ${@VEXE}')			//当前V编译器命令行可执行文件
+	println('vexeroot: ${@VEXEROOT}')	//当前V编译器命令行所在的目录
+	println('file: ${@FILE}')			//当前源代码文件名
+	println('line: ${@LINE}')			//当前代码所在的行
+	println('column: ${@COLUMN}')		//当前代码在当前行中的列数
+	println('vhash: ${@VHASH}')			//当前V命令行编译时的hash	
+	println('vmod_file: ${@VMOD_FILE}')	//当前文件所处项目的v.mod文件内容
+	println('vmodroot: ${@VMODROOT}')	//当前文件所处项目的v.mod文件所在的目录
 }
 ```
 

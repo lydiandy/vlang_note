@@ -9,9 +9,9 @@ V语言所有的语法树结构体都在标准库的v.ast子模块中定义.
 可使用v ast子命令来生成语法树结构,这样你就可以边写代码,边查看代码对应的语法树,有助于加深对V语言语法树的理解.
 
 ```shell
-v ast main.v 	 //将V源代码生成json格式的AST语法树,生成main.json
-v ast -w main.v 	//生成main.json,并且监控源文件变化,保存后自动重新生成
-v ast -c main.v 	//将V源代码同时生成AST语法树文件main.json和C源代码main.c,并且监控源文件变化,保存后自动重新生成
+v ast main.v    //生成json格式的AST语法树文件main.json
+v ast -w main.v    //生成main.json,并且监控源文件变化,保存后自动重新生成
+v ast -c main.v    //同时生成AST语法树文件main.json和C源代码main.c,并监控源文件变化,保存后自动重新生成
 ```
 
 使用v ast子命令,将本章节中的示例代码生成语法树,即可查看到各种不同代码对应的语法树.
@@ -1020,6 +1020,8 @@ fn main() {
 
 ## Interface 接口
 
+### InterfaceDecl 接口声明语句
+
 AST结构体
 
 ```v
@@ -1746,6 +1748,35 @@ fn main() {
 
 ```
 
+### AtExpr at表达式
+
+AST结构体
+
+```v
+AtExprAtExpr at表达式
+```
+
+示例代码
+
+```v
+module main
+
+fn main() {
+	println('module: ${@MOD}')			//当前模块
+	println('fn: ${@FN}')				//当前函数
+	println('sturct: ${@STRUCT}')		//当前结构体
+	println('method: ${@METHOD}')		//当前方法
+	println('vexe: ${@VEXE}')			//当前V编译器命令行可执行文件
+	println('vexeroot: ${@VEXEROOT}')	//当前V编译器命令行所在的目录
+	println('file: ${@FILE}')			//当前源代码文件名
+	println('line: ${@LINE}')			//当前代码所在的行
+	println('column: ${@COLUMN}')		//当前代码在当前行中的列数
+	println('vhash: ${@VHASH}')			//当前V命令行编译时的hash	
+	println('vmod_file: ${@VMOD_FILE}')	//当前文件所处项目的v.mod文件内容
+	println('vmodroot: ${@VMODROOT}')	//当前文件所处项目的v.mod文件所在的目录
+}
+```
+
 ## C Integration C代码互操作
 
 ### GlobalDecl 全局变量声明
@@ -1942,28 +1973,5 @@ NodeError 错误节点语句/表达式
 
 ```
 
-### AtExpr at表达式
 
-AST结构体
 
-```v
-AtExprAtExpr 
-```
-
-示例代码
-
-```v
-module main
-
-fn main() {
-	println(@MOD)
-	println(@FN)
-	println(@STRUCT)
-	println(@VEXE)
-	println(@FILE)
-	println(@LINE)
-	println(@COLUMN)
-	println(@VHASH)
-	println(@VMOD_FILE)
-}
-```
