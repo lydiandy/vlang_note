@@ -1176,14 +1176,25 @@ AST结构体
 
 ```v
 IfExpr if表达式
-IfBranch if分支
-IfGuardExpr `if [x := opt()] {`
+IfBranch if条件分支
+IfGuardExpr if守护条件表达式
 ```
 
 示例代码
 
 ```v
 module main
+
+//带错误的函数
+fn my_fn(i int) ?int {
+	if i == 0 {
+		return error('Not ok!') //抛出错误
+	}
+	if i == 1 {
+		return none //抛出错误
+	}
+	return i //正常返回
+}
 
 fn main() {
 	a := 10
@@ -1196,14 +1207,35 @@ fn main() {
 	} else {
 		println('$a == $b')
 	}
+
+	// if guard expr
+	if c := my_fn(2) { // if守护条件,调用函数时,正常返回,执行if分支
+		println('$c')
+	} else {
+		println('from else')
+	}
+	if c := my_fn(1) { // if守护条件,调用函数时,抛出错误,执行else分支
+		println('$c')
+	} else {
+		println('from else')
+	}
+
+	// if守护条件,其实等价于
+	cc := my_fn(22) or {
+		println('from or')
+		0
+	}
+	println(cc)
+
 	// if expr
 	num := 777
 	s := if num % 2 == 0 { 'even' } else { 'odd' }
 	x, y, z := if true { 1, 'awesome', 13 } else { 0, 'bad', 0 }
-	// compile time if 
+	// compile time if
 	$if macos {
 	} $else {
 	}
+	println('s:$s,x:$x,y:$y,z:$z')
 }
 ```
 
