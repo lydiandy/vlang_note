@@ -1041,7 +1041,7 @@ interface Speaker { //comment 1
 
 ## Type 类型
 
-### Alias Type 类型别名声明语句
+### AliasType 类型别名声明语句
 
 AST结构体
 
@@ -1061,7 +1061,7 @@ type Myint =  int /*comment 1*/ //comment 2
 type Person = Human
 ```
 
-### Function Type 函数类型声明语句
+### FunctionType 函数类型声明语句
 
 AST结构体
 
@@ -1096,6 +1096,50 @@ struct User {
 }
 
 type MySumtype = User | int | string //comment 1
+```
+
+### TypeNode 类型表达式
+
+主要用于联合类型的match类型匹配,以及is类型判断
+
+AST结构体
+
+```v
+TypeNode 类型表达式
+```
+
+示例代码
+
+```v
+module main
+
+struct User {
+	name string
+	age  int
+}
+
+pub fn (m &User) str() string {
+	return 'name:$m.name,age:$m.age'
+}
+
+type MySum = User | int | string
+
+pub fn (ms MySum) str() string {
+	if ms is int { //类型表达式
+		
+	}
+	match ms { 
+		int { //类型表达式
+			return ms.str()
+		}
+		string { //类型表达式
+			return ms 
+		}
+		User { //类型表达式
+			return ms.str()
+		}
+	}
+}
 ```
 
 ## FlowControl 流程控制
@@ -1656,7 +1700,7 @@ fn main() {
 
 ```
 
-## Test 代码测试
+## Test 测试
 
 ### AssertStmt 测试断言语句
 
@@ -1748,12 +1792,12 @@ fn main() {
 
 ```
 
-### AtExpr at表达式
+### AtExpr at全局常量表达式
 
 AST结构体
 
 ```v
-AtExprAtExpr at表达式
+AtExpr at全局常量量表达式
 ```
 
 示例代码
@@ -1917,61 +1961,19 @@ fn main() {
 
 ## Other 其他
 
-### EmptyExpr 空表达式
+### Empty 空语句/表达式
 
-AST结构体
-
-```v
-EmptyExpr 空表达式
-```
-
-示例代码
-
-```v
-
-```
-
-### EmptyStmt 空语句
+只在编译内部使用,用来判断空语句和空表达式.
 
 AST结构体
 
 ```v
 EmptyStmt 空语句
+EmptyExpr 空表达式
 ```
 
-示例代码
+### NodeError 错误节点
 
-```v
+只在编译内部使用,当解析器报错时,返回NodeError节点.
 
-```
-
-### TypeNode 类型节点
-
-AST结构体
-
-```v
-TypeNode 类型节点
-```
-
-示例代码
-
-```v
-
-```
-
-### NodeError 错误节点语句/表达式
-
-AST结构体
-
-```v
-NodeError 错误节点语句/表达式
-```
-
-示例代码
-
-```v
-
-```
-
-
-
+NodeError既是语句,也是表达式.
