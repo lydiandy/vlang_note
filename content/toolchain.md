@@ -198,3 +198,11 @@ VMODULES环境变量用于指定存放第三方包的目录,所有通过v instal
 #### VCHILD
 
 待定未尝试.
+
+#### VDIFF_TOOL
+
+v fmt中,如果指定了该环境变量,v fmt -diff不再使用系统默认的比较工具diff,而是使用指定的比较工具.
+
+#### VDIFF_OPTIONS
+
+v fmt中,传递给VDIFF_TOOL比较工具的选项.
