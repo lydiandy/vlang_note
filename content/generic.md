@@ -1,63 +1,103 @@
 ## 泛型
 
-目前的泛型主要有这三种：泛型结构体,泛型函数,泛型方法
+泛型,最简单的理解就是:**类型作为参数**,在结构体或函数中使用.
 
-### 泛型结构体
+有了泛型,就可以编写出更为简洁,通用,抽象的代码.
+
+V的泛型目前支持三种：泛型函数,泛型结构体,泛型方法.
+
+### 泛型函数
+
+在泛型函数中,所有普通类型能使用的场景,泛型也应该要能使用,
+
+泛型跟普通类型一样,可以作为:
+
+- 函数参数的类型
+- 函数返回值的类型
+- 函数不确定个数参数的类型
+- 函数数组参数的类型
+- 数组的类型
+- 多维数组的类型
+- 固定大小数组的类型
+- 泛型支持类型系统中的:所有基本类型,数组,字典类型,信道chan的类型
+- 甚至泛型函数和泛型结构体也可以组合起来使用
+- 其他各种普通类型能用的场景...
 
 ```v
 module main
 
-struct User {
-mut:
-	name string
+fn main() {}
+
+fn simple<T>(p T) T { // 泛型作为函数的参数,返回值
+	return p
 }
 
-struct DB {
-	driver string
+fn multi<T, U>(a T, b U) (T, U) { // 多个泛型
+	return a, b
 }
 
-struct Group {
-pub mut:
-	name       string
-	group_name string
-}
-
-struct Permission {
-pub mut:
-	name string
-}
-
-struct Repo <T, U> {
-	db DB
-pub mut:
-	model      T
-	permission U
-}
-
-fn main() {
-	mut a := Repo<User,Permission>{
-		model: User{
-			name: 'joe'
+fn max<T>(brug string, a ...T) T { //泛型作为不确定参数的类型
+	mut max := a[0]
+	for item in a[1..] {
+		if max < item {
+			max = item
 		}
 	}
-	println(a.model.name)
-	mut b := Repo<Group,Permission>{
-		permission: Permission{
-			name: 'superuser'
+	return max
+}
+
+fn get_element<T>(arr [3]T) string { // 泛型作为固定大小数组的类型
+	return '${arr[1]}'
+}
+
+fn f_array<T>(a []T) T { // 泛型作为数组的类型
+	return a[0]
+}
+
+fn example2<T>(data [][]T) [][][]T { // 泛型作为多维数组的类型
+	return [data]
+}
+
+fn generic_return_map<M>() map[string]M { // 泛型作为map的value类型
+	return map{
+		'': M{}
+	}
+}
+
+fn generic_return_nested_map<M>() map[string]map[string]M { //泛型作为嵌套的map类型
+	return map{
+		'': map{
+			'': M{}
 		}
 	}
-	println(b.model.name)
-	println(b.permission.name)
-	println(typeof(a.model).name)
-	println(typeof(b.model).name)
+}
+
+fn opt<T>(v T) ?T { //泛型作为返回值,并结合错误处理
+	if sizeof(T) > 1 {
+		return v
+	}
+	return none
+}
+
+fn mk_chan<T>(f fn () T) chan T { // 泛型作为chan类型
+	gench := chan T{cap: 1}
+	return gench
+}
+
+struct Test<T> {
+	v T
+}
+
+fn get_test<T>(v T) Test<T> { // 泛型函数和泛型结构体组合使用
+	return Test{
+		v: v
+	}
 }
 ```
 
-### 泛型函数
+泛型函数的调用方式有**标准方式**和**简洁方式**这两种.
 
-泛型函数的调用可以有标准调用和简短调用2种方式
-
-简洁方式只有泛型在参数中使用才可以,编译器会自动根据参数具体的类型,传递类型信息给函数
+简洁方式只有泛型在函数参数中有使用才可以,编译器会自动根据参数具体的类型,传递类型信息给函数,让调用泛型函数看起来像是调用普通函数那样.
 
 ```v
 module main
@@ -91,44 +131,192 @@ fn main() {
 }
 ```
 
+### 泛型结构体
+
+在泛型结构体中,所有普通类型能使用的场景,泛型也应该要能使用,
+
+泛型跟普通类型一样,在结构体中可以作为:
+
+- 结构体字段的类型
+- 结构体的引用类型&
+- 结构体函数类型字段的参数或返回值
+- 泛型函数的嵌套使用
+- 泛型结构体的嵌套使用
+- 泛型结构体的泛型方法
+- 甚至泛型函数和泛型结构体也可以组合起来使用
+- 其他各种普通类型能用的场景...
+
+```v
+module main
+
+struct Info<T> { //泛型结构体
+	data T //泛型作为字段的类型
+}
+
+struct Foo<A, B> { // 多个泛型
+mut: 
+	a A
+	b B
+}
+
+struct MyStruct<T> {
+	arr  []T  // 泛型作为结构体字段的数组
+	arr2 [3]T //泛型作为结构体字段的固定大小数组
+	m1   map[string]T //泛型作为结构体字段的map
+	c    chan T       //泛型作为结构体字段的chan
+}
+
+struct Scope<T> {
+	before fn () T    // 泛型作为结构体函数类型字段的返回值
+	specs  []fn (T) T //// 泛型作为结构体函数类型字段的参数和返回值
+	after  fn (T)     // 泛型作为结构体函数类型字段的参数
+}
+
+
+struct Item<T> {
+	value T
+}
+
+fn (i Item<T>) unwrap() T {
+	return i.value
+}
+
+fn process<T>(i Item<T>) { //泛型函数和泛型结构体组合使用,泛型结构体作为泛型函数的返回值
+	n := i.unwrap()
+	println(n)
+}
+```
+
 ### 泛型方法
+
+泛型方法基本跟泛型函数一样,唯一的差别是,如果是结构体也是泛型结构体,方法的接收者也都要带上泛型
 
 ```v
 module main
 
 struct Point {
 mut:
-	x int
-	y int
+	x int = 1
+	y int = 1
 }
 
-//泛型方法
+//结构体是普通结构体,方法是泛型方法
 fn (mut p Point) translate<T>(x T, y T) {
 	p.x += x
 	p.y += y
 }
 
-struct Foo {}
+struct Abc<T> {
+	value T
+}
 
-//泛型方法
-fn (v Foo) new<T>() T {
-	return T{}
+//结构体是泛型结构体,方法的接收者都要带上<T>
+fn (s Abc<T>) get_value() T { //泛型结构体的泛型方法
+	return s.value
+}
+
+fn (s Abc<T>) normal_fn() { //泛型结构体的普通方法
+	println('from normal_fn')
 }
 
 fn main() {
 	mut pot := Point{}
-	pot.translate<int>(1, 3) //标准调用方式
-	pot.translate(1, 3) //简洁调用方式
+	pot.translate<int>(1, 3)
 	println(pot)
-	//
-	foo := Foo{}
-	//泛型类型为数组
-	f := foo.new<[]string>()
-	println(f)
-	//泛型类型为字典
-	f2 := foo.new<map[string]string>()
-	println(f2)
+
+	s := Abc<string>{'hello'}
+	println(s.get_value())
+	s.normal_fn()
+}
+```
+
+### 泛型的实现方式
+
+V的泛型实现方式,跟rust一样,在编译时,由编译器对泛型函数和泛型结构体进行分析,穷举,把泛型函数所有实际调用到的具体类型,转化成具体类型对应的普通函数和普通结构体.
+
+这种实现方式的优点是性能好,没有运行时开销,缺点是如果实际调用到的类型很多,穷举后生成的普通函数和普通结构体也会很多,编译后的可执行文件会变大.
+
+这种取舍在所难免,不过运行快最重要,可执行文件变大,只要不是太夸张,还是可以接受的.
+
+V泛型代码:
+
+```v
+module main
+
+//泛型函数
+fn simple<T>(p T) T {
+	return p
 }
 
+//泛型结构体
+struct Info<T> {
+	data T
+}
+
+fn main() {
+	simple<int>(1)
+	simple<int>(1 + 0)
+	simple<string>('g')
+	simple<[]int>([1])
+	simple<map[string]string>(map{'a': 'b'})
+
+	info1:= Info<bool>{true}
+	info2:= Info<int>{1}
+	info3:= Info<f32>{1.1}
+	println('$info1,$info2,$info3')
+}
 ```
+
+生成的C代码:
+
+```c
+// V typedefs:
+typedef struct main__Info_T_bool main__Info_T_bool;
+typedef struct main__Info_T_int main__Info_T_int;
+typedef struct main__Info_T_f32 main__Info_T_f32;
+
+struct main__Info_T_bool {
+	bool data;
+};
+
+struct main__Info_T_int {
+	int data;
+};
+
+struct main__Info_T_f32 {
+	f32 data;
+};
+
+VV_LOCAL_SYMBOL int main__simple_T_int(int p) {
+	return p;
+}
+VV_LOCAL_SYMBOL string main__simple_T_string(string p) {
+	return p;
+}
+VV_LOCAL_SYMBOL Array_int main__simple_T_Array_int(Array_int p) {
+	return p;
+}
+VV_LOCAL_SYMBOL Map_string_string main__simple_T_Map_string_string(Map_string_string p) {
+	return p;
+}
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	main__simple_T_int(1);
+	main__simple_T_int(1 + 0);
+	main__simple_T_string(_SLIT("g"));
+	main__simple_T_Array_int(new_array_from_c_array(1, 1, sizeof(int), _MOV((int[1]){1})));
+	main__simple_T_Map_string_string(new_map_init(&map_hash_string, &map_eq_string, &map_clone_string, &map_free_string, 1, sizeof(string), sizeof(string), _MOV((string[1]){_SLIT("a"), }), _MOV((string[1]){_SLIT("b"), })));
+	main__Info_T_bool info1 = (main__Info_T_bool){.data = true,};
+	main__Info_T_int info2 = (main__Info_T_int){.data = 1,};
+	main__Info_T_f32 info3 = (main__Info_T_f32){.data = 1.1,};
+	println( str_intp(4, _MOV((StrIntpData[]){{_SLIT0, 0xfe10, {.d_s = main__Info_T_bool_str(info1)}}, {_SLIT(","), 0xfe10, {.d_s = main__Info_T_int_str(info2)}}, {_SLIT(","), 0xfe10, {.d_s = main__Info_T_f32_str(info3)}}, {_SLIT0, 0, { .d_c = 0 }}})) );
+}
+```
+
+### 尚未支持的特性
+
+目前V的泛型还没实现:
+
+- 对类型进行where限定,给类型增加条件限定
+- 泛型跟类型系统中的联合类型,接口类型之间的结合使用
 
