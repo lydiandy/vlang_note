@@ -80,7 +80,7 @@
 * [gg](content/gg.md)
 * [gx](content/gx.md)
 * [glm](content/glm.md)
-* [freetype](content/freetype.md)
+* [fontstash](content/fontstash.md)
 * [stbi](content/stbi.md)
 * [clipboard](content/clipboard.md)
 * --
