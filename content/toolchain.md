@@ -72,7 +72,7 @@ v -b x64 ./main.v	 //指定编译器后端类型为x64,目前还是试验性质�
   
 v -o或-output main.c ./main.v //编译生成C源文件,而不是可执行文件
 
-v -prod xxx.v //生产优化模式编译,生成更小的可执行文件
+v -prod xxx.v //生产优化模式编译,生成更小的可执行文件 不指定-prod选项时优先尝试使用tcc编译(v make时会自动下载),指定-prod选项选项后使用gcc msvc等进行编译
 
 v -skip-unused xxx.v //V代码编译生成C代码时,忽略未使用的C函数,可以进一步缩小可执行文件大小
 v -skip-unused -prod xxx.v //V代码编译生成C代码时,忽略未使用的C函数,并且进行生产编译,可以进一步缩小可执行文件大小
