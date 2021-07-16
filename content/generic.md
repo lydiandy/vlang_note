@@ -4,7 +4,7 @@
 
 有了泛型,就可以编写出更为简洁,通用,抽象的代码.
 
-V的泛型目前支持三种：泛型函数,泛型结构体,泛型方法.
+V的泛型目前支持五种：泛型函数,泛型结构体,泛型方法,泛型接口,泛型联合类型.
 
 ### 泛型函数
 
@@ -230,6 +230,118 @@ fn main() {
 }
 ```
 
+### 泛型接口
+
+泛型接口的定义跟泛型结构体基本一样.
+
+只有泛型结构体才能实现泛型接口,普通结构体是无法实现泛型接口的.
+
+```v
+//定义泛型接口
+interface Gettable<T> {
+	get() T
+}
+
+struct Animal<T> {
+	metadata T
+}
+//Animal实现泛型接口
+fn (a Animal<T>) get<T>() T {
+	return a.metadata
+}
+
+struct Mineral<T> {
+	value T
+}
+
+// Mineral也实现泛型接口
+fn (m Mineral<T>) get<T>() T {
+	return m.value
+}
+
+
+fn extract<T>(xs []Gettable<T>) []T { //使用泛型接口
+	return xs.map(it.get())
+}
+
+fn extract_basic<T>(xs Gettable<T>) T { //使用泛型接口
+	return xs.get()
+}
+
+fn main() {
+	a := Animal<int>{123}
+	b := Animal<int>{456}
+	c := Mineral<int>{789}
+
+	arr := [Gettable<int>(a), Gettable<int>(b), Gettable<int>(c)]
+	println(typeof(arr).name) //输出:[]Gettable<int>
+
+	x := extract<int>(arr)
+	println(x)
+
+	aa := extract_basic(a)
+	bb := extract_basic(b)
+	cc := extract_basic(c)
+
+	println('$aa | $bb | $cc') //输出:123 | 456 | 789
+}
+```
+
+### 泛型联合类型
+
+联合类型也支持泛型的结合使用.
+
+```v
+struct None {}
+
+//定义泛型联合类型,把泛型作为联合类型中的子类
+type MyOption<T> = Error | None | T
+
+struct Foo<T> {
+	x T
+}
+
+struct Bar<T> {
+	x T
+}
+
+//定义泛型联合类型,把泛型作为联合类型中的泛型子类
+type MyType<T> = Bar<T> | Foo<T>
+
+fn unwrap_if<T>(o MyOption<T>) T {
+	if o is T {
+		return o
+	}
+	panic('no value')
+}
+
+fn unwrap_match<T>(o MyOption<T>) string {
+	match o {
+		None {
+			return 'none'
+		}
+		Error {
+			return 'none'
+		}
+		T {
+			return 'value'
+		}
+	}
+}
+
+fn main() {
+	y := MyOption<bool>(false)
+
+  println(unwrap_if(y)) //输出false
+  println(unwrap_match(y)) //输出value
+
+	f := Foo<string>{'hi'}
+	t := MyType<string>(f)
+	println(t.type_name()) //输出Foo<string>
+	println(t.x)	//输出hi
+}
+```
+
 ### 泛型的实现方式
 
 V的泛型实现方式,跟rust一样,在编译时,由编译器对泛型函数和泛型结构体进行分析,穷举,把泛型函数所有实际调用到的具体类型,转化成具体类型对应的普通函数和普通结构体.
@@ -317,6 +429,5 @@ VV_LOCAL_SYMBOL void main__main(void) {
 
 目前V的泛型还没实现:
 
-- 对类型进行where限定,给类型增加条件限定
-- 泛型跟类型系统中的联合类型,接口类型之间的结合使用
+- 对类型进行where限定,给类型增加条件限定.
 

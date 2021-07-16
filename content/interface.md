@@ -31,7 +31,7 @@ module main
 
 interface PointInterface {
 mut:
-  x int //定义接口包含字段
+  x int //定义接口字段
   y int
 }
 
@@ -179,11 +179,17 @@ fn main() {
 }
 ```
 
+### 泛型接口
+
+使用泛型接口可以定义更为通用/泛化的接口.
+
+参考章节:[泛型](generic.md)
+
 ### 接口实现
 
 没有接口实现的关键字,类型无需显示声明所要实现的接口,
 
-鸭子类型:只要结构体实现了接口定义的方法,就满足该接口的使用
+鸭子类型:只要结构体实现了接口定义的方法签名,就满足该接口的使用.
 
 ```v
 module main
@@ -201,7 +207,11 @@ fn (c Cat) speak() string {
 }
 
 interface Speaker {
-	speak() string
+	speak() string  //普通的接口方法
+}
+
+interface Iterator<T> {
+	next() ?T //带错误处理的接口方法,问号也是接口方法签名的一部分
 }
 
 fn perform(s Speaker) {
