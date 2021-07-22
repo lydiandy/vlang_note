@@ -389,3 +389,40 @@ fn main() {
 }
 ```
 
+### 判断变量是否为引用类型
+
+```v
+module main
+
+struct Point {
+	x int
+	y int
+}
+
+fn main() {
+	i := 8
+	println(isreftype(i)) //基本类型除了string,都不是引用类型
+
+	s := 'abc'
+	println((isreftype(s))) // string是引用类型
+
+	mut m := map[string]string{} // map是引用类型
+	m['name'] = 'tom'
+	println(isreftype(m))
+
+	a := [1, 2, 3]
+	println(isreftype(a)) // array是引用类型
+
+	p := Point{
+		x: 1
+		y: 2
+	}
+	pp := &Point{
+		x: 1
+		y: 2
+	}
+	println(isreftype(p)) // p不是引用类型
+	println(isreftype(pp)) // pp是引用类型
+}
+```
+
