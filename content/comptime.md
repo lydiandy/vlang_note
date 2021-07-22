@@ -193,6 +193,31 @@ fn test_nested_with_parentheses() {
 
 ```
 
+### 编译时判断字段类型/内存大小/是否引用类型
+
+可以在$for循环中使用内置函数:sizeof(), isreftype(), type(T).name,来判断字段大小,字段类型,字段是否为引用类型.
+
+```v
+module main
+
+struct App {
+	a int
+	b string
+	c f32
+}
+
+fn main() {
+	$for field in App.fields {
+		println(field.name) //字段名字
+		println(sizeof(field)) //字段内存大小
+		println(typeof(field).name) //字段类型名字
+		println(isreftype(field)) //字段是否引用类型
+	}
+}
+```
+
+
+
 ### 动态调用方法
 
 ```v
