@@ -64,7 +64,7 @@ v run main.v
 
 #### 可选安装
 
-如果需要编译http相关模块,需要安装openssl
+如果需要执行v install安装模块或编译http相关模块,需要安装openssl
 
 ```shell
 macOS:
