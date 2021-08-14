@@ -49,6 +49,16 @@ v list			 //列出所有已安装的包
 v outdated	 //列出所有过时需要升级的包
 ```
 
+默认情况下，v install默认从vpm网址安装模块，也可以通过增加参数，从git或hg代码库安装模块.
+
+```shell
+v install --vpm xxx模块 	 //默认从vpm官网安装模块
+v install --git xxx代码库url 	//从git代码库安装模块
+v install --hg	xxx代码库url		//从hg代码库安装模块
+```
+
+
+
 ### 模块描述文件
 
 vpm使用v.mod作为模块描述文件, json格式,跟node的package.json类似.

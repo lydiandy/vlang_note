@@ -41,7 +41,7 @@ Usage:v [options] [command] [arguments]
    version           查看编译器版本
    
 包管理子命令:
-   install           从https://vpm.vlang.io/安装指定的一个或多个模块
+   install           从vpm/git/hg安装指定的一个或多个模块
    remove            删除已安装的模块
    search            搜索模块
    update            升级指定已安装的模块
@@ -127,7 +127,9 @@ v . //编译当前目录
 
 v up //升级V编译器到最新版本,等价于git pull && make
 
-v install xxx模块 //从https://vpm.vlang.io/安装指定的模块
+v install xxx模块 //从https://vpm.vlang.io官方VPM安装指定的模块
+v install --git https://github.com/vlang/markdown  //从git代码库安装模块
+v install --hg  xxx代码库url //从hg代码库安装模块
 
 v fmt -w main.v //统一格式化指定源文件或目录中的代码
 
