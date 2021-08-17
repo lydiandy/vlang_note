@@ -212,3 +212,7 @@ v fmt中,如果指定了该环境变量,v fmt -diff不再使用系统默认的�
 #### VDIFF_OPTIONS
 
 v fmt中,传递给VDIFF_TOOL比较工具的选项.
+
+#### PKG_CONFIG_PATH
+
+C编译工具pkg-config使用的环境变量,V版本的pkg-config工具也使用了这个环境变量，默认会搜索/usr/lib/pkg-config目录，若找不到，则会去PKG_CONFIG_PATH环境变量指定的路径下查找.
