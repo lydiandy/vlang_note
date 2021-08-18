@@ -52,9 +52,10 @@ v outdated	 //列出所有过时需要升级的包
 默认情况下，v install默认从vpm网址安装模块，也可以通过增加参数，从git或hg代码库安装模块.
 
 ```shell
-v install --vpm xxx模块 	 //默认从vpm官网安装模块
-v install --git xxx代码库url 	//从git代码库安装模块
-v install --hg	xxx代码库url		//从hg代码库安装模块
+v install xxx模块 	 //默认从vpm官网安装模块
+v install -git xxx代码库url 	//从git代码库安装模块
+v install xxx代码库url 	//如果install后面是git代码库网址，也可以忽略-git
+v install -hg	xxx代码库url		//从mercurial代码库安装模块
 ```
 
 
