@@ -366,3 +366,48 @@ fn main() {
 
 ```
 
+### 判断接口类型是否也实现了其他接口
+
+可以像结构体那样使用is和as来判断接口是否也实现了其他接口，或者转换成其他接口：
+
+```v
+interface Widget {
+}
+
+interface ResizableWidget {
+	Widget
+	resize(x int, y int) int
+}
+
+// 实现Widget接口, 但没有实现ResizableWidget接口
+struct WidgetA {
+}
+
+// 实现Widget和ResizableWidget接口
+struct WidgetB {
+}
+
+fn (w WidgetB) resize(x int, y int) int {
+	return x * y
+}
+
+fn draw(w Widget) {
+	// w.resize(10, 20) // 此时调用resize方法并不正确，因为并不是所有的w参数变量都实现了ResizableWidget接口
+
+	if w is ResizableWidget { //判断w变量是否也实现了ResizableWidget接口
+		assert w is WidgetB
+		rw := w as ResizableWidget	//把w变量从Widget接口变量转换为ResizableWidget接口变量
+		assert rw is WidgetB
+		//接口类型转换以后就可以调用新接口的方法
+		println(rw.resize(10, 20))
+	} else {
+		assert w is WidgetA
+	}
+}
+
+fn main() {
+	draw(WidgetA{})
+	draw(WidgetB{})
+}
+```
+
