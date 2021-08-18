@@ -41,3 +41,15 @@ V实现了语言服务协议LSP v3.15版本，叫做V Language Server(VLS)。
 安装并配置完成后，就可以在vs code中使用V语言插件提供的代码完成，代码大纲，跳转到定义等功能。
 
 ### 实现
+
+vls基于tree-sitter实现，tree-sitter相关代码库:
+
+**tree-sitter:**
+
+https://tree-sitter.github.io/tree-sitter/
+
+https://github.com/tree-sitter/tree-sitter
+
+**tree-sitter-v:**
+
+https://github.com/nedpals/tree-sitter-v
