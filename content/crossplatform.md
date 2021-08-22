@@ -57,6 +57,56 @@
   file_windows.x64.v
   ...
   ```
+  
+  正常情况下，在同一个模块中函数是不允许重复定义的。
+  
+  但是可以在.c.v或.js.v中重复定义.v中已经定义过的函数，.c.v或.js.v中定义的同名函数会优先被执行，也就是覆盖了.v中定义的函数。
+  
+  这样的好处是，可以在.v中定义通用版本的函数，在.c.v中定义针对C后端版本的函数，在.js.v中定义针对js后端版本的函数。
+  
+  mymodule/wrapper.v
+  
+  ```v
+  module mymodule
+  
+  pub fn value() int {
+  	return 666
+  }
+  ```
+  
+  mymodule/wrapper.c.v
+  
+  ```v
+  module mymodule
+  
+  pub fn value() int {
+  	return 123
+  }
+  ```
+  
+  mymodule/wrapper.js.v
+  
+  ```v
+  module mymodule
+  
+  pub fn value() int {
+  	return 456
+  }
+  ```
+  
+  主模块的main.v
+  
+  ```v
+  module main
+  
+  import mymodule
+  
+  fn main() {
+  	println(mymodule.value())	//C编译器后端输出123
+  }
+  ```
+  
+  
 
 ### $if条件编译
 
