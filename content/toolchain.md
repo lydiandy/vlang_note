@@ -66,9 +66,9 @@ v help build-c //显示编译器后端为c(默认)时的编译选项
 可查看build和run的子命令详细内容,此部分较为重要,同时build和run子命令的编译选项是共用的
 
 ```shell
-v -b或-backend c ./main.v //指定编译器后端类型:默认是c,也可以是js,x64
+v -b或-backend c ./main.v //指定编译器后端类型:默认是c,也可以是js,native
 v -b js ./main.v	 //指定编译器后端类型为js,目前还是试验性质的,不完善
-v -b x64 ./main.v	 //指定编译器后端类型为x64,目前还是试验性质的,不完善
+v -b native ./main.v	 //指定编译器后端类型为native,目前还是试验性质的,不完善
   
 v -o或-output main.c ./main.v //编译生成C源文件,而不是可执行文件
 
@@ -149,6 +149,49 @@ VTEST_ONLY=xxx v vlib/v/compiler_errors_test.v //执行编译器错误测试,并
 
 v doctor //输出当前电脑的基本环境信息,主要跟V编译相关,用于提单到github时,报告环境信息,方便排查
 
+```
+
+### 自定义编译选项
+
+对于自己的程序也可以使用-d或-define来自定义编译选项，并且可以在代码中接收选项的传入值
+
+```v
+module main
+
+fn main() {
+	$if time_v ? {	//自定义编译选项，可以在编译时if的条件语句中进行判断是否有增加了该编译选项
+		println('time_v')
+	}
+	$if abc ? { 
+		println('abc')
+	}
+	$if value ? {
+		println('1')
+	}
+}
+```
+
+```shell
+v  -d abc -d time_v main.v	#增加自定义编译选项abc和time_v，类型默认为bool类型，默认值为true
+v  -d abc -d time_v -d value='0' main.v #也可以使用‘1’或‘0’，等价于true和false
+./main 	#输出time_v和abc
+```
+
+编译V编译器自身的时候可以添加一些自定义编译选项，让V有不同的行为,比如：
+
+```shell
+v -d time_parsing -d time_checking -d time_cgening -d time_v self
+```
+
+使用以上几个时间自定义选项编译V编译器后，编译器在编译文件时会详细显示每一个文件在不同阶段消耗的时间
+
+```shell
+0.004    ms v start
+0.446    ms parse_CLI_args
+0.195    ms parse_file /Users/xx/v/v/vlib/builtin/array.c.v
+0.732    ms checker_check /Users/xx/v/v/vlib/strings/builder.v
+1.355    ms cgen_file /Users/xx/v/v/vlib/strings/builder.v
+837.339  ms v total
 ```
 
 ### 相关环境变量
