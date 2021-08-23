@@ -15,9 +15,9 @@ v install nedpals.args #使用作者账号的名称作为路径,用点号分隔
 v install regex
 ```
 
-如果设置了环境变量VMODULES,则会安装到VMODULES环境变量指向的目录.
+如果设置了环境变量VMODULES,则会安装到VMODULES环境变量指向的目录。
 
-如果没有设置环境变量,mac/linux系统会下载到:~/.vmodules目录中,windows系统会把包下载到:C:\Users\xxx\ .vmodules目录中.
+如果没有设置环境变量,mac/linux系统会下载到:~/.vmodules目录中,windows系统会把包下载到:C:\Users\xxx\ .vmodules目录中。
 
 ```shell
 ~/.vmodules/nedpals/args
@@ -40,7 +40,7 @@ v list			 //列出所有已安装的包
 v outdated	 //列出所有过时需要升级的包
 ```
 
-默认情况下，v install默认从vpm网址安装模块，也可以通过增加参数，从git或hg代码库安装模块.
+默认情况下，v install默认从vpm网址安装模块，也可以通过增加参数，从git或hg代码库安装模块。
 
 ```shell
 v install xxx模块 	 //默认从vpm官网安装模块
@@ -73,7 +73,7 @@ ln -s xxx ~/.vmodules/xxx //创建目录链接,记得使用绝对路径
 
 ### 模块描述文件
 
-vpm使用v.mod作为模块描述文件, json格式,跟node的package.json类似.
+vpm使用v.mod作为模块描述文件, json格式,跟node的package.json类似。
 
 ```json
 Module {
@@ -98,9 +98,9 @@ v init //把当前目录作为项目，创建项目v.mod
 
 ### 解析模块描述文件
 
-可以在代码中导入v.mod模块来解析v.mod.
+可以在代码中导入v.mod模块来解析v.mod。
 
-通过vmod.decode进行解码,这样就可以根据v.mod文件的内容方便实现各种库功能.
+通过vmod.decode进行解码,这样就可以根据v.mod文件的内容方便实现各种库功能。
 
 ```v
 import v.vmod
@@ -110,9 +110,9 @@ eprintln('$vm.name $vm.version\n $vm.description')
 
 ### 标准模块缓存
 
-V编译器默认会启用vlib标准库的缓存,编译一次标准模块后会缓存在~/.vmodules/cache中,缩短编译时间.
+V编译器默认会启用vlib标准库的缓存,编译一次标准模块后会缓存在~/.vmodules/cache中,缩短编译时间。
 
 ### 模块存储方式
 
-使用vpm工具下载第三方依赖包时,包会统一放到VMODULES文件夹中,同一个包会区分版本,不同版本存放在不同目录,提供给本机的所有项目使用.
+使用vpm工具下载第三方依赖包时,包会统一放到VMODULES文件夹中,同一个包会区分版本,不同版本存放在不同目录,提供给本机的所有项目使用。
 
