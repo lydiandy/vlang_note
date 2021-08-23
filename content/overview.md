@@ -1,10 +1,10 @@
 ## 快速总览
 
-这个部分试图展示V语言的总体特性,形成对V语言的一个总体印象,后续章节再展开逐个部分详细介绍
+这个章节试图展示V语言的总体特性,形成对V语言的一个总体印象,后续章节再展开逐个部分详细介绍。
 
 - V语言是一门静态类型,编译型语言
 
-- 语法追求简洁,基本就是吸收了go和rust中各自简洁的部分,go的部分更多一些,代码看起来,写起来都很舒服,这个应该也是大多数人第一眼看到V语言的感觉,被吸引的主要原因之一
+- 语法追求简洁,基本就是吸收了go和rust中简洁的部分,go的部分更多一些,代码看起来,写起来都很舒服,这个应该也是大多数人第一眼看到V语言的感觉,被吸引的主要原因之一
 
 - 无GC,错误处理机制,支持泛型,这三点一直是go有争议的地方,V语言都有
 
@@ -162,6 +162,11 @@ pub interface Walker {
 	walk(int, int) int
 }
 
+// 5.接口-泛型接口，跟泛型结构体使用基本一致
+pub interface Gettable<T> {
+	get() T
+}
+
 // 6.类型-类型别名,可以基于基本类型,也可基于结构体类型创建类型别名
 pub type Myint = int
 
@@ -176,6 +181,11 @@ pub struct BoolExpr {}
 pub struct UnaryExpr {}
 
 pub type Expr = BinExpr | BoolExpr | UnaryExpr
+
+//6.类型-泛型联合类型
+pub type MyOption<T> = Error | None | T
+
+struct None {}
 
 ```
 
