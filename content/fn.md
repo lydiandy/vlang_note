@@ -407,6 +407,7 @@ fn main() {
 v -live run  main.v
 ```
 
+
 ### 内置函数
 
 V内置了一些函数,可以全局使用：
@@ -444,3 +445,4 @@ fn main() {
 [xxx/main.v:5] n * factorial(n - 1): 24
 [xxx/main.v:5] n * factorial(n - 1): 120
 ```
+
