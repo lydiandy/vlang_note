@@ -113,7 +113,7 @@
 | `windows`, `linux`, `macos`   | `gcc`, `tinyc`   | `amd64`, `aarch64` | `debug`, `prod`, `test`   |
 | `mac`, `darwin`, `ios`,       | `clang`, `mingw` | `x64`, `x32`       | `js`, `glibc`, `prealloc` |
 | `android`,`mach`, `dragonfly` | `msvc`           | `little_endian`    | `no_bounds_checking`      |
-| `gnu`, `hpux`, `haiku`, `qnx` | `cplusplus`      | `big_endian`       |                           |
+| `gnu`, `hpux`, `haiku`, `qnx` | `cplusplus`      | `big_endian`       | freestanding              |
 | `solaris`, `linux_or_macos`   |                  |                    |                           |
 
 ```v
