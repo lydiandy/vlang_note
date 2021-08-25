@@ -28,6 +28,19 @@ V实现了语言服务协议LSP v3.15版本，叫做V Language Server(VLS)。
   v -gc boehm -cc gcc cmd/vls
   ```
 
+  后续的日常更新
+
+  由于vls目前还不是太稳定,还在不断地更新中,如果想快速使用最新版本的vls可以自己更新代码,自己重新编译:
+
+  ```shell
+  #更新tree_sitter_v
+  v update tree_sitter_v
+  #更新vls,在vls代码库目录中执行
+  git pull
+  #重新编译vls
+  v -gc boehm -cc gcc cmd/vls
+  ```
+
   
 
 - 方式三：直接下载预编译的二进制文件
