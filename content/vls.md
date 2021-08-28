@@ -14,35 +14,27 @@ V实现了语言服务协议LSP v3.15版本，叫做V Language Server(VLS)。
 
   安装后可以重复执行命令，升级VLS。
 
-  
-
 - 方式二：从源代码安装
 
   ```shell
-  #安装依赖
-  git clone https://github.com/nedpals/tree-sitter-v ~/.vmodules/tree_sitter_v
   #下载vls源代码，切换到use-tree-sitter分支
   git clone https://github.com/vlang/vls.git --branch use-tree-sitter vls && cd vls/
-  #编译vls。目前V的垃圾回收还不成熟，建议编译时加入可选垃圾回收器boehm-gc来帮助内存回收，毕竟vls需要常驻内存中运行
+  #编译vls,目前V的垃圾回收还不成熟，建议编译时加入可选垃圾回收器boehm-gc来帮助内存回收，毕竟vls需要常驻内存中运行
   #安装完成后可以在cmd/vls目录中看到vls可执行文件
   v -gc boehm -cc gcc cmd/vls
   ```
-
+  
   后续的日常更新
 
   由于vls目前还不是太稳定,还在不断地更新中,如果想快速使用最新版本的vls可以自己更新代码,自己重新编译:
 
   ```shell
-  #更新tree_sitter_v
-  v update tree_sitter_v
   #更新vls,在vls代码库目录中执行
   git pull
   #重新编译vls
   v -gc boehm -cc gcc cmd/vls
   ```
-
   
-
 - 方式三：直接下载预编译的二进制文件
 
   下载地址：https://github.com/vlang/vls/releases
@@ -59,10 +51,10 @@ vls基于tree-sitter实现，tree-sitter相关代码库:
 
 **tree-sitter:**
 
-https://tree-sitter.github.io/tree-sitter/
+https://tree-sitter.github.io/tree-sitter
 
 https://github.com/tree-sitter/tree-sitter
 
 **tree-sitter-v:**
 
-https://github.com/nedpals/tree-sitter-v
+https://github.com/vlang/vls/tree/use-tree-sitter/tree_sitter_v
