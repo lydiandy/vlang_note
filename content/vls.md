@@ -23,7 +23,7 @@ V实现了语言服务协议LSP v3.15版本，叫做V Language Server(VLS)。
   #安装完成后可以在cmd/vls目录中看到vls可执行文件
   v -gc boehm -cc gcc cmd/vls
   ```
-  
+
   后续的日常更新
 
   由于vls目前还不是太稳定,还在不断地更新中,如果想快速使用最新版本的vls可以自己更新代码,自己重新编译:
@@ -34,7 +34,19 @@ V实现了语言服务协议LSP v3.15版本，叫做V Language Server(VLS)。
   #重新编译vls
   v -gc boehm -cc gcc cmd/vls
   ```
-  
+
+  如果使用-gc boehm编译报了以下错误,那就是还没有安装可选GC,可以参考[内存管理章节中的安装可选GC](memory.md)
+
+  ```shell
+  error: Cannot find "bdw-gc" pkgconfig file
+  29 | } $else {
+     30 |     $if macos {
+     31 |         #pkgconfig bdw-gc
+        | ~~~~~~~~~~~~~~~~~~
+     32 |     } $else $if openbsd || freebsd {
+     33 |         #flag -I/usr/local/include
+  ```
+
 - 方式三：直接下载预编译的二进制文件
 
   下载地址：https://github.com/vlang/vls/releases
