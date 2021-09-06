@@ -20,8 +20,10 @@ V实现了语言服务协议LSP v3.15版本，叫做V Language Server(VLS)。
   #下载vls源代码，切换到use-tree-sitter分支
   git clone https://github.com/vlang/vls.git --branch use-tree-sitter vls && cd vls/
   #编译vls,目前V的垃圾回收还不成熟，建议编译时加入可选垃圾回收器boehm-gc来帮助内存回收，毕竟vls需要常驻内存中运行
-  #安装完成后可以在cmd/vls目录中看到vls可执行文件
-  v -gc boehm -cc gcc cmd/vls
+  #安装完成后可以在项目根目录中看到vls可执行文件
+  v run build.vsh
+  也可以选择指定的C编译器来编译
+  v run build.vsh cc/gcc/clang/msvc
   ```
 
   后续的日常更新
@@ -32,7 +34,9 @@ V实现了语言服务协议LSP v3.15版本，叫做V Language Server(VLS)。
   #更新vls,在vls代码库目录中执行
   git pull
   #重新编译vls
-  v -gc boehm -cc gcc cmd/vls
+  v run build.vsh
+  也可以选择指定的C编译器来编译
+  v run build.vsh cc/gcc/clang/msvc
   ```
 
   如果使用-gc boehm编译报了以下错误,那就是还没有安装可选GC,可以参考[内存管理章节中的安装可选GC](memory.md)
