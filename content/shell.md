@@ -7,14 +7,15 @@ V语言还可以用来写系统shell脚本,比如开发脚本,构建脚本等。
 V脚本的文件名后缀为 .vsh，跟.v源文件相比,在.vsh中:
 
 - 不用定义主模块
-
 - 不用定义主函数
-
 - 不用导入os模块,调用os模块函数时,可以省略os前缀,就像使用内置函数那样
+- 跟shell脚本一样，可以在首行中使用#!来设置执行脚本的工具
 
 script.vsh
 
 ```v
+#!/usr/local/bin/v run
+
 for _ in 0 .. 5 {
 	println('V script')
 }
@@ -61,7 +62,7 @@ v run script.vsh
 以下是[vls](https://github.com/vlang/vls)的构建脚本：
 
 ```v
-#!/usr/local/bin/v run
+#!/usr/local/bin/v run  //跟shell脚本一样，可以使用#!来设置执行此脚本的工具，也是要提前设置为可执行：chmod +x
 
 import os
 
