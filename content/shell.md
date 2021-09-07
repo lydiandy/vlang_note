@@ -49,13 +49,13 @@ println(again)
 
 编译,运行:
 
-```v
+```shell
 v script.vsh && ./script
 ```
 
 或者直接运行:
 
-```
+```shell
 v run script.vsh
 ```
 
@@ -89,3 +89,4 @@ println('> VLS built successfully!')
 ```
 
 os模块常用的函数可以参考[标准库os模块](std_os.md)章节的介绍。
+
