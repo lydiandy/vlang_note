@@ -36,7 +36,7 @@
 * [编译时反射](content/comptime.md)
 * [包管理器](content/package.md)
 * [单个V文件](content/singlev.md)
-* [Vscript](content/shell.md)
+* [V shell script](content/shell.md)
 * [不安全代码](content/unsafe.md)
 * [集成C代码库](content/c.md)
 * [集成汇编代码](content/asm.md)
