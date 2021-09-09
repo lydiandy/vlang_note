@@ -151,6 +151,64 @@ v doctor //输出当前电脑的基本环境信息,主要跟V编译相关,用于
 
 ```
 
+### glibc和musl libc编译
+
+大部分的linux应用都是基于glibc作为C标准库，不过[musl](http://musl.libc.org/)也是一个很优秀的C标准库，体积小，可以静态链接，有自身的特色和场景，目前比较适合在移动端作为C标准库使用，alpine linux发行版的也是使用musl作为C标准库，系统很小型，轻量。
+
+V编译器也支持musl编译，调用musl-gcc作为编译器。
+
+#### 安装musl
+
+在linux系统中，glibc是内置的，musl需要安装，下面是从源代码编译安装的步骤：
+
+```shell
+git clone git://git.musl-libc.org/musl		//下载musl源代码库
+cd musl
+./configure
+make
+make install	//安装完成后，默认会把musl安装到:usr/local/musl目录中，也可以自定义安装目录
+
+//编译成功后，musl-gcc编译器默认在/usr/local/musl/bin目录中，需要添加到环境变量中。
+export PATH="/usr/local/musl/bin:$PATH"	
+```
+
+#### 编译对比
+
+安装成功后，就可以使用musl-gcc选项来编译V源代码，以下是glibc和musl的不同编译结果对比：
+
+最简单的V源代码,如果依赖的libc内容越多，差异应该越大
+
+main.v
+
+```v
+module main
+
+fn main() {
+	println('abc')
+}
+```
+
+使用-cc musl-gcc就是使用musl编译
+
+以下是在linux mint 20.2版本中的编译对比:
+
+| 编译选项                                                     | 编译大小 |
+| ------------------------------------------------------------ | -------- |
+| 普通编译                                                     |          |
+| v  main.v   (开发默认采用tcc进行编译，速度最快，就是v -cc tcc main.v) | 564.2K   |
+| v -cc gcc main.v                                             | 235.3K   |
+| v -cc musl-gcc  main.v                                       | 230K     |
+| 生产编译                                                     |          |
+| v -prod -cc gcc main.v                                       | 97.6K    |
+| v -prod -cc musl-gcc main.v                                  | 91.8K    |
+| 静态编译                                                     |          |
+| v -cc gcc -cflags -static main.v                             | 1.1M     |
+| v -cc musl-gcc -cflags -static main.v                        | 264.2K   |
+| 生产编译+静态链接                                            |          |
+| v -prod  -cc gcc -cflags -static main.v                      | 967.5K   |
+| v -prod -cc musl-gcc -cflags -static main.v                  | 91.9K    |
+|                                                              |          |
+
 ### 自定义编译选项
 
 对于自己的程序也可以使用-d或-define来自定义编译选项，并且可以在代码中接收选项的传入值
