@@ -173,13 +173,111 @@ from init
 from my_fn
 ```
 
-###模块搜索路径
+### 模块搜索路径
 
-当使用import导入模块时,编译器会按以下顺序搜索模块：
+当使用import导入模块时,编译器会按以下顺序搜索模块: (可以在编译时使用 -v 参数查看编译时模块的搜索路径)
 
-1. 当前编译目录
-2. 当前编译目录中的modules子目录
-3. 标准模块目录,即v/vlib
-4. 第三方模块目录VMODULES，如果设置了VMODULES环境变量,则搜索环境变量指向的目录;如果没有设置VMODULES环境变量,则搜索默认目录~/.vmodules
+1. v.mod文件所在目录.(当前编译中的源文件所在目录及其父目录(最大搜索深度255层)查找v.mod文件)
+2. 入口源文件所在目录.
+3. 入口源文件所在目录中的modules子目录.
+4. 标准模块目录,即v/vlib.
+5. 第三方模块目录VMODULES.如果设置了VMODULES环境变量,则搜索环境变量指向的目录;如果没有设置VMODULES环境变量,则搜索默认目录~/.vmodules.
+6. 当前工作目录.
+7. 当前编译中的源文件目录路径中的modules目录.(如果存在的话)
+8. 当前编译中的源文件的所有父目录.(并不会把终端传入的入口源文件所在目录的相对路径转化为绝对路径,不知道是不是bug)
+#### Ex:
+目录结构:
+```
+D:\>tree /F vtest
+D:\VTEST
+│  dummy
+│
+└─1
+    │  dummy
+    │
+    └─2
+        │  .gitignore
+        │  modulePathSearchTest.code-workspace
+        │  v.mod
+        │
+        └─3
+            │  dummy
+            │
+            └─modules
+                │  dummy
+                │
+                └─4
+                    │  dummy
+                    │
+                    └─5
+                            modulePathSearchTest.v
+D:\>
+```
+![目录结构](/image/模块搜索路径测试01.PNG)<br>
+目标源文件modulePathSearchTest.v内容:
+```
+module main
 
-更进一步的模块内容可以阅读：[包管理器章节](package.md)
+import m  //包含自定义模块m
+
+fn main(){
+	m.test()
+	println('modulePathSearchTest')
+}
+```
+将终端工作目录切换到 D:\6\7 下,编译modulePathSearchTest.v文件(目标源文件使用绝对路径)
+```
+
+D:\>cd D:\6\7
+
+D:\6\7>v -v D:\vtest\1\2\3\modules\4\5\modulePathSearchTest.v
+...
+v.module_search_paths:
+['D:\vtest\1\2\3\modules\4\5', 'D:\vtest\1\2\3\modules\4\5\modules', 'C:\v\vlib', 'C:\Users\xxxxx\.vmodules']
+...
+  >> trying to find m in D:\vtest\1\2\m ..                        --1. v.mod文件所在目录
+  >> trying to find m in D:\vtest\1\2\3\modules\4\5\m ..          --2. 入口源文件所在目录
+  >> trying to find m in D:\vtest\1\2\3\modules\4\5\modules\m ..  --3. 入口源文件所在目录中的modules子目录
+  >> trying to find m in C:\v\vlib\m ..                           --4. 标准模块目录,即v/vlib
+  >> trying to find m in C:\Users\xxxxx\.vmodules\m ..            --5. 第三方模块目录VMODULES.如果设置了VMODULES环境变量,则搜索环境变量指向的目录;如果没有设置VMODULES环境变量,则搜索默认目录~/.vmodules
+  >> trying to find m in D:\6\7\m ..                              --6. 当前工作目录
+  >> trying to find m in D:\vtest\1\2\3\modules\m ..              --7. 当前编译中的源文件目录路径中的modules目录
+  >> trying to find m in D:\vtest\1\2\3\modules\4\m ..            --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\vtest\1\2\3\modules\m ..              --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\vtest\1\2\3\m ..                      --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\vtest\1\2\m ..                        --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\vtest\1\m ..                          --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\vtest\m ..                            --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\m ..                                  --8. 当前编译中的源文件的所有父目录
+D:\vtest\1\2\3\modules\4\5\modulePathSearchTest.v:3:1: builder error: cannot import module "m" (not found)
+    1 | module main
+    2 |
+    3 | import m  //包含自定义模块m
+      | ~~~~~~~~
+    4 |
+    5 | fn main(){
+
+D:\6\7>
+```
+将终端工作目录切换到 D:\6\7 下,编译modulePathSearchTest.v文件(目标源文件使用相对路径)
+```
+D:\6\7>v -v ..\..\vtest\1\2\3\modules\4\5\modulePathSearchTest.v
+...
+  >> trying to find m in D:\vtest\1\2\m ..
+  >> trying to find m in D:\vtest\1\2\3\modules\4\5\m ..
+  >> trying to find m in D:\vtest\1\2\3\modules\4\5\modules\m ..
+  >> trying to find m in C:\v\vlib\m ..
+  >> trying to find m in C:\Users\xxxxx\.vmodules\m ..
+  >> trying to find m in D:\6\7\m ..
+  >> trying to find m in ..\..\vtest\1\2\3\modules\m ..     --依旧是相对路径
+  >> trying to find m in ..\..\vtest\1\2\3\modules\4\m ..
+  >> trying to find m in ..\..\vtest\1\2\3\modules\m ..
+  >> trying to find m in ..\..\vtest\1\2\3\m ..
+  >> trying to find m in ..\..\vtest\1\2\m ..
+  >> trying to find m in ..\..\vtest\1\m ..
+  >> trying to find m in ..\..\vtest\m ..
+  >> trying to find m in ..\..\m ..
+  >> trying to find m in ..\m ..
+...
+D:\6\7>
+```

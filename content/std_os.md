@@ -42,7 +42,7 @@
 
 ### 执行命令
 
-- os.exec(string) ?Result 
+- os.execute(string) Result 
 
     运行命令,运行完成后返回Result, Result.exit_code为运行结果码,Result.output为运行结果的字符串内容,运行结果并不输出到终端中
 
