@@ -172,14 +172,14 @@ from my_fn
 
 当使用import导入模块时,编译器会按以下顺序搜索模块: (可以在编译时使用 -v 参数查看编译时模块的搜索路径)
 
-1. v.mod文件所在目录.(在源文件所在目录及其父目录(最大搜索深度255层)查找v.mod文件)
-2. 目标源文件所在目录.
-3. 目标源文件所在目录中的modules子目录.
+1. v.mod文件所在目录.(当前编译中的源文件所在目录及其父目录(最大搜索深度255层)查找v.mod文件)
+2. 入口源文件所在目录.
+3. 入口源文件所在目录中的modules子目录.
 4. 标准模块目录,即v/vlib.
 5. 第三方模块目录VMODULES.如果设置了VMODULES环境变量,则搜索环境变量指向的目录;如果没有设置VMODULES环境变量,则搜索默认目录~/.vmodules.
 6. 当前工作目录.
-7. 当前目标源文件目录路径中的modules目录.(如果存在的话)
-8. 当前目标源文件的所有父目录.(并不会把终端传入的目标源文件所在目录的相对路径转化为绝对路径,不知道是不是bug)
+7. 当前编译中的源文件目录路径中的modules目录.(如果存在的话)
+8. 当前编译中的源文件的所有父目录.(并不会把终端传入的入口源文件所在目录的相对路径转化为绝对路径,不知道是不是bug)
 #### Ex:
 目录结构:
 ```
@@ -230,20 +230,20 @@ D:\6\7>v -v D:\vtest\1\2\3\modules\4\5\modulePathSearchTest.v
 v.module_search_paths:
 ['D:\vtest\1\2\3\modules\4\5', 'D:\vtest\1\2\3\modules\4\5\modules', 'C:\v\vlib', 'C:\Users\xxxxx\.vmodules']
 ...
-  >> trying to find m in D:\vtest\1\2\m ..                        --1. v.mod文件所在目录.
-  >> trying to find m in D:\vtest\1\2\3\modules\4\5\m ..          --2. 目标源文件所在目录
-  >> trying to find m in D:\vtest\1\2\3\modules\4\5\modules\m ..  --3. 目标源文件所在目录中的modules子目录
+  >> trying to find m in D:\vtest\1\2\m ..                        --1. v.mod文件所在目录
+  >> trying to find m in D:\vtest\1\2\3\modules\4\5\m ..          --2. 入口源文件所在目录
+  >> trying to find m in D:\vtest\1\2\3\modules\4\5\modules\m ..  --3. 入口源文件所在目录中的modules子目录
   >> trying to find m in C:\v\vlib\m ..                           --4. 标准模块目录,即v/vlib
   >> trying to find m in C:\Users\xxxxx\.vmodules\m ..            --5. 第三方模块目录VMODULES.如果设置了VMODULES环境变量,则搜索环境变量指向的目录;如果没有设置VMODULES环境变量,则搜索默认目录~/.vmodules
   >> trying to find m in D:\6\7\m ..                              --6. 当前工作目录
-  >> trying to find m in D:\vtest\1\2\3\modules\m ..              --7. 当前目标源文件目录路径中的modules目录.(如果存在的话)
-  >> trying to find m in D:\vtest\1\2\3\modules\4\m ..            --8. 当前目标源文件的所有父目录
-  >> trying to find m in D:\vtest\1\2\3\modules\m ..              --8. 当前目标源文件的所有父目录
-  >> trying to find m in D:\vtest\1\2\3\m ..                      --8. 当前目标源文件的所有父目录
-  >> trying to find m in D:\vtest\1\2\m ..                        --8. 当前目标源文件的所有父目录
-  >> trying to find m in D:\vtest\1\m ..                          --8. 当前目标源文件的所有父目录
-  >> trying to find m in D:\vtest\m ..                            --8. 当前目标源文件的所有父目录
-  >> trying to find m in D:\m ..                                  --8. 当前目标源文件的所有父目录
+  >> trying to find m in D:\vtest\1\2\3\modules\m ..              --7. 当前编译中的源文件目录路径中的modules目录
+  >> trying to find m in D:\vtest\1\2\3\modules\4\m ..            --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\vtest\1\2\3\modules\m ..              --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\vtest\1\2\3\m ..                      --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\vtest\1\2\m ..                        --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\vtest\1\m ..                          --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\vtest\m ..                            --8. 当前编译中的源文件的所有父目录
+  >> trying to find m in D:\m ..                                  --8. 当前编译中的源文件的所有父目录
 D:\vtest\1\2\3\modules\4\5\modulePathSearchTest.v:3:1: builder error: cannot import module "m" (not found)
     1 | module main
     2 |
