@@ -368,3 +368,138 @@ pub enum MouseButton {
 #flag darwin -framework OpenGL -framework Cocoa -framework QuartzCore
 ```
 
+### pkgconfig
+
+pkg-config是C广泛使用的编译依赖配置工具，V也实现了V版本的pkgconfig,使用方法基本跟C版本保持了兼容.
+
+#### 命令行
+
+V版本的pkgconfig的源代码位于V源代码中的：vlib/v/pkgconfig
+
+- 编译pkgconfig
+
+切换到vlib/v/pkgconfig目录中，然后执行
+
+```shell
+v ./bin/pkgconfig.v
+```
+
+- 使用pkgconfig命令行
+
+  基本跟C版本的使用兼容，具体使用参考：
+
+```shell
+./bin/pkgconfig --help
+```
+
+一般来说pkgconfig命令行比较少直接使用，一般都是通过在V源代码中加载pc配置文件。
+
+#### 加载pc配置文件
+
+V版本的pkgconfig配置文件跟C版本一致，配置文件的扩展名也是.pc。
+
+直接在V源代码中加载.pc配置文件，就可以更方便地实现跟C代码库实现集成，能够正确编译。
+
+一般来说，在加载之前先使用$pkgconfig('xxx')编译时函数来检查xxx.pc配置文件是否存在，如果存在，就可以使用#pkgconfig标记来加载.pc配置文件：
+
+配置文件的搜索路径跟C版本一样，默认会搜索/usr/lib/pkg-config目录，若找不到，则会去PKG_CONFIG_PATH环境变量指定的路径下查找
+
+```v
+$if $pkgconfig('mysqlclient') {	//编译时判断mysqlclient.pc配置文件是否存在
+	#pkgconfig mysqlclient //如果存在，则加载mysqlclient.pc配置文件
+} $else $if $pkgconfig('mariadb') { 
+	#pkgconfig mariadb
+}
+```
+
+在实际的例子中，V编译器的可选垃圾收集器使用了C版本的bdw-gc，在vlib/builtin/builtin_d_gcboehm.c.v源代码中有这么一段代码：
+
+```v
+	$if macos { 	//在mac系统中
+		#pkgconfig bdw-gc		//加载bdw-gc.pc配置文件到C源代码中
+	} $else $if openbsd || freebsd {
+		#flag -I/usr/local/include
+		#flag -L/usr/local/lib
+	}
+```
+
+#### 解析pc配置文件内容
+
+除了可以在源代码中直接加载pc配置文件到生成的C源代码中，还可以使用v.pkgconig模块来解析pc配置文件中的内容:
+
+Vlib/v/pkgconfig/test_sample目录中有许多pc配置的示例，通过以下代码解析出配置文件对应字段的内容，效果跟解析v.mod类似。
+
+```v
+import os
+import v.pkgconfig
+
+const vexe = os.getenv('VEXE')
+
+const vroot = os.dir(vexe)
+
+const samples_dir = os.join_path(vroot, 'vlib', 'v', 'pkgconfig', 'test_samples')
+
+fn main() {
+	pc_files := os.walk_ext(samples_dir, '.pc')
+	assert pc_files.len > 0
+	for pc in pc_files {
+		pcname := os.file_name(pc).replace('.pc', '')
+		x := pkgconfig.load(pcname, use_default_paths: false, path: samples_dir) or {
+			if pcname == 'dep-resolution-fail' {
+				continue
+			}
+			println('>>> err: $err')
+			assert false
+			return
+		}
+		assert x.name != ''
+		assert x.modname != ''
+		assert x.version != ''
+		if pcname == 'gmodule-2.0' {
+			assert x.name == 'GModule'
+			assert x.modname == 'gmodule-2.0'
+			assert x.url == ''
+			assert x.version == '2.64.3'
+			assert x.description == 'Dynamic module loader for GLib'
+			assert x.libs == ['-Wl,--export-dynamic', '-L/usr/lib/x86_64-linux-gnu', '-lgmodule-2.0',
+				'-pthread', '-lglib-2.0', '-lpcre']
+			assert x.libs_private == ['-ldl', '-pthread']
+			assert x.cflags == ['-I/usr/include', '-pthread', '-I/usr/include/glib-2.0',
+				'-I/usr/lib/x86_64-linux-gnu/glib-2.0/include',
+			]
+			assert x.vars == {
+				'prefix':            '/usr'
+				'libdir':            '/usr/lib/x86_64-linux-gnu'
+				'includedir':        '/usr/include'
+				'gmodule_supported': 'true'
+			}
+			assert x.requires == ['gmodule-no-export-2.0', 'glib-2.0']
+			assert x.requires_private == []
+			assert x.conflicts == []
+		}
+		if x.name == 'expat' {
+			assert x.url == 'http://www.libexpat.org'
+		}
+		if x.name == 'GLib' {
+			assert x.modname == 'glib-2.0'
+			assert x.libs == ['-L/usr/lib/x86_64-linux-gnu', '-lglib-2.0', '-lpcre']
+			assert x.libs_private == ['-pthread']
+			assert x.cflags == ['-I/usr/include/glib-2.0',
+				'-I/usr/lib/x86_64-linux-gnu/glib-2.0/include', '-I/usr/include']
+			assert x.vars == {
+				'prefix':          '/usr'
+				'libdir':          '/usr/lib/x86_64-linux-gnu'
+				'includedir':      '/usr/include'
+				'bindir':          '/usr/bin'
+				'glib_genmarshal': '/usr/bin/glib-genmarshal'
+				'gobject_query':   '/usr/bin/gobject-query'
+				'glib_mkenums':    '/usr/bin/glib-mkenums'
+			}
+			assert x.requires_private == ['libpcre']
+			assert x.version == '2.64.3'
+			assert x.conflicts == []
+		}
+	}
+}
+```
+

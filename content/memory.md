@@ -49,13 +49,23 @@ llvm, mono, gnu d compiler, gnu java compiler等也都使用该gc
 
 一般的C代码中，只要将malloc, realloc替换成boehm相应的分配函数，再删除free调用，就带gc功能
 
-#### 安装(mac环境)
+#### 安装
 
 - 安装libgc-dev包
+
+  macos:
 
   ```shell
   brew install libgc
   ```
+
+  linux:
+
+  ```shell
+  sudo apt-get install libgc-dev
+  ```
+
+  
 
 - 也可手工下载发布的稳定版本: 
 

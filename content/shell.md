@@ -1,22 +1,21 @@
-## Vscripts
+## V shell script
 
-V语言还可以用来写系统shell脚本,借助简洁的语法,写shell脚本还是比较舒服的,而且还可以是跨平台的
+V语言还可以用来写系统shell脚本,比如开发脚本,构建脚本等。
 
-V脚本的文件名后缀为 .vsh
+用V语言来写shell脚本还是比较舒服的,不仅语法简洁，而且是跨平台的。
 
-区别于.v文件,在.vsh中:
+V脚本的文件名后缀为 .vsh，跟.v源文件相比,在.vsh中:
 
 - 不用定义主模块
-
 - 不用定义主函数
-
 - 不用导入os模块,调用os模块函数时,可以省略os前缀,就像使用内置函数那样
-
-直接像shell脚本那样写,代码从头开始运行
+- 跟shell脚本一样，可以在首行中使用#!来设置执行脚本的工具
 
 script.vsh
 
 ```v
+#!/usr/local/bin/v run
+
 for _ in 0 .. 5 {
 	println('V script')
 }
@@ -50,14 +49,44 @@ println(again)
 
 编译,运行:
 
-```v
+```shell
 v script.vsh && ./script
 ```
 
 或者直接运行:
 
-```
+```shell
 v run script.vsh
 ```
 
-具体的os模块常用的函数可以参考[标准库](stdlibrary.md)章节的介绍
+以下是[vls](https://github.com/vlang/vls)的构建脚本：
+
+```v
+#!/usr/local/bin/v run  //跟shell脚本一样，可以使用#!来设置执行此脚本的工具，也是要提前设置为可执行：chmod +x
+
+import os
+
+// use system default C compiler if found
+mut cc := 'cc'
+if os.args.len >= 2 {
+	if os.args[1] in ['cc', 'gcc', 'clang', 'msvc'] {
+		cc = os.args[1]
+	} else {
+		println('> Usage error: parameter must be in cc/gcc/clang/msvc')
+		return
+	}
+}
+println('> Building VLS...')
+
+ret := system('v -gc boehm -cg -cc $cc cmd/vls -o vls')	//可以直接使用os模块内部的函数，就像内置函数那样，不用模块前缀
+if ret != 0 {
+	println('Failed building VLS')
+	return
+}
+
+println('> VLS built successfully!')
+
+```
+
+os模块常用的函数可以参考[标准库os模块](std_os.md)章节的介绍。
+

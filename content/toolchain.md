@@ -66,15 +66,15 @@ v help build-c //显示编译器后端为c(默认)时的编译选项
 可查看build和run的子命令详细内容,此部分较为重要,同时build和run子命令的编译选项是共用的
 
 ```shell
-v -b或-backend c ./main.v //指定编译器后端类型:默认是c,也可以是js,x64
+v -b或-backend c ./main.v //指定编译器后端类型:默认是c,也可以是js,native
 v -b js ./main.v	 //指定编译器后端类型为js,目前还是试验性质的,不完善
-v -b x64 ./main.v	 //指定编译器后端类型为x64,目前还是试验性质的,不完善
+v -b native ./main.v	 //指定编译器后端类型为native,目前还是试验性质的,不完善
   
 v -o或-output main.c ./main.v //编译生成C源文件,而不是可执行文件
 
 v -prod xxx.v //生产优化模式编译,生成更小的可执行文件 不指定-prod选项时优先尝试使用tcc编译(v make时会自动下载),指定-prod选项选项后使用gcc msvc等进行编译
 
-v -skip-unused xxx.v //V代码编译生成C代码时,忽略未使用的C函数,可以进一步缩小可执行文件大小
+v -skip-unused xxx.v //V代码编译生成C代码时,忽略未使用的C函数,可以进一步缩小可执行文件大小，目前最简单的V程序正常编译成C代码大概是1W行左右，使用了-skip-unused后，减小到5000行左右
 v -skip-unused -prod xxx.v //V代码编译生成C代码时,忽略未使用的C函数,并且进行生产编译,可以进一步缩小可执行文件大小
 v -skip-unused -o xxx.c xxx.v //生成最小的C文件,忽略未使用的C函数
 
@@ -151,6 +151,107 @@ v doctor //输出当前电脑的基本环境信息,主要跟V编译相关,用于
 
 ```
 
+### glibc和musl libc编译
+
+大部分的linux应用都是基于glibc作为C标准库，不过[musl](http://musl.libc.org/)也是一个很优秀的C标准库，体积小，可以静态链接，有自身的特色和场景，目前比较适合在移动端作为C标准库使用，alpine linux发行版的也是使用musl作为C标准库，系统很小型，轻量。
+
+V编译器也支持musl编译，调用musl-gcc作为编译器。
+
+#### 安装musl
+
+在linux系统中，glibc是内置的，musl需要安装，下面是从源代码编译安装的步骤：
+
+```shell
+git clone git://git.musl-libc.org/musl		//下载musl源代码库
+cd musl
+./configure
+make
+make install	//安装完成后，默认会把musl安装到:usr/local/musl目录中，也可以自定义安装目录
+
+//编译成功后，musl-gcc编译器默认在/usr/local/musl/bin目录中，需要添加到环境变量中。
+export PATH="/usr/local/musl/bin:$PATH"	
+```
+
+#### 编译对比
+
+安装成功后，就可以使用musl-gcc选项来编译V源代码，以下是glibc和musl的不同编译结果对比：
+
+最简单的V源代码,如果依赖的libc内容越多，差异应该越大
+
+main.v
+
+```v
+module main
+
+fn main() {
+	println('abc')
+}
+```
+
+使用-cc musl-gcc就是使用musl编译
+
+以下是在linux mint 20.2版本中的编译对比:
+
+| 编译选项                                                     | 编译大小 |
+| ------------------------------------------------------------ | -------- |
+| 普通编译                                                     |          |
+| v  main.v   (开发默认采用tcc进行编译，速度最快，就是v -cc tcc main.v) | 564.2K   |
+| v -cc gcc main.v                                             | 235.3K   |
+| v -cc musl-gcc  main.v                                       | 230K     |
+| 生产编译                                                     |          |
+| v -prod -cc gcc main.v                                       | 97.6K    |
+| v -prod -cc musl-gcc main.v                                  | 91.8K    |
+| 静态编译                                                     |          |
+| v -cc gcc -cflags -static main.v                             | 1.1M     |
+| v -cc musl-gcc -cflags -static main.v                        | 264.2K   |
+| 生产编译+静态链接                                            |          |
+| v -prod  -cc gcc -cflags -static main.v                      | 967.5K   |
+| v -prod -cc musl-gcc -cflags -static main.v                  | 91.9K    |
+|                                                              |          |
+
+### 自定义编译选项
+
+对于自己的程序也可以使用-d或-define来自定义编译选项，并且可以在代码中接收选项的传入值
+
+```v
+module main
+
+fn main() {
+	$if time_v ? {	//自定义编译选项，可以在编译时if的条件语句中进行判断是否有增加了该编译选项
+		println('time_v')
+	}
+	$if abc ? { 
+		println('abc')
+	}
+	$if value ? {
+		println('1')
+	}
+}
+```
+
+```shell
+v  -d abc -d time_v main.v	#增加自定义编译选项abc和time_v，类型默认为bool类型，默认值为true
+v  -d abc -d time_v -d value='0' main.v #也可以使用‘1’或‘0’，等价于true和false
+./main 	#输出time_v和abc
+```
+
+编译V编译器自身的时候可以添加一些自定义编译选项，让V有不同的行为,比如：
+
+```shell
+v -d time_parsing -d time_checking -d time_cgening -d time_v self
+```
+
+使用以上几个时间自定义选项编译V编译器后，编译器在编译文件时会详细显示每一个文件在不同阶段消耗的时间
+
+```shell
+0.004    ms v start
+0.446    ms parse_CLI_args
+0.195    ms parse_file /Users/xx/v/v/vlib/builtin/array.c.v
+0.732    ms checker_check /Users/xx/v/v/vlib/strings/builder.v
+1.355    ms cgen_file /Users/xx/v/v/vlib/strings/builder.v
+837.339  ms v total
+```
+
 ### 相关环境变量
 
 #### VEXE
@@ -212,3 +313,7 @@ v fmt中,如果指定了该环境变量,v fmt -diff不再使用系统默认的�
 #### VDIFF_OPTIONS
 
 v fmt中,传递给VDIFF_TOOL比较工具的选项.
+
+#### PKG_CONFIG_PATH
+
+C编译工具pkg-config使用的环境变量,V版本的pkg-config工具也使用了这个环境变量，默认会搜索/usr/lib/pkg-config目录，若找不到，则会去PKG_CONFIG_PATH环境变量指定的路径下查找.
