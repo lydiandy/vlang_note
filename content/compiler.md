@@ -103,13 +103,13 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
 
 使用[scc](https://github.com/boyter/scc)代码统计工具的统计数据如下:
 
-![image-20210430222618795](/../content/compiler.assets/image-20210430222618795.png)
+![image-20210430222618795](/content/compiler.assets/image-20210430222618795.png)
 
 ### 编译器类
 
 以下类图是V编译器中主要的类和枚举:
 
-![V编译器类图](/../content/compiler.assets/V编译器类图.jpg)
+![V编译器类图](/content/compiler.assets/V编译器类图.jpg)
 
 **主要的调用关系是:cmd=>builder.Builder=>parser.Parser=>scanner.Scanner**
 
