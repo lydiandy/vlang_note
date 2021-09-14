@@ -103,8 +103,36 @@ V语言可以针对结构体,结构体字段,函数/方法进行注解
 
 - [keep_args_alive]
 
+- [export]
   
+  此注解可以在v生成的c代码中自定义函数名
+  <br>例:<br>
+  源文件test.v中定义函数my_func 并且追加注解: [export:'funcExportTest']
+  ```
+  module main
 
+  fn main(){
+  	my_func()
+  }
+
+  [export:'funcExportTest']
+  fn my_func(){
+  	println('zzz')
+  }
+  ```
+  编译成c代码: v -o test.c test.v <br>
+  生成的c代码中编译器会追加函数funcExportTest
+  ```
+  // Attr: [export]
+  VV_LOCAL_SYMBOL void main__my_func(void) {
+    println(_SLIT("zzz"));
+  }
+  // export alias: funcExportTest -> main__my_func
+  void funcExportTest(void) {
+    return main__my_func();
+  }
+  ```
+  
 ### 自定义注解
 
 实际上除了编译器内置的注解外,结构体,函数,枚举的定义者可以增加各种自定义注解,然后自己解析,自己使用
