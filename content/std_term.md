@@ -1,12 +1,12 @@
-## term终端模块
+## term 终端模块
 
-命令行终端控制包,用来在终端上控制光标,输出字符,改变字符格式,颜色等
+命令行终端控制包用来在终端上控制光标,输出字符,改变字符格式,颜色等，可以用来开发一些基于终端的交互界面(TUI)。
 
-参考指令:https://www.gnu.org/software/screen/manual/html_node/Control-Sequences.html
+终端模块基于libc的<sys/ioctl.h>。
 
-基于libc的<sys/ioctl.h>
+参考指令：https://www.gnu.org/software/screen/manual/html_node/Control-Sequences.html。
 
-**基本使用**
+### 基本使用
 
 - ok_message(s string) string
 
@@ -27,23 +27,21 @@
 ```v
 module main
 
-import (
-	term
-)
+import term
 
 fn main() {
-	s:=term.ok_message('ok')
+	s := term.ok_message('ok')
 	println(s)
-	err:=term.fail_message('fail')
+	err := term.fail_message('fail')
 	println(err)
-	d:=term.h_divider('-')
+	d := term.h_divider('-')
 	println(d)
-	h:=term.header('title','=')
+	h := term.header('title', '=')
 	println(h)
 }
 ```
 
-**终端字体颜色,背景色,粗体,斜体,下划线等设置**
+### 终端字体颜色,背景色,粗体,斜体,下划线等
 
 - get_terminal_size() (int,int)
 
@@ -75,7 +73,7 @@ fn main() {
 
 其他颜色等设置具体参考vlib/term/color.v
 
-**终端鼠标控制部分,显示,隐藏,跳到指定位置等**
+### 终端鼠标控制部分,显示,隐藏,跳到指定位置等
 
 - set_cursor_position(x int, y int)
 
@@ -93,4 +91,4 @@ fn main() {
 
   移动光标
 
-​    其他更多鼠标控制设置,参考vlib/term/control.v
+​    其他更多鼠标控制设置,参考vlib/term/control.v。
