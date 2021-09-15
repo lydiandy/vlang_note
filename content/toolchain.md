@@ -36,7 +36,7 @@ Usage:v [options] [command] [arguments]
    symlink           unix系统在/usr/local/bin/v生成链接,windows生成环境变量
 
    up                升级编译器V到最新版本,等同于git pull,然后make
-   self [-prod]      让V编译器自己编译自己(不执行git pull,不使用make),
+   self [-prod]      让V编译器自己编译自己(不执行git pull,不使用make)
    									 可使用-prod优化编译
    version           查看编译器版本
    
@@ -149,6 +149,8 @@ VTEST_ONLY=xxx v vlib/v/compiler_errors_test.v //执行编译器错误测试,并
 
 v doctor //输出当前电脑的基本环境信息,主要跟V编译相关,用于提单到github时,报告环境信息,方便排查
 
+v self -prod //编译器自己编译自己
+v -d time_v self //编译器自己编译自己,并增加自定义编译选项
 ```
 
 ### glibc和musl libc编译
