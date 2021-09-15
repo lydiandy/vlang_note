@@ -66,6 +66,8 @@ v help build-c //显示编译器后端为c(默认)时的编译选项
 可查看build和run的子命令详细内容,此部分较为重要,同时build和run子命令的编译选项是共用的
 
 ```shell
+v或v -或v -repl进入交互模式
+
 v -b或-backend c ./main.v //指定编译器后端类型:默认是c,也可以是js,native
 v -b js ./main.v	 //指定编译器后端类型为js,目前还是试验性质的,不完善
 v -b native ./main.v	 //指定编译器后端类型为native,目前还是试验性质的,不完善
@@ -272,9 +274,13 @@ V命令行启动的时候,会检查是否人为指定了该环境变量,如果�
 
 VMODULES环境变量用于指定存放第三方包的目录,所有通过v install下载的第三方包都会统一下载到该目录中,如果没有设置该环境变量,默认存放在~/.vmodules中.
 
+#### VOSARGS
+
+用于设置V编译器默认使用的flags字符串，优先级高于os.args和VFLAGS的设置，如果环境变量设置了VOSRAGS则会忽略os.args和VFLAGS的设置，不过感觉这个环境变量没有什么存在的用处，一般用VFLAGS也就够了。
+
 #### VFLAGS
 
-用于设置V编译器默认使用的flags字符串.
+用于设置V编译器默认使用的flags字符串,环境变量中设置的VFLAGS会和os.args中的flags合并，如果两者中有相同的flag，os.args中的flag优先。
 
 #### CFLAGS
 
