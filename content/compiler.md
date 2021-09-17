@@ -4,9 +4,7 @@ typora-root-url: ../image
 
 ## V编译器源代码
 
-V编译器基于AST(抽象语法树)的方式来编译
-
-源代码先生成AST,再生成目标代码,是目前各语言编译器的主流方式,好处很多
+V编译器基于AST(抽象语法树)的方式来编译，源代码先生成AST,再生成目标代码(c/js/native)，是目前各语言编译器的主流方式，好处很多：
 
 - 编译器代码更清晰,更好维护
 - 编译器再增加新东西,速度会更快
@@ -25,44 +23,52 @@ V编译器基于AST(抽象语法树)的方式来编译
 
 #### vlib/v - V编译器源代码目录
 
-| 子目录    | 说明                                    |
-| --------- | --------------------------------------- |
-| ast       | AST抽象语法树和全局符号表               |
-| token     | 词法单元相关                            |
-| pref      | 编译选项/参数相关                       |
-| scanner   | 词法分析/扫描器相关                     |
-| parser    | 语法分析/解析器相关                     |
-| checker   | 语法检查器相关                          |
-| eval      | 表达式求值相关                          |
-| depgraph  | 模块依赖相关                            |
-| builder   | 代码生成器相关                          |
-| gen       | 生成具体平台代码相关,如生成C,js,x64     |
-| fmt       | 代码格式化相关                          |
-| doc       | 代码文档生成相关                        |
-| tests     | 编译器测试代码                          |
-| errors    | 编译器报错和警告                        |
-| vmod      | 解析v.mod文件                           |
-| cflag     | 解析cflag标识                           |
-| vcache    | 编译器缓存相关                          |
-| vet       | 小工具,用于分析项目代码存在的错误       |
-| pkgconfig | 小工具,用于配置C代码的编译标记(C flags) |
-| util      | 编译器各种辅助类                        |
+| 子目录      | 说明                                             |
+| ----------- | ------------------------------------------------ |
+| ast         | AST抽象语法树和全局符号表                        |
+| token       | 词法单元相关                                     |
+| pref        | 编译选项/参数相关                                |
+| scanner     | 词法分析/扫描器相关                              |
+| parser      | 语法分析/解析器相关                              |
+| checker     | 语法检查器相关                                   |
+| eval        | 表达式求值相关                                   |
+| depgraph    | 模块依赖相关                                     |
+| builder     | 代码生成器相关                                   |
+| gen         | 生成具体平台代码相关,如生成C,js,x64              |
+| fmt         | 代码格式化相关                                   |
+| doc         | 代码文档生成相关                                 |
+| tests       | 编译器测试代码                                   |
+| errors      | 编译器报错和警告                                 |
+| vmod        | 解析v.mod文件                                    |
+| cflag       | 解析cflag标识                                    |
+| vcache      | 编译器缓存相关                                   |
+| vet         | 小工具,用于分析项目代码存在的错误                |
+| pkgconfig   | 小工具,用于配置C代码的编译标记(C flags)          |
+| util        | 编译器各种辅助类                                 |
+| embed_file  | 将各种文件嵌入到可执行文件中，形成单一可执行文件 |
+| callgraph   | 显示函数调用图,生成Graphviz的dot格式             |
+| preludes    |                                                  |
+| preludes_js |                                                  |
+| live        |                                                  |
+| markused    |                                                  |
+| transformer |                                                  |
 
 #### thirdparty - 第三方C代码依赖库
 
 | 子目录         | 说明                                                         |
 | -------------- | ------------------------------------------------------------ |
-| bignumber      | C大整数运算库                                                |
 | cJSON          | [C的JSON解析库](https://github.com/DaveGamble/cJSON)         |
 | fontstash      | [C字体库](https://github.com/memononen/fontstash)            |
-| stb_image      | [C图像库](https://github.com/nothings/stb)                   |
+| ios            | ios依赖库                                                    |
+| libgc          | [可选GC](https://github.com/ivmai/bdwgc)                     |
+| mssql          | mssql头文件库                                                |
 | sokol          | [vui依赖的C图形库,跨平台](https://github.com/floooh/sokol)   |
 | picoev         | [C的高性能网络库](https://github.com/kazuho/picoev)          |
 | picohttpparser | [C的高性能http解析库]( https://github.com/h2o/picohttpparser) |
+| stb_image      | [C图像库](https://github.com/nothings/stb)                   |
 | stdatomic      | C的原子操作库                                                |
 | tcc            | [Tiny C Compiler](https://bellard.org/tcc/) / [github库](https://github.com/TinyCC/tinycc) |
 | vschannel      |                                                              |
-| ios            | ios依赖库                                                    |
 | zip            | C的zip压缩库                                                 |
 
 ### 主要编译过程
