@@ -260,7 +260,6 @@ fn main() {
 	println('vhash: ${@VHASH}')					//当前V编译器的hash版本号	
  	println('vexe: ${@VEXE}')					//当前V编译器命令行文件
 	println('vexeroot: ${@VEXEROOT}')			//当前V编译器命令行所在的目录
-	println('vroot: ${@VROOT}')           		//当前V源代码的根目录
 	
 	println('vmod_file: ${@VMOD_FILE}')			//当前文件所处项目的v.mod文件内容
 	println('vmodroot: ${@VMODROOT}')			//当前文件所处项目的v.mod文件所在的目录
