@@ -1,30 +1,30 @@
-# V语言抽象语法树(AST)
+## V语言抽象语法树(AST)
 
-V语言所有的语法树结构体都在标准库的v.ast子模块中定义.
+V语言所有的语法树结构体都在标准库的v.ast模块中定义，主要是通过联合类型来实现。
 
-主要是通过联合类型来实现,用联合类型来实现语法树,代码显得非常的简洁,清晰.
+用联合类型来实现语法树，代码显得非常的简洁，清晰。
 
-## v ast子命令
+### v ast子命令
 
-可使用v ast子命令来生成语法树结构,这样你就可以边写代码,边查看代码对应的语法树,有助于加深对V语言语法树的理解.
+可使用v ast子命令来生成语法树结构，这样你就可以边写代码，边查看代码对应的语法树，有助于加深对V语言语法树的理解。
 
 ```shell
 v ast main.v       //生成json格式的AST语法树文件main.json
-v ast -w main.v    //生成main.json,并且监控源文件变化,保存后自动重新生成
-v ast -c main.v    //同时生成AST语法树文件main.json和C源代码main.c,并监控源文件变化,保存后自动重新生成
+v ast -w main.v    //生成main.json,并且监控源文件变化，保存后自动重新生成
+v ast -c main.v    //同时生成AST语法树文件main.json和C源代码main.c,并监控源文件变化，保存后自动重新生成
 ```
 
-使用v ast子命令,将本章节中的示例代码生成语法树,即可查看到各种不同代码对应的语法树.
+使用v ast子命令，将本章节中的示例代码生成语法树，即可查看到各种不同代码对应的语法树。
 
-## 语法树结构体总览
+### 语法树结构体总览
 
 ![](vast.assets/image-20210605235205591.png)
 
-## ast.File语法树文件
+### ast.File语法树文件
 
-整个编译过程主要的步骤就是: [ ]os.File => [ ]ast.File => 目标代码(c/x64/js) => 可执行文件.
+整个编译过程主要的步骤就是: [ ]os.File => [ ]ast.File => 目标代码(c/x64/js) => 可执行文件。
 
-一个os.File(源代码文件)会生成一个对应的ast.File(语法树文件).
+一个os.File(源代码文件)会生成一个对应的ast.File(语法树文件)。
 
 AST结构体
 
@@ -51,131 +51,131 @@ fn main() {
 
 ```json
 {
-	"ast_type": "ast.File",
-	"path": "/Users/xxx/v/vprojects/v_test/main.v",
+	"ast_type": "ast.File"，
+	"path": "/Users/xxx/v/vprojects/v_test/main.v"，
 	"mod": {
-		"ast_type": "Module",
-		"name": "main",
+		"ast_type": "Module"，
+		"name": "main"，
 		"is_skipped": false,
 		"pos": {
 			"line_nr": 0,
 			"pos": 0,
 			"len": 19
 		}
-	},
+	}，
 	"imports": [
 		{
-			"ast_type": "Import",
-			"mod": "os",
-			"alias": "os",
-			"syms": [],
+			"ast_type": "Import"，
+			"mod": "os"，
+			"alias": "os"，
+			"syms": []，
 			"pos": {
 				"line_nr": 2,
 				"pos": 20,
 				"len": 2
 			}
-		},
+		}，
 		{
-			"ast_type": "Import",
-			"mod": "time",
-			"alias": "time",
-			"syms": [],
+			"ast_type": "Import"，
+			"mod": "time"，
+			"alias": "time"，
+			"syms": []，
 			"pos": {
 				"line_nr": 3,
 				"pos": 30,
 				"len": 4
 			}
 		}
-	],
+	]，
 	"global_scope": {
-		"ast_type": "Scope",
-		"parent": "0",
-		"children": [],
+		"ast_type": "Scope"，
+		"parent": "0"，
+		"children": []，
 		"start_pos": 0,
 		"end_pos": 0,
-		"objects": {},
+		"objects": {}，
 		"struct_fields": []
-	},
+	}，
 	"scope": {
-		"ast_type": "Scope",
-		"parent": "7f970ef07c90",
+		"ast_type": "Scope"，
+		"parent": "7f970ef07c90"，
 		"children": [
 			{
-				"parent": "7f970ef081f0",
+				"parent": "7f970ef081f0"，
 				"start_pos": 39,
 				"end_pos": 51
 			}
-		],
+		]，
 		"start_pos": 0,
 		"end_pos": 53,
-		"objects": {},
+		"objects": {}，
 		"struct_fields": []
-	},
-	"errors": [],
-	"warnings": [],
-	"imported_symbols": {},
-	"generic_fns": [],
+	}，
+	"errors": []，
+	"warnings": []，
+	"imported_symbols": {}，
+	"generic_fns": []，
 	"stmts": [
 		{
-			"ast_type": "Module",
-			"name": "main",
+			"ast_type": "Module"，
+			"name": "main"，
 			"is_skipped": false,
 			"pos": {
 				"line_nr": 0,
 				"pos": 0,
 				"len": 19
 			}
-		},
+		}，
 		{
-			"ast_type": "Import",
-			"mod": "os",
-			"alias": "os",
-			"syms": [],
+			"ast_type": "Import"，
+			"mod": "os"，
+			"alias": "os"，
+			"syms": []，
 			"pos": {
 				"line_nr": 2,
 				"pos": 20,
 				"len": 2
 			}
-		},
+		}，
 		{
-			"ast_type": "Import",
-			"mod": "time",
-			"alias": "time",
-			"syms": [],
+			"ast_type": "Import"，
+			"mod": "time"，
+			"alias": "time"，
+			"syms": []，
 			"pos": {
 				"line_nr": 3,
 				"pos": 30,
 				"len": 4
 			}
-		},
+		}，
 		{
-			"ast_type": "FnDecl",
-			"name": "main.main",
-			"mod": "main",
+			"ast_type": "FnDecl"，
+			"name": "main.main"，
+			"mod": "main"，
 			"is_deprecated": false,
 			"is_pub": false,
 			"is_variadic": false,
 			"is_anon": false,
 			"receiver": {
-				"ast_type": "Field",
-				"name": "",
-				"typ": "void",
+				"ast_type": "Field"，
+				"name": ""，
+				"typ": "void"，
 				"pos": {
 					"line_nr": 0,
 					"pos": 0,
 					"len": 0
 				}
-			},
+			}，
 			"receiver_pos": {
 				"line_nr": 0,
 				"pos": 0,
 				"len": 0
-			},
+			}，
 			"is_method": false,
 			"method_idx": 0,
 			"rec_mut": false,
-			"rec_share": "enum:0(mut)",
-			"language": "enum:0(v)",
+			"rec_share": "enum:0(mut)"，
+			"language": "enum:0(v)"，
 			"no_body": false,
 			"is_builtin": false,
 			"is_generic": false,
@@ -184,27 +184,27 @@ fn main() {
 				"line_nr": 5,
 				"pos": 36,
 				"len": 9
-			},
+			}，
 			"body_pos": {
 				"line_nr": 7,
 				"pos": 51,
 				"len": 1
-			},
-			"file": "/Users/xxx/v/vprojects/v_test/main.v",
-			"return_type": "void",
+			}，
+			"file": "/Users/xxx/v/vprojects/v_test/main.v"，
+			"return_type": "void"，
 			"source_file": 0,
 			"scope": 250645264,
-			"attrs": [],
-			"params": [],
-			"stmts": [],
-			"comments": [],
+			"attrs": []，
+			"params": []，
+			"stmts": []，
+			"comments": []，
 			"next_comments": []
 		}
 	]
 }
 ```
 
-##  Module 模块
+###  Module 模块
 
 AST结构体
 
@@ -228,7 +228,7 @@ fn main() {
 }
 ```
 
-## Const 常量
+### Const 常量
 
 AST结构体
 
@@ -253,7 +253,7 @@ const (
 )
 ```
 
-## Enum 枚举
+### Enum 枚举
 
 ```
 EnumDecl 枚举声明语句
@@ -327,7 +327,7 @@ fn main() {
 	b /= 2
 	b %= 2
 	// multi assign
-	x, y, z := 1, 'y', 3.3
+	x, y, z := 1, 'y'， 3.3
 	mut xx, mut yy, zz := 1, 3, 5
 	// swap variable
 	mut c := 1
@@ -387,7 +387,7 @@ fn main() {
   age:= 33
   //string literal with `$xx` or `${xxx}`
 	s1 := 'a is $a,b is $b,c is $c' 
-	s2 := 'name is ${name}, age is ${age}'
+	s2 := 'name is ${name}， age is ${age}'
 	e := `c` // char literal
 	f := true // bool literal
 }
@@ -501,9 +501,9 @@ fn main() {
 }
 ```
 
-## Array 数组
+### Array 数组
 
-### ArrayInit 数组初始化语句
+#### ArrayInit 数组初始化语句
 
 AST结构体
 
@@ -524,7 +524,7 @@ fn main() {
 }
 ```
 
-### IndexExpr 索引表达式
+#### IndexExpr 索引表达式
 
 AST结构体
 
@@ -548,7 +548,7 @@ fn main() {
 }
 ```
 
-### RangeExpr 数组区间表达式
+#### RangeExpr 数组区间表达式
 
 AST结构体
 
@@ -563,13 +563,13 @@ module main
 
 fn main() {
 	n := [1, 2, 3, 4, 5]
-	a1 := n[..2] //[1, 2]
-	a2 := n[2..] //[3, 4, 5]
-	a3 := n[2..4] //[3, 4]
+	a1 := n[.。2] //[1, 2]
+	a2 := n[2.。] //[3, 4, 5]
+	a3 := n[2.。4] //[3, 4]
 }
 ```
 
-### ArrayDecompose 数组解构
+#### ArrayDecompose 数组解构
 
 AST结构体
 
@@ -583,15 +583,15 @@ ArrayDecompose 数组解构
 module main
 
 fn main() {
-	a := ['a', 'b', 'c'] 
-	println(variadic_fn_a(a...)) //ArrayDecompose
+	a := ['a'， 'b'， 'c'] 
+	println(variadic_fn_a(a.。。)) //ArrayDecompose
 }
 
-fn variadic_fn_a(a ...string) string {
-	return variadic_fn_b(a...) //ArrayDecompose
+fn variadic_fn_a(a 。。.string) string {
+	return variadic_fn_b(a.。。) //ArrayDecompose
 }
 
-fn variadic_fn_b(a ...string) string {
+fn variadic_fn_b(a 。。.string) string {
 	a0 := a[0]
 	a1 := a[1]
 	a2 := a[2]
@@ -600,9 +600,9 @@ fn variadic_fn_b(a ...string) string {
 
 ```
 
-## Map 字典
+### Map 字典
 
-### MapInit 字典初始化
+#### MapInit 字典初始化
 
 AST结构体
 
@@ -628,9 +628,9 @@ fn main() {
 }
 ```
 
-## Operator 操作符
+### Operator 操作符
 
-### PrefixExpr 前缀表达式
+#### PrefixExpr 前缀表达式
 
 AST结构体
 
@@ -653,7 +653,7 @@ fn main() {
 
 ```
 
-### InfixExpr 中缀表达式
+#### InfixExpr 中缀表达式
 
 AST结构体
 
@@ -679,7 +679,7 @@ fn main() {
 }
 ```
 
-### PostfixExpr 后缀表达式
+#### PostfixExpr 后缀表达式
 
 AST结构体
 
@@ -700,7 +700,7 @@ fn main() {
 
 ```
 
-### SelectorExpr 选择器表达式
+#### SelectorExpr 选择器表达式
 
 AST结构体
 
@@ -735,7 +735,7 @@ fn main() {
 
 ```
 
-### ParExpr 括号表达式
+#### ParExpr 括号表达式
 
 AST结构体
 
@@ -755,7 +755,7 @@ fn main() {
 
 ```
 
-### ConcatExpr 连接表达式
+#### ConcatExpr 连接表达式
 
 AST结构体
 
@@ -773,9 +773,9 @@ a, b, c := match false {
 }
 ```
 
-## Function 函数
+### Function 函数
 
-### FnDecl 函数声明
+#### FnDecl 函数声明
 
 AST结构体
 
@@ -826,7 +826,7 @@ fn add_generic<T>(x T, y T) T {
 }
 ```
 
-### AnonFn 匿名函数
+#### AnonFn 匿名函数
 
 AST结构体
 
@@ -847,7 +847,7 @@ fn main() {
 }
 ```
 
-### DeferStmt 函数defer语句
+#### DeferStmt 函数defer语句
 
 AST结构体
 
@@ -880,9 +880,9 @@ fn defer_fn2() {
 }
 ```
 
-## Struct 结构体
+### Struct 结构体
 
-### StructDecl 结构体声明语句
+#### StructDecl 结构体声明语句
 
 AST结构体
 
@@ -959,7 +959,7 @@ fn main() {
 }
 ```
 
-### StructInit 结构体初始化表达式
+#### StructInit 结构体初始化表达式
 
 AST结构体
 
@@ -1013,7 +1013,7 @@ fn main() {
 		}
 	}
 	c2 := Country{
-		...ccc  //update_expr
+		。。.ccc  //update_expr
 		capital: City{
 			name: 'city2'
 			population: 200
@@ -1023,9 +1023,9 @@ fn main() {
 }
 ```
 
-## Interface 接口
+### Interface 接口
 
-### InterfaceDecl 接口声明语句
+#### InterfaceDecl 接口声明语句
 
 AST结构体
 
@@ -1044,9 +1044,9 @@ interface Speaker { //comment 1
 }
 ```
 
-## Type 类型
+### Type 类型
 
-### AliasType 类型别名声明语句
+#### AliasType 类型别名声明语句
 
 AST结构体
 
@@ -1066,7 +1066,7 @@ type Myint =  int /*comment 1*/ //comment 2
 type Person = Human
 ```
 
-### FunctionType 函数类型声明语句
+#### FunctionType 函数类型声明语句
 
 AST结构体
 
@@ -1082,7 +1082,7 @@ module main
 type Mid_fn = fn (int, string) int /*comment 1*/ //comment 2
 ```
 
-### Sumtype 联合类型
+#### Sumtype 联合类型
 
 AST结构体
 
@@ -1103,9 +1103,9 @@ struct User {
 type MySumtype = User | int | string //comment 1
 ```
 
-### TypeNode 类型表达式
+#### TypeNode 类型表达式
 
-主要用于联合类型的match类型匹配,以及is类型判断
+主要用于联合类型的match类型匹配，以及is类型判断
 
 AST结构体
 
@@ -1147,9 +1147,9 @@ pub fn (ms MySum) str() string {
 }
 ```
 
-## FlowControl 流程控制
+### FlowControl 流程控制
 
-### Block 代码块语句
+#### Block 代码块语句
 
 AST结构体
 
@@ -1175,7 +1175,7 @@ fn my_fn() {
 }
 ```
 
-### if 条件语句
+#### if 条件语句
 
 AST结构体
 
@@ -1214,18 +1214,18 @@ fn main() {
 	}
 
 	// if guard expr
-	if c := my_fn(2) { // if守护条件,调用函数时,正常返回,执行if分支
+	if c := my_fn(2) { // if守护条件，调用函数时，正常返回，执行if分支
 		println('$c')
 	} else {
 		println('from else')
 	}
-	if c := my_fn(1) { // if守护条件,调用函数时,抛出错误,执行else分支
+	if c := my_fn(1) { // if守护条件，调用函数时，抛出错误，执行else分支
 		println('$c')
 	} else {
 		println('from else')
 	}
 
-	// if守护条件,其实等价于
+	// if守护条件，其实等价于
 	cc := my_fn(22) or {
 		println('from or')
 		0
@@ -1235,7 +1235,7 @@ fn main() {
 	// if expr
 	num := 777
 	s := if num % 2 == 0 { 'even' } else { 'odd' }
-	x, y, z := if true { 1, 'awesome', 13 } else { 0, 'bad', 0 }
+	x, y, z := if true { 1, 'awesome'， 13 } else { 0, 'bad'， 0 }
 	// compile time if
 	$if macos {
 	} $else {
@@ -1244,7 +1244,7 @@ fn main() {
 }
 ```
 
-### match 分支匹配
+#### match 分支匹配
 
 AST结构体
 
@@ -1261,7 +1261,7 @@ fn main() {
 	// match statement
 	match os {
 		'windows' { println('windows') }
-		'macos', 'linux' { println('macos or linux') }
+		'macos'， 'linux' { println('macos or linux') }
 		else { println('unknow') }
 	}
 	// match expr
@@ -1291,7 +1291,7 @@ pub fn (ms MySum) str() string {
 }
 ```
 
-### for 循环语句
+#### for 循环语句
 
 AST结构体
 
@@ -1334,7 +1334,7 @@ fn main() {
 	}
 	// range
 	mut sum := 0
-	for i in 1 .. 11 {
+	for i in 1 。。 11 {
 		sum += i
 	}
 	// map
@@ -1376,7 +1376,7 @@ fn main() {
 }
 ```
 
-### goto 跳转语句
+#### goto 跳转语句
 
 AST结构体
 
@@ -1399,7 +1399,7 @@ fn main() {
 }
 ```
 
-## Error handle 错误控制
+### Error handle 错误控制
 
 AST结构体
 
@@ -1440,9 +1440,9 @@ fn main() {
 
 ```
 
-## Concurrent 并发
+### Concurrent 并发
 
-### ChanInit 通道初始化
+#### ChanInit 通道初始化
 
 AST结构体
 
@@ -1461,7 +1461,7 @@ const (
 )
 
 fn do_send(ch chan int) {
-	for i in 0 .. num_iterations {
+	for i in 0 。。 num_iterations {
 		ch <- i
 	}
 }
@@ -1470,14 +1470,14 @@ fn main() {
 	ch := chan int{cap: 1000} // chan init
 	go do_send(ch) // go statement
 	mut sum := i64(0)
-	for _ in 0 .. num_iterations {
+	for _ in 0 。。 num_iterations {
 		sum += <-ch
 		println(sum)
 	}
 }
 ```
 
-### SelectExpr 通道监听表达式
+#### SelectExpr 通道监听表达式
 
 AST结构体
 
@@ -1523,7 +1523,7 @@ fn send(ch1 chan int, ch2 chan int) {
 }
 ```
 
-### LockExpr 并发锁表达式
+#### LockExpr 并发锁表达式
 
 AST结构体
 
@@ -1570,7 +1570,7 @@ fn main() {
 }
 ```
 
-### GoExpr 并发表达式
+#### GoExpr 并发表达式
 
 AST结构体
 
@@ -1586,12 +1586,12 @@ module main
 import time
 
 fn do_something() { 
- println('start do_something...')
+ println('start do_something.。。')
 	time.sleep(2) 
 	println('end do_something')
 }
 fn add(x int, y int) int { 
-	println('add start...')
+	println('add start.。。')
 	time.sleep(4) //
 	println('end add')
 	return x + y
@@ -1606,7 +1606,7 @@ fn main() {
 }
 ```
 
-## Unsafe 不安全代码
+### Unsafe 不安全代码
 
 AST结构体
 
@@ -1620,13 +1620,13 @@ UnsafeExpr 不安全代码表达式
 module main
 
 fn main() {
-	a := ['a', 'b', 'c']
+	a := ['a'， 'b'， 'c']
 	p := unsafe { &a[2] } // unsafe expr
 	println(p)
 }
 ```
 
-## ASM 汇编
+### ASM 汇编
 
 AST结构体
 
@@ -1664,7 +1664,7 @@ fn main() {
 
 ```
 
-## SQL SQL语句
+### SQL SQL语句
 
 AST结构体
 
@@ -1701,11 +1701,11 @@ struct Foo {
 fn main() {
 	db := sqlite.connect(':memory:') or { panic(err) }
 	db.exec('drop table if exists User')
-	db.exec("create table User (id integer primary key, age int default 0, name text default '', is_customer int default 0);")
+	db.exec("create table User (id integer primary key, age int default 0, name text default ''， is_customer int default 0);")
 	name := 'Peter'
-	db.exec("insert into User (name, age) values ('Sam', 29)")
-	db.exec("insert into User (name, age) values ('Peter', 31)")
-	db.exec("insert into User (name, age, is_customer) values ('Kate', 30, 1)")
+	db.exec("insert into User (name, age) values ('Sam'， 29)")
+	db.exec("insert into User (name, age) values ('Peter'， 31)")
+	db.exec("insert into User (name, age, is_customer) values ('Kate'， 30, 1)")
 	nr_all_users := sql db {
 		select count from User
 	}
@@ -1736,9 +1736,9 @@ fn main() {
 }
 ```
 
-## TestAssert 测试断言
+### TestAssert 测试断言
 
-### AssertStmt 测试断言语句
+#### AssertStmt 测试断言语句
 
 AST结构体
 
@@ -1755,7 +1755,7 @@ fn test_abc() {
 }
 ```
 
-### DumpExpr 转储函数表达式
+#### DumpExpr 转储函数表达式
 
 AST结构体
 
@@ -1778,9 +1778,9 @@ fn main() {
 }
 ```
 
-## Compile time 编译时
+### Compile time 编译时
 
-### CompFor 编译时循环语句
+#### CompFor 编译时循环语句
 
 AST结构体
 
@@ -1828,7 +1828,7 @@ fn main() {
 
 ```
 
-### AtExpr at全局常量表达式
+#### AtExpr at全局常量表达式
 
 AST结构体
 
@@ -1857,9 +1857,9 @@ fn main() {
 }
 ```
 
-## C Integration C代码互操作
+### C Integration C代码互操作
 
-### GlobalDecl 全局变量声明
+#### GlobalDecl 全局变量声明
 
 AST结构体
 
@@ -1892,7 +1892,7 @@ fn main() {
 }
 ```
 
-### HashStmt C宏指令语句
+#### HashStmt C宏指令语句
 
 AST结构体
 
@@ -1916,7 +1916,7 @@ fn main() {
 }
 ```
 
-### Likely likely表达式
+#### Likely likely表达式
 
 AST结构体
 
@@ -1944,7 +1944,7 @@ fn main() {
 }
 ```
 
-### OffsetOf 结构体字段内存偏移量
+#### OffsetOf 结构体字段内存偏移量
 
 AST结构体
 
@@ -1973,7 +1973,7 @@ fn main() {
 }
 ```
 
-## Comment 注释
+### Comment 注释
 
 AST结构体
 
@@ -1995,11 +1995,11 @@ fn main() {
 }
 ```
 
-## Other 其他
+### Other 其他
 
-### Empty 空语句/表达式
+#### Empty 空语句/表达式
 
-只在编译内部使用,用来判断空语句和空表达式.
+只在编译内部使用，用来判断空语句和空表达式。
 
 AST结构体
 
@@ -2008,8 +2008,8 @@ EmptyStmt 空语句
 EmptyExpr 空表达式
 ```
 
-### NodeError 错误节点
+#### NodeError 错误节点
 
-只在编译内部使用,当解析器报错时,返回NodeError节点.
+只在编译内部使用，当解析器报错时，返回NodeError节点。
 
-NodeError既是语句,也是表达式.
+NodeError既是语句，也是表达式。
