@@ -315,11 +315,13 @@ pub enum MouseButton {
 
 1. 要在使用C宏之前先定义#flag。
 
-2. -l    表示在库文件的搜索路径列表中添加指定的路径。
+2. `-L` 表示在库文件的搜索路径列表中添加指定的路径。
 
-     -I    表示在头文件的搜索路径中添加指定的路径。
+   `-l` 表示在要链接的库名称。
 
-     -D  表示设置编译时变量。
+   `-I` 表示在头文件的搜索路径中添加指定的路径。
+
+   `-D`  表示设置编译时变量。
 
 3. 还可以在#flag后增加平台标识,针对不同的平台配置不同的flag,目前支持的平台有:linux,darwin,windows。
 
@@ -358,6 +360,86 @@ pub enum MouseButton {
 #flag -DSOKOL_GLCORE33 //提供额外的flag参数:-DSOKOL_GLCORE33
 #flag darwin -framework OpenGL -framework Cocoa -framework QuartzCore
 ```
+#### ex:
+目录结构
+```
+D:\LINKCTEST
+│  linkcTest.code-workspace
+│  linkcTest.v
+│  v.mod
+│
+├─myCheader
+│      test.h
+│
+└─myClib
+        testlib.c
+```
+![目录结构](/image/linkC库Test.PNG)<br>
+test.h文件内容
+```
+//声明自定义c函数TestFunc
+int TestFunc();
+```
+testlib.c文件内容
+```
+//自定义c函数TestFunc的具体实现
+int TestFunc()
+{
+    return 0000;
+}
+```
+linkcTest.v文件内容
+```
+module main
+
+//添加库文件搜索路径
+#flag -LD:\linkcTest\myClib
+//添加库文件名(前缀lib和后缀名.a不要指定)	
+#flag -ltestlib
+//添加头文件搜索路径
+#flag -ID:\linkcTest\myCheader
+//引入头文件test.h
+#include <test.h>
+//在v中声明一下自定义C函数
+fn C.TestFunc() int
+
+fn main() {
+	println('Hello World!')
+	//调用自定义C函数
+	println(C.TestFunc())
+}
+```
+首先把testlib.c文件编译为静态库
+```
+PS D:\linkcTest> gcc -c .\myClib\testlib.c -o .\myClib\testlib.o   --用gcc -c命令编译为.o文件
+PS D:\linkcTest> ar -rcs .\myClib\libtestlib.a .\myClib\testlib.o  --使用ar命令打包成静态库.a文件
+PS D:\linkcTest> dir .\myClib\
+
+    Directory: D:\linkcTest\myClib
+
+Mode                 LastWriteTime         Length Name        
+----                 -------------         ------ ----        
+-a---           2021/9/19    22:35            846 libtestlib.a   --库文件testlib编译成功
+-a---           2021/9/19    22:29             81 testlib.c   
+-a---           2021/9/19    22:35            700 testlib.o   
+
+PS D:\linkcTest>
+```
+使用v编译linkcTest.v
+```
+PS D:\linkcTest> v -cc gcc -showcc .\linkcTest.v  --使用-showcc参数查看v使用的编译命令
+> C compiler cmd: gcc "@C:\Users\xxxxx\AppData\Local\Temp\v\linkcTest.14127686245975582114.tmp.c.rsp"
+> C compiler response file "C:\Users\xxxxx\AppData\Local\Temp\v\linkcTest.14127686245975582114.tmp.c.rsp":
+  -std=c99 -D_DEFAULT_SOURCE -o "D:\\linkcTest\\linkcTest.exe"
+  -L "D:\\linkcTest\\myClib"     --#flag定义
+  -I "D:\\linkcTest\\myCheader"  --#flag定义
+  "C:\\Users\\xxxxx\\AppData\\Local\\Temp\\v\\linkcTest.14127686245975582114.tmp.c" -municode -ldbghelp
+  -ltestlib                      --#flag定义
+PS D:\linkcTest> .\linkcTest.exe
+Hello World!
+0                                --TestFunc调用成功
+```
+
 
 ### pkgconfig
 
