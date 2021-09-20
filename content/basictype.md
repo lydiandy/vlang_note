@@ -77,7 +77,7 @@ println(c) //输出1000000
 ```v
 	f1 := 1。0
 	println(f1)
-	//f2 := 1。 //不允许使用1。的风格
+	//f2 := 1. //不允许使用1.的风格
 	//println(f2)
 ```
 
@@ -85,7 +85,7 @@ println(c) //输出1000000
 
 ```v
 x:=i64(3) //x是i64类型，而不是默认推断的int
-y:=f32(3。0) //y是f32类型，而不是默认推断的f64
+y:=f32(3.0) //y是f32类型，而不是默认推断的f64
 ```
 
 字节类型
@@ -95,8 +95,8 @@ module main
 
 fn main() {
 	b := byte(98)
-	println(b。str()) // 98
-	println(b。ascii_str()) // b
+	println(b.str()) // 98
+	println(b.ascii_str()) // b
 }
 ```
 
@@ -119,7 +119,7 @@ s2:="abc"
 
 ```v
 s:='abc'
-println(s。len) //输出3
+println(s.len) //输出3
 ```
 
 字符串连接: 
@@ -151,9 +151,9 @@ println('hello ${name}') //方式2，效果一样，更常用于复杂的表达�
 ```v
 fn main() {
     s:='abcd'
-    println(s。contains('c')) //true
-    println(s。contains('bc')) //true
-    println(s。contains('bb')) //false
+    println(s.contains('c')) //true
+    println(s.contains('bc')) //true
+    println(s.contains('bb')) //false
 }
 ```
 
@@ -163,7 +163,7 @@ fn main() {
 str := 'abcdef'
 //遍历value
 for s in str {
-	println(s。str())
+	println(s.str())
 }
 //遍历index和value
 for i， s in str {
@@ -177,9 +177,9 @@ for i， s in str {
 
 ```v
 s:='hello_world'
-println(s[。。3]) //输出hel
-println(s[2。。]) //输出llo_world
-println(s[2。。5]) //输出llo
+println(s[..3]) //输出hel
+println(s[2..]) //输出llo_world
+println(s[2..5]) //输出llo
 ```
 
 字符串从定义的v代码看，也是一个struct。
@@ -240,15 +240,15 @@ fn main() {
 	s1 := 'a' //单引号，string类型
 	s2 := 'a' //双引号，string类型
 	s3 := `a` //反引号，rune类型
-	println(typeof(s1)。name)
-	println(typeof(s2)。name)
-	println(typeof(s3)。name)
+	println(typeof(s1).name)
+	println(typeof(s2).name)
+	println(typeof(s3).name)
 	println(int(s3)) // 97
 	//
 	// c2 := `aa` //编译不通过，报错，只能是单字符
 	c3 := `中`
-	println(typeof(c3)。name) // rune类型
-	println(sizeof(c3)) // 4个字节，unicode4。0
+	println(typeof(c3).name) // rune类型
+	println(sizeof(c3)) // 4个字节，unicode4.0
 	println(int(c3)) // 20013
 	println(c3)
 }
@@ -298,9 +298,9 @@ fn main() {
 	a := 1
 	println(isnil(&a)) // 返回false，变量只能通过:=来初始化，一定会有初始值
 	// 但是通过调用C代码返回的指针，有可能是空指针，所以在使用前可以用isnil函数来判断一下
-	f := C。popen('ls'， 'r')
+	f := C.popen('ls'， 'r')
 	if isnil(&f) {
-		// 。。。
+		// ...
 		println('f is nil')
 	} else {
 		println('f is not nil')
@@ -352,19 +352,19 @@ fn main() {
 	aint := []int{}
 	astring := []string{}
 	astruct_static := [2]Point{}
-	astruct_dynamic := [Point{}， Point{}]
+	astruct_dynamic := [Point{}, Point{}]
 
 	//使用typeof()。name获取变量的类型
-	println(typeof(a)。name) // int
-	println(typeof(s)。name) // string
-	println(typeof(aint)。name) // array_int
-	println(typeof(astring)。name) // array_string
-	println(typeof(astruct_static)。name) // [2]Point
-	println(typeof(astruct_dynamic)。name) // array_Point
+	println(typeof(a).name) // int
+	println(typeof(s).name) // string
+	println(typeof(aint).name) // array_int
+	println(typeof(astring).name) // array_string
+	println(typeof(astruct_static).name) // [2]Point
+	println(typeof(astruct_dynamic).name) // array_Point
 
 	//函数类型
-	println(typeof(myfn)。name) // fn (int) int
-	println(typeof(myfn2)。name) // fn ()
+	println(typeof(myfn).name) // fn (int) int
+	println(typeof(myfn2).name) // fn ()
 }
 ```
 
@@ -378,7 +378,7 @@ fn main() {
 	b := byte(8) // 明确指定类型为byte
 	ii := int(b) // 强制转换为int
 	f := 3。2 // 默认推断类型为f64
-	ff := f32(3。2) // 明确指定类型为f32
+	ff := f32(3.2) // 明确指定类型为f32
 	f3 := f64(f) // 强制转换为f64
 	s := 'abc' // 默认推断为string
 	c := `c` // 默认推断为byte，也就是单字符类型
@@ -394,9 +394,9 @@ fn main() {
 	mut byte_arr := []byte{} // 字节数组
 	byte_arr << `a`
 	byte_arr << `b`
-	println(byte_arr) // 输出[a，b]
-	str := byte_arr。str() // 将字节数组转成字符串
-	println(str) // 输出[a，b]
+	println(byte_arr) // 输出[a,b]
+	str := byte_arr.str() // 将字节数组转成字符串
+	println(str) // 输出[a,b]
 }
 ```
 
@@ -421,7 +421,7 @@ fn main() {
 	m['name'] = 'tom'
 	println(isreftype(m))
 
-	a := [1， 2， 3]
+	a := [1,2,3]
 	println(isreftype(a)) // array是引用类型
 
 	p := Point{
