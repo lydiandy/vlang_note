@@ -2,11 +2,11 @@
 
 ### 源代码安装
 
-目前V语言还处在快速开发的不稳定阶段,首选源代码安装方式。
+目前V语言还处在快速开发的不稳定阶段，首选源代码安装方式。
 
 #### 编译准备
 
-目前V语言的编译需要依赖C编译器:gcc或clang，如果没有C编译器,可以参考以下文档,进行安装：
+目前V语言的编译需要依赖C编译器:gcc或clang，如果没有C编译器，可以参考以下文档，进行安装：
 
 [windows下安装C编译器](https://github.com/vlang/v/wiki/Installing-a-C-compiler-on-Windows)
 
@@ -22,7 +22,7 @@ make
 
 编译成功后，会在当前目录生成V编译器的可执行文件，大小2M左右，小巧得很。
 
-查看V编译器的版本:
+查看V编译器的版本：
 
 ```shell
 v -v
@@ -32,7 +32,7 @@ v -version
 
 #### 运行代码
 
-编译成功后,可以尝试运行代码：
+编译成功后，可以尝试运行代码：
 
 ```v
 //main.v
@@ -49,13 +49,13 @@ fn main() {
 v run main.v
 ```
 
-编译器命令行的使用参考:[编译器命令行使用章节](toolchain.md)。
+编译器命令行的使用参考：[编译器命令行使用章节](toolchain.md)。
 
 #### 开发工具
 
 目前V语言的开发工具首选vs code，有官方维护的插件：https://github.com/vlang/vscode-vlang。
 
-基本的功能都有:
+基本的功能都有：
 
 - 语法着色
 - 代码提示
@@ -64,9 +64,11 @@ v run main.v
 - 代码大纲视图
 - 代码跳转定义
 
+除了vscode以外，还可以参考[V开发工具章节](editor.md)，也有其他开发工具可以使用。
+
 #### 可选安装
 
-如果需要执行v install安装模块或编译http相关模块,需要安装openssl：
+如果需要执行v install安装模块或编译http相关模块，需要安装openssl：
 
 ```shell
 macOS:
@@ -87,7 +89,7 @@ sudo dnf install openssl-devel
 方式一:
 
   ```v
-v up //抓取github上V代码库的主干代码,然后自动重新编译
+v up //抓取github上V代码库的主干代码，然后自动重新编译
   ```
 
 方式二:
@@ -105,7 +107,7 @@ make
 
 可以通过增加symbol link,让v编译器随处可用。
 
-在unix,linux,mac系统中,进入到v可执行文件所在的目录,然后执行：
+在unix,linux,mac系统中，进入到v可执行文件所在的目录，然后执行：
 
 ```shell
 sudo ./v symlink
@@ -113,7 +115,7 @@ sudo ./v symlink
 
 会创建/usr/local/bin/v链接。
 
-在windows中,使用系统管理员打开命令行窗口,进入到v.exe所在的目录,然后执行:
+在windows中，使用系统管理员打开命令行窗口，进入到v.exe所在的目录，然后执行：
 
 ```
 .\v.exe symlink
@@ -121,4 +123,4 @@ sudo ./v symlink
 
 会创建v环境变量。
 
-以上命令只需执行一次,如果v命令更换了位置,每次启动会自动更新快捷方式和环境变量。
+以上命令只需执行一次，如果v命令更换了位置，每次启动会自动更新快捷方式和环境变量。

@@ -170,7 +170,7 @@ git clone git://git.musl-libc.org/musl		//下载musl源代码库
 cd musl
 ./configure
 make
-make install	//安装完成后，默认会把musl安装到:usr/local/musl目录中，也可以自定义安装目录
+make install	//安装完成后，默认会把musl安装到:/usr/local/musl目录中，也可以自定义安装目录
 
 //编译成功后，musl-gcc编译器默认在/usr/local/musl/bin目录中，需要添加到环境变量中。
 export PATH="/usr/local/musl/bin:$PATH"	
@@ -178,9 +178,9 @@ export PATH="/usr/local/musl/bin:$PATH"
 
 #### 编译对比
 
-安装成功后，就可以使用musl-gcc选项来编译V源代码，以下是glibc和musl的不同编译结果对比：
+安装成功后，就可以使用musl-gcc选项来编译V源代码，以下是glibc和musl的不同编译结果对比，
 
-最简单的V源代码,如果依赖的libc内容越多，差异应该越大
+最简单的V源代码,如果依赖的libc内容越多，差异应该越大。
 
 main.v
 
@@ -192,7 +192,7 @@ fn main() {
 }
 ```
 
-使用-cc musl-gcc就是使用musl编译
+使用-cc musl-gcc就是使用musl编译，
 
 以下是在linux mint 20.2版本中的编译对比:
 
@@ -205,7 +205,7 @@ fn main() {
 | 生产编译                                                     |          |
 | v -prod -cc gcc main.v                                       | 97.6K    |
 | v -prod -cc musl-gcc main.v                                  | 91.8K    |
-| 静态编译                                                     |          |
+| 静态链接                                                     |          |
 | v -cc gcc -cflags -static main.v                             | 1.1M     |
 | v -cc musl-gcc -cflags -static main.v                        | 264.2K   |
 | 生产编译+静态链接                                            |          |
@@ -215,7 +215,7 @@ fn main() {
 
 ### 自定义编译选项
 
-对于自己的程序也可以使用-d或-define来自定义编译选项，并且可以在代码中接收选项的传入值
+对于自己的程序也可以使用-d或-define来自定义编译选项，并且可以在代码中接收选项的传入值：
 
 ```v
 module main
@@ -245,7 +245,7 @@ v  -d abc -d time_v -d value='0' main.v #也可以使用‘1’或‘0’，等�
 v -d time_parsing -d time_checking -d time_cgening -d time_v self
 ```
 
-使用以上几个时间自定义选项编译V编译器后，编译器在编译文件时会详细显示每一个文件在不同阶段消耗的时间
+使用以上几个时间自定义选项编译V编译器后，编译器在编译文件时会详细显示每一个文件在不同阶段消耗的时间：
 
 ```shell
 0.004    ms v start
