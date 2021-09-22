@@ -42,6 +42,7 @@ thread
 true
 type
 typeof
+volatile
 union
 unsafe
 ```

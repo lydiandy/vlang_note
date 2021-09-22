@@ -556,7 +556,36 @@ fn main() {
 }
 ```
 
+### 易变变量
 
+跟C语言一样，V语言也有volatile关键字，用来标识易变变量。
+
+V语言中的变量根据可变性有以下三种：不可变(默认)，可变(mut)，易变(volatile)。
+
+易变变量一定也是可变的，所以一定是跟mut同时使用的。
+
+用volatile关键字修饰的变量表示：该变量可能被某些编译器未知的因素更改，比如操作系统、硬件或者其它线程等，
+
+volatile 关键字告诉编译器，该变量的值是随时可能发生变化的，编译器对访问该变量的代码就不再进行优化，每次使用它的时候必须从内存中取出该变量的值。
+
+```v
+module main
+
+fn myfn() {
+	mut volatile zzz := 123	//易变变量
+	println(zzz)
+}
+
+fn main() {
+	x := 123
+	y := 456
+	mut volatile p := unsafe { &x }	//易变变量
+	println(p)
+	p = unsafe { &y }
+	println(p)
+	myfn()
+}
+```
 
 ### sync标准模块
 
