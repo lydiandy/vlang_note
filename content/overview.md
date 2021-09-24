@@ -117,8 +117,8 @@ pub fn my_fn(x int, y int) int {
 }
 
 // 3.函数-泛型函数
-pub fn g_fn<T,U>(x T,y U) (T,U) {
-	return x,y
+pub fn g_fn<T, U>(x T, y U) (T, U) {
+	return x, y
 }
 
 // 3.方法-方法只是指定了接收者的函数，跟go一样
@@ -147,7 +147,7 @@ pub mut:
 }
 
 // 4.结构体-泛型结构体
-pub struct Repo <T> {
+pub struct Repo<T> {
 	db DB
 mut:
 	model T
@@ -182,7 +182,7 @@ pub struct UnaryExpr {}
 
 pub type Expr = BinExpr | BoolExpr | UnaryExpr
 
-//6.类型-泛型联合类型
+// 6.类型-泛型联合类型
 pub type MyOption<T> = Error | None | T
 
 struct None {}
