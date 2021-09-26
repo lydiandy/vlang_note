@@ -4,6 +4,7 @@
 * [V语言学习笔记](README.md)
 * --
 * [安装](content/install.md)
+* [开发工具](content/editor.md)
 * [快速总览](content/overview.md)
 * [模块](content/module.md)
 * [基本类型](content/basictype.md)
@@ -90,7 +91,7 @@
 * [生成C代码](content/gen_c.md)
 * [生成js代码](content/gen_js.md)
 * --
-* [附录1 关键字](content/appendix-keyword.md)
+* [附录1 关键字](content/keyword.md)
 * [附录2 编码风格](content/style.md)
 * [附录3  V编译器命令行使用](content/toolchain.md)
 * [附录4 V报错定位及处理](content/error_handle.md)
