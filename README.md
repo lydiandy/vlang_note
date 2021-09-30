@@ -76,6 +76,12 @@ V的语法看着，写着都很舒服，比go和rust都好,
 
 目标挺远大,做到了就无比牛逼,也意味着工作量巨大,实现难度会比较大,周期会比较长.
 
+### V官方吉祥物
+
+还挺可爱的，网址：https://github.com/vlang/v-mascot
+
+![veasel](file:///Users/zhijiayou02/v/vlang_note/README.assets/veasel.svg?lastModify=1633024310)
+
 ### github关注度
 
 从V的github star增长曲线图,可以看出V还是受到很多开发者的关注,star数量增长很快,同时代码更新速度也是非常快.
@@ -85,6 +91,3 @@ V的语法看着，写着都很舒服，比go和rust都好,
 ### **一起完善**
 
 目前V语言的中文文档比较少,如果有兴趣一起学习,记录V语言的各种语言特性及标准库,欢迎提交pull request.
-
-
-
