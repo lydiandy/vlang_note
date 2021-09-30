@@ -80,13 +80,13 @@ V的语法看着，写着都很舒服，比go和rust都好,
 
 还挺可爱的，网址：https://github.com/vlang/v-mascot
 
-![veasel](veasel.svg)
+![veasel](image/veasel.svg)
 
 ### github关注度
 
 从V的github star增长曲线图,可以看出V还是受到很多开发者的关注,star数量增长很快,同时代码更新速度也是非常快.
 
-![v增长曲线202104](README.assets/v增长曲线202104.png)
+![v增长曲线202104](image/v增长曲线202104.png)
 
 ### **一起完善**
 
