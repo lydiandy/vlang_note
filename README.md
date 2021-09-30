@@ -80,7 +80,7 @@ V的语法看着，写着都很舒服，比go和rust都好,
 
 还挺可爱的，网址：https://github.com/vlang/v-mascot
 
-![veasel](file:///Users/zhijiayou02/v/vlang_note/README.assets/veasel.svg?lastModify=1633024310)
+![veasel](veasel.svg)
 
 ### github关注度
 
