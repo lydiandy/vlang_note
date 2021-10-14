@@ -58,6 +58,7 @@
 * [math](content/std_math.md)
 * [json](content/std_json.md)
 * [encoding](content/std_encoding.md)
+* [toml](content/std_toml.md)
 * [flag](content/std_flag.md)
 * [term](content/std_term.md)
 * [log](content/std_log.md)
