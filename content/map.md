@@ -1,10 +1,10 @@
 ## 字典
 
-除了内置的基本类型外,数组和字典也是内置类型
+除了内置的基本类型外，数组和字典也是内置类型。
 
 ### map实现
 
-从map的源代码定义看,map是通过2个struct实现的
+从map的源代码定义看，map是通过2个struct实现的。
 
 vlib/builtin/map.v
 
@@ -36,9 +36,9 @@ fn main() {
 }
 ```
 
-map的key除了string类型,也可以是其他类型
+map的key除了string类型，也可以是其他类型。
 
-string类型的key
+string类型的key：
 
 ```v
 map[string]int
@@ -46,7 +46,7 @@ map[string]User
 map[string][]int
 ```
 
-非string类型的key
+非string类型的key：
 
 ```v
 module main
@@ -70,7 +70,7 @@ fn main() {
 	m2[&v] = 'var'
 	m2[&m2] = 'map'
 	println(m2)
-	//rune key unicode码
+	// rune key unicode码
 	mut m3 := {
 		`!`: 2 //是反引号`,不是单引号'
 		`%`: 3
@@ -96,7 +96,7 @@ fn main() {
 
 ```
 
-map字面量初始化
+map字面量初始化：
 
 ```v
 fn main() {
@@ -107,7 +107,7 @@ fn main() {
 }
 ```
 
-map.len返回字典的大小
+map.len返回字典的大小：
 
 ```v
 fn main() {
@@ -120,7 +120,7 @@ fn main() {
 
 ### in操作符
 
-判断某一个元素是否包含在map的key中
+判断某一个元素是否包含在map的key中：
 
 ```v
 fn main() {
@@ -203,9 +203,7 @@ fn main() {
 
 
 
-------
+字典相关的源代码可以参考v源代码中的：vlib/builtin/map.v。
 
-字典相关的源代码可以参考v源代码中的：vlib/builtin/map.v
-
-更多字典相关的函数,参考[标准库章节](./std_builtin.md)
+更多字典相关的函数，参考[标准库章节](./std_builtin.md)。
 
