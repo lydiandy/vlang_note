@@ -27,15 +27,23 @@ struct App {
 	vweb.Context
 }
 
-//	http://localhost:port/hello
 fn (mut app App) hello() vweb.Result {
 	return app.text('Hello')
 }
 
-//	http://localhost:port/foo
 ['/foo']
 fn (mut app App) world() vweb.Result {
 	return app.text('World')
+}
+
+[post]
+fn (mut app App) say() vweb.Result {
+	return app.text('World')
+}
+
+['/hello/:user']
+fn (mut app App) hello_user(user string) vweb.Result {
+	return app.text('Hello $user')
 }
 
 ```
