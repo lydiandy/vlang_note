@@ -81,6 +81,19 @@ pub mut:
 }
 ```
 
+构造函数：
+
+```v
+pub fn new_request(method Method, url_ string, data string) ?Request
+```
+
+方法：
+
+```v
+pub fn (mut req Request) add_header(key CommonHeader, val string) 
+pub fn (req &Request) do() ?Response 
+```
+
 #### http响应
 
 ```v
@@ -94,6 +107,28 @@ pub mut:
 }
 ```
 
+构造函数：
+
+```v
+//构造参数
+pub struct ResponseConfig {
+	version Version = .v1_1
+	status  Status  = .ok
+	header  Header
+	text    string
+}
+pub fn new_response(conf ResponseConfig) Response
+```
+
+方法：
+
+```v
+pub fn (r Response) status() Status
+pub fn (mut r Response) set_status(s Status)
+pub fn (r Response) version() Version
+pub fn (mut r Response) set_version(v Version)
+```
+
 #### header头部
 
 ```v
@@ -103,6 +138,31 @@ mut:
 	data map[string][]string
 	keys map[string][]string
 }
+```
+
+构造函数：
+
+```v
+//构造参数
+pub struct HeaderConfig {
+	key   CommonHeader
+	value string
+}
+pub fn new_header(kvs ...HeaderConfig) Header
+```
+
+方法：
+
+```v
+pub fn (mut h Header) add(key CommonHeader, value string)
+pub fn (mut h Header) set(key CommonHeader, value string)
+pub fn (mut h Header) delete(key CommonHeader)
+pub fn (h Header) contains(key CommonHeader) bool
+pub fn (h Header) get(key CommonHeader) ?string
+pub fn (h Header) values(key CommonHeader) []string
+pub fn (h Header) keys() []string
+pub fn (h Header) join(other Header) Header
+...
 ```
 
 #### cookie
