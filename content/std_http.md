@@ -128,7 +128,7 @@ pub mut:
 
 ### http客户端
 
-发起请求的配置结构体：
+发起请求的配置：
 
 ```v
 pub struct FetchConfig {
@@ -215,7 +215,7 @@ URI统一资源定位
 
 无状态协议
 
-小饼干 cookie
+cookie
 
 
 

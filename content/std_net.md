@@ -419,6 +419,66 @@ fn ws_client(uri string) ? {
 
 ```
 
+### urllib
+
+把url字符串解析成URL类型：
+
+```v
+pub fn parse(rawurl string) ?URL
+```
+
+URL结构体：
+
+```v
+pub struct URL {
+pub mut:
+	scheme      string
+	opaque      string    // encoded opaque data
+	user        &Userinfo // username and password information
+	host        string    // host or host:port
+	path        string    // path (relative paths may omit leading slash)
+	raw_path    string    // encoded path hint (see escaped_path method)
+	force_query bool      // append a query ('?') even if raw_query is empty
+	raw_query   string    // encoded query values, without '?'
+	fragment    string    // fragment for references, without '#'
+}
+
+struct Userinfo {
+pub:
+	username     string
+	password     string
+	password_set bool
+}
+```
+
+URL方法：
+
+```v
+pub fn (u &URL) hostname() string 
+pub fn (u &URL) port() string
+pub fn (u &URL) query() Values
+```
+
+其他函数：
+
+```v
+pub fn parse_query(query string) ?Values
+
+```
+
+```v
+struct Value {
+pub mut:
+	data []string
+}
+
+struct Values {
+pub mut:
+	data map[string]Value
+	len  int
+}
+```
+
 
 
 ### 附录:TCP网络连接示意图
