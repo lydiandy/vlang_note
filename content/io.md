@@ -6,7 +6,7 @@
 
 ```v
 pub interface Reader {
- mut:
+mut:
 	read(mut buf []byte) ?int
 }
 ```
@@ -40,12 +40,6 @@ pub interface RandomWriter {
 
 ```v
 pub interface ReaderWriter {
-mut:
-	read(mut buf []byte) ?int
-	write(buf []byte) ?int
-}
-//等价于接口多重组合的写法
-pub interface ReaderWriter {
   Reader
   Writer
 }
@@ -53,7 +47,7 @@ pub interface ReaderWriter {
 
 ### 结构体
 
-#### 带缓存的读取
+#### 带缓存的读
 
 ```v
 struct BufferedReader {
@@ -69,7 +63,7 @@ pub mut:
 }
 ```
 
-#### 带缓存读取的配置
+#### 带缓存读的参数配置
 
 ```v
 pub struct BufferedReaderConfig {
@@ -88,17 +82,28 @@ pub fn new_buffered_reader(o BufferedReaderConfig) &BufferedReader
 方法：
 
 ```v
-pub fn (mut r BufferedReader) read(mut buf []byte) ?int		//读取数据
+pub fn (mut r BufferedReader) read(mut buf []byte) ?int		//带缓存读取数据
 pub fn (mut r BufferedReader) read_line() ?string		//一次读一行
 pub fn (r BufferedReader) end_of_stream() bool		//是否读取完毕
 pub fn (mut r BufferedReader) free() 			//释放缓存
 ```
 
+### 函数
 
+```v
+pub fn read_all(config ReadAllConfig) ?[]byte	//读取所有字节
+pub fn read_any(mut r Reader) ?[]byte	//读取所有字节，直到Reader返回一个0值
+```
 
+read_all的参数配置
 
-
-
+```v
+pub struct ReadAllConfig {
+	read_to_end_of_stream bool
+mut:
+	reader Reader
+}
+```
 
 
 
