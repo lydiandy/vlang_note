@@ -85,12 +85,15 @@ pub mut:
 
 ```v
 pub fn new_request(method Method, url_ string, data string) ?Request
+//解析raw HTTP request，变成一个Request对象
+pub fn parse_request(mut reader io.BufferedReader) ?Request 
 ```
 
 方法：
 
 ```v
 pub fn (mut req Request) add_header(key CommonHeader, val string) 
+//执行请求，把请求发送到服务端，返回响应
 pub fn (req &Request) do() ?Response 
 ```
 

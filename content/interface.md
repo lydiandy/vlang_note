@@ -106,7 +106,7 @@ fn main() {
 
 ### 接口组合
 
-接口也像结构体那样支持组合：
+接口也像结构体那样支持组合，而且支持多重组合：
 
 ```v
 module main
@@ -116,7 +116,7 @@ pub interface Reader {
 }
 
 pub interface Writer {
-	write(bug []byte) ?int
+	write(buf []byte) ?int
 }
 
 // 接口组合
@@ -177,6 +177,7 @@ fn main() {
 		println(wt)
 	}
 }
+
 ```
 
 ### 泛型接口
@@ -207,7 +208,7 @@ fn (c Cat) speak() string {
 }
 
 interface Speaker {
-	speak() string  //普通的接口方法
+	speak() string //普通的接口方法
 }
 
 interface Iterator<T> {
@@ -224,6 +225,7 @@ fn main() {
 	perform(dog) // "woof"
 	perform(cat) // "meow"
 }
+
 ```
 
 接口可以作为结构体字段类型使用：
@@ -271,6 +273,7 @@ fn main() {
 	dog := Dog{}
 	say(dog)
 }
+
 ```
 
 ### 接口变量类型判断及匹配
@@ -330,6 +333,7 @@ fn main() {
 	perform(dog) // "wang"
 	perform(cat) // "miao"
 }
+
 ```
 
 ### 判断类型是否实现接口
