@@ -2,15 +2,10 @@
 
 ### TCP
 
-#### 客户端
+#### 公共结构体
 
 ```v
-//客户端拨号
-pub fn dial_tcp(address string) ?TcpConn
-```
-
-```v
-//返回tcp连接
+//tcp连接
 [heap]
 pub struct TcpConn {  //实现io.Reader,io.Writer接口
 pub mut:
@@ -22,14 +17,36 @@ mut:
 	write_timeout  time.Duration
 	is_blocking    bool
 }
-```
 
-```v
 //tcp socket对象
 struct TcpSocket {
 pub:
 	handle int //socket的文件描述符
 }
+```
+
+方法：
+
+```v
+pub fn (mut c TcpConn) close() ?	//关闭连接，一般在函数的defer中调用
+
+pub fn (mut c TcpConn) set_read_timeout(t time.Duration)	//设置读超时的时间
+pub fn (mut c TcpConn) set_write_timeout(t time.Duration)	//设置写超时的时间
+
+pub fn (c &TcpConn) read_timeout() time.Duration	//获取读超时的时间
+pub fn (c &TcpConn) write_timeout() time.Duration	//获取写超时的时间
+
+pub fn (mut c TcpConn) set_read_deadline(deadline time.Time) //设置读的限制时间点
+pub fn (mut c TcpConn) set_write_deadline(deadline time.Time) //设置写的限制时间点
+
+pub fn (mut c TcpConn) write_deadline() ?time.Time //获取写的限制时间点
+```
+
+#### 客户端
+
+```v
+//客户端拨号，成功则返回一个TCP连接
+pub fn dial_tcp(address string) ?TcpConn
 ```
 
 客户端连接例子:
@@ -61,7 +78,7 @@ pub fn listen_tcp(family AddrFamily, saddr string) ?&TcpListener
 ```
 
 ```v
-//返回监听器/服务器对象
+//TCP监听器
 pub struct TcpListener {
 	sock TcpSocket
 
@@ -71,9 +88,14 @@ mut:
 }
 ```
 
+方法：
+
 ```v
-//监听器/服务器对象,调用accept以后,开始监听,返回TcpConn对象
+//监听成功后，等待客户端请求,调用accept以后,开始监听,接收一次请求成功后，返回TCP连接，
 pub fn (l TcpListener) accept() ?TcpConn
+
+pub fn (mut c TcpListener) set_accept_deadline(deadline time.Time) 
+pub fn (mut c TcpListener) set_accept_timeout(t time.Duration)
 ```
 
 服务端连接例子:
