@@ -20,10 +20,19 @@ mut:
 }
 ```
 
+#### 可读写接口
+
+```v
+pub interface ReaderWriter {
+  Reader
+  Writer
+}
+```
+
 #### 随机读接口
 
 ```v
-interface RandomReader {
+pub interface RandomReader {
 	read_from(pos u64, mut buf []byte) ?int
 }
 ```
@@ -36,18 +45,9 @@ pub interface RandomWriter {
 }
 ```
 
-#### 读写接口
-
-```v
-pub interface ReaderWriter {
-  Reader
-  Writer
-}
-```
-
 ### 结构体
 
-#### 带缓存的读
+#### 带缓冲区的读
 
 ```v
 struct BufferedReader {
@@ -63,7 +63,7 @@ pub mut:
 }
 ```
 
-#### 带缓存读的参数配置
+#### 带缓冲区读的参数配置
 
 ```v
 pub struct BufferedReaderConfig {
@@ -73,7 +73,7 @@ pub struct BufferedReaderConfig {
 }
 ```
 
-构造器，创建一个带缓存读取对象
+构造器，创建一个带缓冲区读取对象
 
 ```v
 pub fn new_buffered_reader(o BufferedReaderConfig) &BufferedReader
@@ -82,7 +82,7 @@ pub fn new_buffered_reader(o BufferedReaderConfig) &BufferedReader
 方法：
 
 ```v
-pub fn (mut r BufferedReader) read(mut buf []byte) ?int		//带缓存读取数据
+pub fn (mut r BufferedReader) read(mut buf []byte) ?int		//带缓冲区读取数据
 pub fn (mut r BufferedReader) read_line() ?string		//一次读一行
 pub fn (r BufferedReader) end_of_stream() bool		//是否读取完毕
 pub fn (mut r BufferedReader) free() 			//释放缓存
@@ -104,6 +104,3 @@ mut:
 	reader Reader
 }
 ```
-
-
-

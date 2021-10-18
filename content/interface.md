@@ -6,12 +6,51 @@
 
 默认是模块级别，使用pub变为公共级别。
 
-接口命名跟结构体一样：要求首字母大写，建议以er风格结尾，非强制。
+接口命名跟结构体一样：要求首字母大写，大驼峰风格。建议以er风格结尾，非强制。
 
 ```v
 pub interface Speaker {
 		speak() string
 }
+```
+
+### 接口方法
+
+结构体实现接口定义的方法时，除了匹配函数签名外，还需要匹配方法接收者是否可变mut：
+
+```v
+module main
+
+//接口要求结构体要实现方法为 pub fn (s MyStruct) write(a string) string
+pub interface Foo {
+	write(string) string
+}
+
+//如果加上mut,则表示接口要求 pub fn (mut s MyStruct) write(a string) string
+pub interface Bar {
+mut:
+	write(string) string
+}
+
+struct MyStruct {}
+
+pub fn (s MyStruct) write(a string) string {
+	return a
+}
+
+fn main() {
+	s1 := MyStruct{}
+	fn1(s1)
+}
+
+fn fn1(s Foo) {
+	println(s.write('Foo'))
+}
+
+fn fn2(s Bar) { //编译不通过
+	println(s.write('Foo'))
+}
+
 ```
 
 ### 接口字段
@@ -399,10 +438,10 @@ fn (w WidgetB) resize(x int, y int) int {
 	return x * y
 }
 
-fn draw(w Widget) {
+fn draw(w Widget) { 	//只有参数是接口类型参数才可以使用is进行判断
 	// w.resize(10, 20) // 此时调用resize方法并不正确，因为并不是所有的w参数变量都实现了ResizableWidget接口
 
-	if w is ResizableWidget { //判断w变量是否也实现了ResizableWidget接口
+	if w is ResizableWidget { //判断w接口变量是否也实现了ResizableWidget接口
 		assert w is WidgetB
 		rw := w as ResizableWidget //把w变量从Widget接口变量转换为ResizableWidget接口变量
 		assert rw is WidgetB
