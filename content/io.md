@@ -83,7 +83,7 @@ pub fn new_buffered_reader(o BufferedReaderConfig) &BufferedReader
 
 ```v
 pub fn (mut r BufferedReader) read(mut buf []byte) ?int		//带缓冲区读取数据
-pub fn (mut r BufferedReader) read_line() ?string		//一次读一行
+pub fn (mut r BufferedReader) read_line() ?string		//读取一行数据
 pub fn (r BufferedReader) end_of_stream() bool		//是否读取完毕
 pub fn (mut r BufferedReader) free() 			//释放缓存
 ```
