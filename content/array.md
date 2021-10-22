@@ -76,6 +76,9 @@ fn main() {
 	println('$arr.len,$arr.cap') //输出5,20
 	arr << 3
 	println(arr) //输出[10, 10, 10, 10, 10, 3]
+  //可以使用数组的索引值it,来动态地初始化数组的元素值
+  mut square := []int{len: 6, init: it * it} 
+	println(square) //输出[0, 1, 4, 9, 16, 25]
 }
 
 ```
