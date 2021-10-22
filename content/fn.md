@@ -271,6 +271,43 @@ fn main() {
 
 ```
 
+### 闭包的参数传递
+
+V的函数支持闭包，上级函数和闭包函数是两个单独的作用域，要将上级函数中的变量要传递给闭包函数，需要用中括号特别列出来，这样闭包函数内才可以正常使用上级函数的变量。
+
+```v
+module main
+
+fn main() {
+	i := myfn(1)
+}
+
+type Handler = fn (string) int
+
+fn myfn(x int) Handler {
+	mut y := 3
+  //上级函数的x,y变量要传递进去，如果是可变的，也要像函数参数那样，使用mut
+	return fn [x, mut y] (name string) int { 
+		y++
+		return x
+	}
+}
+```
+
+如果要传递的是变量的引用也可以，不过要确保变量在调用函数的时候始终可用，否则就会产生错误：
+
+```v
+mut i := 0
+mut ref := &i
+print_counter := fn [ref] () {
+	println(*ref)
+}
+
+print_counter() // 0
+i = 10
+print_counter() // 10
+```
+
 ### 函数递归
 
 函数也是可以递归调用的。
