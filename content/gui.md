@@ -57,9 +57,7 @@ v update ui	//更新ui
 
 以下图例描述了ui模块和标准库模块的关系
 
-![](gui.assets/image-20200226182335145.png)
-
-
+![image-20211023153042719](/Users/zhijiayou01/v/vlang_note/content/gui.assets/image-20211023153042719.png)
 
 #### sokol模块
 
@@ -108,20 +106,6 @@ Color结构体
 Image结构体
 
 TextCfg结构体
-
-#### glm模块
-
-源代码位置:vlib/glm
-
-OpenGL Mathematics（GLM） - 几何数学库
-
-Math Libraries
-
-OpenGl中在进行图形变换的时候需要使用几何数学库
-
-矩阵变换，四元数，数据打包，随机数，噪声等等
-
-代码:https://github.com/g-truc/glm
 
 #### stbi模块
 

@@ -81,7 +81,6 @@
 * [sokol](content/sokol.md)
 * [gg](content/gg.md)
 * [gx](content/gx.md)
-* [glm](content/glm.md)
 * [fontstash](content/fontstash.md)
 * [stbi](content/stbi.md)
 * [clipboard](content/clipboard.md)
