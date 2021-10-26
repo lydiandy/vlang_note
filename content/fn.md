@@ -322,7 +322,7 @@ V不会有函数重载。
 
 ### 函数参数默认值
 
-函数的参数目前还没有参数默认值这个特性。
+函数的参数没有默认值这个特性。不过可以使用结构体作为参数来实现类似的效果。
 
 ### 函数命名参数调用
 
@@ -348,6 +348,43 @@ fn main(){
 	add(User{name:'jack',age:22}) //标准方式
 	add({name:'tom',age:23}) //简短方式,省略类型
 	add(name:'tt',age:33) //更简短的方式,省略类型和大括号,有命名参数调用的感觉
+}
+```
+
+### 结构体参数
+
+就是使用结构体作为参数，并且结构体使用了[params]注解，就可以实现参数的默认值和命名参数的效果。
+
+```v
+[params]
+struct ButtonConfig {
+	text        string
+	is_disabled bool
+	width       int = 70
+	height      int = 20
+}
+
+struct Button {
+	text   string
+	width  int
+	height int
+}
+
+fn new_button(c ButtonConfig) &Button {
+	return &Button{
+		width: c.width
+		height: c.height
+		text: c.text
+	}
+}
+
+fn main() {
+	button := new_button(text: 'Click me', width: 100)
+	println(button.height) // height没有初始化,使用默认值
+	
+	//结构体参数加了params注解,就可以什么都不传,直接使用结构体的默认值
+	button2 := new_button()
+	println(button2) //所有参数都使用默认值
 }
 ```
 
