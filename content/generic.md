@@ -241,6 +241,63 @@ fn main() {
 
 ```
 
+泛型结构体和泛型方法的泛型类型可以不一样：
+
+```v
+interface Something {
+	i int
+}
+
+struct Some {
+	i int
+}
+
+struct App<M> {
+	f M
+}
+
+fn (mut self App<M>) next1<M, T>(input T) f64 { // 结构体泛型为M,方法泛型为M,T
+	$if M is Something {
+		return 0
+	} $else {
+		panic('${typeof(M.typ).name} is not supported')
+		return 1
+	}
+	return 1
+}
+
+fn (mut self App<M>) next2<T, M>(input T) f64 { // 结构体泛型为M,方法泛型为T,M
+	$if M is Something {
+		return 0
+	} $else {
+		panic('${typeof(M.typ).name} is not supported')
+		return 1
+	}
+	return 1
+}
+
+fn (mut self App<M>) next3<T>(input T) f64 { // 结构体泛型为M,方法泛型为T
+	$if M is Something {
+		return 0
+	} $else {
+		panic('${typeof(M.typ).name} is not supported')
+		return 1
+	}
+	return 1
+}
+
+fn main() {
+	mut app := App<Some>{
+		f: Some{
+			i: 10
+		}
+	}
+	assert app.next1(1) == 0
+	assert app.next2(1) == 0
+	assert app.next3(1) == 0
+}
+```
+
 ### 泛型接口
 
 泛型接口的定义跟泛型结构体基本一样。
