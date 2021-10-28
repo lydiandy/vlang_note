@@ -94,14 +94,86 @@ V语言可以针对结构体,结构体字段,函数/方法进行注解。
 
   
 
+- [direct_array_access]
+
+  加了这个注解的函数，在生成C代码时会直接使用C语言中的数组操作，省略边界检查，这样在遍历数组元素时速度会提高不少，代价是不会进行边界检查，函数是不安全的，边界检查由用户代码自己判断。
+
+  ```v
+  module main
+  
+  fn main() {
+  	direct_modification1()
+  	direct_modification2()
+  }
+  
+  fn direct_modification1() { // 不带direct_array_access
+  	mut foo := [2, 0, 5]
+  	foo[1] = 3
+  	foo[0] *= 7
+  	foo[1]--
+  	foo[2] -= 2
+  }
+  
+  [direct_array_access] 
+  fn direct_modification2() { // 带direct_array_access
+  	mut foo := [2, 0, 5]
+  	foo[1] = 3
+  	foo[0] *= 7
+  	foo[1]--
+  	foo[2] -= 2
+  }
+  ```
+
+  生成的C代码：
+
+  ```c
+  VV_LOCAL_SYMBOL void main__main(void) {
+  	main__direct_modification1();
+  	main__direct_modification2();
+  }
+  
+  VV_LOCAL_SYMBOL void main__direct_modification1(void) {
+  	Array_int foo = new_array_from_c_array(3, 3, sizeof(int), _MOV((int[3]){2, 0, 5}));
+  	array_set(&foo, 1, &(int[]) { 3 });
+  	(*(int*)array_get(foo, 0)) *= 7;
+  	(*(int*)/*ee elem_typ */array_get(foo, 1))--;
+  	(*(int*)array_get(foo, 2)) -= 2;
+  }
+  
+  // Attr: [direct_array_access]
+  VV_LOCAL_SYMBOL void main__direct_modification2(void) {
+  	Array_int foo = new_array_from_c_array(3, 3, sizeof(int), _MOV((int[3]){2, 0, 5}));
+  	((int*)foo.data)[1] = 3;
+  	((int*)foo.data)[0] *= 7;
+  	((int*)foo.data)[1]--;
+  	((int*)foo.data)[2] -= 2;
+  }
+  ```
+
 - [manualfree]
+
+  参考[内存管理章节-手动内存管理](memory.md)
 
 
 - [noreturn]
 
-  
+  表示这个函数不会有返回值给函数的调用方，一般来说是函数内有存在exit，panic，无限循环for {}，或调用了另一个没有返回值的函数。标记了noreturn的函数，调用方就不会等待该函数返回。
+
+  ```v
+  [noreturn]
+  fn forever() {
+  	for {}
+  }
+  ```
 
 - [keep_args_alive]
+
+  函数加上这个注解后，函数的指针参数在函数返回之前不会被GC释放。
+
+  ```v
+  [keep_args_alive]
+  fn C.calc_expr_after_delay(voidptr, int, voidptr) int
+  ```
 
 - [export]
   
