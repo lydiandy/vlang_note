@@ -257,6 +257,8 @@ fn main() {
 
 ### as类型转换
 
+可以通过as将联合类型显式转换为具体的类型，如果转换类型不成功，则报错：V panic: as cast: cannot cast。
+
 ```v
 module main
 
@@ -264,7 +266,7 @@ type Mysumtype = bool | f64 | int | string
 
 fn main() {
 	x := Mysumtype(3)
-	x2 := x as int
+	x2 := x as int	//联合类型显式转换类型
 	println(x2)
 }
 ```
