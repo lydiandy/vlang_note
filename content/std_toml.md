@@ -102,14 +102,18 @@ hosts = [
 ]'
 
 fn main() {
-	// doc := toml.parse(toml_text) or { panic(err) } //解析文本
+	// doc := toml.parse_text(toml_text) or { panic(err) } //解析文本
 	// doc := toml.parse_file("./conifg.toml") or { panic(err) } //解析文件
-	// doc := toml.parse("./conifg.toml") or { panic(err) } //自动解析
+	// doc := toml.parse("./conifg.toml") or { panic(err) } //自动解析,如果参数是路径则解析文件,如果是文本则解析文本
 	doc := toml.parse(toml_text) or { panic(err) } //自动解析
 
 	title := doc.value('title').string()
+	title2 := doc.value('title') as string
+	owner := doc.value('owner') as map[string]toml.Any
 	println('title: "$title"')
-	ip := doc.value('servers.alpha.ip').string() //value可以通过点号表示toml的层级
+	println('title: "$title2"')
+	println('owner: $owner')
+	ip := doc.value('servers.alpha.ip').string() // value可以通过点号表示toml的层级
 	println('Server IP: "$ip"')
 
 	toml_json := doc.to_json() //转化为json格式
