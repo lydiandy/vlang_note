@@ -12,6 +12,56 @@
 
 可是如果V编译器在生成C代码的过程中，生成有错的C代码，导致C编译器编译出错，就需要进一步的调试跟踪选项来定位错误。
 
+### vscode调试插件
+
+除了安装V插件外，还需要安装C/C++插件：
+
+https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+
+安装好C/C++插件后，开始配置：
+
+- 打开菜单：运行->启动调试，第一次使用会弹出配置环境，配置环境为C++(GDB/LLDB)，然后将配置launch.json文件为：
+
+  ```json
+  {
+      "version": "0.2.0",
+      "configurations": [
+          {
+              "name": "(lldb) 启动",
+              "type": "cppdbg",
+              "request": "launch",
+              "program":  "${fileDirname}/${fileBasenameNoExtension}", //要改为这个
+              "args": [],
+              "stopAtEntry": false,
+              "cwd": "${fileDirname}",
+              "environment": [],
+              "externalConsole": false,
+              "MIMode": "lldb"
+          }
+      ]
+  }
+  ```
+  
+- 第一次配置好以后，再次点击运行->启动调试，就会显示调试视图。
+
+- 在启动调试之前，要先用V编译器把源代码编译为带调试信息的二进制文件，然后再开始启动调试。
+
+  ```shell
+  v -g main.v #-g选项就是生成带调试信息的二进制文件
+  ```
+
+  也可以将编译为带调试信息的二进制文件这一步配置到task.json中，这样就不用每次都用手工输入命令行了。
+
+  ```json
+  {
+  			"label": "v build_debug",
+  			"type": "shell",
+  			"command": "v -g ${file}"
+  		},
+  ```
+
+- 启动调式后，就可以看到C调试信息的输出。
+
 ### C后端调试
 
 常用编译带调试选项：
