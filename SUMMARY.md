@@ -185,6 +185,6 @@
 
 * [附录3  V编译器命令行使用](content/toolchain.md)
 
-* [附录4 V报错定位及处理](content/error_handle.md)
+* [附录4 V调试及错误定位](content/debug.md)
 
 * [附录5 V和Go基本语法代码参照](content/v_and_go.md)

@@ -1,4 +1,4 @@
-## V报错定位及处理
+## V代码调试及错误排查
 
 实际使用V开发的过程中，有时会碰到一些奇怪的，难以定位的报错。
 
@@ -61,6 +61,10 @@ https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
   ```
 
 - 启动调式后，就可以看到C调试信息的输出。
+
+- 还可以在代码中插入断点，查看变量值，单步调试等常规调试的操作。
+
+  ![screenshot visual debugger](debug.assets/vscode-debugger.png)
 
 ### C后端调试
 
