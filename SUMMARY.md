@@ -177,6 +177,8 @@
 
 * [生成js代码](content/gen_js.md)
 
+* [生成native代码](content/gen_native.md)
+
   
 
 * [附录1 关键字](content/keyword.md)
