@@ -298,6 +298,33 @@ fn main() {
 }
 ```
 
+泛型方法可以嵌套调用：
+
+```v
+struct SSS<T> {
+mut:
+	x T
+}
+
+fn (s SSS<T>) inner() T {
+	return s.x
+}
+
+fn (s SSS<T>) outer() string {
+	ret := s.inner<T>() //泛型方法可以嵌套调用
+	println(ret)
+	return '$ret'
+}
+
+fn main() {
+	s1 := SSS<int>{100}
+	s1.outer()
+
+	s2 := SSS<string>{'hello'}
+	s2.outer()
+}
+```
+
 ### 泛型接口
 
 泛型接口的定义跟泛型结构体基本一样。
