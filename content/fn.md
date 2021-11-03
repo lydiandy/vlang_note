@@ -511,9 +511,25 @@ v -live run  main.v
 
 ### 内置函数
 
-V内置了一些函数，可以全局使用：
+V内置了一些函数，可以全局使用，所有的内置函数可以在vlib/builtin目录中找到定义：
 
-#### dump函数
+```v
+pub fn print(s string)	// 打印字符串，不换行
+
+pub fn println(s string)	// 打印字符串，并且换行
+
+pub fn eprint(s string) 	// 打印错误，不换行，无缓冲，立即输出
+
+pub fn eprintln(s string)	// 打印错误，并且换行，无缓冲，立即输出
+
+pub fn exit(code int)			// 退出程序，code为错误码
+
+pub fn panic(s string) 		// 抛出错误
+
+pub fn panic_error_number(basestr string, errnum int) 	// 抛出错误及错误码
+```
+
+#### dump
 
 跟C语言中的dump函数功能一样,把某个表达式的数据转储，并输出，dump函数主要用于调试，比println函数更为方便，清晰。
 
