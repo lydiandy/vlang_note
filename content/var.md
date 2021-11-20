@@ -34,7 +34,7 @@ y := f32(3.0) // y是f32类型，而不是默认推断的f64
 x := 3
 s := 'abc'
 println(typeof(x)) // int
-println(typeof(s)) // string不是默认推断的f64
+println(typeof(s)) // string
 ```
 
 #### 默认不可变
