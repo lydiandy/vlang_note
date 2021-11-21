@@ -297,9 +297,9 @@ fn main() {
 }
 ```
 
-## Variable 变量
+### Variable 变量
 
-### Assign 变量赋值语句
+#### Assign 变量赋值语句
 
 AST结构体
 
@@ -335,7 +335,7 @@ fn main() {
 
 ```
 
-### Identifier 标识符
+#### Identifier 标识符
 
 AST结构体
 
@@ -359,7 +359,7 @@ fn main() {
 
 ```
 
-### Literal 字面量
+#### Literal 字面量
 
 AST结构体
 
@@ -391,7 +391,7 @@ fn main() {
 }
 ```
 
-### AsCast as造型语句
+#### AsCast as造型语句
 
 AST结构体
 
@@ -413,7 +413,7 @@ fn main() {
 }
 ```
 
-### SizeOf sizeof语句
+#### SizeOf sizeof语句
 
 AST结构体
 
@@ -443,7 +443,7 @@ fn main() {
 }
 ```
 
-### TypeOf typeof语句
+#### TypeOf typeof语句
 
 AST结构体
 
@@ -480,7 +480,7 @@ fn main() {
 
 ```
 
-### CastExpr 造型表达式
+#### CastExpr 造型表达式
 
 AST结构体
 
