@@ -582,14 +582,14 @@ module main
 
 fn main() {
 	a := ['a'， 'b'， 'c'] 
-	println(variadic_fn_a(a.。。)) //ArrayDecompose
+	println(variadic_fn_a(a...)) //ArrayDecompose
 }
 
-fn variadic_fn_a(a 。。.string) string {
-	return variadic_fn_b(a.。。) //ArrayDecompose
+fn variadic_fn_a(a ...string) string {
+	return variadic_fn_b(a...) //ArrayDecompose
 }
 
-fn variadic_fn_b(a 。。.string) string {
+fn variadic_fn_b(a ...string) string {
 	a0 := a[0]
 	a1 := a[1]
 	a2 := a[2]
