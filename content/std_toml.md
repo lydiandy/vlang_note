@@ -33,16 +33,18 @@ pub fn (d Doc) value(key string) Any
 ```
 
 ```v
-pub type Any = Null	//空值类型节点
-	| []Any	//数组类型节点
+pub type Any = Date	//日期类型
+	| DateTime	//日期时间类型
+	| Null	//空值类型
+	| Time
+	| []Any		//数组类型
 	| bool
 	| f32
 	| f64
 	| i64
 	| int
-	| map[string]Any //字典类型节点
+	| map[string]Any	//字典类型
 	| string
-	| time.Time	//时间类型节点
 	| u64
 ```
 
@@ -59,13 +61,15 @@ pub fn (a Any) as_map() map[string]Any //转换为字典类型
 ### 将toml转化为json
 
 ```v
-pub fn (d Doc) to_json() string 
+import toml.to
+to.json(doc)
 ```
 
 ### 完整示例
 
 ```v
 import toml
+import toml.to
 
 const toml_text = '# This is a TOML document.
 
@@ -116,10 +120,7 @@ fn main() {
 	ip := doc.value('servers.alpha.ip').string() // value可以通过点号表示toml的层级
 	println('Server IP: "$ip"')
 
-	toml_json := doc.to_json() //转化为json格式
+	toml_json := to.json(doc) //转化为json格式
 	println(toml_json)
 }
 ```
-
-
-
