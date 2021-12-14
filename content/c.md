@@ -338,6 +338,16 @@ pub type Item = C.MIR_item_t
 pub type Func = C.MIR_func_t
 ```
 
+### 目前难以封装的内容
+
+实际项目的C集成过程中有2种情况目前比较难以封装：
+
+- 如果C代码库的结构体中出现内嵌的结构体或联合体，目前在V中还没有办法封装
+
+- 如果C代码库中的函数使用了不确定数量参数，目前也没有很好的办法封装
+
+  以上2种情况，目前只能自己动手写个C代码，在C代码中封装好以后，再集成到V代码中。
+
 ### 关于#flag标记
 
 这个#flag标记跟v编译器的-cflags选项的用法是一样的，用于传递额外的flag参数给C编译器。
@@ -391,10 +401,12 @@ pub type Func = C.MIR_func_t
 #flag -DSOKOL_GLCORE33 //提供额外的flag参数:-DSOKOL_GLCORE33
 #flag darwin -framework OpenGL -framework Cocoa -framework QuartzCore
 ```
-ex:
+### 集成自己的C库
+
+以下的步骤详细介绍了从零开始，开发自己的C库，并且集成到V项目中：
 
 目录结构
-```
+```shell
 D:\LINKCTEST
 │  linkcTest.code-workspace
 │  linkcTest.v
@@ -406,8 +418,9 @@ D:\LINKCTEST
 └─myClib
         testlib.c
 ```
-![目录结构](/image/linkC库Test.PNG)<br>
+![linkC库Test](/Users/zhijiayou01/v/vlang_note/content/c.assets/linkC库Test.PNG)
 test.h文件内容
+
 ```
 //声明自定义c函数TestFunc
 int TestFunc();
