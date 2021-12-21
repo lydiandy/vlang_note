@@ -31,6 +31,7 @@ Usage:v [options] [command] [arguments]
    watch 						 编译项目,并监控源文件修改,保存后自动重新编译
    ast							 将V源代码生成json格式的AST语法树,直观展现V的语法树
    vlib-docs 				 调用v doc生成vlib标准库的文档	
+   interpret				 直接解释执行V代码
    
 安装和升级子命令:
    symlink           unix系统在/usr/local/bin/v生成链接,windows生成环境变量
@@ -104,6 +105,7 @@ v -shared  //编译生成共享库
 v main.v 			//编译当前目录中的main.v源文件,生成同名的main可执行文件
 v run main.v  //编译并运行当前目录中的main.v源文件
 v watch main.v //编译并运行当前目录中的main.v源文件,并监控,保存自动重新运行
+v interpret ./main.v	 //直接解释执行代码
 
 v -usecache main.v //使用标准库缓存进行编译
 v run main.v 	//编译当前目录中的main.v源文件,生成同名的main可执行文件，并运行

@@ -260,7 +260,7 @@ fn main() {
 
 ```
 
-常用字符串内置函数，可以参考后面的[标准库](。/std_builtin。md)章节，也可以直接参考vlib/builtin/string.v源代码。
+常用字符串内置函数，可以参考后面的[标准库](./std_builtin.md)章节，也可以直接参考vlib/builtin/string.v源代码。
 
 ### 指针类型
 
