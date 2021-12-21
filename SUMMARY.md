@@ -179,7 +179,7 @@
 
 * [生成native代码](content/gen_native.md)
 
-* [解释器直接运行](/content/interpreter.md)
+* [解释器直接运行](content/interpreter.md)
 
   
 
