@@ -4,7 +4,7 @@ typora-root-url: ../image
 
 ## V编译器源代码
 
-V编译器基于AST(抽象语法树)的方式来编译，源代码先生成AST,再生成目标代码(c/js/native)，是目前各语言编译器的主流方式，好处很多：
+V编译器基于AST(抽象语法树)的方式来编译，源代码先生成AST,再生成目标代码(c/js/native/interpreter)，是目前各语言编译器的主流方式，好处很多：
 
 - 编译器代码更清晰,更好维护
 - 编译器再增加新东西,速度会更快
@@ -31,7 +31,7 @@ V编译器基于AST(抽象语法树)的方式来编译，源代码先生成AST,�
 | scanner     | 词法分析/扫描器相关                              |
 | parser      | 语法分析/解析器相关                              |
 | checker     | 语法检查器相关                                   |
-| eval        | 表达式求值相关                                   |
+| eval        | 解释器相关                                       |
 | depgraph    | 模块依赖相关                                     |
 | builder     | 代码生成器相关                                   |
 | gen         | 生成具体平台代码相关,如生成C,js,x64              |
@@ -109,7 +109,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
 
 使用[scc](https://github.com/boyter/scc)代码统计工具的统计数据如下:
 
-![image-20210430222618795](/content/compiler.assets/image-20210430222618795.png)
+![](/content/compiler.assets/image-20210430222618795.png)
 
 ### 编译器类
 
