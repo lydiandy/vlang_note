@@ -286,20 +286,29 @@ struct Foo {
 module main
 
 //空接口，表示任何类型
-interface Any{}
+interface Any {}
 
-fn test(v Any) Any{
-    return v
+struct Point {
+	x int
+	y int
 }
 
-fn main(){
-    println(test(true))
-    println(test(5))
-    println(test('abc'))
+fn test(v Any) Any {
+	return v
 }
+
+fn main() {
+	p := Point{
+		x: 1
+		y: 2
+	}
+	println(test(true))
+	println(test(5))
+	println(test('abc'))
+	println(test(p))
+}
+
 ```
-
-
 
 ### 获取接口变量的具体类型
 

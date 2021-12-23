@@ -138,6 +138,7 @@ v install --hg  xxx代码库url //从hg代码库安装模块
 v fmt -w main.v //统一格式化指定源文件或目录中的代码
 
 v ast main.v //将V源代码生成json格式的AST语法树,生成main.json
+v ast -t main.v //生成简洁的json格式的AST语法书，去除一些不重要的字段
 v ast -w main.v //生成main.json,并且监控源文件变化,保存后自动重新生成
 v ast -c main.v //将V源代码同时生成AST语法树文件main.json和C源代码main.c,并且监控源文件变化,保存后自动重新生成
 
