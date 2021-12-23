@@ -276,6 +276,31 @@ struct Foo {
 }	
 ```
 
+### 空接口类型
+
+可以定义不包含任何接口方法和字段的空接口类型，表示任何类型。
+
+跟go有点不太一样的是不能直接使用interface{}来表示，必须定义一个空接口类型。
+
+```v
+module main
+
+//空接口，表示任何类型
+interface Any{}
+
+fn test(v Any) Any{
+    return v
+}
+
+fn main(){
+    println(test(true))
+    println(test(5))
+    println(test('abc'))
+}
+```
+
+
+
 ### 获取接口变量的具体类型
 
 接口类型使用内置方法type_name()来返回接口变量的具体类型：
