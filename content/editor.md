@@ -2,21 +2,39 @@
 
 目前V语言开发的主要环境是vscode，由V语言核心团队负责开发的插件和语言服务，而且一直在更新中。
 
+### vls
+
+安装vls：参考[V语言服务章节](vls.md)。
+
 ### vscode
 
-插件：https://github.com/vlang/vscode-vlang
+安装插件：https://github.com/vlang/vscode-vlang
 
-VLS语言服务安装参考[V语言服务章节](vls.md)。
-
-
+vls支持：参考[V语言服务章节](vls.md)。
 
 ### sublime text
 
-插件：https://github.com/onerbs/sublime-v
+安装插件：https://github.com/elliotchance/vlang-sublime
 
-除了基本的语法高亮，也支持格式化代码，直接运行代码等功能。
+vls支持：
 
+- 安装sublime的[LSP插件](https://packagecontrol.io/packages/LSP)
 
+  打开命令行面板，输入Package Control，选择Install Package，输入LSP即可看到LSP插件，安装。
+
+- 设置LSP插件，启用vls
+
+  打开命令行面板，输入Package Control，选择Preferences: LSP Settings，加入以下配置：
+
+  ```json
+   "clients": {
+          "vls": {
+              "enabled": true,
+              "command": ["<vls-dir>/vls"],
+              "selector": "source.v"
+          }
+      }
+  ```
 
 ### micro
 

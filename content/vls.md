@@ -4,7 +4,7 @@ V实现了语言服务协议LSP v3.15版本，叫做V Language Server(VLS)。
 
 源代码：https://github.com/vlang/vls
 
-目前vls仅支持vs code的插件调用，其他开发环境还未适配。
+目前vls支持vs code和sublime text的插件调用，idea和其他开发环境还未适配。
 
 ### 安装
 
@@ -20,8 +20,8 @@ V实现了语言服务协议LSP v3.15版本，叫做V Language Server(VLS)。
 #下载vls源代码，切换到use-tree-sitter分支
 git clone https://github.com/vlang/vls.git --branch use-tree-sitter vls && cd vls/
 #编译vls,目前V的垃圾回收还不成熟，建议编译时加入可选垃圾回收器boehm-gc来帮助内存回收，毕竟vls需要常驻内存中运行
-#安装完成后可以在项目根目录中看到vls可执行文件
-v run build.vsh
+#安装完成后可以在vls项目bin目录中看到vls可执行文件
+v build.vsh
 也可以选择指定的C编译器来编译
 v run build.vsh cc/gcc/clang/msvc
 ```
@@ -34,7 +34,7 @@ v run build.vsh cc/gcc/clang/msvc
 #更新vls,在vls代码库目录中执行
 git pull
 #重新编译vls
-v run build.vsh
+v build.vsh
 也可以选择指定的C编译器来编译
 v run build.vsh cc/gcc/clang/msvc
 ```
