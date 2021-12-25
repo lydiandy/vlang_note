@@ -145,6 +145,54 @@ fn main() {
 
 ```
 
+### inline联合类型
+
+除了命名联合类型，还可以直接使用inline联合类型，而不用事先定义，有了inline联合类型确实非常的灵活。
+
+```v
+fn returns_sumtype() int | string {
+	return 1
+}
+
+fn returns_sumtype_reverse() int | string { //函数参数或返回值使用inline联合类型
+	return 1
+}
+
+fn stringification() {
+	x := returns_sumtype()
+	y := returns_sumtype_reverse()
+	assert '$x' == '$y'
+}
+
+struct Milk {
+	egg int | string //结构体字段使用inline联合类型
+}
+
+fn struct_with_inline_sumtype() {
+	m := Milk{
+		egg: 1
+	}
+	assert m.egg is int
+}
+
+interface IMilk {
+	egg int | string 	//接口字段使用inline联合类型
+}
+
+fn receive_imilk(milk IMilk) {}
+
+fn main() {
+	m := Milk{
+		egg: 1
+	}
+	receive_imilk(m)
+}
+
+fn returns_sumtype_in_multireturn() (int | string, string) {
+	return 1, ''
+}
+```
+
 ### 获取联合类型的具体类型
 
 联合类型使用内置方法type_name()来返回变量的具体类型。
