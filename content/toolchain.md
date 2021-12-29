@@ -107,12 +107,16 @@ v run main.v  //编译并运行当前目录中的main.v源文件
 v watch main.v //编译并运行当前目录中的main.v源文件,并监控,保存自动重新运行
 v interpret ./main.v	 //直接解释执行代码
 
+v project-dir //编译整个目录
+
+v -gc boehm main.v 	//带GC编译，详细选项参考内存管理章节
+
 v -usecache main.v //使用标准库缓存进行编译
 v run main.v 	//编译当前目录中的main.v源文件,生成同名的main可执行文件，并运行
 v -autofree run main.v //以自动释放内容方式,编译,并运行
 
 v -o myexe main.v 	//编译当前目录中的main.v源文件，生成的可执行文件名为myexe
-v -o myexe.c mani.v //编译当前目录中的main.v源文件，生成对应的C源文件，而不是可执行文件
+v -o myexe.c main.v //编译当前目录中的main.v源文件，生成对应的C源文件，而不是可执行文件
 v -o myexe.js main.v //编译当前目录中的main.v源文件，生成对应的js源文件，而不是可执行文件
 
 v -prod main.v //生产模式编译当前目录中的main.v源文件，生成更小的可执行文件
