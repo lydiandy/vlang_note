@@ -84,6 +84,16 @@ Fedora:
 sudo dnf install openssl-devel
 ```
 
+如果你使用的是新版的macos12，运行V代码时出现openssl的报错，需要从openssl的源码来编译安装，就可以解决报错：
+
+```shell
+git clone https://github.com/openssl/openssl.git
+cd openssl
+./configure
+make
+make install
+```
+
 #### 后续升级
 
 方式一:
