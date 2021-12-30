@@ -1,6 +1,6 @@
 ##类型别名(type alias)
 
-可以在某一个类型的基础上定义类型别名，使用上完全一样。
+可以在某一个类型或枚举的基础上定义类型别名，使用上完全一样。
 
 ### 基于基本类型
 
@@ -48,7 +48,31 @@ fn main() {
 
 ```
 
-### 类型别名方法
+### 基于枚举
+
+```v
+enum MyEnum {
+	something
+	another
+	third
+}
+
+type MyEnumAlias = MyEnum
+
+fn main() {
+	x := MyEnum.something
+	println(x)
+	a := MyEnumAlias.something
+	println(a)
+	println(MyEnum.third)
+	println(MyEnumAlias.third)
+	println(int(MyEnum.third))
+	println(int(MyEnumAlias.third))
+	println(MyEnum.third == MyEnumAlias.third)
+}
+```
+
+###类型别名方法
 
 可以像结构体那样，给类型别名添加方法：
 
