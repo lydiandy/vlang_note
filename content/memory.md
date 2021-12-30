@@ -118,9 +118,7 @@ $if gcboehm  {
 }
 ```
 
-
-
-### 手动内存管理
+### C手动内存管理
 
 除了使用-autofree自动管理内存,也可以使用--manualfree手动管理内存
 
@@ -165,7 +163,7 @@ V目前依赖libc
 
 - **calloc**
 
-  C 库函数 **void \*calloc(size_t nitems, size_t size)** 分配所需的内存空间，并返回一个指向它的指针。**malloc** 和 **calloc** 之间的不同点是，malloc 不会设置内存为零，而 calloc 会设置分配的内存为零
+  C 库函数 **void \*calloc(size_t nitems, size_t size)** 分配所需的内存空间，并返回一个指向它的指针。**malloc** 和 **calloc** 之间的不同点是，malloc 不会设置内存为零，而 calloc 会设置分配的内存为零，而且calloc的参数是2个。
 
   ```v
   void *calloc(size_t nitems, size_t size)
@@ -174,8 +172,6 @@ V目前依赖libc
   - **nitems** -- 要被分配的元素个数
 
   - **size** -- 元素的大小
-
-      
 
 - **realloc**
 
@@ -190,8 +186,6 @@ V目前依赖libc
   - **size** -- 内存块的新的大小，以字节为单位。如果大小为 0，且 ptr 指向一个已存在的内存块，则 ptr 所指向的内存块会被释放，并返回一个空指针
 
   - 该函数返回一个指针 ，指向重新分配大小的内存。如果请求失败，则返回 NULL
-
-      
 
 - **memcpy**
 
@@ -209,8 +203,6 @@ V目前依赖libc
 
   - 该函数返回一个指向目标存储区 str1 的指针
 
-      
-
 - **memmove**
 
   内存移动
@@ -221,8 +213,50 @@ V目前依赖libc
   void *memmove(void *str1, const void *str2, size_t n)
   ```
 
-  
-
 - **free**
 
   释放指针内存
+
+### V手动内存管理
+
+在使用libc标准库的手动内存管理函数的基础上，V额外增加了新的内存管理函数，主要是为了内置支持自动GC。
+
+如果应用开发过程中也需要使用到手动内存管理，建议还是尽量不要直接使用C函数，而是使用V进一步封装的函数，这样确保GC可以覆盖到。
+
+这些函数可以在vlib/builtin/builtin.c.v中查看：
+
+这些函数跟对应的C函数相比，返回值不是voidptr，而是&byte
+
+- pub fn malloc(n int) &byte
+
+  
+
+- pub fn malloc_noscan(n int) &byte
+
+  
+
+- pub fn vcalloc(n int) &byte
+
+  
+
+- pub fn vcalloc_noscan(n int) &byte
+
+  
+
+- pub fn v_realloc(b &byte, n int) &byte
+
+  
+
+- pub fn realloc_data(old_data &byte, old_size int, new_size int) &byte
+
+  
+
+- pub fn free(ptr voidptr)
+
+  
+
+- pub fn memdup(src voidptr, sz int) voidptr
+
+  
+
+- pub fn memdup_noscan(src voidptr, sz int) voidptr
