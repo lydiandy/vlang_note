@@ -51,6 +51,8 @@ v run main.v
 
 编译器命令行的使用参考：[编译器命令行使用章节](toolchain.md)。
 
+### 安装可选依赖
+
 #### 开发工具
 
 目前V语言的开发工具首选vs code，有官方维护的插件：https://github.com/vlang/vscode-vlang。
@@ -67,6 +69,8 @@ v run main.v
 除了vscode以外，还可以参考[V开发工具章节](editor.md)，也有其他开发工具可以使用。
 
 #### 可选安装
+
+##### openssl
 
 如果需要执行v install安装模块或编译http相关模块，需要安装openssl：
 
@@ -93,6 +97,39 @@ cd openssl
 make
 make install
 ```
+
+##### 可选GC
+
+- 安装libgc-dev包
+
+  macos:
+
+  ```shell
+  brew install libgc
+  ```
+
+  linux:
+
+  ```shell
+  sudo apt-get install libgc-dev
+  ```
+
+- 也可手工下载发布的稳定版本: 
+
+  https://github.com/ivmai/bdwgc/releases, 目前最新的稳定版是8系列
+
+  下载完成后编译:
+
+  ```shell
+  cd bdwgc
+  ./configure
+  make -j
+  make check
+  ```
+
+  编译完成后,把bdwgc目录复制到V源代码目录的thirdparty中。
+
+  关于可选GC可进一步参考：[内存管理章节](memory.md)
 
 #### 后续升级
 
