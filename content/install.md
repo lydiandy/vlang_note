@@ -53,24 +53,7 @@ v run main.v
 
 ### 安装可选依赖
 
-#### 开发工具
-
-目前V语言的开发工具首选vs code，有官方维护的插件：https://github.com/vlang/vscode-vlang。
-
-基本的功能都有：
-
-- 语法着色
-- 代码提示
-- 代码格式化
-- 代码折叠
-- 代码大纲视图
-- 代码跳转定义
-
-除了vscode以外，还可以参考[V开发工具章节](editor.md)，也有其他开发工具可以使用。
-
-#### 可选安装
-
-##### openssl
+#### openssl
 
 如果需要执行v install安装模块或编译http相关模块，需要安装openssl：
 
@@ -98,7 +81,7 @@ make
 make install
 ```
 
-##### 可选GC
+#### 可选GC
 
 - 安装libgc-dev包
 
@@ -127,11 +110,11 @@ make install
   make check
   ```
 
-  编译完成后,把bdwgc目录复制到V源代码目录的thirdparty中。
+  编译完成后，把bdwgc目录复制到V源代码目录的thirdparty中。
 
-  关于可选GC可进一步参考：[内存管理章节](memory.md)
+  关于可选GC可进一步参考：[内存管理章节](memory.md)。
 
-#### 后续升级
+### 后续升级
 
 方式一:
 
@@ -146,7 +129,7 @@ git pull
 make
   ```
 
-### 下载预编译安装包
+### 预编译安装包
 
 在[官网](https://vlang.io/)直接下载对应平台的安装包，这个目前不推荐使用，更新太慢。
 

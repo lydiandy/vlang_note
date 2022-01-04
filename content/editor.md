@@ -2,9 +2,22 @@
 
 目前V语言开发的主要环境是vscode，由V语言核心团队负责开发的插件和语言服务，而且一直在更新中。
 
+基本的功能都有：
+
+- 语法着色
+- 代码提示
+- 代码格式化
+- 代码折叠
+- 代码大纲视图
+- 代码跳转定义
+
 ### vls
 
-安装vls：参考[V语言服务章节](vls.md)。
+V语言核心团队实现了语言服务协议LSP v3.15版本，叫V Language Server(VLS)。
+
+源代码：https://github.com/vlang/vls
+
+安装vls：参考[V语言服务章节](vls.md)
 
 ### vscode
 
@@ -27,13 +40,13 @@ vls支持：
   打开命令行面板，输入Package Control，选择Preferences: LSP Settings，加入以下配置：
 
   ```json
-   "clients": {
-          "vls": {
-              "enabled": true,
-              "command": ["<vls-dir>/vls"],
-              "selector": "source.v"
-          }
+  "clients": {
+     "vls": {
+         "enabled": true,
+         "command": ["<vls-dir>/vls"],
+          "selector": "source.v"
       }
+  }
   ```
 
 ### micro
