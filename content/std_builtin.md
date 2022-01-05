@@ -200,7 +200,7 @@
 
 - s.trim(s string) string
 
-    去掉字符串中包含子字符串中的字符
+    去掉字符串左右两边包含子字符串的字符，中间的不去掉
 
 - s.trim_left(s string) string
 

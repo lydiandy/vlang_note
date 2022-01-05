@@ -63,10 +63,6 @@
 
 ### 目录相关
 
-- ext(path string) string
-
-    返回文件的扩展名，如果没有则返回空字符串
-
 - file_name(path string) string
 
     返回路径中的文件名部分
@@ -117,7 +113,7 @@
 
 - is_dir(path) bool
 
-    如果目录存在返回true,目录不存在返回false
+    判断路径是否为目录，如果是目录返回true，如果不是目录返回false
 
 - ls(path string) [ ]string
 
@@ -126,7 +122,7 @@
 - is_writable_folder(folder string) ?bool
 
     判断目录是否可写
-    
+
 - walk_ext(path string,ext string) []string
 
     返回改目录,及其下级子目录中所有,文件扩展名为ext的所有文件
@@ -136,6 +132,10 @@
 - exists(path string) bool
 
     判断文件或者目录是否存在
+
+- is_file(path string) bool
+
+    判断路径是否为文件，如果是文件返回true，如果不是返回false
 
 - is_executable(path string) bool
 
@@ -148,6 +148,10 @@
 - is_readable(path string) bool
 
     判断文件是否可读
+
+- file_ext(path string) string
+
+    返回文件的扩展名，带点号，如果没有扩展名返回空
 
 - realpath(path string) string
 
