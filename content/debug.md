@@ -74,13 +74,17 @@ https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
 
   不做代码优化，加入更多的调试信息在生成的可执行文件中，编译器会强制把v源代码中的行号加入到跟踪堆栈stacktraces中。
 
+  如果启用了-g，断点要打在V源代码上
+
 - -cg
 
   不做代码优化，加入更多的调试信息在生成的可执行文件中，编译器会强制把C源代码中的行号加入到跟踪堆栈stacktraces中,一般会配合-keepc使用，每次编译都会保留生成的C源代码。
 
+  如果启用了-cg，断点要打在C源代码上
+
 - -showcc
 
-  显示使用的C编译器名字
+  显示使用的C编译器的编译输出
 
 - -show-c-output
 
@@ -88,7 +92,12 @@ https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
 
 - -keepc
 
-  不删除生成的C源代码，方便跟踪调试。
+  不删除编译生成的C源代码，方便跟踪调试。
+  
+  V编译时生成的C源代码会保存在：
+  
+  - 如果设置了VTMP环境变量，会保存在VTMP中V_开头的目录中
+  - 如果没有设置VTMP环境变量，则保存在系统临时文件中V_开头的目录中
 
 ```shell
 v -cg run main.v
@@ -101,12 +110,12 @@ C compiler=/var/folders/lk/k709921d2gl4jrh31mt8_ktm0000gn/T/v/main.tmp.c:
         struct 
 ```
 
-命令行调试：
+除了可以使用vscode的C/C++插件进行调试，也可以直接使用命令行调试：
 
 ```shell
-v -keepc -cg -showcc yourprogram.v	//编译带调试信息的二进制文件
-lldb hello		//然后使用lldb或者gdb进行调试
-gdb hello
+v -keepc -cg -showcc main.v	//编译带调试信息的二进制文件
+lldb hello		//使用lldb进行调试
+gdb hello			//或者使用gdb进行调试
 ```
 
 可以使用help子命令查看所有生成C的选项：

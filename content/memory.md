@@ -65,22 +65,34 @@ llvm, mono, gnu d compiler, gnu java compiler等也都使用该gc
   sudo apt-get install libgc-dev
   ```
 
-  
-
 - 也可手工下载发布的稳定版本: 
 
   https://github.com/ivmai/bdwgc/releases, 目前最新的稳定版是8系列
 
-  下载完成后编译:
+  在编译之前需要先安装automake工具
 
   ```shell
+  brew install automake
+  ```
+  
+  然后下载并编译:
+  
+  ```shell
+  git clone git://github.com/ivmai/bdwgc.git
+  #建议先切换到最新的稳定版的分支，然后再编译
   cd bdwgc
+  git clone git://github.com/ivmai/libatomic_ops.git
+  ./autogen.sh
   ./configure
   make -j
   make check
   ```
-
-  编译完成后,把bdwgc目录复制到V源代码目录的thirdparty中
+  
+  安装完成后，可以在终端上输入，如果正常输出，那就是安装成功
+  
+  ```shell
+  gc #输出On branch release-8_2
+  ```
 
 #### 使用
 

@@ -101,18 +101,32 @@ make install
 
   https://github.com/ivmai/bdwgc/releases, 目前最新的稳定版是8系列
 
-  下载完成后编译:
+  在编译之前需要先安装automake工具
 
   ```shell
+  brew install automake
+  ```
+
+  然后下载并编译:
+
+  ```shell
+  git clone git://github.com/ivmai/bdwgc.git
+  #建议先切换到最新的稳定版的分支，然后再编译
   cd bdwgc
+  git clone git://github.com/ivmai/libatomic_ops.git
+  ./autogen.sh
   ./configure
   make -j
   make check
   ```
 
-  编译完成后，把bdwgc目录复制到V源代码目录的thirdparty中。
+  安装完成后，可以在终端上输入，如果正常输出，那就是安装成功
 
-  关于可选GC可进一步参考：[内存管理章节](memory.md)。
+  ```shell
+  gc #输出On branch release-8_2
+  ```
+
+​		关于可选GC可进一步参考：[内存管理章节](memory.md)。
 
 ### 后续升级
 
@@ -145,12 +159,10 @@ sudo ./v symlink
 
 会创建/usr/local/bin/v链接。
 
-在windows中，使用系统管理员打开命令行窗口，进入到v.exe所在的目录，然后执行：
+在windows中，使用系统管理员打开命令行窗口，进入到v.exe所在的目录，然后执行以下命令，会创建v环境变量：
 
 ```
 .\v.exe symlink
 ```
-
-会创建v环境变量。
 
 以上命令只需执行一次，如果v命令更换了位置，每次启动会自动更新快捷方式和环境变量。
