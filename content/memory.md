@@ -104,6 +104,18 @@ v -gc boehm run main.v  // 带GC的运行
 v -prod -gc boehm main.v  // 生产编译带GC的代码
 ```
 
+GC选项：
+
+```markdown
+`-gc boehm` ....... default GC-mode (currently `boehm_full_opt`)
+`-gc boehm_full` ....... classic full collection
+`-gc boehm_incr` ....... incremental collection
+`-gc boehm_full_opt` ... optimized classic full collection
+`-gc boehm_incr_opt` ... optimized incremental collection
+`-gc boehm_leak` ....... leak detection (for debugging)
+`-gc none` ............. no garbage collection
+```
+
 #### 编译后文件大小对比
 
 最简单的测试代码:
