@@ -219,7 +219,7 @@ V语言可以针对结构体，结构体字段，函数/方法进行注解。
   
 ### 自定义注解
 
-实际上除了编译器内置的注解外，结构体，函数，枚举的定义者可以增加各种自定义注解，然后自己解析，自己使用。
+实际上除了编译器内置的注解外，结构体，结构体字段，函数，枚举，联合类型的定义，都可以增加各种自定义注解，然后自己解析，自己使用。
 
 注解的扩展性还是比较灵活的，目前结构体注解和结构体字段注解，已经可以通过$for编译时反射来获取所有的注解内容，具体内容可以参考：[编译时反射章节](comptime.md)。
 
@@ -235,6 +235,12 @@ struct PubStructAttrTest {
 	foo string
 	bar int
 }
+
+[testing]
+type Name = string
+
+[testing]
+type SumType = int | string | bool
 
 [testing]
 enum EnumAttrTest {
