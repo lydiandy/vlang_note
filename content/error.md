@@ -82,7 +82,7 @@ fn main() {
 
 ```
 
-if守护条件处理错误：
+if guard守护条件处理错误：
 
 ```v
 module main
@@ -103,20 +103,28 @@ fn main() {
 	if c := my_fn(2) { // if守护条件,调用函数时,正常返回,执行if分支
 		println('$c')
 	} else {
-		println('from else')
+		println('$err')
 	}
 	if c := my_fn(1) { // if守护条件,调用函数时,抛出错误,执行else分支
 		println('$c')
 	} else {
-		println('from else')
+		println('$err')
 	}
 
 	// if守护条件,其实等价于
-	cc := my_fn(22) or {
-		println('from or')
-		0
+	cc := my_fn(0) or {
+		println('$err')
+		11
 	}
 	println(cc)
+
+	// if guard的变量是可变的情况
+	if mut c := my_fn(3) {
+		c = 2
+		println(c)
+	} else {
+		println('$err')
+	}
 }
 ```
 
