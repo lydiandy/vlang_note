@@ -181,12 +181,24 @@ for i， s in str {
 采用的是左闭右开。
 
 ```v
-s := 'hello_world'
-println(s[..3]) //输出hel
-println(s[2..]) //输出llo_world
-println(s[2..5]) //输出llo
-//区间支持负数的索引值，不过要在字符串名后特别加一个#,否则会报错
-println(s#[-5..-2]) //输出wor
+module main
+
+fn main() {
+	s := 'hello_world'
+	println(s[..3]) //输出hel
+	println(s[2..]) //输出llo_world
+	println(s[2..5]) //输出llo
+	//区间支持负数的索引值，不过要在字符串名后特别加一个#,否则会报错
+	println(s#[-5..-2]) //输出wor
+	//字符串区间越界的or代码块处理
+	println(s[..s.len])
+	println(s[..s.len + 1] or { 'oh,no' })
+	println(range_check(s) or { 'out of range' })
+}
+
+fn range_check(s string) ?string {
+	return s[..20] ?
+}
 ```
 
 字符串从定义的v代码看，也是一个struct。
