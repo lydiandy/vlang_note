@@ -107,62 +107,59 @@ OpenGL 1.x样式的立即模式渲染API,基于sokol_gfx.h
   ```v
   module main
   
-  import (
-  	sokol
-  	sokol.sapp
-  )
+  import sokol
+  import sokol.sapp
   
   fn main() {
   	//创建app
-  	app:=sapp_desc {
-  		window_title:'myapp'.str
-  		width:640
-  		height:480
-  		high_dpi:true
-  
-  		init_cb:init_cb //app完成初始化后回调
-  		frame_cb:frame_cb //app刷新每一帧之前回调,通常是1秒钟,回调60次
-  		cleanup_cb:cleanup_cb //app退出前回调
-  		fail_cb:fail_cb //app报错后回调
-  		event_cb:event_cb //app捕捉事件后回调
+  	app := sapp.Desc{
+  		window_title: 'myapp'.str
+  		width: 640
+  		height: 480
+  		high_dpi: true
+  		init_cb: init_cb // app完成初始化后回调
+  		frame_cb: frame_cb // app刷新每一帧之前回调,通常是1秒钟,回调60次
+  		cleanup_cb: cleanup_cb // app退出前回调
+  		fail_cb: fail_cb // app报错后回调
+  		event_cb: event_cb // app捕捉事件后回调
+  		html5_canvas_name: 'canvas'.str
   	}
   	//启动
   	sapp.run(&app)
   }
   
   fn init_cb() {
-  	v:=sapp.isvalid()
+  	v := sapp.isvalid()
   	println(v)
-  	sapp.show_mouse(false)
+  	sapp.show_mouse(true)
   }
+  
   fn frame_cb() {
-  
   }
+  
   fn cleanup_cb() {
-  
   }
+  
   fn fail_cb(msg &byte) {
-  
   }
+  
   fn event_cb(e voidptr) {
-  	event:=&sapp_event(e)
+  	event := &sapp.Event(e)
   	match event.@type {
-  		sapp.EventType.key_up {
+  		.key_up {
   			println(byte(event.key_code).str())
-  			if event.key_code==sapp.KeyCode.q {
+  			if event.key_code == sapp.KeyCode.q {
   				sapp.quit()
   			}
   		}
-  		sapp.EventType.mouse_move {
+  		.mouse_move {
   			println('x:$event.mouse_x,y:$event.mouse_y')
   			println('framecount:$event.frame_count')
   		}
-  		sapp.EventType.resized {
+  		.resized {
   			println('resized:width:$event.window_width,height:$event.window_height')
   		}
-  		else {
-  
-  		}
+  		else {}
   	}
   }
   

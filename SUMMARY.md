@@ -81,7 +81,7 @@
 
 * [裸机环境](content/bare_metal.md)
 
-* [vui](content/gui.md)
+* [ui](content/gui.md)
 
 * [vweb](content/vweb.md)
 
