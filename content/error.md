@@ -98,15 +98,28 @@ fn my_fn(i int) ?int {
 	return i //正常返回
 }
 
+// 多返回值的函数
+fn create() ?(int, string, bool) {
+	return 5, 'aa', true
+}
+
 fn main() {
 	// if guard expr
-	if c := my_fn(2) { // if守护条件,调用函数时,正常返回,执行if分支
+	if c := my_fn(2) { // if guard守护条件,调用函数时,正常返回,执行if分支
 		println('$c')
 	} else {
 		println('$err')
 	}
-	if c := my_fn(1) { // if守护条件,调用函数时,抛出错误,执行else分支
+	if c := my_fn(1) { // if guard守护条件,调用函数时,抛出错误,执行else分支
 		println('$c')
+	} else {
+		println('$err')
+	}
+
+	if r1, r2, r3 := create() { // 多返回值的if guard守护条件
+		println(r1)
+		println(r2)
+		println(r3)
 	} else {
 		println('$err')
 	}
@@ -126,6 +139,7 @@ fn main() {
 		println('$err')
 	}
 }
+
 ```
 
 for循环结合or代码块使用：
