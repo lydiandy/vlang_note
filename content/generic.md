@@ -438,6 +438,104 @@ fn main() {
 }
 ```
 
+### 动态判断泛型的具体类型
+
+可以通过使用编译时反射来动态判断泛型的具体类型：
+
+```v
+module main
+
+fn kind<T>() {
+	$if T is $Int {
+		println('Int')
+	}
+	$if T is $Float {
+		println('Float')
+	}
+	$if T is $Array {
+		println('Array')
+	}
+	$if T is $Map {
+		println('Map')
+	}
+	$if T is $Struct {
+		println('Struct')
+	}
+	$if T is $Interface {
+		println('Interface')
+	}
+	$if T is $Enum {
+		println('Enum')
+	}
+	$if T is $Sumtype {
+		println('Sumtype')
+	}
+}
+
+struct Abc {}
+
+interface Def {}
+
+enum Xyz {
+	x
+	y
+	z
+}
+
+type Sumtype = Abc | f32 | int
+
+struct GenericStruct<T> {
+	x T
+}
+
+pub fn (s GenericStruct<T>) m() {
+	$if T is $Int {
+		println('Int in method')
+	}
+	
+	$if T is $Array {
+		println('Array in method')
+	} $else {
+		println('other')
+	}
+}
+
+fn main() {
+	// int
+	kind<i8>()
+	kind<i16>()
+	kind<int>()
+	kind<i64>()
+	// int
+	kind<byte>()
+	kind<u16>()
+	kind<u32>()
+	kind<u64>()
+	// float
+	kind<f32>()
+	kind<f64>()
+	// array
+	kind<[]int>()
+	// map
+	kind<map[string]string>()
+	// struct
+	kind<Abc>()
+	// interface
+	kind<Def>()
+	// enum
+	kind<Xyz>()
+	// sumtype
+	kind<Sumtype>()
+	// generic struct
+	s1 := GenericStruct<int>{}
+	s1.m()
+	s2 := GenericStruct<[]string>{}
+	s2.m()
+	s3 := GenericStruct<f32>{}
+	s3.m()
+}
+```
+
 ### 泛型的实现方式
 
 V的泛型实现方式跟rust一样：在编译时，由编译器对泛型函数和泛型结构体进行分析，穷举，把泛型函数所有实际调用到的具体类型转化成具体类型对应的普通函数和普通结构体。

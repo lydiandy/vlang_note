@@ -193,7 +193,7 @@ fn test_nested_with_parentheses() {
 
 ### 编译时判断字段类型/内存大小/是否引用类型
 
-可以在$for循环中使用内置函数：sizeof()，isreftype()，type(T).name来判断字段大小，字段类型，字段是否为引用类型。
+可以在$for循环中使用内置函数：sizeof()，isreftype()，typeof(T).name来判断字段大小，字段类型，字段是否为引用类型。
 
 ```v
 module main
@@ -258,6 +258,104 @@ fn main() {
 	}
 }
 
+```
+
+### 动态判断泛型类型
+
+可以使用编译时来动态判断泛型的具体类型
+
+```v
+module main
+
+fn kind<T>() {
+	$if T is $Int {
+		println('Int')
+	}
+	$if T is $Float {
+		println('Float')
+	}
+	$if T is $Array {
+		println('Array')
+	}
+	$if T is $Map {
+		println('Map')
+	}
+	$if T is $Struct {
+		println('Struct')
+	}
+	$if T is $Interface {
+		println('Interface')
+	}
+	$if T is $Enum {
+		println('Enum')
+	}
+	$if T is $Sumtype {
+		println('Sumtype')
+	}
+}
+
+struct Abc {}
+
+interface Def {}
+
+enum Xyz {
+	x
+	y
+	z
+}
+
+type Sumtype = Abc | f32 | int
+
+struct GenericStruct<T> {
+	x T
+}
+
+pub fn (s GenericStruct<T>) m() {
+	$if T is $Int {
+		println('Int in method')
+	}
+	
+	$if T is $Array {
+		println('Array in method')
+	} $else {
+		println('other')
+	}
+}
+
+fn main() {
+	// int
+	kind<i8>()
+	kind<i16>()
+	kind<int>()
+	kind<i64>()
+	// int
+	kind<byte>()
+	kind<u16>()
+	kind<u32>()
+	kind<u64>()
+	// float
+	kind<f32>()
+	kind<f64>()
+	// array
+	kind<[]int>()
+	// map
+	kind<map[string]string>()
+	// struct
+	kind<Abc>()
+	// interface
+	kind<Def>()
+	// enum
+	kind<Xyz>()
+	// sumtype
+	kind<Sumtype>()
+	// generic struct
+	s1 := GenericStruct<int>{}
+	s1.m()
+	s2 := GenericStruct<[]string>{}
+	s2.m()
+	s3 := GenericStruct<f32>{}
+	s3.m()
+}
 ```
 
 ### 编译时预置的全局变量
