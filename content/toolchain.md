@@ -162,6 +162,7 @@ v doctor //输出当前电脑的基本环境信息，主要跟V编译相关，�
 
 v self -prod //编译器自己编译自己
 v -d time_v self //编译器自己编译自己，并增加自定义编译选项
+v -d trace_gen_source_line_info self //编译器编译自己，并增加生成的C源代码行信息
 ```
 
 ### glibc和musl libc编译
