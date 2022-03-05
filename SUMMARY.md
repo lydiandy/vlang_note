@@ -1,9 +1,9 @@
 ## 目录
 
 
-* [序](README.md)
+* [V语言学习笔记](README.md)
 
-  
+  ---
 
 * [安装](content/install.md)
 
@@ -91,6 +91,8 @@
 
 * [在浏览器运行V代码](content/run_in_web.md)
 
+---
+
 ####常用标准库
 
 * [builtin](content/std_builtin.md)
@@ -135,6 +137,8 @@
 
 * [x](content/x.md)
 
+---
+
 ####数据库相关库
 
 
@@ -146,7 +150,9 @@
 
 * [orm](content/orm.md)
 
-####	 GUI相关库
+---
+
+####GUI相关库
 
 * [sokol](content/sokol.md)
 
@@ -159,6 +165,8 @@
 * [stbi](content/stbi.md)
 
 * [clipboard](content/clipboard.md)
+
+---
 
 #### V编译器
 
@@ -175,6 +183,8 @@
 * [生成native代码](content/gen_native.md)
 
 * [解释器直接运行](content/interpreter.md)
+
+---
 
 ####附录
 
