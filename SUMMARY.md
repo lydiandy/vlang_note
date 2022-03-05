@@ -5,7 +5,7 @@
 
 * [章节目录](SUMMARY.md)
 
-  ---
+  
 
 * [安装](content/install.md)
 
@@ -93,9 +93,7 @@
 
 * [在浏览器运行V代码](content/run_in_web.md)
 
----
-
-####常用标准库
+##### 常用标准库
 
 * [builtin](content/std_builtin.md)
 
@@ -139,9 +137,7 @@
 
 * [x](content/x.md)
 
----
-
-####数据库相关库
+##### 数据库相关库
 
 
 * [pg](content/pg.md)
@@ -152,9 +148,7 @@
 
 * [orm](content/orm.md)
 
----
-
-####GUI相关库
+##### GUI相关库
 
 * [sokol](content/sokol.md)
 
@@ -168,9 +162,7 @@
 
 * [clipboard](content/clipboard.md)
 
----
-
-#### V编译器
+##### V编译器
 
 * [V抽象语法树](content/vast.md)
 
@@ -186,9 +178,7 @@
 
 * [解释器直接运行](content/interpreter.md)
 
----
-
-####附录
+##### 附录
 
 * [附录1 关键字](content/keyword.md)
 
