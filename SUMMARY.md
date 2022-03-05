@@ -5,7 +5,7 @@
 
 * [章节目录](SUMMARY.md)
 
-  
+  ---
 
 * [安装](content/install.md)
 
