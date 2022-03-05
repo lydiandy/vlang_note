@@ -87,7 +87,7 @@
 
 * [vweb](content/vweb.md)
 
-* [websocket](content/websocket.v)
+* [websocket](content/websocket.md)
 
 * [数据库](content/db.md)
 
