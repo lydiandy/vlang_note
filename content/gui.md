@@ -4,13 +4,13 @@ ui是V语言的标准ui库，基于sokol C图形库(以下简称sokol)创建。
 
 ### sokol介绍
 
-sokol官方代码库及介绍:[https://github.com/floooh/sokol](https://github.com/floooh/sokol)
+sokol官方代码库及介绍：[https://github.com/floooh/sokol](https://github.com/floooh/sokol)
 
-sokol演示项目:https://github.com/floooh/sokol-samples
+sokol演示项目：https://github.com/floooh/sokol-samples
 
-sokol在线演示:https://floooh.github.io/sokol-html5/index.html
+sokol在线演示：https://floooh.github.io/sokol-html5/index.html
 
-sokol优点:
+sokol优点：
 
 - 跨平台，并且不同的平台可以使用对应平台的图形驱动，性能很好
 
@@ -30,7 +30,7 @@ sokol库更多内容可以参考[sokol图形库](sokol.md)章节。
 
 ### ui模块安装
 
-ui模块并不在vlib标准库中，是一个单独的代码库:https://github.com/vlang/ui。
+ui模块并不在vlib标准库中，是一个单独的代码库：https://github.com/vlang/ui。
 
 ui依赖的底层模块，位于vlib标准库中。
 
@@ -69,7 +69,7 @@ sokol C源代码存放在thirdparty/sokol目录中。
 
 #### gg模块
 
-源代码位置:vlib/gg。
+源代码位置：vlib/gg。
 
 V绘图模块，用来在窗体上绘制各种图形。
 
@@ -142,7 +142,7 @@ UI结构体主要包含了:绘制图形和绘制文字的gg，系统剪贴板cli
 
 window中的ui用来进行绘制图形，绘制文字，处理剪贴板。
 
-一般来说全局只有:1个sokol.window实例，1个ui.window实例，1个ui.UI实例。
+一般来说全局只有：1个sokol.window实例，1个ui.window实例，1个ui.UI实例。
 
 #### Widget 接口
 
