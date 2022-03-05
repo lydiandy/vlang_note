@@ -8,24 +8,37 @@ gx模块估计很快会被合并到gg模块中。
 
 ```v
 pub struct Color {
-pub:
-	r int
-	g int
-	b int
+pub mut:
+	r byte
+	g byte
+	b byte
+	a byte = 255
 }
 ```
 
-gx.rgb(r, g, b int) Color  //创建颜色
+构建函数
 
-c.eq(b Color) bool //判断2个颜色是否相等
+- gx.rgb(r, g, b) Color  //通过r，g，b创建颜色，a默认是255
 
-c.str() string //颜色的字符串输出
+- gx.rgba(r,g,b,a) Color //通过r，g，b，a创建颜色
 
-同时维护了一些标准的颜色常量:
+方法
 
-gx.blue
+
+- c.eq(b Color) bool //判断2个颜色是否相等
+
+
+- c.str() string //颜色的字符串输出
+
+常量
+
+标准颜色：
 
 gx.red
+
+gx.green
+
+gx.blue
 
 ...
 
