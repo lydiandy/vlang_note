@@ -181,11 +181,8 @@
 ##### 附录
 
 * [附录1 关键字](content/keyword.md)
-
-* [附录2 编码风格](content/style.md)
-
-* [附录3  V编译器命令行使用](content/toolchain.md)
-
-* [附录4 V调试及错误定位](content/debug.md)
-
-* [附录5 V和Go基本语法代码参照](content/v_and_go.md)
+* [附录2 运算符](content/operator.md)
+* [附录3 编码风格](content/style.md)
+* [附录4  V编译器命令行使用](content/toolchain.md)
+* [附录5 V调试及错误定位](content/debug.md)
+* [附录6 V和Go基本语法代码参照](content/v_and_go.md)
