@@ -95,26 +95,29 @@
 
 * [builtin](content/std_builtin.md)
 * [strings](content/std_strings.md)
-* [datatypes](content/datatypes.md)
+* [datatypes](content/std_datatypes.md)
 * [strconv](content/std_strconv.md)
 * [os](content/std_os.md)
-* [runtime](content/runtime.md)
+* [runtime](content/std_runtime.md)
 * [time](content/std_time.md)
 * [math](content/std_math.md)
 * [json](content/std_json.md)
 * [encoding](content/std_encoding.md)
+* [compress](content/std_compress.md)
 * [toml](content/std_toml.md)
 * [flag](content/std_flag.md)
 * [term](content/std_term.md)
 * [log](content/std_log.md)
-* [io](content/io.md)
+* [io](content/std_io.md)
+* [readline](content/std_readline.md)
 * [net](content/std_net.md)
 * [net.http](content/std_http.md)
-* [eventbus](content/eventbus.md)
-* [regex](content/regex.md)
-* [crypto](content/crypto.md)
-* [sync](content/sync.md)
-* [x](content/x.md)
+* [eventbus](content/std_eventbus.md)
+* [regex](content/std_regex.md)
+* [crypto](content/std_crypto.md)
+* [rand](content/std_rand.md)
+* [sync](content/std_sync.md)
+* [x](content/std_x.md)
 
 ##### web相关库
 
@@ -126,11 +129,9 @@
 
 
 * [pg](content/pg.md)
-
 * [mysql](content/mysql.md)
-
+* [mssql](content/mssql.md)
 * [sqlite](content/sqlite.md)
-
 * [orm](content/orm.md)
 
 ##### GUI相关库
