@@ -83,13 +83,11 @@
 
 * [裸机环境](content/bare_metal.md)
 
-* [ui](content/gui.md)
+* [GUI开发](content/gui.md)
 
-* [vweb](content/vweb.md)
+* [web开发](content/vweb.md)
 
-* [websocket](content/websocket.md)
-
-* [数据库](content/db.md)
+* [数据库开发](content/db.md)
 
 * [在浏览器运行V代码](content/run_in_web.md)
 
@@ -136,6 +134,12 @@
 * [sync](content/sync.md)
 
 * [x](content/x.md)
+
+##### web相关库
+
+[vweb](content/vweb.md)
+
+[websocket](content/websocket.md)
 
 ##### 数据库相关库
 
