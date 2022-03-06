@@ -138,11 +138,30 @@ TextCfg结构体
 
 #### UI 结构体
 
-UI结构体主要包含了:绘制图形和绘制文字的gg，系统剪贴板clipboard。
+UI结构体主要包含了绘制图形和绘制文字的gg，系统剪贴板clipboard。
 
 window中的ui用来进行绘制图形，绘制文字，处理剪贴板。
 
 一般来说全局只有：1个sokol.window实例，1个ui.window实例，1个ui.UI实例。
+
+创建窗体最简单的代码示例：
+
+```v
+module main
+
+import ui
+
+fn main() {
+	window := ui.window(
+		width: 800
+		height: 600
+		title: 'vui'
+	)
+	ui.run(window)
+}
+```
+
+
 
 #### Widget 接口
 
