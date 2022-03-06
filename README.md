@@ -16,11 +16,11 @@ V语言官网： [https://vlang.io/]( https://vlang.io/)
 
 V语言代码库：[https://github.com/vlang](https://github.com/vlang)
 
-V语言社区dicord：https://discord.com/invite/vlang
+V语言社区dicord：[https://discord.com/invite/vlang](https://discord.com/invite/vlang)
 
-V语言学习笔记： https://github.com/lydiandy/vlang_note
+V语言学习笔记： [https://github.com/lydiandy/vlang_note](https://github.com/lydiandy/vlang_note)
 
-V语言学习笔记-gitbook阅读地址： https://lydiandylin.gitbook.io/vlang
+V语言学习笔记-gitbook阅读地址： [https://lydiandylin.gitbook.io/vlang](https://lydiandylin.gitbook.io/vlang)
 
 ---
 
