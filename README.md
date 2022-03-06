@@ -23,7 +23,6 @@ V语言学习笔记： [https://github.com/lydiandy/vlang_note](https://github.c
 V语言学习笔记-gitbook阅读地址： [https://lydiandylin.gitbook.io/vlang](https://lydiandylin.gitbook.io/vlang)
 
 ---
-
 ### **为什么喜欢V**
 
 V语言感觉就是 **go+rust+c** 的结合体，吸收了这三者的优点，不过像go更多一点。
