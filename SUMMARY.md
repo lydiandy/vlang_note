@@ -94,45 +94,26 @@
 ##### 常用标准库
 
 * [builtin](content/std_builtin.md)
-
 * [strings](content/std_strings.md)
-
+* [datatypes](content/datatypes.md)
 * [strconv](content/std_strconv.md)
-
 * [os](content/std_os.md)
-
 * [runtime](content/runtime.md)
-
 * [time](content/std_time.md)
-
 * [math](content/std_math.md)
-
 * [json](content/std_json.md)
-
 * [encoding](content/std_encoding.md)
-
 * [toml](content/std_toml.md)
-
 * [flag](content/std_flag.md)
-
 * [term](content/std_term.md)
-
 * [log](content/std_log.md)
-
 * [io](content/io.md)
-
 * [net](content/std_net.md)
-
 * [net.http](content/std_http.md)
-
 * [eventbus](content/eventbus.md)
-
 * [regex](content/regex.md)
-
 * [crypto](content/crypto.md)
-
 * [sync](content/sync.md)
-
 * [x](content/x.md)
 
 ##### web相关库
