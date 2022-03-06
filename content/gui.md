@@ -6,9 +6,9 @@ ui是V语言的标准ui库，基于sokol C图形库(以下简称sokol)创建。
 
 sokol官方代码库及介绍：[https://github.com/floooh/sokol](https://github.com/floooh/sokol)
 
-sokol演示项目：https://github.com/floooh/sokol-samples
+sokol演示项目：[https://github.com/floooh/sokol-samples](https://github.com/floooh/sokol-samples)
 
-sokol在线演示：https://floooh.github.io/sokol-html5/index.html
+sokol在线演示：[https://floooh.github.io/sokol-html5/index.html](https://floooh.github.io/sokol-html5/index.html)
 
 sokol优点：
 
@@ -30,7 +30,7 @@ sokol库更多内容可以参考[sokol图形库](sokol.md)章节。
 
 ### ui模块安装
 
-ui模块并不在vlib标准库中，是一个单独的代码库：https://github.com/vlang/ui。
+ui模块并不在vlib标准库中，是一个单独的代码库：[https://github.com/vlang/ui](https://github.com/vlang/ui)。
 
 ui依赖的底层模块，位于vlib标准库中。
 
@@ -113,7 +113,7 @@ TextCfg结构体
 
 图像库
 
-源代码：https://github.com/nothings/stb
+源代码：[https://github.com/nothings/stb](https://github.com/nothings/stb)
 
 ### ui组件
 
