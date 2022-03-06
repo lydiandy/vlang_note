@@ -31,7 +31,9 @@ V语言实现了自举，编译器把V代码生成C代码，然后再调用tcc/g
 V语言的语法看着，写着都很舒服，比go和rust都好，吸收了go和rust各种简洁和优秀的特性。
 
 有个关于V语言的评论挺有意思，原文是这样：
+
 "If Go and Rust had a baby it would be this language. Grandpa C should be proud."
+
 "如果Go和Rust有一个孩子的话，那应该就是V，他的爷爷C也挺自豪有这么一个孙子。"
 
 对于V语言主要还是看重：
