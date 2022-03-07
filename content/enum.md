@@ -149,6 +149,51 @@ fn main() {
 
 ###  枚举注解
 
+#### [flag]注解
+
+如果给枚举加了[flag]注解，就表示这个枚举是位字段类型的枚举，枚举项的值不能自定义设置，由编译器自动设置，按顺序是2的n次方，n从0开始：1，2，4，8，16 ...。
+
+如果枚举是位字段类型的枚举，可以使用以下内置方法：
+
+```v
+has() //判断枚举项是否包含参数的值
+all() //判断枚举项是否等于参数的所有值
+set() //在枚举项已有值的基础上，追加参数的值,为什么不用append更准确？
+toggle() //在枚举项已有值的基础上，去掉参数的值，为什么不用delete更准确？
+```
+
+```v
+[flag]
+enum BitField { //编译器自动设置枚举项的值
+	read
+	write
+	delete
+	other
+}
+
+fn main() {
+	println(1 == int(BitField.read)) // true
+	println(2 == int(BitField.write)) // true
+	println(4 == int(BitField.delete)) // true
+	println(8 == int(BitField.other)) // true
+	mut bf := BitField.read
+	println(bf.has(.read | .other)) // true,测试bf枚举值是否包含参数的值
+	println(bf.all(.read | .other)) // false,测试bf枚举值是否等于参数的所有值
+	bf.set(.write | .other) //在枚举项已有值的基础上，追加.write和.other
+	println(bf) //.read | .write | .other
+	println(bf.has(.read | .write | .other)) // true
+	println(bf.all(.read | .write | .other)) // true
+	bf.toggle(.other) //在枚举项已有值的基础上，去掉.other
+	println(bf) //.read | .write
+	println(bf == BitField.read | .write) // true
+	println(bf.all(.read | .write)) // true
+	println(bf.has(.other)) // false
+	println(bf.has(.read)) // true
+}
+```
+
+#### 自定义注解
+
 可以像结构体和函数那样，给枚举添加自定义注解，然后自己解析并使用。
 
 关于注解的进一步使用，可以参考[注解章节](attribute.md)。

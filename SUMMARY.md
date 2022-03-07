@@ -3,7 +3,9 @@
 
 * [V语言学习笔记](README.md)
 
-  
+* [目录](SUMMARY.md)
+
+  ---
 
 * [安装](content/install.md)
 
@@ -49,7 +51,7 @@
 
 * [错误处理](content/error.md)
 
-* [运算符重载](content/operator_overloading.md)
+* [运算符重载](content/overload.md)
 
 * [内置json支持](content/json.md)
 
@@ -81,91 +83,68 @@
 
 * [裸机环境](content/bare_metal.md)
 
-* [ui](content/gui.md)
+* [GUI开发](content/gui.md)
 
-* [vweb](content/vweb.md)
+* [web开发](content/vweb.md)
 
-* [websocket](content/websocket.v)
-
-* [数据库](content/db.md)
+* [数据库开发](content/db.md)
 
 * [在浏览器运行V代码](content/run_in_web.md)
 
-  
-
-* [常用标准库:](content/std_builtin.md)
+##### 常用标准库
 
 * [builtin](content/std_builtin.md)
-
 * [strings](content/std_strings.md)
-
+* [datatypes](content/std_datatypes.md)
 * [strconv](content/std_strconv.md)
-
 * [os](content/std_os.md)
-
-* [runtime](content/runtime.md)
-
+* [runtime](content/std_runtime.md)
 * [time](content/std_time.md)
-
 * [math](content/std_math.md)
-
 * [json](content/std_json.md)
-
 * [encoding](content/std_encoding.md)
-
+* [compress](content/std_compress.md)
 * [toml](content/std_toml.md)
-
 * [flag](content/std_flag.md)
-
 * [term](content/std_term.md)
-
 * [log](content/std_log.md)
-
-* [io](content/io.md)
-
+* [io](content/std_io.md)
+* [readline](content/std_readline.md)
 * [net](content/std_net.md)
-
 * [net.http](content/std_http.md)
+* [eventbus](content/std_eventbus.md)
+* [regex](content/std_regex.md)
+* [crypto](content/std_crypto.md)
+* [rand](content/std_rand.md)
+* [sync](content/std_sync.md)
+* [x](content/std_x.md)
 
-* [eventbus](content/eventbus.md)
+##### web相关库
 
-* [regex](content/regex.md)
+[vweb](content/vweb.md)
 
-* [crypto](content/crypto.md)
+[websocket](content/websocket.md)
 
-* [sync](content/sync.md)
+##### 数据库相关库
 
-* [x](content/x.md)
-
-  
-
-* [数据库相关库:](content/pg.md)
 
 * [pg](content/pg.md)
-
 * [mysql](content/mysql.md)
-
+* [mssql](content/mssql.md)
 * [sqlite](content/sqlite.md)
-
 * [orm](content/orm.md)
 
-  
+##### GUI相关库
 
-* [GUI相关库:](content/sokol.md)
-
+* [ui](content/ui.md)
 * [sokol](content/sokol.md)
-
 * [gg](content/gg.md)
-
 * [gx](content/gx.md)
-
 * [fontstash](content/fontstash.md)
-
 * [stbi](content/stbi.md)
-
 * [clipboard](content/clipboard.md)
 
-  
+##### V编译器
 
 * [V抽象语法树](content/vast.md)
 
@@ -181,14 +160,11 @@
 
 * [解释器直接运行](content/interpreter.md)
 
-  
+##### 附录
 
 * [附录1 关键字](content/keyword.md)
-
-* [附录2 编码风格](content/style.md)
-
-* [附录3  V编译器命令行使用](content/toolchain.md)
-
-* [附录4 V调试及错误定位](content/debug.md)
-
-* [附录5 V和Go基本语法代码参照](content/v_and_go.md)
+* [附录2 运算符](content/operator.md)
+* [附录3 编码风格](content/style.md)
+* [附录4  V编译器命令行使用](content/toolchain.md)
+* [附录5 V调试及错误定位](content/debug.md)
+* [附录6 V和Go基本语法代码参照](content/v_and_go.md)

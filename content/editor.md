@@ -13,21 +13,21 @@
 
 ### vls
 
-V语言核心团队实现了语言服务协议LSP v3.15版本，叫V Language Server(VLS)。
+V语言核心团队实现了语言服务协议LSP v3.15版本，叫V Language Server(VLS)。可以提供给所有开发工具使用，目前支持得比较好的是vscode和sublime。
 
-源代码：https://github.com/vlang/vls
+源代码：[https://github.com/vlang/vls](https://github.com/vlang/vls)
 
 安装vls：参考[V语言服务章节](vls.md)
 
 ### vscode
 
-安装插件：https://github.com/vlang/vscode-vlang
+安装插件：[https://github.com/vlang/vscode-vlang](https://github.com/vlang/vscode-vlang)
 
 vls支持：参考[V语言服务章节](vls.md)。
 
 ### sublime text
 
-安装插件：https://github.com/elliotchance/vlang-sublime
+安装插件：[https://github.com/elliotchance/vlang-sublime](https://github.com/elliotchance/vlang-sublime)
 
 vls支持：
 
@@ -49,11 +49,18 @@ vls支持：
   }
   ```
 
+### ved
+
+编辑器：[https://github.com/vlang/ved](https://github.com/vlang/ved)
+
+这是V语言的作者用V开发的编辑器，目前只支持V语言的开发，有兴趣的也可以尝试一下。
+
 ### micro
 
-编辑器：https://github.com/zyedidia/micro
+编辑器：[https://github.com/zyedidia/micro](https://github.com/zyedidia/micro)
 
 micro是基于终端的编辑器，内置了V语言的语法高亮。
 
+### vim
 
-
+安装插件：[https://github.com/ollykel/v-vim](https://github.com/ollykel/v-vim)

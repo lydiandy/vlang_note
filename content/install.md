@@ -6,7 +6,7 @@
 
 #### 编译准备
 
-目前V语言的编译需要依赖C编译器:gcc或clang，如果没有C编译器，可以参考以下文档，进行安装：
+目前V语言的编译需要依赖C编译器：gcc或clang，如果没有C编译器，可以参考以下文档，进行安装：
 
 [windows下安装C编译器](https://github.com/vlang/v/wiki/Installing-a-C-compiler-on-Windows)
 
@@ -20,7 +20,7 @@ cd v
 make
   ```
 
-编译成功后，会在当前目录生成V编译器的可执行文件，大小2M左右，小巧得很。
+编译成功后，会在当前目录生成V编译器的可执行文件，大小3M左右，小巧得很。
 
 查看V编译器的版本：
 
@@ -151,7 +151,7 @@ make
 
 可以通过增加symbol link,让v编译器随处可用。
 
-在unix,linux,mac系统中，进入到v可执行文件所在的目录，然后执行：
+在unix，linux，mac系统中，进入到v可执行文件所在的目录，然后执行：
 
 ```shell
 sudo ./v symlink

@@ -120,7 +120,54 @@ fn main() {
 
 ### 方法链式调用
 
-方法支持链式调用：
+V语言支持方法链式调用。
+
+只是新的V编译器增加了限制，如果方法的接收者是可变的话，也就是在方法中修改了结构体字段，就不允许链式调用，希望后续的版本能够重新支持。
+
+以下示例代码可以编译通过：
+
+```v
+module main
+
+[heap]
+struct DB {
+mut:
+	sql string
+}
+
+fn new() DB {
+	return DB{
+		sql: ''
+	}
+}
+
+fn (db DB) table(name string) DB {
+	// db.sql += name
+	println('from table')
+	return db
+}
+
+fn (db DB) where(condition string) DB {
+	// db.sql += condition
+	println('where')
+	return db
+}
+
+fn (db DB) first() DB {
+	// db.sql += 'limit 1'
+	println('from first')
+	return db
+}
+
+fn main() {
+	mut db := new()
+	// 链式调用
+	db.table('select * from user ').where('where id=1 ').first()
+	println(db.sql)
+}
+```
+
+以下示例代码无法编译通过，因为方法的接收者是可变的：
 
 ```v
 module main
@@ -157,6 +204,5 @@ fn main() {
 	db.table('select * from user ').where('where id=1 ').first()
 	println(db.sql) // 输出:select * from user where id=1 limit 1
 }
-
 ```
 

@@ -396,7 +396,44 @@ fn main() {
 
 #### [params]
 
-使用结构体的参数注解，可以用来实现函数参数的默认值和命名参数，具体参考[函数章节](fn.md)。
+使用结构体的参数注解，可以用来实现函数参数的默认值和命名参数。
+
+```v
+//参数注解
+[params]
+struct ButtonConfig {
+	text        string
+	is_disabled bool
+	width       int = 70
+	height      int = 20
+}
+
+struct Button {
+	text   string
+	width  int
+	height int
+}
+
+fn new_button(c ButtonConfig) &Button {
+	return &Button{
+		width: c.width
+		height: c.height
+		text: c.text
+	}
+}
+
+fn main() {
+	button := new_button(text: 'button1', width: 100)
+	println(button.height) // height没有初始化,使用默认值
+
+	button2 := new_button(width: 100, text: 'button2') //结构体参数的字段顺序无所谓
+	println(button2)
+
+	//结构体参数加了params注解,函数的参数可以什么都不传,直接使用结构体的默认值
+	button3 := new_button()
+	println(button3) //所有参数都使用默认值
+}
+```
 
 #### [table]
 
