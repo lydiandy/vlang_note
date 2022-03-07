@@ -135,6 +135,8 @@ v -  //进入交互模式
 v build mymodule //编译mymodule模块（当前位置要在mymodule的上级目录）
 v . //编译当前目录
 
+v build-tools //一次性编译所有的cmd/tools中的命令行工具
+
 v up //升级V编译器到最新版本，等价于git pull && make
 
 v install xxx模块 //从https://vpm.vlang.io官方VPM安装指定的模块
