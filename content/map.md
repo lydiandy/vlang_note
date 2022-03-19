@@ -100,11 +100,20 @@ map字面量初始化：
 
 ```v
 fn main() {
-	m := map {'one':1,'two':2,'three':3}
-	m2 := map {1 :'a', 2 :'b', 3 :'c'}
+	m := {
+		'one':   1
+		'two':   2
+		'three': 3
+	}
+	m2 := {
+		1: 'a'
+		2: 'b'
+		3: 'c'
+	}
 	println(m)
 	println(m2)
 }
+
 ```
 
 map.len返回字典的大小：
@@ -173,14 +182,15 @@ fn main() {
 	mm := map[string]int{}
 	val2 := mm['bad_key'] or { panic('key not found') }
 	println(val2)
-	myfn()
+	myfn() or { panic(err) }
 }
 
 fn myfn() ? {
 	mm := map[string]int{}
-	x := mm['bad_key']? //也可以本层级不处理,向上抛转错误
+	x := mm['bad_key'] ? //也可以本层级不处理,向上抛转错误
 	println(x)
 }
+
 ```
 
 ### if条件语句判断字典成员是否存在

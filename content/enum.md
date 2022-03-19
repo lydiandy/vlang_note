@@ -156,10 +156,12 @@ fn main() {
 如果枚举是位字段类型的枚举，可以使用以下内置方法：
 
 ```v
-has() //判断枚举项是否包含参数的值
+has() //判断枚举项是否包含参数中的某一项值
 all() //判断枚举项是否等于参数的所有值
 set() //在枚举项已有值的基础上，追加参数的值,为什么不用append更准确？
 toggle() //在枚举项已有值的基础上，去掉参数的值，为什么不用delete更准确？
+clear()  //跟toggle一样
+is_empty() //判断枚举值是否为空，如果枚举的值都被清空了，返回true
 ```
 
 ```v
@@ -177,7 +179,7 @@ fn main() {
 	println(4 == int(BitField.delete)) // true
 	println(8 == int(BitField.other)) // true
 	mut bf := BitField.read
-	println(bf.has(.read | .other)) // true,测试bf枚举值是否包含参数的值
+	println(bf.has(.read | .other)) // true,测试bf枚举值是否包含参数的某一个值
 	println(bf.all(.read | .other)) // false,测试bf枚举值是否等于参数的所有值
 	bf.set(.write | .other) //在枚举项已有值的基础上，追加.write和.other
 	println(bf) //.read | .write | .other
@@ -185,11 +187,16 @@ fn main() {
 	println(bf.all(.read | .write | .other)) // true
 	bf.toggle(.other) //在枚举项已有值的基础上，去掉.other
 	println(bf) //.read | .write
-	println(bf == BitField.read | .write) // true
+	println(bf == BitField.read | .write) // false
 	println(bf.all(.read | .write)) // true
 	println(bf.has(.other)) // false
 	println(bf.has(.read)) // true
+	bf.clear(.read) // 跟toggle一样
+	bf.clear(.write) // 跟toggle一样
+	println(bf.is_empty()) // 判断枚举项是否为空,true
+	println(bf)
 }
+
 ```
 
 #### 自定义注解
