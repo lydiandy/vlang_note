@@ -30,6 +30,7 @@ Usage:v [options] [command] [arguments]
    repl              运行交互式模式
    watch 						 编译项目，并监控源文件修改，保存后自动重新编译
    ast							 将V源代码生成json格式的AST语法树，直观展现V的语法树
+   scan							 扫描V源文件，输出源文件中所有的token
    vlib-docs 				 调用v doc生成vlib标准库的文档	
    interpret				 直接解释执行V代码
    
@@ -149,6 +150,8 @@ v ast main.v //将V源代码生成json格式的AST语法树，生成main.json
 v ast -t main.v //生成简洁的json格式的AST语法书，去除一些不重要的字段
 v ast -w main.v //生成main.json,并且监控源文件变化，保存后自动重新生成
 v ast -c main.v //将V源代码同时生成AST语法树文件main.json和C源代码main.c,并且监控源文件变化，保存后自动重新生成
+
+v scan main.v //扫描main.v源文件，并输出源文件中所有的token
 
 v vet ./main.v //分析main.v源文件代码中存在的错误
 v vet .			//分析当前目录中所有V源文件代码中存在的错误
