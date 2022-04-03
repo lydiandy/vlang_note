@@ -16,12 +16,6 @@ pub fn parse_file(path string) ?Doc
 pub fn parse_text(text string) ?Doc
 ```
 
-自动解析，如果给的参数是一个路径，则跟parse_file一样，解析文件；如果给的参数不是一个路径，而是文本，则跟parse_text一样，解析文本：
-
-```v
-pub fn parse(toml string) ?Doc
-```
-
 ### 获取节点的值
 
 解析完toml文件或文本后，返回一个Doc类型，可以调用Doc.value方法，获取节点的值，value返回Any类型，Any是一个联合类型，包含所有节点的类型种类。
@@ -106,11 +100,8 @@ hosts = [
 ]'
 
 fn main() {
-	// doc := toml.parse_text(toml_text) or { panic(err) } //解析文本
+	doc := toml.parse_text(toml_text) or { panic(err) } //解析文本
 	// doc := toml.parse_file("./conifg.toml") or { panic(err) } //解析文件
-	// doc := toml.parse("./conifg.toml") or { panic(err) } //自动解析,如果参数是路径则解析文件,如果是文本则解析文本
-	doc := toml.parse(toml_text) or { panic(err) } //自动解析
-
 	title := doc.value('title').string()
 	title2 := doc.value('title') as string
 	owner := doc.value('owner') as map[string]toml.Any

@@ -39,6 +39,10 @@
 - home_dir() string
 
     返回当前用户的主目录
+    
+- config_dir() ?
+  
+    返回对应操作系统的用户配置目录，window返回%AppData%，macos/ios返回~/Library/Application Support，其他操作系统优先返回XDG_CONFIG_HOME环境变量设置的值，如果没有设置XDG_CONFIG_HOME，则返回~/.config。如果返回的值为空，则抛出错误。
 
 ### 执行命令
 
