@@ -90,6 +90,11 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法进
 
   参考:[unsafe章节](unsafe.md)
   
+- [export]
+  
+  
+  参考:[函数章节](fn.md)
+  
 - [if debug]
 
   这个注解表示该函数只有在编译时加上了-d 调试模式的时候，才会被编译生成，并且可以调用。加上[if debug]注解后函数不可以有返回值。
@@ -202,37 +207,6 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法进
   [keep_args_alive]
   fn C.calc_expr_after_delay(voidptr, int, voidptr) int
   ```
-
-- [export]
-  
-  此注解可以在V生成的C代码中自定义函数名。
-  例：源文件test.v中定义函数my_func 并且追加注解: [export:'funcExportTest']。
-  
-  ```v
-  module main
-  
-  fn main(){
-  	my_func()
-  }
-  
-  [export:'funcExportTest']
-  fn my_func(){
-  	println('zzz')
-  }
-  ```
-  编译成C代码：v -o test.c test.v，生成的C代码中编译器会追加函数funcExportTest：
-  
-  ```c
-  // Attr: [export]
-  VV_LOCAL_SYMBOL void main__my_func(void) {
-    println(_SLIT("zzz"));
-  }
-  // export alias: funcExportTest -> main__my_func
-  void funcExportTest(void) {
-    return main__my_func();
-  }
-  ```
-  
 ### 自定义注解
 
 实际上除了编译器内置的注解外，结构体，结构体字段，函数，枚举，联合类型的定义，都可以增加各种自定义注解，然后自己解析，自己使用。

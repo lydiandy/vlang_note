@@ -511,6 +511,44 @@ fn main() {
 v -live run  main.v
 ```
 
+#### [export]
+
+使用export注解可以自定义V函数生成的C函数名称，一般来说V函数编译生成C代码时，C函数名会自动变为模块名+双下划线+函数名，比如在main模块中的add函数会变为main__add。
+
+export注解一般用于在C函数中调用V函数，直接使用export中自定义的函数名。
+
+```v
+module main
+
+fn main() {
+	add(1,2)
+}
+
+[export:'add']
+fn add(x int,y int) int {
+	return x+y
+}
+```
+
+生成的C代码：
+
+实际上的实现方式是除了生成默认的main__add函数外，又生成了一个export注解设置的C函数。
+
+```c
+VV_LOCAL_SYMBOL void main__main(void) {
+	main__add(1, 2);
+}
+
+// Attr: [export]
+VV_LOCAL_SYMBOL int main__add(int x, int y) {
+	int _t1 = x + y;
+	return _t1;
+}
+// export alias: add -> main__add
+int add(int x, int y) {
+	return main__add(x, y);
+}
+```
 
 ### 内置函数
 
