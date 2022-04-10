@@ -513,9 +513,9 @@ v -live run  main.v
 
 #### [export]
 
-使用export注解可以自定义V函数生成的C函数名称，一般来说V函数编译生成C代码时，C函数名会自动变为模块名+双下划线+函数名，比如在main模块中的add函数会变为main__add。
+一般来说V函数编译生成C代码时，C函数名会自动变为[模块名+双下划线+函数名]，比如在main模块中的add函数会变为main__add。
 
-export注解一般用于在C函数中调用V函数，直接使用export中自定义的函数名。
+使用export注解可以自定义V函数生成的C函数名称，一般用于C函数中调用V函数时，可直接使用export中自定义的函数名。
 
 ```v
 module main
