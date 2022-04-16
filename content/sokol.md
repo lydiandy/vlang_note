@@ -140,14 +140,14 @@ OpenGL 1.x样式的立即模式渲染API，基于sokol_gfx.h。
   fn cleanup_cb() {
   }
   
-  fn fail_cb(msg &byte) {
+  fn fail_cb(msg &u8) {
   }
   
   fn event_cb(e voidptr) {
   	event := &sapp.Event(e)
   	match event.@type {
   		.key_up {
-  			println(byte(event.key_code).str())
+  			println(u8(event.key_code).str())
   			if event.key_code == sapp.KeyCode.q {
   				sapp.quit()
   			}

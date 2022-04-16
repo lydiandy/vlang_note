@@ -5,10 +5,10 @@
 ```v
 pub struct Builder {
 mut:
-	buf          []byte //以字节数组的方式存储字符串,并可以追加内容到字节数组中
+	buf          []u8 //以字节数组的方式存储字符串,并可以追加内容到字节数组中
 pub mut:
 	len          int //动态字符串长度
-	initial_size int=1 //初始大小
+	initial_size int = 1 //初始大小
 }
 ```
 
@@ -21,7 +21,11 @@ pub mut:
 
 字符串生成器的方法:
 
-- Builder.write(s string) 
+- Builder.write(data []u8)  ?int
+
+    追加写入字节数组
+
+- Builder.write_string(s string)
 
     追加写入字符串
 
@@ -29,13 +33,9 @@ pub mut:
 
     追加写入字符串,并且换行
 
-- Builder.write_b(data byte)
+- Builder.write_u8(data u8)
 
     追加写入单个字节
-
-- Builder.write_bytes(bytes &byte,howmany int)
-
-    追加写入多个字节
 
 - Builder.str() string 
 

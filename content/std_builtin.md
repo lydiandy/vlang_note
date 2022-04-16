@@ -70,13 +70,13 @@
 
 ------
 
-- malloc(n int) &byte    
+- malloc(n int) &u8    
 
   分配所需的内存空间，并返回一个指向它的指针,对C标准库的malloc的简单封装,成为内置函数,用途一样
 
 ------
 
-- calloc(n int) &byte      
+- calloc(n int) &u8      
 
   分配所需的内存空间，并返回一个指向它的指针,对C标准库的calloc的简单封装,不一样的是C的calloc有2个参数,V简化为1个size参数,成为内置函数,用途一样.malloc 和 calloc 之间的不同点是，malloc 不会设置内存为零，而 calloc 会设置分配的内存为零
 
@@ -96,20 +96,20 @@
 
 以下3个常用的C分配内存函数没有定义成为内置函数,还需要通过C.xxx来使用:
 
-- C.realloc(&byte,int) voidptr
+- C.realloc(&u8,int) voidptr
 
     重新调整内存大小
 
 ------
 
 
-- C.memcpy(&byte,&byte,int)  voidptr
+- C.memcpy(&u8,&u8,int)  voidptr
 
     内存拷贝
 
 ------
 
-- C.memmove(&byte,&byte,int) voidptr
+- C.memmove(&u8,&u8,int) voidptr
 
   内存移动
 
@@ -128,11 +128,11 @@
 
 **字符串函数:**
 
-- vstrlen(s &byte) int
+- vstrlen(s &u8) int
     传入字节指针,计算指针指向的字符串的长度,一般用于C指针指向的字符串
-- tos(s &byte,len int) string
+- tos(s &u8,len int) string
     传入字节指针和长度,转换成字符串,一般用于C指针转换成V字符串
-- tos2(s &byte) string
+- tos2(s &u8) string
 
     传入字节指针,转换成字符串,字符串的长度自动识别,一般用于C指针转换成V字符串
 
@@ -140,7 +140,7 @@
 
     传入字符指针,转换成字符串,一般用于C指针转换成V字符串
 
-- tos_clone(s &byte) string
+- tos_clone(s &u8) string
 
     传入字节指针,通过克隆的方式,生成新的字符串,内容跟字节指针指向的字符串一致
 
@@ -157,11 +157,11 @@
 - s.index_after(str string,n int) int
     从字符串第n个开始查找起,返回子字符串第一次出现的位置,如果没有包含,则返回-1
     
-- s.index_byte(c byte) int
+- s.index_u8(c u8) int
 
     返回单字符第一次在字符串中出现的位置,如果没有出现过,则返回-1
     
-- s.last_index_byte(c byte) int
+- s.last_index_u8(c u8) int
 
     返回单字符最后一次在字符串中出现的位置,如果没有出现过,则返回-1
     
@@ -186,7 +186,7 @@
 
     返回子字符串中的任意单个字符,在字符串中出现的位置,如果没有包含,则返回-1
 
-- s.at(n int) byte
+- s.at(n int) u8
 
     返回字符串指定位置的字符
 
@@ -340,7 +340,7 @@
     module main
     
     fn main() {
-    	foo := 'V is awesome!!!!'.filter(fn (b byte) bool {
+    	foo := 'V is awesome!!!!'.filter(fn (b u8) bool {
     		return b != `!`
     	})
     	println(foo)
@@ -576,7 +576,7 @@ fn main() {
 
   返回指定的值,在字符串数组中的位置
   
-- []byte.index(v byte) int
+- []u8.index(v u8) int
   
   返回指定的值,在字节数组中的位置
 

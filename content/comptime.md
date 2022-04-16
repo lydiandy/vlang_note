@@ -46,7 +46,7 @@ pub:
 	f u64
 pub mut:
 	g string
-	h byte
+	h u8
 }
 
 ['foo/bar/three']
@@ -329,7 +329,7 @@ fn main() {
 	kind<int>()
 	kind<i64>()
 	// int
-	kind<byte>()
+	kind<u8>()
 	kind<u16>()
 	kind<u32>()
 	kind<u64>()

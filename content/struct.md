@@ -504,7 +504,7 @@ __offsetof函数实现C的offsetof函数那样,返回结构体中某个字段的
 module main
 
 struct User {
-	name [50]byte
+	name [50]u8
 	age int
 	desc string
 }

@@ -177,7 +177,7 @@
 
   读取文件,返回文件的内容
 
-- read_bytes(path string) ?[]byte
+- read_bytes(path string) ?[]u8
 
   读取文件,返回字节数组
 
@@ -189,13 +189,9 @@
 
   获取文件的大小
 
-- File.write(s string)
+- File.write(buf []u8) ?int
 
     写入文件
-
-- File.write_bytes(data voidptr,size int)
-
-    写入字节
 
 - File.writeln(s string)
 

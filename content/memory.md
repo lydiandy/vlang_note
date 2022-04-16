@@ -249,29 +249,29 @@ V目前依赖libc
 
 这些函数可以在vlib/builtin/builtin.c.v中查看：
 
-这些函数跟对应的C函数相比，返回值不是voidptr，而是&byte。
+这些函数跟对应的C函数相比，返回值不是voidptr，而是&u8。
 
-- pub fn malloc(n int) &byte
-
-  
-
-- pub fn malloc_noscan(n int) &byte
+- pub fn malloc(n int) &u8
 
   
 
-- pub fn vcalloc(n int) &byte
+- pub fn malloc_noscan(n int) &u8
 
   
 
-- pub fn vcalloc_noscan(n int) &byte
+- pub fn vcalloc(n int) &u8
 
   
 
-- pub fn v_realloc(b &byte, n int) &byte
+- pub fn vcalloc_noscan(n int) &u8
 
   
 
-- pub fn realloc_data(old_data &byte, old_size int, new_size int) &byte
+- pub fn v_realloc(b &u8, n int) &u8
+
+  
+
+- pub fn realloc_data(old_data &u8, old_size int, new_size int) &u8
 
   
 

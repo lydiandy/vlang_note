@@ -155,7 +155,7 @@ module main
 
 fn main() {
 	x := int(3)
-	y := byte(x)
+	y := u8(x)
 	println('y is $y')
 	z := f32(x)
 	println('z is $z')
@@ -226,8 +226,8 @@ __global g1 int
 
 // 组定义全局变量，类似常量组的定义
 __global (
-	g2 byte 
-	g3 byte 
+	g2 u8 
+	g3 u8 
 )
 
 fn main() {

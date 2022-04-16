@@ -494,7 +494,7 @@ CastExpr 造型表达式
 module main
 
 fn main() {
-	x:=byte(3)
+	x:=u8(3)
 	y:=f32(2.1)
 }
 ```
@@ -1802,7 +1802,7 @@ pub:
 	f u64
 pub mut:
 	g string
-	h byte
+	h u8
 }
 
 fn (mut app App) m1() {
@@ -1876,8 +1876,8 @@ __global  g1 int
 
 // group
 __global (
-	g2 byte 
-	g3 byte 
+	g2 u8 
+	g3 u8 
 )
 
 fn main() {
@@ -1956,7 +1956,7 @@ OffsetOf 结构体字段内存偏移量
 module main
 
 struct User {
-	name [50]byte
+	name [50]u8
 	age int
 	desc string
 }

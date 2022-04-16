@@ -11,10 +11,10 @@ gx模块估计很快会被合并到gg模块中。
 ```v
 pub struct Color {
 pub mut:
-	r byte
-	g byte
-	b byte
-	a byte = 255
+	r u8
+	g u8
+	b u8
+	a u8 = 255
 }
 ```
 

@@ -1,10 +1,10 @@
 ## 编译生成js代码
 
-V语言的开发重点在编译器前端,目前主要的编译器后端有3个:C/js/x64.
+V语言的开发重点在编译器前端，目前主要的编译器后端有3个：C/js/x64。
 
-js作为事实上的web前端汇编语言,已经有各种语言支持编译生成js代码,而且生成的js代码质量都不错,比如typescript,rescript等.
+js作为事实上的web前端汇编语言，已经有各种语言支持编译生成js代码，而且生成的js代码质量都不错，比如typescript，rescript等。
 
-总感觉V还是集中精力定位在服务端,定位为"better C"就已经很好了,web前端不太可能采用V来生成js.
+总感觉V还是集中精力定位在服务端，定位为"better C"就已经很好了，web前端不太可能采用V来生成js。
 
 ### 生成js代码
 
@@ -40,12 +40,12 @@ V的每一个基本类型都对应一个js同名函数
 
 ```js
 // builtin type casts
-const [i8, i16, int, i64, byte, u16, u32, u64, f32, f64, int_literal, float_literal, size_t, bool, string, map, array] = [
+const [i8, i16, int, i64, u8, u16, u32, u64, f32, f64, int_literal, float_literal, size_t, bool, string, map, array] = [
 	function(val) { return new builtin.i8(val) },
 	function(val) { return new builtin.i16(val) },
 	function(val) { return new builtin.int(val) },
 	function(val) { return new builtin.i64(val) },
-	function(val) { return new builtin.byte(val) },
+	function(val) { return new builtin.u8(val) },
 	function(val) { return new builtin.u16(val) },
 	function(val) { return new builtin.u32(val) },
 	function(val) { return new builtin.u64(val) },

@@ -507,7 +507,7 @@ fn main() {
 	kind<int>()
 	kind<i64>()
 	// int
-	kind<byte>()
+	kind<u8>()
 	kind<u16>()
 	kind<u32>()
 	kind<u64>()

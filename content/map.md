@@ -77,10 +77,10 @@ fn main() {
 	}
 	println(typeof(m3).name) // map[rune]int
 	println(m3)
-	// byte key 字节
-	mut m4 := map[byte]string{}
-	m4[byte(1)] = 'a'
-	m4[byte(2)] = 'b'
+	// u8 key 字节
+	mut m4 := map[u8]string{}
+	m4[u8(1)] = 'a'
+	m4[u8(2)] = 'b'
 	println(m4)
 	// float key 小数
 	mut m5 := map[f64]string{}

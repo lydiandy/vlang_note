@@ -9,7 +9,7 @@
 ```v
 union MyAnything {
 mut:
-	bytes [10]byte
+	bytes [10]u8
 	xu64  u64
 	xu32  u32
 	xu16  u16
@@ -33,7 +33,7 @@ fn main() {
 ```v
 union MyAnything {
 mut:
-	bytes [10]byte
+	bytes [10]u8
 	xu64  u64
 	xu32  u32
 	xu16  u16

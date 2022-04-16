@@ -142,7 +142,7 @@ fn main() {
 	println('message send: $message')
 	println('server socket: $server.sock.handle')
 	// client
-	mut buf := []byte{len: 1024}
+	mut buf := []u8{len: 1024}
 	nbytes := client.read(mut buf) ?
 	received := buf[0..nbytes].bytestr()
 	println('message received: $received')
@@ -209,7 +209,7 @@ fn echo_server(mut c &net.UdpConn) {
 	c.set_read_timeout(10 * time.second)
 	c.set_write_timeout(10 * time.second)
 	for { //无限循环监听,接收数据后,原样返回给客户端
-		mut buf := []byte{len: 100, init: 0}
+		mut buf := []u8{len: 100, init: 0}
 		read, addr := c.read(mut buf) or { continue }
 		c.write_to(addr, buf[..read]) or {
 			println('Server: connection dropped')
@@ -230,7 +230,7 @@ fn echo() ? {
 
 	data := 'Hello from vlib/net!'
 	c.write_string(data) ?
-	mut buf := []byte{len: 100, init: 0}
+	mut buf := []u8{len: 100, init: 0}
 	read, addr := c.read(mut buf) ?
 	assert read == data.len
 	println('Got address $addr')
@@ -313,7 +313,7 @@ pub fn (mut ws Client) listen() ?
 
 ```v
 //实现io模块的读写接口,读写消息
-pub fn (mut ws Client) write(bytes []byte, code OPCode) ?
+pub fn (mut ws Client) write(bytes []u8, code OPCode) ?
 pub fn (mut ws Client) write_str(str string) ?
 
 ```

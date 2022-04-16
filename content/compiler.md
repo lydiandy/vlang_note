@@ -422,7 +422,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | void         |              |
   | voidptr      | 通用指针类型 |
   | &char      | C字符指针类型 |
-  | &byte      | 字节指针     |
+  | &u8      | 字节指针     |
   | i8           |              |
   | i16          |              |
   | int          |              |
@@ -434,7 +434,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | f64          |              |
   | string       | 字符串       |
   | char         | 单字符       |
-  | byte         |              |
+  | u8         |              |
   | bool         |              |
   | const_       | 常量         |
   | enum_        | 枚举         |
@@ -574,7 +574,7 @@ V实现了自举,整个V编译器都是由V语言开发的,编译器加上标准
   | 字段/方法                    | 说明                                               |
   | ---------------------------- | -------------------------------------------------- |
   | out_name       string        | 生成的机器代码,保存在这个字符串中,字符串生成器对象 |
-  | buf         []byte           |                                                    |
+  | buf         []u8             |                                                    |
   | sect_header_name_pos int     |                                                    |
   | offset        i64            |                                                    |
   | str_pos       []i64          |                                                    |
@@ -949,7 +949,7 @@ https://github.com/lydiandy/vast
 | | .name |  | 继续识别出现名字的各种情况 |
 | | .str | StringLiteral, table.string_type | 识别字符串 x='abc' |
 | | .dot | EnumVal, table.int_type | 识别枚举值 x=.blue |
-| | .chartoken | CharLiteral, table.byte_type | 识别单字符 x=`c` |
+| | .chartoken | CharLiteral, table.u8_type | 识别单字符 x=`c` |
 | | .key_true, .key_false | BoolLiteral,table.bool_type | 识别布尔类型 x=true |
 | | .minus, .amp, .mul, .not, .bit_not | PrefixExpr | 识别前缀表达式 |
 | | .key_match | MatchExpr | 识别match赋值语句 |

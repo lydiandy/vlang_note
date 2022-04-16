@@ -151,11 +151,11 @@ fn main() {
 module main
 
 pub interface Reader {
-	read(mut buf []byte) ?int
+	read(mut buf []u8) ?int
 }
 
 pub interface Writer {
-	write(buf []byte) ?int
+	write(buf []u8) ?int
 }
 
 // 接口组合

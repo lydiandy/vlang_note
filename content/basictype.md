@@ -18,20 +18,24 @@ fn main() {
 }
 ```
 
-布尔类型从定义的C代码看是byte(uint8_t)的类型别名。
+布尔类型从定义的C代码看是u8的类型别名。
 
 true是常量1，false是常量0。
 
-使用sizeof(bool)可以看到bool类型的长度是1个字节。
+使用sizeof(bool)可以看到bool类型的默认长度是1个字节。
 
 ```c
-typedef uint8_t byte;
+typedef uint8_t u8;
 ...
 #ifndef bool
-		typedef byte bool;
+		#ifdef CUSTOM_DEFINE_4bytebool
+			typedef int bool;
+		#else
+			typedef u8 bool;
+		#endif
 		#define true 1
 		#define false 0
-#endif
+	#endif
 ```
 
 ### 数值类型
@@ -48,7 +52,7 @@ typedef uint8_t byte;
 | i64   | 8字节 | -9223372036854775808到9223372036854775807                    | 有符号64位整数         |
 | isize | arch  | 等价于C的ptrdiff_t类型，长度取决于运行的计算机架构，64 位是i64，32 位是i32 | 有符号整数             |
 |       |       |                                                              |                        |
-| byte  | 1字节 | 0 到 255                                                     | 无符号8位整数，即u8    |
+| u8    | 1字节 | 0 到 255，byte是u8的别名                                     | 无符号8位整数          |
 | u16   | 2字节 | 0 到 65,535                                                  | 无符号16位整数         |
 | u32   | 4字节 | 0 到 4,294,967,295                                           | 无符号32位整数         |
 | u64   | 8字节 | 0 到 18446744073709551615                                    | 无符号64位整数         |
@@ -99,7 +103,7 @@ y:=f32(3.0) //y是f32类型，而不是默认推断的f64
 module main
 
 fn main() {
-	b := byte(98)
+	b := u8(98)
 	println(b.str()) // 98
 	println(b.ascii_str()) // b
 }
@@ -206,7 +210,7 @@ fn range_check(s string) ?string {
 ```v
 pub struct string {
 pub: 					 //pub表示这两个字符串的属性都是：公共且只读的
-	str &byte //一个byte类型的指针，指向字符串的首字节地址
+	str &u8 //一个u8类型的指针，指向字符串的首字节地址
 	len int  //字符串的长度
 }
 ```
@@ -337,7 +341,7 @@ fn main() {
 
 ```v
 println(sizeof(int)) //4
-println(sizeof(byte)) //1
+println(sizeof(u8)) //1
 println(sizeof(bool)) //1
 ```
 
@@ -392,27 +396,27 @@ module main
 
 fn main() {
 	i := 8 // 默认类型推断为int
-	b := byte(8) // 明确指定类型为byte
+	b := u8(8) // 明确指定类型为u8
 	ii := int(b) // 强制转换为int
 	f := 3.2 // 默认推断类型为f64
 	ff := f32(3.2) // 明确指定类型为f32
 	f3 := f64(f) // 强制转换为f64
 	s := 'abc' // 默认推断为string
-	c := `c` // 默认推断为byte，也就是单字符类型
+	c := `c` // 默认推断为u8，也就是单字符类型
 
-	// 布尔类型可以转换为byte/int或其他整数类型
+	// 布尔类型可以转换为u8/int或其他整数类型
 	yes := true
 	no := false
-  yes_byte := byte(yes) // 输出1
-	no_byte := byte(no) // 输出0
+  yes_u8 := u8(yes) // 输出1
+	no_u8 := u8(no) // 输出0
 	yes_int := int(yes)  // 输出1
 	no_int := int(no) // 输出0
 	// 将字节数组转成字符串
-	mut byte_arr := []byte{} // 字节数组
-	byte_arr << `a`
-	byte_arr << `b`
-	println(byte_arr) // 输出[a,b]
-	str := byte_arr.str() // 将字节数组转成字符串
+	mut u8_arr := []u8{} // 字节数组
+	u8_arr << `a`
+	u8_arr << `b`
+	println(u8_arr) // 输出[a,b]
+	str := u8_arr.str() // 将字节数组转成字符串
 	println(str) // 输出[a,b]
 }
 ```

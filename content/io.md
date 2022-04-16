@@ -13,7 +13,7 @@
 ```v
 pub interface Reader {
 mut:
-	read(mut buf []byte) ?int
+	read(mut buf []u8) ?int
 }
 ```
 
@@ -28,7 +28,7 @@ mut:
 ```v
 pub interface Writer {
 mut:
-	write(buf []byte) ?int
+	write(buf []u8) ?int
 }
 ```
 
@@ -49,7 +49,7 @@ pub interface ReaderWriter {
 
 ```v
 pub interface RandomReader {
-	read_from(pos u64, mut buf []byte) ?int
+	read_from(pos u64, mut buf []u8) ?int
 }
 ```
 
@@ -59,7 +59,7 @@ pub interface RandomReader {
 
 ```v
 pub interface RandomWriter {
-	write_to(pos u64, buf []byte) ?int
+	write_to(pos u64, buf []u8) ?int
 }
 ```
 
@@ -80,9 +80,9 @@ for {
 //为true,就算是read函数读取不到任何字节，也不退出，继续等待读取，
 //直到读取完Reader的所有字节,返回none才退出。如果read_to_end_of_stream
 //设置为false，并且read函数读取不到任何字节，就会退出
-pub fn read_all(config ReadAllConfig) ?[]byte	
+pub fn read_all(config ReadAllConfig) ?[]u8	
 //读取所有字节，但是只要中途出现调用read函数时返回0字节就退出
-pub fn read_any(mut r Reader) ?[]byte	
+pub fn read_any(mut r Reader) ?[]u8	
 ```
 
 read_all的参数配置
@@ -103,7 +103,7 @@ mut:
 struct BufferedReader {
 mut:
 	reader Reader 	// 要读取的对象
-	buf    []byte 	// 缓冲区的字节数组
+	buf    []u8 	// 缓冲区的字节数组
 	offset int 			// 当前缓冲已读取的位置
 	len    int			// 当前缓冲的长度
 	fails  int 			// 调用read函数时，返回0字节的次数 
@@ -134,7 +134,7 @@ pub fn new_buffered_reader(o BufferedReaderConfig) &BufferedReader
 ```v
 //从缓冲中读取数据到参数中的字节数组，返回值表示已读取的字节数，如果已读取
 //完毕，则返回none
-pub fn (mut r BufferedReader) read(mut buf []byte) ?int		
+pub fn (mut r BufferedReader) read(mut buf []u8) ?int		
 //从缓冲区读取一行，返回读取的字符串
 pub fn (mut r BufferedReader) read_line() ?string		
 //是否读取完毕

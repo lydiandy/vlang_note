@@ -35,45 +35,44 @@ v的基本类型通过C的类型别名typedef来实现
 typedef int64_t i64;
 typedef int16_t i16;
 typedef int8_t i8;
-
 typedef uint64_t u64;
 typedef uint32_t u32;
+typedef uint8_t u8;
 typedef uint16_t u16;
-typedef uint8_t byte;
-
+//typedef uint8_t byte; 
 typedef uint32_t rune;
-
+typedef size_t usize;
+typedef ptrdiff_t isize;
+#ifndef VNOFLOAT
 typedef float f32;
 typedef double f64;
-
-typedef unsigned char* &byte; //字节指针
-typedef int* intptr; //整型指针
-typedef void* voidptr; //通用指针
+#else
+typedef int32_t f32;
+typedef int64_t f64;
+#endif
+typedef int64_t int_literal;
+#ifndef VNOFLOAT
+typedef double float_literal;
+#else
+typedef int64_t float_literal;
+#endif
+typedef unsigned char* byteptr; //字节指针
+typedef void* voidptr;//通用指针
 typedef char* charptr; //C字符指针
+typedef u8 array_fixed_byte_300 [300];
 
-typedef struct array array;
-typedef struct map map;
+typedef struct sync__Channel* chan;
 
-typedef array array_string;
-typedef array array_int;
-typedef array array_byte;
-typedef array array_f32;
-typedef array array_f64;
-typedef array array_u16;
-typedef array array_u32;
-typedef array array_u64;
-typedef map map_int;
-typedef map map_string;
-typedef byte array_fixed_byte_300 [300];
-typedef byte array_fixed_byte_400 [400];
-
-typedef uint8_t byte;
-...
-#ifndef bool
-		typedef int bool; //布尔类型在C里面通过int类型来实现,1字节
-		typedef byte bool;
+#ifndef __cplusplus
+	#ifndef bool
+		#ifdef CUSTOM_DEFINE_4bytebool
+			typedef int bool;
+		#else
+			typedef u8 bool; //布尔类型在C里面默认通过u8类型来实现,1字节
+		#endif
 		#define true 1 //true是整数常量1
 		#define false 0 //false是整数常量0
+	#endif
 #endif
 ```
 

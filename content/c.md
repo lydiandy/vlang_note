@@ -62,16 +62,16 @@ struct C.MYSQL
 struct C.MYSQL_RES
 //声明要使用的C函数
 fn C.mysql_init(mysql &C.MYSQL) &C.MYSQL
-fn C.mysql_real_connect(mysql &C.MYSQL, host &byte, user &byte, passwd &byte, db &byte, port u32, unix_socket &byte, clientflag u64) &C.MYSQL
-fn C.mysql_query(mysql &C.MYSQL, q &byte) int
-fn C.mysql_select_db(mysql &C.MYSQL, db &byte) int
-fn C.mysql_error(mysql &C.MYSQL) &byte
+fn C.mysql_real_connect(mysql &C.MYSQL, host &u8, user &u8, passwd &u8, db &u8, port u32, unix_socket &u8, clientflag u64) &C.MYSQL
+fn C.mysql_query(mysql &C.MYSQL, q &u8) int
+fn C.mysql_select_db(mysql &C.MYSQL, db &u8) int
+fn C.mysql_error(mysql &C.MYSQL) &u8
 fn C.mysql_errno(mysql &C.MYSQL) int
 fn C.mysql_num_fields(res &C.MYSQL_RES) int
 fn C.mysql_store_result(mysql &C.MYSQL) &C.MYSQL_RES
-fn C.mysql_fetch_row(res &C.MYSQL_RES) &&byte
+fn C.mysql_fetch_row(res &C.MYSQL_RES) &&u8
 fn C.mysql_free_result(res &C.MYSQL_RES)
-fn C.mysql_real_escape_string_quote(mysql &C.MYSQL, to &byte, from &byte, len u64, quote byte) u64
+fn C.mysql_real_escape_string_quote(mysql &C.MYSQL, to &u8, from &u8, len u64, quote u8) u64
 fn C.mysql_close(sock &C.MYSQL)
 
 //调用C函数或结构体
@@ -198,8 +198,8 @@ __global g1 int
 
 // 组定义全局变量，类似常量的定义
 __global (
-	g2 byte 
-	g3 byte 
+	g2 u8 
+	g3 u8 
 )
 
 fn main() {
