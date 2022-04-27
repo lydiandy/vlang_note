@@ -24,7 +24,7 @@ make # 默认用tcc编译，速度极快，一般1-3秒，生成文件7MB左右�
 
 国内网速较慢，可使用gitee.com镜像（前提是已经有v.exe, linux下v可执行文件）。
 ```shell
-git clone --depth=1 --single-branch https://gitee.com/mirror/vlang
+git clone --depth=1 --single-branch https://gitee.com/mirror/vlang # 只需要一次，以后`cd vlang && git pull`即可。
 cd vlang
 v -cc tcc -o v1 cmd/v # 用时1-3秒, 7MB
 v1 -cc gcc -prod -o v cmd/v  # 用时约60-90秒, 3MB 
