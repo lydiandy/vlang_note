@@ -151,9 +151,9 @@ CJSON_PUBLIC(void) cJSON_Delete(cJSON *c); //删除节点
 import json
 
 struct User {
-	id int | string
-    name string 
-    pay string | f32
+  id int | string
+  name string 
+  pay string | f32
 }
 
 str := '[{"id":"1", "name":"wang", "pay":"12345.67"},{"id":"2", "name": "li", "pay":"15213.56"}]'
