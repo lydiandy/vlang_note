@@ -148,22 +148,22 @@ CJSON_PUBLIC(void) cJSON_Delete(cJSON *c); //删除节点
 ### 应用举例
 一般的json文件都能够顺利解码。但是，有些json文件把key和value都加了引号，解码就需要一些技巧，举例如下：
 ```v
-import json
+   import json
 
-struct User {
-  id int | string
-  name string 
-  pay string | f32
-}
+   struct User {
+     id int | string
+     name string 
+     pay string | f32
+   }
 
-str := '[{"id":"1", "name":"wang", "pay":"12345.67"},{"id":"2", "name": "li", "pay":"15213.56"}]'
-user := json.decode([]User, str) or { []User{} }
+   str := '[{"id":"1", "name":"wang", "pay":"12345.67"},{"id":"2", "name": "li", "pay":"15213.56"}]'
+   user := json.decode([]User, str) or { []User{} }
 
-println((user[0].pay as string).f64())
-println(user[1].pay)
+   println((user[0].pay as string).f32())
+   println(user[1].pay)
 ```
 输出：
 ```v
-12345.67
-(string | f32)('15213.56')
+   12345.67
+   (string | f32)('15213.56')
 ```
