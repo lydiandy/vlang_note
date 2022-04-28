@@ -14,20 +14,28 @@
 
 #### 下载源码/编译
 
-  ```shell
+```shell
 git clone https://github.com/vlang/v
 cd v	
-make
-  ```
+make # 默认用tcc编译，速度极快，一般1-3秒，生成文件7MB左右，至少需要一次make，只要有v.exe，升级就可以完全手动操作。
+```
 
-编译成功后，会在当前目录生成V编译器的可执行文件，大小3M左右，小巧得很。
+编译成功后，会在当前目录生成V编译器的可执行文件，产品级（使用gcc编译，带-prod选项）可执行文件大小为3M左右，小巧得很。
+
+国内网速较慢，可使用gitee.com镜像（前提是已经有v.exe, linux下v可执行文件）。
+```shell
+git clone --depth=1 --single-branch https://gitee.com/mirror/vlang # 只需要一次，以后`cd vlang && git pull`即可。
+cd vlang
+v -cc tcc -o v1 cmd/v # 用时1-3秒, 7MB
+v1 -cc gcc -prod -o v cmd/v  # 用时约60-90秒, 3MB 
+```
 
 查看V编译器的版本：
 
 ```shell
 v -v
 v version
-v -version
+v -v version //更详细的版本信息
 ```
 
 #### 运行代码
