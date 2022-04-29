@@ -2,7 +2,7 @@
 
 ### 函数定义
 
-使用fn关键字定义函数：
+使用fn关键字定义函数, 格式是：`fn <fn_name>(para1 type1, ...) (return_types...) {}`.
 
 ```v
 fn main() {
@@ -63,9 +63,9 @@ pub fn public_fn() { // 模块内部和外部都可以访问
 
 ### 函数参数
 
-函数的参数采用的是类型后置，相同类型的相邻参数可以合并类型。
+函数的参数采用的是类型后置~~，相同类型的相邻参数可以合并类型~~(不再允许)。
 
-函数的参数默认是不可变的，如果在函数内部要改变传进来的参数，要在函数参数的定义和调用中加上mut。
+函数的参数默认是不可变的，如果在函数内部要改变传进来的参数，要在函数参数的定义和调用中**都要**加上`mut`。
 
 ```v
 fn my_fn(mut arr []int) { // 1.参数定义也要是可变的
@@ -88,13 +88,19 @@ fn main() {
 fn my_fn(i int, s string, others ...string) {
 	println(i)
 	println(s)
-	println(others[0])
-	println(others[1])
-	println(others[2])
+	// println(others[0])  // 零个参数时报错！！！
+	// println(others[1])
+	// println(others[2]) 
+	println('有$others.len个参数：')
+	for arg in others {
+		println(arg)
+	}
 }
 
 fn main() {
 	my_fn(1, 'abc', 'de', 'fg', 'hi')
+	my_fn(1)
+	my_fn(1, 'Hello')
 }
 ```
 
@@ -113,10 +119,15 @@ fn variadic_fn_a(a ...string) string {
 }
 
 fn variadic_fn_b(a ...string) string {
-	a0 := a[0]
-	a1 := a[1]
-	a2 := a[2]
-	return '$a0$a1$a2'
+	// a0 := a[0]
+	// a1 := a[1]
+	// a2 := a[2]
+	//return '$a0$a1$a2'
+	mut x := ''
+	for s in a {
+		x += '$s'
+	}
+	return x
 }
 
 
@@ -189,7 +200,7 @@ fn foo() (int, int) {
 
 ### 函数defer语句
 
-在函数退出前执行defer代码块，一般用来在函数执行完毕后，释放资源的占用。一个函数可以有多个defer代码块，采用后定义先执行(后进先出)的原则。
+在函数退出前执行defer代码块，一般用来在函数执行完毕后，释放资源的占用。一个函数可以有多个defer代码块，采用后定义先执行(后进先出LIFO)的原则。
 
 同时在defer代码块内有一些特殊的注意事项：
 
@@ -276,7 +287,7 @@ fn main() {
 
 ### 闭包的参数传递
 
-V的函数支持闭包，上级函数和闭包函数是两个单独的作用域，要将上级函数中的变量要传递给闭包函数，需要用中括号特别列出来，这样闭包函数内才可以正常使用上级函数的变量。
+V的函数支持闭包，上级函数和闭包函数是两个单独的作用域，要将上级函数中的变量要传递给闭包函数，需要用[中括号]特别列出来，这样闭包函数内才可以正常使用上级函数的变量。
 
 ```v
 module main
@@ -313,7 +324,7 @@ print_counter() // 10
 
 ### 函数递归
 
-函数支持递归调用。
+函数支持递归调用。参考[hanoi.v](github.com/vlang/v/examples/hanoi.v)。
 
 ### 泛型函数
 
@@ -321,7 +332,7 @@ print_counter() // 10
 
 ### 函数重载
 
-不会有函数重载。
+v非常有限地支持函数重载，仅限于`+-*/...`少数几个运算符，如：`fn (a Struct_A) + (b Struct_A) Struct_A {}`,仅此而已。
 
 ### 函数参数默认值
 
@@ -440,7 +451,7 @@ fn main() {
 
 #### [deprecated]
 
-模块发布给其他用户使用后，如果模块的某个函数想要声明作废，可以使用作废注解。
+模块发布给其他用户使用后，如果模块的某个函数想要声明作废或者被代替，可以使用作废注解。
 
 ```v
 [deprecated] //函数作废注解
@@ -457,8 +468,8 @@ pub fn (p Point) position() (int, int) {
 pub fn fn1() (int, int) (int, int) {
 	return p.x, p.y
 }
-//函数被调用,就会出现如下警告:
-//warning: function `fn1` has been deprecated since 2021-03-01; 这是作废说明
+// 编译时，函数被调用,就会出现如下警告:
+// warning: function `fn1` has been deprecated since 2021-03-01; 这是作废说明
 ```
 
 #### [inline]
@@ -487,7 +498,7 @@ pub fn (p Point) position() (int, int) {
 
 #### [live]
 
-代码热更新功能,实际生产用处不大，开发时可以使用，像脚本语言那样，保存即生效，不用重启服务器，正式发布的时候还是要去除live注解，有些麻烦。
+代码热更新功能,实际生产用处不大，开发时可以使用，像脚本语言那样，保存即生效，不用重启服务器，正式发布的时候还是要去除live注解，有些麻烦。`v watch run .` 也有类似效果。
 
 ```v
 module main
@@ -558,7 +569,7 @@ int add(int x, int y) {
 V内置了一些函数，可以全局使用，所有的内置函数可以在vlib/builtin目录中找到定义：
 
 ```v
-pub fn print(s string)	// 打印字符串，不换行
+pub fn print(s string)		// 打印字符串，不换行
 
 pub fn println(s string)	// 打印字符串，并且换行
 
@@ -566,7 +577,7 @@ pub fn eprint(s string) 	// 打印错误，不换行，无缓冲，立即输出
 
 pub fn eprintln(s string)	// 打印错误，并且换行，无缓冲，立即输出
 
-pub fn exit(code int)			// 退出程序，code为错误码
+pub fn exit(code int)		// 退出程序，code为错误码
 
 pub fn panic(s string) 		// 抛出错误
 
