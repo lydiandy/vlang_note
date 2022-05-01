@@ -59,7 +59,9 @@ fn fn2(s Bar) { //编译不通过
 
 编译时会检查结构体及其组合结构体(子类)是否实现接口字段。
 
-只有字段名，字段类型，是否可变，这三个都跟接口中的字段定义一致，才算实现了这个接口字段：
+只有字段名，字段类型，是否可变，这三个都跟接口中的字段定义一致，才算实现了这个接口字段。
+
+并且接口字段的命名只能是蛇形命名，而不能使用大写字母。
 
 ```v
 module main
@@ -68,12 +70,14 @@ interface PointInterface {
 mut:
 	x int
 	y int
+    // ErrorField int //接口字段不能使用大写字母，只能使用蛇形命名
 }
 
 struct Point {
 mut:
 	x int //接口字段实现
 	y int
+
 }
 
 fn add(p1 PointInterface, p2 PointInterface) PointInterface {
@@ -95,7 +99,6 @@ fn main() {
 	p3 := add(p1, p2)
 	println("$p3")
 }
-
 ```
 
 ```v

@@ -23,6 +23,9 @@ fn (mut u User) set_name(name string) { //需要修改接收者,要加上mut
 	u.name = name
 }
 
+fn (_ User) str() string { //如果不需要在方法中使用接收者，可使用下划线来忽略，当然也可以命名
+	return 'User'
+}
 ```
 
 除了可以给结构体添加方法外，还可以给以下类型添加方法：
