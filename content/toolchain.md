@@ -99,6 +99,12 @@ v -os <os> //跨平台交叉编译，编译生成指定os的可执行文件,OS�
 v -arch x64 //指定编译的架构，可以是x86或x64,默认是x64
 v -live   //启用代码热更新编译(只对注解为[live]的函数生效，修改函数内容会实时编译)
 v -shared  //编译生成共享库
+
+v -glibc xxx.v //使用glibc库进行编译
+v -musl xxx.v //使用musl库进行编译
+
+v -no-builtin xxx.v //不使用buildin内置模块
+v -no-std xxx.v //不使用编译参数：-std=gnu99(linux)/-std=c99 C99标准进行编译
 ...
 ```
 
