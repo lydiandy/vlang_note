@@ -69,9 +69,17 @@ import time
 
 //主函数，程序运行入口
 pub fn main() {
-	println('say hello world') //语句结尾不需要分号
-	println(os.args) //使用os模块的args变量
-	println(time.now()) //调用time模块的now函数
+	println('say hello world') // 语句结尾不需要分号
+	println(os.args) // 使用os模块的args变量
+	println(time.now()) // 调用time模块的now函数
+
+	go my_fn(1, 2) // 跟go一样的并发
+
+	my_fn2(1) // 匿名联合类型作为参数或返回值
+
+	my_fn3(0) or { // or代码块,进行错误处理
+		panic(err.msg())
+	}
 }
 
 //模块内6个一级元素：常量，枚举，函数/方法，结构体，接口，类型
@@ -101,6 +109,20 @@ pub fn my_fn(x int, y int) int {
 	println(i)
 	println(s)
 	return a
+}
+
+// 3.函数-匿名联合类型作为参数或返回值
+pub fn my_fn2(x int | string | bool) int | string | bool {
+	println(x)
+	return x
+}
+
+// 3.函数-简洁的错误处理
+pub fn my_fn3(x int) !int {
+	if x == 0 {
+		return error('this is an error.') // 抛出错误,然后在调用函数的or代码块进行错误处理
+	}
+	return x
 }
 
 // 3.函数-泛型函数
@@ -146,7 +168,7 @@ pub struct DB {
 
 // 5.接口-接口无须显式声明实现，鸭子类型，跟go一样
 pub interface Walker {
-	name string //接口支持字段约束
+	name string //接口支持字段约束,表示实现该接口的结构体必须有该字段
 	walk(int, int) int
 }
 
@@ -174,4 +196,5 @@ pub type Expr = BinExpr | BoolExpr | UnaryExpr
 pub type MyOption<T> = Error | None | T
 
 struct None {}
+
 ```
