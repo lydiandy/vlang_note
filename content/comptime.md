@@ -435,7 +435,7 @@ fn build() string {
 	name := 'Peter'
 	age := 25
 	numbers := [1, 2, 3]
-	return $tmpl('1.txt') //读取模板文件,然后把变量替换到模板中对应的同名变量
+	return $tmpl('a.txt') //读取模板文件,然后把变量替换到模板中对应的同名变量
 }
 
 fn main() {
@@ -443,9 +443,9 @@ fn main() {
 }
 ```
 
-1.txt模板文件内容
+a.txt 模板文件内容
 
-```
+```text
 name: @name //@开头的都是模板文件中需要替换的同名变量
 
 age: @age
@@ -456,3 +456,23 @@ numbers: @numbers
   @number
 @end
 ```
+
+### 编译错误与警告
+
+V内置了2个编译时函数：$compile_error和$compile_warn，专门用来抛出编译时的错误和警告。
+
+```v
+module main
+
+fn main() {
+	$if !linux {
+   		 $compile_warn('这是编译时警告!') //抛出编译警告，会继续编译,执行
+	}
+	println('警告后代码')
+
+	$if !macos {
+		$compile_error('这是个编译时错误！') //抛出编译错误，终止编译,执行
+	}
+}
+```
+
