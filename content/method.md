@@ -121,6 +121,95 @@ fn main() {
 
 ```
 
+### 方法作为变量
+
+方法也可以像函数那样，作为变量，作为函数的参数和返回值，只要方法签名和函数类型的签名一致就可以。
+
+```v
+module main
+
+struct Foo {
+	s string
+mut:
+	i int
+}
+
+fn (f Foo) get_s() string {
+	return f.s
+}
+
+fn (f &Foo) get_s_ref() string {
+	return f.s
+}
+
+fn (f Foo) add(a int) int {
+	return a + f.i
+}
+
+fn (f &Foo) add_ref(a int) int {
+	return a + f.i
+}
+
+fn main() {
+	mut f := Foo{
+		s: 'hello'
+		i: 1
+	}
+
+	get_s := f.get_s // 方法作为变量
+	get_s_ref := unsafe { f.get_s_ref } // 方法作为变量
+	add := f.add // 方法作为变量
+	add_ref := unsafe { f.add_ref } // 方法作为变量
+
+	println(typeof(get_s).str())
+	println(typeof(get_s_ref).str())
+	println(typeof(add).str())
+	println(typeof(add_ref).str())
+
+	println(get_s()) // 方法作为变量,也可直接调用
+	println(get_s_ref()) // 方法作为变量,也可直接调用
+	println(add(2)) // 方法作为变量,也可直接调用
+	println(add_ref(2)) // 方法作为变量,也可直接调用
+}
+
+```
+
+更复杂的例子：
+
+```v
+module main
+
+import gg
+import gx
+
+[heap]
+struct App {
+mut:
+	gg     &gg.Context = 0
+	radius f64 = 100.0
+}
+
+fn (mut app App) frame(x voidptr) {
+	app.gg.begin()
+	app.gg.draw_circle_empty(150, 150, f32(app.radius), gx.blue)
+	app.gg.draw_text(20, 20, 'radius: $app.radius')
+	app.gg.end()
+}
+
+fn main() {
+	mut app := &App{}
+	app.gg = gg.new_context(
+		bg_color: gx.white
+		width: 300
+		height: 300
+		window_title: 'Circles'
+		frame_fn: app.frame // 方法也可以跟函数一样,作为变量使用
+		user_data: app
+	)
+	app.gg.run()
+}
+```
+
 ### 方法链式调用
 
 V语言支持方法链式调用。

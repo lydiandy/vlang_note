@@ -324,7 +324,33 @@ print_counter() // 10
 
 ### 函数递归
 
-函数支持递归调用。参考[hanoi.v](github.com/vlang/v/examples/hanoi.v)。
+函数支持递归调用
+
+```v
+// hanoi tower
+const (
+	num = 7
+)
+
+fn main() {
+	hanoi(num, 'A', 'B', 'C')
+}
+
+fn move(n int, a string, b string) {
+	println('Disc $n from $a to ${b}...')
+}
+
+fn hanoi(n int, a string, b string, c string) {
+	if n == 1 {
+		move(1, a, c)
+	} else {
+		hanoi(n - 1, a, c, b)
+		move(n, a, c)
+		hanoi(n - 1, b, a, c)
+	}
+}
+
+```
 
 ### 泛型函数
 
