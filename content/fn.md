@@ -90,17 +90,22 @@ fn my_fn(i int, s string, others ...string) {
 	println(s)
 	// println(others[0])  // 零个参数时报错！！！
 	// println(others[1])
-	// println(others[2]) 
+	// println(others[2])
 	println('有$others.len个参数：')
 	for arg in others {
 		println(arg)
 	}
 }
 
+fn my_fn2(keys ...string) {
+	println(keys)
+}
+
 fn main() {
 	my_fn(1, 'abc', 'de', 'fg', 'hi')
-	my_fn(1)
+	my_fn(1, 'xyz')
 	my_fn(1, 'Hello')
+	my_fn2() // 不确定个数参数,参数可以一个都不传
 }
 ```
 
@@ -129,8 +134,6 @@ fn variadic_fn_b(a ...string) string {
 	}
 	return x
 }
-
-
 ```
 
 ### 函数返回值
