@@ -46,7 +46,7 @@ pub fn (mut c TcpConn) write_deadline() ?time.Time //获取写的限制时间点
 
 ```v
 //客户端拨号，成功则返回一个TCP连接
-pub fn dial_tcp(address string) ?TcpConn
+pub fn dial_tcp(address string) ?&TcpConn
 ```
 
 客户端连接例子:
@@ -148,7 +148,6 @@ fn main() {
 	println('message received: $received')
 	println('client socket: $client.sock.handle')
 }
-
 ```
 
 ### UDP
@@ -251,8 +250,6 @@ fn main() {
 	echo() or { println(err) }
 	l.close() or {}
 }
-
-
 ```
 
 ### websocket
