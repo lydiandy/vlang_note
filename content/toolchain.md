@@ -89,6 +89,7 @@ v -wipe-cache xxx.v //取消标准库的缓存，全部重新编译
 
 v main.v -dump-modules modules.txt //把本次编译所依赖的模块名称保存到modules.txt文件中
 v main.v -dump-files files.txt //把本次编译所依赖的V源文件保存到files.txt文件中
+v main.v -dump-cflags cflags.txt //把本次编译所使用的cflag选项保存到cflags.txt文件中
 
 v -autofree xxx.v //以自动释放内容方式生成可执行文件
 v -obf或-obfuscate //混淆编译生成可执行文件
