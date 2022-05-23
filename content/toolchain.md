@@ -87,6 +87,9 @@ v -usecache -prod xxx.v //使用标准库缓存，生产优化编译，速度也
 v -nocache -prod xxx.v  //取消标准库的缓存，全部重新编译
 v -wipe-cache xxx.v //取消标准库的缓存，全部重新编译
 
+v main.v -dump-modules modules.txt //把本次编译所依赖的模块名称保存到modules.txt文件中
+v main.v -dump-files files.txt //把本次编译所依赖的V源文件保存到files.txt文件中
+
 v -autofree xxx.v //以自动释放内容方式生成可执行文件
 v -obf或-obfuscate //混淆编译生成可执行文件
 v -stats //编译时显示额外的统计信息，编译多少行，多少字节，编译时间，每秒编译行数
