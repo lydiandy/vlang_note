@@ -463,6 +463,10 @@ struct Point {
 
 ### 结构体字段注解
 
+#### [required]
+
+要求结构体字段在初始化的时候必须赋值
+
 1. 用于内置json解析支持，详细参考[json章节](./json.md)。
 
 2. 结构体字段必须初始化赋值注解。
@@ -487,6 +491,41 @@ fn main() {
 	}
 	println(a)
 	println(b)
+}
+```
+
+#### [deprecated]
+
+结构体字段作废
+
+可以将结构体的某个字段标注为作废字段，并且可以加上作废开始日期。
+
+只有在其他模块中直接访问作废字段,才会出发过期作废的提示或警告。
+
+abc.v
+
+```v
+module abc
+
+pub struct Point {
+pub mut:
+	x_new int
+	x int [deprecated: 'use Point.x_new instead'; deprecated_after: '2999-03-01']
+}
+```
+
+main.v
+
+```v
+module main
+
+import abc
+
+fn main() {
+	a := abc.Point{
+		x: 1
+	}
+	println(a.x) //直接访问了结构体的作废字段,就会提示或警告
 }
 
 ```
