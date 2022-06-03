@@ -205,7 +205,6 @@ fn main() {
 		println(f_static()) // 4
 	}
 }
-
 ```
 
 #### 默认没有模块级/全局变量
@@ -222,6 +221,7 @@ v -enable-globals run main.v
 module main
 
 // 单个全局变量定义
+ [c_extern]
 __global g1 int
 
 // 组定义全局变量，类似常量组的定义
@@ -239,3 +239,38 @@ fn main() {
 	println(g3)
 }
 ```
+
+可以使用 [c_extern]注解，在生成的C代码中，给全局变量增加extern关键字。
+
+```v
+module main
+
+// 单个全局变量定义
+ [c_extern]
+__global g1 int
+
+// 组定义全局变量，类似常量组的定义
+ [c_extern]
+__global (
+	g2 u8 
+	g3 u8 
+)
+
+fn main() {
+	g1 = 1
+	g2 = 2
+	g3 = 3
+	println(g1)
+	println(g2)
+	println(g3)
+}
+```
+
+生成的C代码：
+
+```c
+extern int  g1; // global4
+extern u8  g2; // global4
+extern u8  g3; // global4
+```
+
