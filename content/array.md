@@ -207,20 +207,25 @@ module main
 fn main() {
 	arr := [1, 2, 3]
 	large_index := 999
-	// large_index := 1
 	// var1:=arr[large_index] //直接报数组越界错误
-	//增加or代码块后,可以进行错误的处理,而不是直接报错
+
+	y := arr[large_index] or { 100 } //如果数组元素不存在,执行or代码块,可以返回默认值
+	println(y)
+
+	//增加or代码块后,进行错误的处理
 	x := arr[large_index] or { panic('out of bounds') }
 	println(x)
+
 	myfn() or { panic('myfn error') } //处理myfn向上抛转的错误
 }
 
 fn myfn() ? {
 	arr := [1, 2, 3]
 	large_index := 999
-	x := arr[large_index] ? //也可以本层级不处理,向上抛转错误
+	x := arr[large_index]? //也可以本层级不处理,向上抛转错误
 	println(x)
 }
+
 ```
 
 ### if语句判断数组成员是否存在

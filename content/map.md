@@ -179,18 +179,23 @@ fn main() {
 	s := intm[3]
 	println(s) // 如果字典元素不存在,会返回该类型的默认值:0
 	//也可以加上or代码块来进行错误处理
-	mm := map[string]int{}
-	val2 := mm['bad_key'] or { panic('key not found') }
-	println(val2)
+	mut mm := map[string]int{}
+	mm['abc'] = 1
+	// val2 := mm['bad_key'] or { panic('key not found') } //如果元素不存在,在or代码块中进行错误处理
+	val3 := mm['bad_key'] or { 100 } //如果元素不存在,也可以在or代码块中返回默认值,类型必须和字典的value类型一致
+	// println(val2)
+	println(val3)
+	if val4 := mm['abc'] { //如果元素存在,赋值成功,才执行
+		println(val4)
+	}
 	myfn() or { panic(err) }
 }
 
 fn myfn() ? {
 	mm := map[string]int{}
-	x := mm['bad_key'] ? //也可以本层级不处理,向上抛转错误
+	x := mm['bad_key']? //也可以本层级不处理,向上抛转错误
 	println(x)
 }
-
 ```
 
 ### if条件语句判断字典成员是否存在
