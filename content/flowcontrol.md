@@ -168,14 +168,22 @@ for的四种形式：
 1. 传统的：for i=0;i<100;i++ {}
 
 ```v
-for i := 0; i < 10; i++ {
-	// 跳过6
-	if i == 6 {
-		continue
-	}
-	println(i)
-}
+module main
 
+fn main() {
+	for i := 0; i < 10; i++ {
+		// 跳过6
+		if i == 6 {
+			continue
+		}
+		println(i)
+	}
+
+	mut a := 0
+	for i := 0; i < 10; i++, a++ { //递增可以包含多个变量
+		println(a)
+	}
+}
 ```
 
    为了简洁的目的,for里面的i默认就是mut可变的,不需要特别声明为mut,如果声明了编译器会报错
@@ -212,7 +220,7 @@ println(num)
 
 4. 遍历：for i in xxx {}
 
-    for in可以用来遍历字符串,数组,区间,字典这四种类型
+    for in可以用来遍历字符串，数组，区间，字典这四种类型
 
 遍历字符串:
 
@@ -356,7 +364,6 @@ fn main() {
 		}
 	}
 }
-
 ```
 
 ### for循环结合or代码块
@@ -373,7 +380,6 @@ fn main() {
   // for line in os.read_lines('不存在的文件') or { panic('文件不存在') } { 
 		println(line)
 	}
-
 ```
 
 ### for select语句
@@ -410,8 +416,6 @@ fn do_send(ch1 chan int, ch2 chan f64) {
 	ch1.close()
 }
 ```
-
-
 
 ### goto语句
 

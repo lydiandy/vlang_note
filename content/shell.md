@@ -14,7 +14,7 @@ V脚本的文件名后缀为 .vsh，跟.v源文件相比，在.vsh中：
 script.vsh
 
 ```v
-#!/usr/local/bin/v run
+#!/usr/local/bin/v
 
 for _ in 0 .. 5 {
 	println('V script')
@@ -50,14 +50,15 @@ println(again)
 直接运行:
 
 ```shell
-v script.vsh	// v后面跟着.vsh文件，默认就是要执行脚本，可以省略run子命令
-v run script.vsh
+v script.vsh	//执行脚本，可以省略run子命令
+v run script.vsh //执行脚本
+./script.vsh //如果脚本首行有设置指定v命令行来执行
 ```
 
 以下是[vls](https://github.com/vlang/vls)的构建脚本：
 
 ```v
-#!/usr/local/bin/v run  //跟shell脚本一样，可以使用#!来设置执行此脚本的工具，也是要提前设置为可执行：chmod +x
+#!/usr/local/bin/v  //跟shell脚本一样，可以使用#!来设置执行此脚本的工具，也是要提前设置为可执行：chmod +x
 
 import os
 
