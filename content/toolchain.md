@@ -120,7 +120,7 @@ v main.v 			//编译当前目录中的main.v源文件，生成同名的main可�
 v run main.v  //编译并运行当前目录中的main.v源文件，运行完成后删除可执行文件，每次都重新编译
 v crun main.v //编译并运行当前目录中的main.v源文件，运行完成后不删除编译后的可执行文件，如果源代码没有改动，再次运行会直接运行可执行文件，加快运行时间
 v watch main.v //编译并运行当前目录中的main.v源文件，并监控，保存自动重新运行
-v interpret ./main.v	 //直接解释执行代码
+v interpret ./main.v	 //不先编译，解释执行代码
 
 v project-dir //编译整个目录
 
