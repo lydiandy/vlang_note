@@ -28,9 +28,9 @@ V的0.2版本发布后，增加了一个编译选项-autofree，可以实现自�
 
 目前该选项还没有正式发布，不是编译器默认选项，需要人工添加，计划在0.3版本作为默认选项。
 
-### 可选GC
+### GC
 
-在V的内存管理没有成熟之前，可选GC算是一个备用方案 。
+使用V编译器编译程序时，GC已经是默认启用。
 
 V使用的是开源的，通用的，C的垃圾回收器：
 
@@ -96,15 +96,19 @@ llvm， mono， gnu d compiler， gnu java compiler等也都使用该gc。
 
 #### 使用
 
-在编译的时候加上 -gc boehm就可以把GC加入到你自己的代码中。
+使用V编译器编译程序时，GC已经是默认启用，默认的选项是：
 
-```shell
-v -gc boehm xxx.v       // 带GC的编译
-v -gc boehm run main.v  // 带GC的运行
-v -prod -gc boehm main.v  // 生产编译带GC的代码
+```v
+v -gc boehm xxx.v       //默认选项是-gc boehm
 ```
 
-GC选项：
+如果不想带GC，可以使用-gc none：
+
+```shell
+v -gc none xxx.v
+```
+
+GC的其他选项：
 
 ```markdown
 `-gc boehm` ....... default GC-mode (currently `boehm_full_opt`)
@@ -126,11 +130,11 @@ fn main() {
 }
 ```
 
-带GC的大概增加300K左右的大小。
+带GC的大概增加173K左右的大小。
 
-|  v   | v -gc boehm | v -prod | v -prod -gc boehm |
-| :--: | :---------: | :-----: | :---------------: |
-| 209K |    509K     |   52K   |       351K        |
+|  v   | v -gc none | v -prod | v -prod -gc none |
+| :--: | :--------: | :-----: | :--------------: |
+| 420K |    247K    |  176K   |       102K       |
 
 #### 代码中判断是否启用GC
 
