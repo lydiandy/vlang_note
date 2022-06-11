@@ -10,21 +10,24 @@ V实现了语言服务协议LSP v3.15版本，叫做V Language Server(VLS)。
 
 #### 方式一：直接在vs code上安装
 
-在vs code上安装V语言插件后，可以通过命令面板搜索并执行V:Update VLS命令，此命令的默认安装路径为：~/.vls。
+在vs code上安装V语言插件后，可以通过命令面板搜索并执行：V:Update VLS，此命令的默认安装路径为：~/.vls。
 
 安装后可以重复执行命令，升级VLS。
 
 #### 方式二：从源代码安装
 
 ```shell
-#下载vls源代码，切换到use-tree-sitter分支
-git clone https://github.com/vlang/vls.git --branch use-tree-sitter vls && cd vls/
-#编译vls,目前V的垃圾回收还不成熟，建议编译时加入可选垃圾回收器boehm-gc来帮助内存回收，毕竟vls需要常驻内存中运行
-#安装完成后可以在vls项目bin目录中看到vls可执行文件
+#下载vls源代码
+git clone https://github.com/vlang/vls.git && cd vls
+#编译vls，编译完成后可以在vls/bin目录中看到vls可执行文件
 v build.vsh
-也可以选择指定的C编译器来编译
+#也可以选择指定的C编译器来编译
 v run build.vsh cc/gcc/clang/msvc
+#windows下要明确指定C编译器：
+v run build.vsh gcc/msvc
 ```
+
+编译完成后，在vs code上通过命令面板搜索并执行：V:Restart VLS，重启VLS。
 
 后续的日常更新
 
