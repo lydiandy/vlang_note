@@ -233,3 +233,13 @@ fn main() {
 
 #### TransitionValue 动画
 
+
+
+### 实时显示FPS
+
+如果想在使用图形开发中实时显示FPS，可以在命令行中增加-d show_fps选项：
+
+```shell
+v -d show_fps main.v
+```
+
