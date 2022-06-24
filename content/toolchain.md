@@ -54,7 +54,7 @@ Usage:v [options] [command] [arguments]
    show 						 显示模块的详细信息
    
 其他子命令:
-   translate         把C源代码翻译成V源代码[开发中，估计0.3版本才可以使用]
+   translate         把C源代码翻译成V源代码，或封装C代码库给V调用
    doctor						 输出当前电脑的基本环境信息，用于提单到github时，报告环境信息
    tracev						 生成一个带跟踪调试信息的V编译器
 ```
@@ -135,6 +135,9 @@ v -o myexe.c main.v //编译当前目录中的main.v源文件，生成对应的C
 v -o myexe.js main.v //编译当前目录中的main.v源文件，生成对应的js源文件，而不是可执行文件
 
 v -prod main.v //生产模式编译当前目录中的main.v源文件，生成更小的可执行文件
+
+v translate main.c //将C代码翻译成V代码
+v translate wrapper main.c //将C代码封装成V代码定义，提供给V代码调用
 
 v help //查看编译器帮助文本
 v help build //查看build子命令的帮助文本

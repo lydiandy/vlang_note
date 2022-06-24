@@ -417,10 +417,8 @@ D:\LINKCTEST
 │
 └─myClib
         testlib.c
-```
-![linkC库Test](/Users/zhijiayou01/v/vlang_note/content/c.assets/linkC库Test.PNG)
 test.h文件内容
-
+```
 ```
 //声明自定义c函数TestFunc
 int TestFunc();
@@ -484,6 +482,27 @@ PS D:\linkcTest> .\linkcTest.exe
 Hello World!
 0                                --TestFunc调用成功
 ```
+
+### c2v
+
+除了手工封装C代码库外，也可以使用c2v工具，将C源代码编译成V源代码，或者自动封装C代码库，提供给V代码调用。
+
+c2v项目代码库：https://github.com/vlang/c2v
+
+最简单的方式就是使用translate子命令，translate子命令也是调用的c2v工具。
+
+```shell
+v translate main.c
+v translate wrapper main.c
+```
+
+也可以直接使用c2v工具：
+
+```shell
+c2v file.c
+c2v wrapper file.c
+```
+
 
 
 ### pkgconfig
