@@ -226,7 +226,7 @@ fn main() {
 ### 联合类型相等判断
 
 ```v
-type Str = string | ustring
+type Str = string | rune
 
 struct Foo {
 	v int
@@ -239,10 +239,10 @@ struct Bar {
 type FooBar = Foo | Bar
 
 fn main() {
-	s1 := Str('s')
-	s2 := Str('s')
-	u1 := Str('s'.ustring())
-	u2 := Str('s'.ustring())
+	s1 := `s`
+	s2 := `s`
+	u1 := Str(rune(s1))
+	u2 := Str(rune(s2))
 	println( s1 == s1 ) //联合类型判断相等或不等:同类型,同值
 	println( s1 == s2 )
 	println( u1 == u1 )

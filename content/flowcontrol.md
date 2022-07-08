@@ -240,8 +240,8 @@ for i, s in str {
 遍历数组:
 
 ```v
-numbers := [1, 2, 3, 4, 5]
-for num in numbers {
+numbers := [1, 2, 3, 4, 5] 
+for num in numbers { //遍历动态数组
 	println('num:$num')
 }
 for i, num in numbers {
@@ -251,7 +251,12 @@ for i, num in numbers {
 for i in 0 .. numbers.len {
 	println('num:${numbers[i]}')
 }
-
+// 遍历固定长度数组
+arr = [0, 1, 2, 3, 4, 5, 6, 7]!
+	
+for a in arr { //使用for in遍历固定长度数组
+	println(a)
+}
 ```
 
 遍历区间:

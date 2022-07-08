@@ -28,6 +28,7 @@ lock
 match
 module
 mut
+nil
 none
 or
 pub

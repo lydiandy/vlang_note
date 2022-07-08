@@ -261,7 +261,7 @@ module main
 
 fn main() {
 	s1 := 'a' //单引号，string类型
-	s2 := 'a' //双引号，string类型
+	s2 := "a" //双引号，string类型
 	s3 := `a` //反引号，rune类型
 	println(typeof(s1).name)
 	println(typeof(s2).name)
