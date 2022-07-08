@@ -24,5 +24,7 @@ fn main() {
 
 ```shell
 v -b go ./main.go.v
+#或者
+v -b go -o main.go main.v
 ```
 
