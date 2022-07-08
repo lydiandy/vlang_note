@@ -147,17 +147,12 @@
 ##### V编译器
 
 * [V抽象语法树](content/vast.md)
-
 * [V语言服务](content/vls.md)
-
 * [V编译器源代码](content/compiler.md)
-
 * [生成C代码](content/gen_c.md)
-
 * [生成js代码](content/gen_js.md)
-
+* [生成go代码](content/gen_go.md)
 * [生成native代码](content/gen_native.md)
-
 * [解释器直接运行](content/interpreter.md)
 
 ##### 附录
