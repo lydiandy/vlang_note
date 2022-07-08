@@ -267,6 +267,31 @@ fn main() {
 
 ```
 
+### 匿名结构体
+
+在定义结构体字段时，除了使用已经定义好的结构体作为类型，也可以使用匿名结构体。
+
+```v
+module main
+
+struct Book {
+	x      Foo
+	author struct  { //匿名结构体
+		name string
+		age  int
+	}
+
+	title string
+}
+
+fn main() {
+	book := Book{author:struct{'sdf', 23}} // 初始化匿名结构体字段时，也需要使用struct关键字
+	println(book.author.age)
+}
+```
+
+
+
 ### 结构体初始化
 
 常用的结构体初始化有2种：
