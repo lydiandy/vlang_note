@@ -275,7 +275,7 @@ fn main() {
 module main
 
 struct Book {
-	x      Foo
+	x      string
 	author struct  { //匿名结构体
 		name string
 		age  int
