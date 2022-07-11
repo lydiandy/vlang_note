@@ -339,6 +339,31 @@ mut button4 := Button{
 }
 ```
 
+### 空值初始化引用类型字段
+
+```v
+module main
+
+struct Point {
+	x int
+	y int
+}
+
+struct Window {
+pub:
+	p &Point = unsafe { nil } // 空值初始化引用类型字段，替代原来的0值
+	
+}
+
+fn main() {
+	p := &Point{1,3}
+	w := Window { p:p }
+	println(w)
+}
+```
+
+
+
 ### 泛型结构体
 
 参考[泛型章节](./generic.md)。
