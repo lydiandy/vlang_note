@@ -30,6 +30,8 @@ Usage:v [options] [command] [arguments]
    doc               生成指定模块的文档
    repl              运行交互式模式
    watch 						 编译项目，并监控源文件修改，保存后自动重新编译
+   where						 查找指定的符号(fn,method,struct,interface,
+   									 enum,const,var,regexp)所在的位置
    ast							 将V源代码生成json格式的AST语法树，直观展现V的语法树
    scan							 扫描V源文件，输出源文件中所有的token
    vlib-docs 				 调用v doc生成vlib标准库的文档	
@@ -160,6 +162,12 @@ v install --git https://github.com/vlang/markdown  //从git代码库安装模块
 v install --hg  xxx代码库url //从hg代码库安装模块
 
 v fmt -w main.v //统一格式化指定源文件或目录中的代码
+
+v where fn main //查找main函数的位置
+v where struct User //查找User结构体的位置
+v where method User.get_name //查找get_name方法的位置
+v where fn pow -mod math //在模块math中查找pow函数的位置
+v where interface callable -dir abc -dir def //在指定目录中查找接口callable的位置
 
 v ast main.v //将V源代码生成json格式的AST语法树，生成main.json
 v ast -t main.v //生成简洁的json格式的AST语法书，去除一些不重要的字段
