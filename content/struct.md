@@ -351,7 +351,7 @@ struct Point {
 
 struct Window {
 pub:
-	p &Point = unsafe { nil } // 空值初始化引用类型字段，替代原来的0值
+  p &Point = unsafe { nil } // 空值初始化引用类型字段，替代原来的voidptr(0)值
 	
 }
 
