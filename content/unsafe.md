@@ -108,3 +108,52 @@ fn main() {
 }
 
 ```
+
+### 空值/空指针
+
+nil表示空值或者空指针，等价于voidptr(0)。
+
+正常情况下，由V创建的变量，因为声明和初始化一定是同时进行的，
+
+所以变量一定会有初始值，V指针一定不会有空值nil。
+
+内置函数中的isnil(ptr)，是用来判断由C代码生成的指针，是否是空指针:
+
+```v
+fn main() {
+	a := 1
+	println(isnil(&a)) // 返回false，变量只能通过:=来初始化，一定会有初始值
+	// 但是通过调用C代码返回的指针，有可能是空指针，所以在使用前可以用isnil函数来判断一下
+	f := C.popen('ls'， 'r')
+	if isnil(&f) {
+		// ...
+		println('f is nil')
+	} else {
+		println('f is not nil')
+	}
+}
+```
+
+也可以在代码中使用==或!=来判断指针是否是空值：
+
+```v
+module main
+
+struct Point {
+pub:
+	x int
+	y int
+}
+
+fn main() {
+	p1 := unsafe { nil } //初始化为空值nil，一定要在unsafe代码块中，或unsafe表达式
+	p2 := &Point{1, 2}
+	if p1 == unsafe { nil } { //判断是否为空值nil
+		println('p1 is nil')
+	}
+	if p2 != unsafe { nil } { //判断是否不为空值nil
+		println('p2 is not nil')
+	}
+}
+```
+
