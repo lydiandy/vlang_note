@@ -8,9 +8,9 @@
 
 测试函数:以test_xxx()开头。
 
-### assert 断言
+### assert 断言语句
 
-assert后面的表达式结果不为true，即为测试不通过。
+如果assert语句后面的表达式结果为true，表示测试通过；如果为false，表示测试不通过。
 
 示例：vlib/builtin/string_test.v
 
@@ -38,6 +38,28 @@ fn test_between() {
 	 s := 'hello [man] how you doing'
 	assert s.find_between('[', ']') == 'man'
 }
+```
+
+assert语句还支持附带错误消息：当表达式结果为false时，可以输出一个错误消息，方便测试定位问题。
+
+错误消息必须是字符串类型，或者返回字符串的函数调用。
+
+```v
+fn test_abc() {
+	i := 123
+	assert 4 == 2 * 2
+	assert 2 == 6 / 3, 'math works' 
+	assert 10 == i - 120, 'i: $i' //附带字符串类型的错误消息，当表达式为false时输出
+}
+```
+
+执行错误时输出：
+
+```shell
+> assert 10 == i - 120, 'i: $i'
+    Left value: 10
+    Right value: 3
+    Message: i: 123
 ```
 
 ### 执行测试
