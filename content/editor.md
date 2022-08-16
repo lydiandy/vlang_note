@@ -1,6 +1,6 @@
 ## V开发工具
 
-目前V语言开发的主要环境是vscode，由V语言核心团队负责开发的插件和语言服务，而且一直在更新中。
+目前V语言最好的开发环境是vscode，由V语言核心团队负责开发插件和语言服务，而且一直在更新中。
 
 基本的功能都有：
 
@@ -19,13 +19,13 @@ V语言核心团队实现了语言服务协议LSP v3.15版本，叫V Language Se
 
 安装vls：参考[V语言服务章节](vls.md)
 
-### vscode
+### vscode插件
 
 安装插件：[https://github.com/vlang/vscode-vlang](https://github.com/vlang/vscode-vlang)
 
-vls支持：参考[V语言服务章节](vls.md)。
+vls支持：参考[V语言服务章节](vls.md)
 
-### sublime text
+### sublime text插件
 
 安装插件：[https://github.com/elliotchance/vlang-sublime](https://github.com/elliotchance/vlang-sublime)
 
