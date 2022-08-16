@@ -17,12 +17,12 @@
 ```shell
 git clone https://github.com/vlang/v
 cd v	
-make # 默认用tcc编译，速度极快，一般1-3秒，生成文件7MB左右，至少需要一次make，只要有v.exe，升级就可以完全手动操作。
+make # 默认用tcc编译，速度极快，一般1-3秒，生成文件7MB左右，至少需要一次make，只要有V编译器可执行文件，后续升级就可不用再使用make，直接使用v up升级。
 ```
 
-编译成功后，会在当前目录生成V编译器的可执行文件，产品级（使用gcc编译，带-prod选项）可执行文件大小为3M左右，小巧得很。
+编译成功后，会在当前目录生成V编译器的可执行文件，生产环境编译（使用gcc编译，带-prod选项）可执行文件大小为3M左右，小巧得很。
 
-国内网速较慢，可使用gitee.com镜像（前提是已经有v.exe, linux下v可执行文件）。
+国内网速较慢，可使用gitee.com镜像（前提是已经有V编译器的可执行文件）。
 ```shell
 git clone --depth=1 --single-branch https://gitee.com/mirror/vlang # 只需要一次，以后`cd vlang && git pull`即可。
 cd vlang
@@ -35,12 +35,12 @@ v1 -cc gcc -prod -o v cmd/v  # 用时约60-90秒, 3MB
 ```shell
 v -v
 v version
-v -v version //更详细的版本信息
+v -v version #更详细的版本信息
 ```
 
 #### 运行代码
 
-编译成功后，可以尝试运行代码：
+编译成功后，可以运行代码：
 
 ```v
 //main.v
@@ -59,27 +59,45 @@ v run main.v
 
 编译器命令行的使用参考：[编译器命令行使用章节](toolchain.md)。
 
+#### 增加环境变量
+
+除了手工将V编译器增加到PATH环境变量中，也可通过以下命令，让V编译器随处可用。
+
+在unix/linux/mac系统中，进入到v可执行文件所在目录，然后执行以下命令，会创建/usr/local/bin/v 链接。
+
+```shell
+sudo ./v symlink
+```
+
+在windows中，使用系统管理员打开命令行窗口，进入到v.exe所在目录，然后执行以下命令，会创建v环境变量：
+
+```
+.\v.exe symlink
+```
+
+以上命令只需执行一次，如果v命令更换了位置，每次启动会自动更新快捷方式和环境变量。
+
 ### 安装可选依赖
 
 #### openssl
 
-如果需要执行v install安装模块或编译http相关模块，需要安装openssl：
+如果需要执行v install安装模块或编译net.http, net.websocket模块，需要安装openssl：
 
 ```shell
-macOS:
+#macOS:
 brew install openssl
 
-Debian/Ubuntu:
+#Debian/Ubuntu:
 sudo apt install libssl-dev
 
-Arch/Manjaro:
+#Arch/Manjaro:
 openssl is installed by default
 
-Fedora:
+#Fedora:
 sudo dnf install openssl-devel
 ```
 
-如果你使用的是新版的macos12，运行V代码时出现openssl的报错，需要从openssl的源码来编译安装，就可以解决报错：
+如果使用的是新版的macos12，运行V代码时出现openssl的报错，需要从openssl的源码来编译安装，就可以解决报错：
 
 ```shell
 git clone https://github.com/openssl/openssl.git
@@ -89,59 +107,14 @@ make
 make install
 ```
 
-#### 可选GC
-
-- 安装libgc-dev包
-
-  macos:
-
-  ```shell
-  brew install libgc
-  ```
-
-  linux:
-
-  ```shell
-  sudo apt-get install libgc-dev
-  ```
-
-- 也可手工下载发布的稳定版本: 
-
-  https://github.com/ivmai/bdwgc/releases, 目前最新的稳定版是8系列
-
-  在编译之前需要先安装automake工具
-
-  ```shell
-  brew install automake
-  ```
-
-  然后下载并编译:
-
-  ```shell
-  git clone git://github.com/ivmai/bdwgc.git
-  #建议先切换到最新的稳定版的分支，然后再编译
-  cd bdwgc
-  git clone git://github.com/ivmai/libatomic_ops.git
-  ./autogen.sh
-  ./configure
-  make -j
-  make check
-  ```
-
-  安装完成后，可以在终端上输入，如果正常输出，那就是安装成功
-
-  ```shell
-  gc #输出On branch release-8_2
-  ```
-
-​		关于可选GC可进一步参考：[内存管理章节](memory.md)。
+预计0.4版本中，会将openssl内置到V编译器中，到时就可以省略掉这一步。
 
 ### 后续升级
 
 方式一:
 
-  ```v
-v up //抓取github上V代码库的主干代码，然后自动重新编译
+  ```shell
+v up #抓取github上V代码库的主干代码，然后自动重新编译
   ```
 
 方式二:
@@ -154,23 +127,3 @@ make
 ### 预编译安装包
 
 在[官网](https://vlang.io/)直接下载对应平台的安装包，这个目前不推荐使用，更新太慢。
-
-### 增加symlink
-
-可以通过增加symbol link,让v编译器随处可用。
-
-在unix，linux，mac系统中，进入到v可执行文件所在的目录，然后执行：
-
-```shell
-sudo ./v symlink
-```
-
-会创建/usr/local/bin/v链接。
-
-在windows中，使用系统管理员打开命令行窗口，进入到v.exe所在的目录，然后执行以下命令，会创建v环境变量：
-
-```
-.\v.exe symlink
-```
-
-以上命令只需执行一次，如果v命令更换了位置，每次启动会自动更新快捷方式和环境变量。
