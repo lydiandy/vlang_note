@@ -8,7 +8,7 @@ V编译器命令行大小就3M多，实在是小巧得很
 
 Usage:v [options] [command] [arguments]
 
-- 直接执行V,不带任何参数时，直接进入交互模式
+- 直接执行V，不带任何参数时，直接进入交互模式
 - 编译某个指定的.v源代码文件，会生成同名的可执行文件，也可以使用-o选项，生成特定的可执行文件名
 - 编译某一个指定的目录，编译器会编译目录中所有*.v的源代码，生成一个单一的可执行文件或库文件，文件名跟目录同名
 - 所有以  _ test.v结束的文件，会被编译器当做测试文件，编译器执行测试文件时，会按顺序执行所有的以test_开头的测试函数
@@ -18,54 +18,55 @@ Usage:v [options] [command] [arguments]
 Usage:v [options] [command] [arguments]
 
 新建项目子命令:
-   new               创建新的V项目，主要是生成v.mod项目文件
-   init              对现有已存在的V项目生成v.mod项目文件
+   new               #创建新的V项目，主要是生成v.mod项目文件
+   init              #对现有已存在的V项目生成v.mod项目文件
    
 标准开发子命令:
-   run               编译并运行指定的V源文件或目录,运行后删除可执行文件，每次都重新编译
-   crun							 编译并运行指定的V源文件或目录，运行后不删除可执行文件，如果源代码没有改动，再次运行会直接运行可执行文件，而不用重新编译，加快运行时间，vsh脚本也可以使用
-   test              运行指定目录的测试文件
-   fmt               格式化代码
-   vet							 分析代码存在的错误
-   doc               生成指定模块的文档
-   repl              运行交互式模式
-   watch 						 编译项目，并监控源文件修改，保存后自动重新编译
-   where						 查找指定的符号(fn,method,struct,interface,
-   									 enum,const,var,regexp)所在的位置
-   ast							 将V源代码生成json格式的AST语法树，直观展现V的语法树
-   scan							 扫描V源文件，输出源文件中所有的token
-   vlib-docs 				 调用v doc生成vlib标准库的文档	
-   interpret				 直接解释执行V代码
+   run               #编译并运行指定的V源文件或目录,运行后删除可执行文件，每次都重新编译
+   crun							 #编译并运行指定的V源文件或目录，运行后不删除可执行文件，如果源代码没有改动，再次运行会直接运行可执行文件，而不用重新编译，加快运行时间，vsh脚本也可以使用
+   test              #运行指定目录的测试文件
+   fmt               #格式化代码
+   vet							 #分析代码存在的错误
+   doc               #生成指定模块的文档
+   repl              #运行交互式模式
+   watch 						 #编译项目，并监控源文件修改，保存后自动重新编译
+   where						 #查找指定的符号(fn,method,struct,interface,
+   									 #enum,const,var,regexp)所在的位置
+   ast							 #将V源代码生成json格式的AST语法树，直观展现V的语法树
+   scan							 #扫描V源文件，输出源文件中所有的token
+   vlib-docs 				 #调用v doc生成vlib标准库的文档	
+   interpret				 #直接解释执行V代码
    
 安装和升级子命令:
-   symlink           unix系统在/usr/local/bin/v生成链接,windows生成环境变量
+   symlink           #unix系统在/usr/local/bin/v生成链接,windows生成环境变量
 
-   up                升级编译器V到最新版本，等同于git pull,然后make
-   self [-prod]      让V编译器自己编译自己(不执行git pull,不使用make)
-   									 可使用-prod优化编译
-   version           查看编译器版本
+   up                #升级编译器V到最新版本，等同于git pull,然后make
+   self [-prod]      #让V编译器自己编译自己(不执行git pull,不使用make)
+   									 #可使用-prod优化编译
+   version           #查看编译器版本
    
 包管理子命令:
-   install           从vpm/git/hg安装指定的一个或多个模块
-   remove            删除已安装的模块
-   search            搜索模块
-   update            升级指定已安装的模块
-   upgrade					 升级所有已安装的模块
-   list							 列出所有已安装的模块
-   outdated					 列出所有过时需要升级的模块
-   show 						 显示模块的详细信息
+   install           #从vpm/git/hg安装指定的一个或多个模块
+   remove            #删除已安装的模块
+   search            #搜索模块
+   update            #升级指定已安装的模块
+   upgrade					 #升级所有已安装的模块
+   list							 #列出所有已安装的模块
+   outdated					 #列出所有过时需要升级的模块
+   show 						 #显示模块的详细信息
    
 其他子命令:
-   translate         把C源代码翻译成V源代码，或封装C代码库给V调用
-   doctor						 输出当前电脑的基本环境信息，用于提单到github时，报告环境信息
-   tracev						 生成一个带跟踪调试信息的V编译器
+	 ls								 #安装，更新，执行vls语言服务
+   translate         #把C源代码翻译成V源代码，或封装C代码库给V调用
+   doctor						 #输出当前电脑的基本环境信息，用于提单到github时，报告环境信息
+   tracev						 #生成一个带跟踪调试信息的V编译器
 ```
 
 可以使用v help xxx进一步查看各个子命令的具体帮助文本:
 
 ```shell
-v help build //显示编译通用选项
-v help build-c //显示编译器后端为c(默认)时的编译选项
+v help build #显示编译通用选项
+v help build-c #显示编译器后端为c(默认)时的编译选项
 ```
 
 可查看build和run的子命令详细内容，此部分较为重要，同时build和run子命令的编译选项是共用的
@@ -73,125 +74,134 @@ v help build-c //显示编译器后端为c(默认)时的编译选项
 ```shell
 v或v -或v -repl进入交互模式
 
-v -b或-backend c ./main.v //指定编译器后端类型:默认是c,也可以是js,native
-v -b js ./main.v	 //指定编译器后端类型为js,目前还是试验性质的，不完善
-v -b native ./main.v	 //指定编译器后端类型为native,目前还是试验性质的，不完善
+v -b或-backend c ./main.v #指定编译器后端类型:默认是c,也可以是js,native
+v -b js ./main.v	 #指定编译器后端类型为js,目前还是试验性质的，不完善
+v -b native ./main.v	 #指定编译器后端类型为native,目前还是试验性质的，不完善
   
-v -o或-output main.c ./main.v //编译生成C源文件，而不是可执行文件
+v -o或-output main.c ./main.v #编译生成C源文件，而不是可执行文件
 
-v -prod xxx.v //生产优化模式编译，生成更小的可执行文件 不指定-prod选项时优先尝试使用tcc编译(v make时会自动下载)，指定-prod选项选项后使用gcc msvc等进行编译
+v -prod xxx.v #生产优化模式编译，生成更小的可执行文件 不指定-prod选项时优先尝试使用tcc编译(v make时会自动下载)，指定-prod选项选项后使用gcc msvc等进行编译
 
-v -skip-unused xxx.v //V代码编译生成C代码时，忽略未使用的C函数，可以进一步缩小可执行文件大小，目前最简单的V程序正常编译成C代码大概是1W行左右，使用了-skip-unused后，减小到5000行左右
-v -skip-unused -prod xxx.v //V代码编译生成C代码时，忽略未使用的C函数，并且进行生产编译，可以进一步缩小可执行文件大小
-v -skip-unused -o xxx.c xxx.v //生成最小的C文件，忽略未使用的C函数
+v -skip-unused xxx.v #V代码编译生成C代码时，忽略未使用的C函数，可以进一步缩小可执行文件大小，目前最简单的V程序正常编译成C代码大概是1W行左右，使用了-skip-unused后，减小到5000行左右
+v -skip-unused -prod xxx.v #V代码编译生成C代码时，忽略未使用的C函数，并且进行生产编译，可以进一步缩小可执行文件大小
+v -skip-unused -o xxx.c xxx.v #生成最小的C文件，忽略未使用的C函数
 
-v -usecache xxx.v  //使用标准库的缓存，而不是每次都重新编译标准库，编译速度快很多
-v -usecache -prod xxx.v //使用标准库缓存，生产优化编译，速度也会快很多
-v -nocache -prod xxx.v  //取消标准库的缓存，全部重新编译
-v -wipe-cache xxx.v //取消标准库的缓存，全部重新编译
+v -usecache xxx.v  #使用标准库的缓存，而不是每次都重新编译标准库，编译速度快很多
+v -usecache -prod xxx.v #使用标准库缓存，生产优化编译，速度也会快很多
+v -nocache -prod xxx.v  #取消标准库的缓存，全部重新编译
+v -wipe-cache xxx.v #取消标准库的缓存，全部重新编译
 
-v main.v -dump-modules modules.txt //把本次编译所依赖的模块名称保存到modules.txt文件中
-v main.v -dump-files files.txt //把本次编译所依赖的V源文件保存到files.txt文件中
-v main.v -dump-cflags cflags.txt //把本次编译所使用的cflag选项保存到cflags.txt文件中
+v main.v -dump-modules modules.txt #把本次编译所依赖的模块名称保存到modules.txt文件中
+v main.v -dump-files files.txt #把本次编译所依赖的V源文件保存到files.txt文件中
+v main.v -dump-cflags cflags.txt #把本次编译所使用的cflag选项保存到cflags.txt文件中
 
-v -autofree xxx.v //以自动释放内容方式生成可执行文件
-v -obf或-obfuscate //混淆编译生成可执行文件
-v -stats //编译时显示额外的统计信息，编译多少行，多少字节，编译时间，每秒编译行数
-v -show-timings xxx.v //显示每个编译阶段花费多少时间:扫描，解析，检查，生成C,编译C
-v -g xxx.v //不做代码优化，加入更多的调试信息在生成的可执行文件中，然后就可以使用C的调试器调试可执行文件
-v -g -cg -keepc //生成可调式的可执行文件，并且不删除生成的C源代码，方便跟踪调试
-v -cg run xxx.v //如果编译报错，-cg选项可以提示报错更多的信息，以及报错对应的C代码行，可以更快地定位错误
-v -compress //调用upx，压缩加壳生成二进制文件
-v -os <os> //跨平台交叉编译，编译生成指定os的可执行文件,OS可以是:linux, mac, windows, msvc
-v -arch x64 //指定编译的架构，可以是x86或x64,默认是x64
-v -live   //启用代码热更新编译(只对注解为[live]的函数生效，修改函数内容会实时编译)
-v -shared  //编译生成共享库
+v -autofree xxx.v #以自动释放内容方式生成可执行文件
+v -obf或-obfuscate #混淆编译生成可执行文件
+v -stats #编译时显示额外的统计信息，编译多少行，多少字节，编译时间，每秒编译行数
+v -show-timings xxx.v #显示每个编译阶段花费多少时间:扫描，解析，检查，生成C,编译C
+v -g xxx.v #不做代码优化，加入更多的调试信息在生成的可执行文件中，然后就可以使用C的调试器调试可执行文件
+v -g -cg -keepc #生成可调式的可执行文件，并且不删除生成的C源代码，方便跟踪调试
+v -cg run xxx.v #如果编译报错，-cg选项可以提示报错更多的信息，以及报错对应的C代码行，可以更快地定位错误
+v -compress #调用upx，压缩加壳生成二进制文件
+v -os <os> #跨平台交叉编译，编译生成指定os的可执行文件,OS可以是:linux, mac, windows, msvc
+v -arch x64 #指定编译的架构，可以是x86或x64,默认是x64
+v -live   #启用代码热更新编译(只对注解为[live]的函数生效，修改函数内容会实时编译)
+v -shared  #编译生成共享库
 
-v -glibc xxx.v //使用glibc库进行编译
-v -musl xxx.v //使用musl库进行编译
+v -glibc xxx.v #使用glibc库进行编译
+v -musl xxx.v #使用musl库进行编译
 
-v -no-builtin xxx.v //不使用buildin内置模块
-v -no-std xxx.v //不使用编译参数：-std=gnu99(linux)/-std=c99 C99标准进行编译
+v -no-builtin xxx.v #不使用buildin内置模块
+v -no-std xxx.v #不使用编译参数：-std=gnu99(linux)/-std=c99 C99标准进行编译
 ...
 ```
 
 ### 常用命令例子
 
 ```shell
-v main.v 			//编译当前目录中的main.v源文件，生成同名的main可执行文件
-v run main.v  //编译并运行当前目录中的main.v源文件，运行完成后删除可执行文件，每次都重新编译
-v crun main.v //编译并运行当前目录中的main.v源文件，运行完成后不删除编译后的可执行文件，如果源代码没有改动，再次运行会直接运行可执行文件，加快运行时间
-v watch main.v //编译并运行当前目录中的main.v源文件，并监控，保存自动重新运行
-v interpret ./main.v	 //不先编译，解释执行代码
+v main.v 			#编译当前目录中的main.v源文件，生成同名的main可执行文件
+v run main.v  #编译并运行当前目录中的main.v源文件，运行完成后删除可执行文件，每次都重新编译
+v crun main.v #编译并运行当前目录中的main.v源文件，运行完成后不删除编译后的可执行文件，如果源代码没有改动，再次运行会直接运行可执行文件，加快运行时间
+v watch main.v #编译并运行当前目录中的main.v源文件，并监控，保存自动重新运行
+v interpret ./main.v	 #不先编译，解释执行代码
 
-v project-dir //编译整个目录
+v project-dir #编译整个目录
 
-v -gc boehm main.v 	//带GC编译，详细选项参考内存管理章节
+v -gc boehm main.v 	#带GC编译，详细选项参考内存管理章节
 
-v -usecache main.v //使用标准库缓存进行编译
-v run main.v 	//编译当前目录中的main.v源文件，生成同名的main可执行文件，并运行
-v -autofree run main.v //以自动释放内容方式，编译，并运行
+v -usecache main.v #使用标准库缓存进行编译
+v run main.v 	#编译当前目录中的main.v源文件，生成同名的main可执行文件，并运行
+v -autofree run main.v #以自动释放内容方式，编译，并运行
 
-v -o myexe main.v 	//编译当前目录中的main.v源文件，生成的可执行文件名为myexe
-v -o myexe.c main.v //编译当前目录中的main.v源文件，生成对应的C源文件，而不是可执行文件
-v -o myexe.js main.v //编译当前目录中的main.v源文件，生成对应的js源文件，而不是可执行文件
+v -o myexe main.v 	#编译当前目录中的main.v源文件，生成的可执行文件名为myexe
+v -o myexe.c main.v #编译当前目录中的main.v源文件，生成对应的C源文件，而不是可执行文件
+v -o myexe.js main.v #编译当前目录中的main.v源文件，生成对应的js源文件，而不是可执行文件
 
-v -prod main.v //生产模式编译当前目录中的main.v源文件，生成更小的可执行文件
+v -prod main.v #生产模式编译当前目录中的main.v源文件，生成更小的可执行文件
 
-v translate main.c //将C代码翻译成V代码
-v translate wrapper main.c //将C代码封装成V代码定义，提供给V代码调用
+v translate main.c #将C代码翻译成V代码
+v translate wrapper main.c #将C代码封装成V代码定义，提供给V代码调用
 
-v help //查看编译器帮助文本
-v help build //查看build子命令的帮助文本
+v help #查看编译器帮助文本
+v help build #查看build子命令的帮助文本
 
-v version //查看编译器版本
-v --version //查看编译器版本
+v version #查看编译器版本
+v --version #查看编译器版本
 
-v    //进入交互模式
-v -  //进入交互模式
+v    #进入交互模式
+v -  #进入交互模式
 
-v build mymodule //编译mymodule模块（当前位置要在mymodule的上级目录）
-v . //编译当前目录
+v build mymodule #编译mymodule模块（当前位置要在mymodule的上级目录）
+v . #编译当前目录
 
-v build-tools //一次性编译所有的cmd/tools中的命令行工具
+v build-tools #一次性编译所有的cmd/tools中的命令行工具
 
-v up //升级V编译器到最新版本，等价于git pull && make
+v up #升级V编译器到最新版本，等价于git pull && make
 
-v install xxx模块 //从https://vpm.vlang.io官方VPM安装指定的模块
-v install --git https://github.com/vlang/markdown  //从git代码库安装模块
-v install --hg  xxx代码库url //从hg代码库安装模块
+v install xxx模块 #从https://vpm.vlang.io官方VPM安装指定的模块
+v install --git https://github.com/vlang/markdown  #从git代码库安装模块
+v install --hg  xxx代码库url #从hg代码库安装模块
 
-v fmt -w main.v //统一格式化指定源文件或目录中的代码
+v fmt -w main.v #统一格式化指定源文件或目录中的代码
 
-v where fn main //查找main函数的位置
-v where struct User //查找User结构体的位置
-v where method User.get_name //查找get_name方法的位置
-v where fn pow -mod math //在模块math中查找pow函数的位置
-v where interface callable -dir abc -dir def //在指定目录中查找接口callable的位置
+v where fn main #查找main函数的位置
+v where struct User #查找User结构体的位置
+v where method User.get_name #查找get_name方法的位置
+v where fn pow -mod math #在模块math中查找pow函数的位置
+v where interface callable -dir abc -dir def #在指定目录中查找接口callable的位置
 
-v ast main.v //将V源代码生成json格式的AST语法树，生成main.json
-v ast -t main.v //生成简洁的json格式的AST语法书，去除一些不重要的字段
-v ast -w main.v //生成main.json,并且监控源文件变化，保存后自动重新生成
-v ast -c main.v //将V源代码同时生成AST语法树文件main.json和C源代码main.c,并且监控源文件变化，保存后自动重新生成
+v ast main.v #将V源代码生成json格式的AST语法树，生成main.json
+v ast -t main.v #生成简洁的json格式的AST语法书，去除一些不重要的字段
+v ast -w main.v #生成main.json,并且监控源文件变化，保存后自动重新生成
+v ast -c main.v #将V源代码同时生成AST语法树文件main.json和C源代码main.c,并且监控源文件变化，保存后自动重新生成
 
-v scan main.v //扫描main.v源文件，并输出源文件中所有的token
+v ls --install #从github上获取最新的vls代码到~/.vls目录中，并编译到bin目录中
+v ls --update  #从github上更新最新的vls代码，并编译到bin目录中
+v help ls 		 #查看ls子命令的详细帮助
+#有了v ls就可以替代之前一直在使用的手工编译vls的操作
+1.git clone/pull https://github.com/vlang/vls.git 
+2.v build.vsh
+#如果要使用~/.vls/bin中的可执行文件，记得将vscode插件中的bin路径修改为该路径
 
-v vet ./main.v //分析main.v源文件代码中存在的错误
-v vet .			//分析当前目录中所有V源文件代码中存在的错误
 
-v test mymodule //执行mymodule中的测试文件
+v scan main.v #扫描main.v源文件，并输出源文件中所有的token
 
-v test-compiler  //执行v源代码中所有的测试文件，用于测试编译器本身
+v vet ./main.v #分析main.v源文件代码中存在的错误
+v vet .			#分析当前目录中所有V源文件代码中存在的错误
 
-v vlib/v/compiler_errors_test.v //执行编译器错误测试,checker/tests,parser/tests
-VTEST_ONLY=xxx v vlib/v/compiler_errors_test.v //执行编译器错误测试，并且名字包含xxx
+v test mymodule #执行mymodule中的测试文件
 
-v doctor //输出当前电脑的基本环境信息，主要跟V编译相关，用于提单到github时，报告环境信息，方便排查
+v test-compiler  #执行v源代码中所有的测试文件，用于测试编译器本身
 
-v self -prod //编译器自己编译自己
-v -d time_v self //编译器自己编译自己，并增加自定义编译选项
-v -d trace_gen_source_line_info self //编译器编译自己，并增加生成的C源代码行信息
-v -d show_fps run main_with_gg.v //为使用gg库开发的ui程序实时显示FPS
+v vlib/v/compiler_errors_test.v #执行编译器错误测试,checker/tests,parser/tests
+VTEST_ONLY=xxx v vlib/v/compiler_errors_test.v #执行编译器错误测试，并且名字包含xxx
+
+v doctor #输出当前电脑的基本环境信息，主要跟V编译相关，用于提单到github时，报告环境信息，方便排查
+
+v self -prod #编译器自己编译自己
+v -d time_v self #编译器自己编译自己，并增加自定义编译选项
+v -d trace_gen_source_line_info self #编译器编译自己，并增加生成的C源代码行信息
+v -d show_fps run main_with_gg.v #为使用gg库开发的ui程序实时显示FPS
 ```
 
 ### glibc和musl libc编译
@@ -205,13 +215,13 @@ V编译器也支持musl编译，调用musl-gcc作为编译器。
 在linux系统中，glibc是内置的，musl需要安装，下面是从源代码编译安装的步骤：
 
 ```shell
-git clone git://git.musl-libc.org/musl		//下载musl源代码库
+git clone git://git.musl-libc.org/musl		#下载musl源代码库
 cd musl
 ./configure
 make
-make install	//安装完成后，默认会把musl安装到:/usr/local/musl目录中，也可以自定义安装目录
+make install	#安装完成后，默认会把musl安装到:/usr/local/musl目录中，也可以自定义安装目录
 
-//编译成功后，musl-gcc编译器默认在/usr/local/musl/bin目录中，需要添加到环境变量中。
+#编译成功后，musl-gcc编译器默认在/usr/local/musl/bin目录中，需要添加到环境变量中。
 export PATH="/usr/local/musl/bin:$PATH"	
 ```
 

@@ -99,15 +99,15 @@
 
     清屏
 
-- mv(old,new string)
+- mv(old, new string)
 
     移动文件
 
-- cp(old,new string) ?bool
+- cp(old, new string) ?bool
 
     复制文件
 
-- mkdir(dir) ?bool
+- mkdir(path string, params MkdirParams) ?bool
 
     创建目录
 

@@ -52,6 +52,106 @@ pub fn (a Any) array() []Any //转换为数组类型
 pub fn (a Any) as_map() map[string]Any //转换为字典类型
 ```
 
+### toml注解
+
+就像结构体的json注解那样，结构体也支持toml注解，实现结构体字段和toml字段的自定义
+
+```v
+import toml
+
+const toml_text = '# This TOML can reflect to a struct
+name = "Tom"
+age = 45
+height = 1.97
+
+birthday = 1980-04-23
+
+strings = [
+  "v matures",
+  "like rings",
+  "spread in the",
+  "water"
+]
+
+bools = [true, false, true, true]
+
+floats = [0.0, 1.0, 2.0, 3.0]
+
+int_map = {"a" = 0, "b" = 1, "c" = 2, "d" = 3}
+
+[bio]
+text = "Tom has done many great things"
+years_of_service = 5
+
+[field_remap]
+txt = "I am remapped"
+uint64 = 100
+
+[config]
+data = [ 1, 2, 3 ]
+levels = { "info" = 1, "warn" = 2, "critical" = 3 }
+'
+
+struct FieldRemap {
+	text string [toml: 'txt'] //支持toml字段名自定义注解
+	num  u64    [toml: 'uint64']
+}
+
+struct Bio {
+	text             string
+	years_of_service int
+}
+
+struct User {
+	name     string
+	age      int
+	height   f64
+	birthday toml.Date
+	strings  []string
+	bools    []bool
+	floats   []f32
+	int_map  map[string]int
+
+	config toml.Any
+mut:
+	bio   Bio
+	remap FieldRemap
+}
+
+fn main() {
+	toml_doc := toml.parse_text(toml_text) or { panic(err) }
+
+	mut user := toml_doc.reflect<User>()
+	user.bio = toml_doc.value('bio').reflect<Bio>()
+	user.remap = toml_doc.value('field_remap').reflect<FieldRemap>() //根据自定义toml字段名进行反射解析
+
+	assert user.name == 'Tom'
+	assert user.age == 45
+	assert user.height == 1.97
+	assert user.birthday.str() == '1980-04-23'
+	assert user.strings == ['v matures', 'like rings', 'spread in the', 'water']
+	assert user.bools == [true, false, true, true]
+	assert user.floats == [f32(0.0), 1.0, 2.0, 3.0]
+	assert user.int_map == {
+		'a': 0
+		'b': 1
+		'c': 2
+		'd': 3
+	}
+	assert user.bio.text == 'Tom has done many great things'
+	assert user.bio.years_of_service == 5
+
+	assert user.remap.text == 'I am remapped'
+	assert user.remap.num == 100
+
+	assert user.config.value('data[0]').int() == 1
+	assert user.config.value('levels.warn').int() == 2
+}
+
+```
+
+
+
 ### 将toml转化为json
 
 ```v

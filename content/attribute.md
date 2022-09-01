@@ -62,6 +62,11 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
 
   参考:[json章节](json.md)
   
+- [toml]
+  
+  
+  参考:[toml章节](std_toml.md)
+  
 - [skip]
 
   参考:[json章节](json.md)

@@ -285,7 +285,9 @@ struct Book {
 }
 
 fn main() {
-	book := Book{author:struct{'sdf', 23}} // 初始化匿名结构体字段时，也需要使用struct关键字
+	book := Book{
+		author: struct {'sdf', 23} // 初始化匿名结构体字段时，也需要使用struct关键字
+	} 
 	println(book.author.age)
 }
 ```
