@@ -513,6 +513,43 @@ struct Point {
 }
 ```
 
+#### [packed]
+
+结构体内存对齐，等价于C代码中的#pragma pack(n)来设定变量以n字节对齐方式
+
+```v
+module main
+
+[packed]
+struct Manu {
+mut:
+	ebx  u32
+	edx  u32
+	ecx  u32
+	zero u8
+}
+
+fn (m Manu) str() string {
+	return unsafe {
+		string{
+			str: &u8(&m)
+			len: 24
+			is_lit: 1
+		}
+	}
+}
+
+pub fn main() {
+	m := Manu{
+		ebx: 0
+		edx: 0
+		ecx: 0
+		zero: 0
+	}
+	println(m)
+}
+```
+
 ### 结构体字段注解
 
 #### [required]
@@ -597,7 +634,7 @@ pub fn (p Point) position() (int, int) {
 
 可以通过编译时反射，实现动态获取结构体的所有字段，所有方法，并且可以动态设置字段值。
 
-具体可以参考[编译时反射章节](comptime.md)。
+具体可以参考：[编译时反射章节](comptime.md)。
 
 ### 结构体字段内存位置偏移
 

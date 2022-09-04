@@ -64,13 +64,13 @@ fn test_abc() {
 
 ### 执行测试
 
-#### 执行单个测试文件：
+执行单个测试文件：
 
 ```shell
 v test xxx_test.v
 ```
 
-#### 执行模块测试文件：
+执行模块测试文件：
 
 ```shell
 v test xxx(模块名/目录名)
@@ -84,8 +84,50 @@ v test xxx(模块名/目录名)
 v -stats test xxx.v
 ```
 
-#### 忽略testdata目录
+忽略testdata目录
 
 如果希望有一些测试文件要忽略执行，可以创建名为testdata的目录，测试框架会忽略这个目录。
 
 实际开发场景中，这个目录还是挺实用的，可以把临时不用的测试文件挪到该目录中。
+
+### 特定操作系统测试
+
+如果希望有些测试函数只在特定操作系统下执行，可以使用if注解来实现。
+
+执行测试的时候，只有满足操作系统条件的测试函数才执行。
+
+具体可以使用的操作系统，可以参考[跨平台交叉编译章节](./crossplatform.md)。
+
+```v
+
+[if macos]  //只有macos系统中才执行测试
+pub fn test_in_macos() {
+	println("test in macos")
+	assert true
+}
+
+[if !macos] //只有非macos系统才执行测试
+pub fn test_not_in_macos() {
+	$if !macos {
+		println("test not in macos")
+	}
+	$if macos {
+		println("test in macos")
+	}
+	println("test only not in macos")
+	assert false
+}
+
+[if linux] 
+pub fn test_only_in_linux() {
+	println("test only in linux")
+	assert false
+}
+
+[if linux || windows] //在linux或windows系统中才执行测试
+pub fn test_in_linux_or_macos() {
+	println("test in linux or macos")
+	assert false
+}
+```
+

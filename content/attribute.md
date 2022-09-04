@@ -10,11 +10,11 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
 
 - [deprecated]
 
-  参考:[模块章节](module.md)
+  参考：[模块章节](module.md)
 
 - [deprecated_after]
 
-  参考:[模块章节](module.md)
+  参考：[模块章节](module.md)
 
 #### 枚举注解
 
@@ -28,23 +28,28 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
 
 - [typedef]
 
-  参考:[结构体章节](struct.md)
+  参考：结构体章节](struct.md)
   
 - [heap]
 
-  参考:[结构体章节](struct.md)
+  参考：[结构体章节](struct.md)
   
 - [noinit]
 
-  参考:[结构体章节](struct.md)
+  参考：[结构体章节](struct.md)
 
 - [params]
 
-  参考:[结构体章节](struct.md)
+  参考：[结构体章节](struct.md)
 
 - [table]
 
-  参考:[结构体章节](struct.md)
+  参考：[结构体章节](struct.md)
+  
+- [packed]
+  
+  
+  参考：[结构体章节](struct.md)
 
 #### 结构体字段注解
 
@@ -52,28 +57,28 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
 
 - [required]
 
-  参考:[结构体章节-字段注解](struct.md)
+  参考：[结构体章节-字段注解](struct.md)
   
 - [deprecated]
 
-  参考:[结构体章节-字段注解](struct.md)
+  参考：[结构体章节-字段注解](struct.md)
   
 - [json]
 
-  参考:[json章节](json.md)
+  参考：[json章节](json.md)
   
 - [toml]
   
   
-  参考:[toml章节](std_toml.md)
+  参考：[toml章节](std_toml.md)
   
 - [skip]
 
-  参考:[json章节](json.md)
+  参考：[json章节](json.md)
   
 - [row]
 
-  参考:[json章节](json.md)
+  参考：[json章节](json.md)
 
 #### 函数注解
 
@@ -81,36 +86,36 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
 
 - [deprecated]
 
-  参考:[函数章节](fn.md)
+  参考：[函数章节](fn.md)
   
 - [inline]
 
-  参考:[函数章节](fn.md)
+  参考：[函数章节](fn.md)
 
 - [live]
 
-  参考:[函数章节](fn.md)
+  参考：[函数章节](fn.md)
 
 - [unsafe]
 
-  参考:[unsafe章节](unsafe.md)
+  参考：[unsafe章节](unsafe.md)
 
 - [trusted]
 
-  参考:[unsafe章节](unsafe.md)
+  参考：[unsafe章节](unsafe.md)
   
 - [export]
   
   
-  参考:[函数章节](fn.md)
+  参考：[函数章节](fn.md)
   
 - [weak]
 
-  参考:[函数章节](fn.md)
+  参考：[函数章节](fn.md)
 
 - [if xxx平台]
 
-  参考:[函数章节](fn.md)
+  参考：[函数章节](fn.md)
 
 - [if debug]
 
