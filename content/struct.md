@@ -515,38 +515,27 @@ struct Point {
 
 #### [packed]
 
-结构体内存对齐，等价于C代码中的#pragma pack(n)来设定变量以n字节对齐方式
+不让编译器进行结构体内存对齐。
+
+关于内存对齐可参考：https://www.zhihu.com/question/27862634
 
 ```v
 module main
 
-[packed]
-struct Manu {
-mut:
-	ebx  u32
-	edx  u32
-	ecx  u32
-	zero u8
+struct Foo {
+	a i64 // 8字节
+	b int // 4字节
 }
 
-fn (m Manu) str() string {
-	return unsafe {
-		string{
-			str: &u8(&m)
-			len: 24
-			is_lit: 1
-		}
-	}
+[packed]
+struct Bar {
+	a i64
+	b int
 }
 
 pub fn main() {
-	m := Manu{
-		ebx: 0
-		edx: 0
-		ecx: 0
-		zero: 0
-	}
-	println(m)
+	println(sizeof(Foo)) // 16,编译器会进行内存对齐
+	println(sizeof(Bar)) // 12,不让编译器进行内存对齐
 }
 ```
 
