@@ -6,15 +6,9 @@ V语言的内存管理还在开发中，目前的思路是这样：
 
 1. 当编译器编译代码时，如果能够判断一部分变量确定不再被引用，编译器会自动处理，自动插入free()函数到生成的代码中，自动释放变量。
 
-   
-
 2. 如果编译器在编译时不能判断，会启用引用计数。
 
-   
-
-3. 开发者可以让编译器自动释放自定义结构体的内存，通过增加.free()方法。
-
-   
+3. 开发者可以让编译器自动释放自定义结构体的内存，通过增加free()方法。
 
 4. 如果开发者真的希望，也可以在函数前加上[manualfree]注解，告诉编译器这个函数不需要自动内存控制，由开发者自己手工调用free()函数来管理内存的分配和释放。
 
@@ -30,69 +24,24 @@ V的0.2版本发布后，增加了一个编译选项-autofree，可以实现自�
 
 ### GC
 
-使用V编译器编译程序时，GC已经是默认启用，且已经是内置在V语言中，编译后的的程序不再有动态库依赖。
+使用V编译器编译程序时，GC默认启用，且内置在V语言中。
 
 V使用的是开源的，通用的，C的垃圾回收器：
 
 Boehm-Demers-Weiser Garbage Collector (bdwgc)
 
-官网: https://www.hboehm.info/gc/
+官网: [https://www.hboehm.info/gc/](https://www.hboehm.info/gc/)
 
-源代码: https://github.com/ivmai/bdwgc
+源代码: [https://github.com/ivmai/bdwgc](https://github.com/ivmai/bdwgc)
 
 boehm的发音是/bame/，是美式英语中一个从德文来的姓氏，是一个C的垃圾回收器。
 
 使用mark and sweep算法的增量式分代垃圾回收器。
 
 
-llvm， mono， gnu d compiler， gnu java compiler等也都使用该gc。
+llvm，mono，gnu d compiler，gnu java compiler等也都使用该gc。
 
-一般的C代码中，只要将malloc， realloc替换成boehm相应的分配函数，再删除free调用，就带gc功能。
-
-#### 安装
-
-- 安装libgc-dev包
-
-  macos：
-
-  ```shell
-  brew install libgc
-  ```
-
-  linux：
-
-  ```shell
-  sudo apt-get install libgc-dev
-  ```
-
-- 也可手工下载发布的稳定版本：
-
-  https://github.com/ivmai/bdwgc/releases， 目前最新的稳定版是8系列。
-
-  在编译之前需要先安装automake工具：
-
-  ```shell
-  brew install automake
-  ```
-  
-  然后下载并编译：
-  
-  ```shell
-  git clone git://github.com/ivmai/bdwgc.git
-  #建议先切换到最新的稳定版的分支，然后再编译
-  cd bdwgc
-  git clone git://github.com/ivmai/libatomic_ops.git
-  ./autogen.sh
-  ./configure
-  make -j
-  make check
-  ```
-  
-  安装完成后，可以在终端上输入，如果正常输出，那就是安装成功。
-  
-  ```shell
-  gc #输出On branch release-8_2
-  ```
+一般的C代码中，只要将malloc，realloc替换成boehm相应的分配函数，再删除free调用，就带gc功能。
 
 #### 使用
 
@@ -130,7 +79,7 @@ fn main() {
 }
 ```
 
-带GC的大概增加173K左右的大小。
+带GC的大概增加173K左右的大小：
 
 |  v   | v -gc none | v -prod | v -prod -gc none |
 | :--: | :--------: | :-----: | :--------------: |
@@ -172,7 +121,6 @@ fn main() {
 	abc()
 	xyz()
 }
-
 ```
 
 V目前依赖libc
@@ -247,7 +195,7 @@ V目前依赖libc
 
 ### V手动内存管理
 
-在使用libc标准库的手动内存管理函数的基础上，V额外增加了新的内存管理函数，主要是为了内置支持自动GC。
+在使用libc标准库的手动内存管理函数的基础上，V额外增加了新的内存管理函数，主要是为了内置支持GC。
 
 如果应用开发过程中也需要使用到手动内存管理，建议还是尽量不要直接使用C函数，而是使用V进一步封装的函数，这样确保GC可以覆盖到。
 
