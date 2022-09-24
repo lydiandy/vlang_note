@@ -20,15 +20,7 @@ cd v
 make # 默认用tcc编译，速度极快，一般1-3秒，生成文件7MB左右，至少需要一次make，只要有V编译器可执行文件，后续升级就可不用再使用make，直接使用v up升级。
 ```
 
-编译成功后，会在当前目录生成V编译器的可执行文件，生产环境编译（使用gcc编译，带-prod选项）可执行文件大小为3M左右，小巧得很。
-
-国内网速较慢，可使用gitee.com镜像（前提是已经有V编译器的可执行文件）。
-```shell
-git clone --depth=1 --single-branch https://gitee.com/mirror/vlang # 只需要一次，以后`cd vlang && git pull`即可。
-cd vlang
-v -cc tcc -o v1 cmd/v # 用时1-3秒, 7MB
-v1 -cc gcc -prod -o v cmd/v  # 用时约60-90秒, 3MB 
-```
+编译成功后，会在当前目录生成V编译器的可执行文件，生产环境编译（使用gcc编译，带-prod选项）可执行文件大小为3M多，小巧得很。
 
 查看V编译器的版本：
 
@@ -47,11 +39,11 @@ v -v version #更详细的版本信息
 module main
 
 fn main() {
-	println("hello V")
+	println("hello vlang")
 }
 ```
 
-在终端中执行，输出hello V，则安装成功。
+在终端中执行，输出hello vlang，则安装成功。
 
 ```shell
 v run main.v
