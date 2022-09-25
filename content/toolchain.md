@@ -210,7 +210,13 @@ v -d show_fps run main_with_gg.v #为使用gg库开发的ui程序实时显示FPS
 
 ### 工具命令行
 
-工具命令行的代码位于cmd/tools目录中，主要有：
+工具命令行的代码位于cmd/tools目录中，当V命令行使用到的子命令还没有编译时，会自动编译子命令，然后再调用。也可以使用以下命令一次性编译所有工具命令行：
+
+```shell
+v build-tools
+```
+
+常用子命令有：
 
 ```v
 	external_tools                      = [
