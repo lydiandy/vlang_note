@@ -240,7 +240,7 @@ fn main() {
 module main
 
 fn main() {
-	$if abc ? { // abc是自定义的条件编译变量,在条件编译时可以使用
+	$if abc ? {  //如果编译时没有传递abc编译选项，这段代码就不会被生成C代码
 		println('自定义编译选项abc存在')
 	}
 }

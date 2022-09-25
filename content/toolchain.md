@@ -76,7 +76,7 @@ v help build-c #显示编译器后端为c(默认)时的编译选项
 可查看build和run的子命令详细内容，此部分较为重要，同时build和run子命令的编译选项是共用的
 
 ```shell
-v或v -或v -repl进入交互模式
+v 或 v - 或 v repl #进入交互模式
 
 v -b或-backend c ./main.v #指定编译器后端类型:默认是c,也可以是js,native
 v -b js ./main.v	 #指定编译器后端类型为js,目前还是试验性质的，不完善
