@@ -2,9 +2,13 @@
 
 ### 编译器命令行
 
-V编译器命令行大小就3M多，实在是小巧得很
+V编译器命令行本身大小就3M多，实在是小巧得很。
 
-执行v help就可以查看到下面的命令行使用说明
+V命令行的设计还是很简洁，合理的，编译器本身和包管理工具等都在主命令行中，比较实用。而不是像rust和node那样，编译器和包管理等工具分开。
+
+不过其实V的一部分子命令并不是直接包含在主命令行中，而是作为单独的工具命令行，由V编译器来调用。这样的好处是不会让主命令行文件过大，但是使用的时候却是统一通过主命令行。
+
+执行v help就可以查看到下面的命令行使用说明：
 
 Usage:v [options] [command] [arguments]
 
@@ -202,6 +206,50 @@ v self -prod #编译器自己编译自己
 v -d time_v self #编译器自己编译自己，并增加自定义编译选项
 v -d trace_gen_source_line_info self #编译器编译自己，并增加生成的C源代码行信息
 v -d show_fps run main_with_gg.v #为使用gg库开发的ui程序实时显示FPS
+```
+
+### 工具命令行
+
+工具命令行的代码位于cmd/tools目录中，主要有：
+
+```v
+	external_tools                      = [
+		'ast',
+		'bin2v',
+		'bug',
+		'build-examples',
+		'build-tools',
+		'build-vbinaries',
+		'bump',
+		'check-md',
+		'complete',
+		'compress',
+		'doc',
+		'doctor',
+		'fmt',
+		'gret',
+		'ls',
+		'missdoc',
+		'repl',
+		'self',
+		'setup-freetype',
+		'shader',
+		'should-compile-all',
+		'symlink',
+		'scan',
+		'test',
+		'test-all', 
+		'test-cleancode',
+		'test-fmt',
+		'test-parser',
+		'test-self',
+		'tracev',
+		'up',
+		'vet',
+		'wipe-cache',
+		'watch',
+		'where',
+	]
 ```
 
 ### glibc和musl libc编译
