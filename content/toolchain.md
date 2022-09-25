@@ -316,39 +316,15 @@ fn main() {
 | v -prod -cc musl-gcc -cflags -static main.v                  | 91.9K    |
 |                                                              |          |
 
-### 自定义编译选项
+### 编译器自身的编译选项
 
-对于自己的程序也可以使用-d或-define来自定义编译选项，并且可以在代码中接收选项的传入值：
-
-```v
-module main
-
-fn main() {
-	$if time_v ? {	//自定义编译选项，可以在编译时if的条件语句中进行判断是否有增加了该编译选项
-		println('time_v')
-	}
-	$if abc ? { 
-		println('abc')
-	}
-	$if value ? {
-		println('1')
-	}
-}
-```
-
-```shell
-v  -d abc -d time_v main.v	#增加自定义编译选项abc和time_v，类型默认为bool类型，默认值为true
-v  -d abc -d time_v -d value='0' main.v #也可以使用‘1’或‘0’，等价于true和false
-./main 	#输出time_v和abc
-```
-
-编译V编译器自身的时候可以添加一些自定义编译选项，让V有不同的行为，比如：
+编译V编译器自身的时候，也可以添加一些自定义编译选项，让V有不同的行为，比如：
 
 ```shell
 v -d time_parsing -d time_checking -d time_cgening -d time_v self
 ```
 
-使用以上几个时间自定义选项编译V编译器后，编译器在编译文件时会详细显示每一个文件在不同阶段消耗的时间：
+使用以上几个时间选项编译V编译器后，编译器在编译文件时，会详细显示每一个文件在不同阶段消耗的时间：
 
 ```shell
 0.004    ms v start
