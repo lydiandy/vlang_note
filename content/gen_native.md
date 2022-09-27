@@ -37,6 +37,8 @@ fn main() {
 ```shell
 v -b native main.v #编译
 v -b native run main.v #编译并运行
+v -b native -arch amd64 run main.v #amd64架构
+v -b native -arch arm64 run main.v #arm64架构
 ```
 
 ### 已支持的语言特性清单
@@ -45,6 +47,7 @@ v -b native run main.v #编译并运行
 - 基本的函数定义，函数调用
 - 基本的结构体定义，结构体创建变量
 - 基本的方法定义，方法调用
+- 基本的枚举定义，使用
 - 内置的typeof函数
 - 流程控制语句：if，match，for
 - 基本表达式，运算符
