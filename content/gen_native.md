@@ -34,11 +34,33 @@ fn main() {
 }
 ```
 
+native编译参数说明：
+
+```shell
+v help build-native
+```
+
+```shell
+# Interfacing the Native code generation, passing options to it:
+   -v
+      Display the assembly code generated (that may change to `-showasm` in the future)
+
+   -arch <arch>
+      Select target architecture, right now only `arm64` and `amd64` are supported
+
+   -os <os>, -target-os <os>
+      Change the target OS that V compiles for.
+
+      The supported targets for the native backend are: `macos`, `linux` and 'windows'
+```
+
 ```shell
 v -b native main.v #编译
 v -b native run main.v #编译并运行
 v -b native -arch amd64 run main.v #amd64架构
 v -b native -arch arm64 run main.v #arm64架构
+v -b native -os macos -arch amd64 run main.v #指定操作系统，指定架构
+v -b native -os macos -arch amd64 -v run main.v #-v verbose模式，显示编译过程的额外信息，包括生成的汇编代码
 ```
 
 ### 已支持的语言特性清单
