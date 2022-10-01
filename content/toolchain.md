@@ -120,6 +120,24 @@ v -no-std xxx.v #不使用编译参数：-std=gnu99(linux)/-std=c99 C99标准进
 ...
 ```
 
+### 并发编译
+
+V编译器不使用-prod进行生产编译的时候，编译速度很快，但是如果使用-prod进行生产编译，编译速度就会慢很多，于是Alex开发了并发编译，使用上所有CPU核心，速度可以提升十几倍：
+
+```shell
+time v cmd/v   #开发编译
+time v -prod cmd/v #普通的生产编译，非并发
+time v -prod -parallel-cc cmd/v #使用-parallel-cc并发编译选项
+```
+
+编译速度比较：未使用并发编译2分20秒，使用并发编译 7.4秒，足足快了18倍。
+
+```shell
+v cmd/v  5.93s user 0.43s system 97% cpu 6.521 total
+v -prod cmd/v  115.51s user 2.21s system 84% cpu 2:20.00 total
+v -prod -parallel-cc cmd/v  7.25s user 0.73s system 107% cpu 7.402 total
+```
+
 ### 常用命令例子
 
 ```shell
