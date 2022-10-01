@@ -122,7 +122,9 @@ v -no-std xxx.v #不使用编译参数：-std=gnu99(linux)/-std=c99 C99标准进
 
 ### 并发编译
 
-V编译器不使用-prod进行生产编译的时候，编译速度很快，但是如果使用-prod进行生产编译，编译速度就会慢很多，于是Alex开发了并发编译，使用上所有CPU核心，速度可以提升十几倍：
+V编译器不使用-prod进行生产编译的时候，编译速度很快，但是如果使用-prod进行生产编译，编译速度就会慢很多，于是Alex开发了并发编译，使用上所有CPU核心。基本的并发编译原理是：把生成的C代码切分成多份，并发编译切分后的代码，最后再链接生成。
+
+编译V编译器，速度可以提升十几倍：
 
 ```shell
 time v cmd/v   #开发编译
@@ -136,6 +138,21 @@ time v -prod -parallel-cc cmd/v #使用-parallel-cc并发编译选项
 v cmd/v  5.93s user 0.43s system 97% cpu 6.521 total
 v -prod cmd/v  115.51s user 2.21s system 84% cpu 2:20.00 total
 v -prod -parallel-cc cmd/v  7.25s user 0.73s system 107% cpu 7.402 total
+```
+
+编译最简单的hello world例子，速度提升了5.9倍左右。由此可见，代码量越多，提升的速度越明显。
+
+```v
+module main
+
+fn main() {
+	println("hello world")
+}
+```
+
+```shell
+v -prod main.v  5.17s user 0.22s system 69% cpu 7.709 total
+v -prod -parallel-cc main.v  0.97s user 0.30s system 96% cpu 1.310 total
 ```
 
 ### 常用命令例子
