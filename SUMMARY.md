@@ -95,6 +95,7 @@
 
 * [builtin](content/std_builtin.md)
 * [strings](content/std_strings.md)
+* [maps](content/maps.md)
 * [datatypes](content/std_datatypes.md)
 * [strconv](content/std_strconv.md)
 * [os](content/std_os.md)
