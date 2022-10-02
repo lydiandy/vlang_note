@@ -343,6 +343,8 @@ mut button4 := Button{
 
 ### 空值初始化引用类型字段
 
+引用类型的结构体字段必须进行初始化：
+
 ```v
 module main
 
