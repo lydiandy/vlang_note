@@ -65,8 +65,6 @@
 
 * [文档生成](content/doc.md)
 
-* [条件编译/跨平台编译](content/crossplatform.md)
-
 * [编译时代码](content/comptime.md)
 
 * [包管理器](content/package.md)

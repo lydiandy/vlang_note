@@ -120,6 +120,14 @@ v -no-std xxx.v #不使用编译参数：-std=gnu99(linux)/-std=c99 C99标准进
 ...
 ```
 
+### 跨平台编译
+
+编译器选项-os，用来编译生成指定平台的可执行文件，目前可以是：linux/mac/windows/ msvc。
+
+```shell
+v -os linux ./main.v
+```
+
 ### 并发编译
 
 V编译器不使用-prod进行生产编译的时候，编译速度很快，但是如果使用-prod进行生产编译，编译速度就会慢很多，于是Alex开发了并发编译，使用上所有CPU核心。基本的并发编译原理是：把生成的C代码切分成多份，并发编译切分后的代码，最后再链接生成。
@@ -297,6 +305,25 @@ v build-tools
 	]
 ```
 
+### 编译器自身的编译选项
+
+编译V编译器自身的时候，也可以添加一些自定义编译选项，让V有不同的行为，比如：
+
+```shell
+v -d time_parsing -d time_checking -d time_cgening -d time_v self
+```
+
+使用以上几个时间选项编译V编译器后，编译器在编译文件时，会详细显示每一个文件在不同阶段消耗的时间：
+
+```shell
+0.004    ms v start
+0.446    ms parse_CLI_args
+0.195    ms parse_file /Users/xx/v/v/vlib/builtin/array.c.v
+0.732    ms checker_check /Users/xx/v/v/vlib/strings/builder.v
+1.355    ms cgen_file /Users/xx/v/v/vlib/strings/builder.v
+837.339  ms v total
+```
+
 ### glibc和musl libc编译
 
 大部分的linux应用都是基于glibc作为C标准库，不过[musl](http://musl.libc.org/)也是一个很优秀的C标准库，体积小，可以静态链接，有自身的特色和场景，目前比较适合在移动端作为C标准库使用，alpine linux发行版的也是使用musl作为C标准库，系统很小型，轻量。
@@ -354,25 +381,6 @@ fn main() {
 | v -prod  -cc gcc -cflags -static main.v                      | 967.5K   |
 | v -prod -cc musl-gcc -cflags -static main.v                  | 91.9K    |
 |                                                              |          |
-
-### 编译器自身的编译选项
-
-编译V编译器自身的时候，也可以添加一些自定义编译选项，让V有不同的行为，比如：
-
-```shell
-v -d time_parsing -d time_checking -d time_cgening -d time_v self
-```
-
-使用以上几个时间选项编译V编译器后，编译器在编译文件时，会详细显示每一个文件在不同阶段消耗的时间：
-
-```shell
-0.004    ms v start
-0.446    ms parse_CLI_args
-0.195    ms parse_file /Users/xx/v/v/vlib/builtin/array.c.v
-0.732    ms checker_check /Users/xx/v/v/vlib/strings/builder.v
-1.355    ms cgen_file /Users/xx/v/v/vlib/strings/builder.v
-837.339  ms v total
-```
 
 ### 相关环境变量
 
