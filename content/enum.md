@@ -97,7 +97,7 @@ fn main() {
 
 ### 枚举值/整型相互转换
 
-枚举类型和整数类型可以相互转换：
+枚举类型和整数类型可以相互转换，不过有一点需要特别注意，将整数转换为枚举类型，属于跨类型的强制转换，必须在不安全代码块中执行，不然编译器会报错。
 
 ```v
 enum Color {
@@ -111,7 +111,7 @@ enum Color {
 fn main() {
 	i := 3 // 推断为int
 	// println(i==.blue) 	//报错,类型不匹配
-	e := Color(i) // 转换为枚举类型
+	e := unsafe { Color(i) } // 将整数转换为枚举类型，属于跨类型的强制转换，必须在不安全代码块中
 	println(e == .blue) // 输出true
 	ii := int(e) // 枚举类型转换为int
 	println(ii) // 输出3
@@ -119,6 +119,7 @@ fn main() {
 	println(typeof(iii).name)
 	println(iii)
 }
+
 ```
 
 ### 枚举类型数组
