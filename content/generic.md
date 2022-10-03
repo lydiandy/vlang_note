@@ -325,6 +325,35 @@ fn main() {
 }
 ```
 
+除了可以对V结构体定义泛型方法，也可以对C结构体定义泛型方法：
+
+```v
+module main
+
+#include <stdio.h>
+
+[typedef]
+struct C.FILE {}
+
+// C结构体的普通方法
+fn (f &C.FILE) show() {
+	println(f)
+}
+
+// C结构体的泛型方法
+fn (f &C.FILE) show_with_generic<T>(p T) {
+	println(f)
+	println(p)
+}
+
+fn main() {
+	a := C.fopen(@FILE.str, c'r')
+	a.show()
+	a.show_with_generic(123)
+	a.show_with_generic('abc')
+}
+```
+
 ### 泛型接口
 
 泛型接口的定义跟泛型结构体基本一样。

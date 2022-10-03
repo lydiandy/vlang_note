@@ -343,6 +343,6 @@ fn main() {
 
 ------
 
-数组相关的源代码可以参考v源代码中的vlib/builtin/array.v。
+数组相关的源代码可以参考：vlib/builtin/array.v。
 
-更多数组相关函数，参考[标准库章节](./std_builtin.md)。
+更多数组相关函数，参考[标准库](./std_builtin.md)和[arrays模块](std_arrays.md)。

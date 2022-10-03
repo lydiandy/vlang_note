@@ -76,3 +76,5 @@ v -b native -os macos -arch amd64 -v run main.v #-v verbose模式，显示编译
 - 函数defer语句
 - 测试断言语句assert
 - inline汇编代码块
+- 编译时条件语句$if
+- 编译时全局常量@

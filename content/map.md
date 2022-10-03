@@ -216,7 +216,6 @@ fn main() {
 }
 ```
 
-字典相关的源代码可以参考v源代码中的：vlib/builtin/map.v。
+字典相关的源代码可以参考：vlib/builtin/map.v。
 
-更多字典相关的函数参考[内置模块章节](./std_builtin.md)和[maps模块章节](maps.md)。
-
+更多字典相关的函数参考[内置模块](./std_builtin.md)和[maps模块](std_maps.md)。
