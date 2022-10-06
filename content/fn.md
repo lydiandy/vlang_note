@@ -2,7 +2,7 @@
 
 ### 函数定义
 
-使用fn关键字定义函数, 格式是：`fn <fn_name>(para1 type1, ...) (return_types...) {}`.
+使用fn关键字定义函数：
 
 ```v
 fn main() {
@@ -48,7 +48,7 @@ fn main() { //主函数
 
 ### 函数访问控制
 
-默认模块内部访问，使用pub才可以被模块外部访问。
+函数默认模块内部访问，使用pub才可以被模块外部访问。
 
 ```v
 module mymodule
@@ -58,12 +58,11 @@ fn private_fn() { // 模块内部可以访问,模块外部不可以访问
 
 pub fn public_fn() { // 模块内部和外部都可以访问
 }
-
 ```
 
 ### 函数参数
 
-函数的参数采用的是类型后置~~，相同类型的相邻参数可以合并类型~~(不再允许)。
+函数的参数采用的是类型后置，相同类型的相邻参数不可以合并类型。
 
 函数的参数默认是不可变的，如果在函数内部要改变传进来的参数，要在函数参数的定义和调用中**都要**加上`mut`。
 
@@ -79,7 +78,6 @@ fn main() {
 	my_fn(mut nums) // 3.调用函数时,还需要在参数前加上mut,不然会报错
 	println(nums) // 返回[2, 4, 6],函数执行后,传进来的参数被改变了
 }
-
 ```
 
 不确定个数参数也是支持的，不确定参数要放在参数的最后一个。
@@ -136,9 +134,32 @@ fn variadic_fn_b(a ...string) string {
 }
 ```
 
+不确定个数参数的类型也可以是指针类型：
+
+```v
+module main
+
+fn take_variadic_string_ptr(strings ...&string) { //指针类型
+	take_array_string_ptr(strings)
+}
+
+fn take_array_string_ptr(strings []&string) {
+	println(*strings[0] == 'a')
+	println(*strings[1] == 'b')
+}
+
+fn main() {
+	a := 'a'
+	b := 'b'
+	take_variadic_string_ptr(&a, &b)
+}
+```
+
 ### 函数返回值
 
 函数的返回值可以是单返回值，也可以是多返回值。
+
+因为有了这个特性，其他语言中有的元组类型Tuple，在V语言中就不太需要了。
 
 ```v
 fn bar() int { //单返回值
@@ -160,26 +181,26 @@ fn main() {
 }
 ```
 
-返回值也可以返回指针类型。
+返回值也可以返回指针类型：
 
 ```v
-fn get_the_dao_way() voidptr { //返回通用指针
+fn get_the_dao_way() voidptr { //返回通用类型指针
 	return voidptr(0)
 }
 
-fn multi_voidptr_ret() (voidptr, bool) { //返回通用指针
+fn multi_voidptr_ret() (voidptr, bool) { //返回通用类型指针
 	return voidptr(0), true
 }
 
-fn multi_byte_ret() (&u8, bool) { //返回字节指针
+fn multi_byte_ret() (&u8, bool) { //返回字节类型指针
 	return &u8(0), true
 }
-fn multi_byte_ret2() (&byteptr, bool) { // byteptr也是字节指针,不过不常用
+fn multi_byte_ret2() (&byteptr, bool) { // byteptr也是字节类型指针,不过不常用
 	return &byteptr(0), true
 }
 ```
 
-忽略返回值，跟go一样，可以使用下划线来忽略函数的某个返回值。
+跟go一样，可以使用下划线来忽略函数的某个返回值。
 
 ```v
 fn main() {
@@ -205,7 +226,7 @@ fn foo() (int, int) {
 
 在函数退出前执行defer代码块，一般用来在函数执行完毕后，释放资源的占用。一个函数可以有多个defer代码块，采用后定义先执行(后进先出LIFO)的原则。
 
-同时在defer代码块内有一些特殊的注意事项：
+同时，在defer代码块内有一些特殊的注意事项：
 
 - defer代码块内不可调用return
 - defer代码块内不可嵌套定义defer代码块
@@ -246,7 +267,7 @@ from defer_fn1
 
 ### 函数类型
 
-相同的函数签名,表示同一类函数，可以用type定义为函数类型。
+相同的函数签名表示同一类函数，可以用type定义为函数类型。
 
 ```v
 type Mid_fn = fn (int, string) int
@@ -285,7 +306,6 @@ fn main() {
 	a := sum()
 	println(a(2))
 }
-
 ```
 
 ### 闭包的参数传递
@@ -303,7 +323,7 @@ type Handler = fn (string) int
 
 fn myfn(x int) Handler {
 	mut y := 3
-  //上级函数的x,y变量要传递进去，如果是可变的，也要像函数参数那样，使用mut
+  //上级函数的x，y变量要传递进去，如果是可变的，也要像函数参数那样，使用mut
 	return fn [x, mut y] (name string) int { 
 		y++
 		return x
@@ -311,7 +331,7 @@ fn myfn(x int) Handler {
 }
 ```
 
-如果要传递的是变量的引用也可以，不过要确保变量在调用函数的时候始终可用，否则就会产生错误：
+如果要传递的是变量的引用也可以，不过要确保变量在调用函数的时候始终可用，否则就会产生错误。
 
 ```v
 mut i := 0
@@ -327,7 +347,7 @@ print_counter() // 10
 
 ### 函数递归
 
-函数支持递归调用
+函数支持递归调用：
 
 ```v
 // hanoi tower
@@ -361,11 +381,28 @@ fn hanoi(n int, a string, b string, c string) {
 
 ### 函数重载
 
-v非常有限地支持函数重载，仅限于`+-*/...`少数几个运算符，如：`fn (a Struct_A) + (b Struct_A) Struct_A {}`,仅此而已。
+V语言不支持函数重载，同一个函数名，在模块中只能有一个，即使是参数不一样。
+
+以下代码无法通过编译：
+
+```v
+module main
+
+fn add(x int) int {
+	return x
+}
+
+fn add(x int, y int) int {
+	return x + y
+}
+
+fn main() {
+}
+```
 
 ### 函数参数默认值
 
-函数的参数没有默认值这个特性。可以使用结构体参数来实现同样的效果。
+函数的参数没有默认值这个特性。不过可以使用结构体参数来实现同样的效果。
 
 ### 函数命名参数
 
@@ -373,7 +410,7 @@ v非常有限地支持函数重载，仅限于`+-*/...`少数几个运算符，�
 
 函数使用结构体作为参数，参数的传递只根据参数名来匹配，跟参数的顺序无关。
 
-这个语法在ui模块比较常用到，用来简化函数参数。
+这个语法在ui模块比较常用到，用来让函数的参数可读性更好。
 
 ```v
 module main
@@ -396,6 +433,8 @@ fn main(){
 ### 结构体参数
 
 使用结构体作为函数的参数，并且结构体使用了[params]注解，就可以实现参数的默认值和命名参数传参的效果。
+
+结构体参数加了[params]注解，函数的参数可以什么都不传，直接使用结构体的默认值。
 
 ```v
 //参数注解
@@ -423,12 +462,12 @@ fn new_button(c ButtonConfig) &Button {
 
 fn main() {
 	button := new_button(text: 'button1', width: 100)
-	println(button.height) // height没有初始化,使用默认值
+	println(button.height) // height没有初始化，使用默认值
 
 	button2 := new_button(width: 100, text: 'button2') //结构体参数的字段顺序无所谓
 	println(button2)
 
-	//结构体参数加了params注解,函数的参数可以什么都不传,直接使用结构体的默认值
+	//结构体参数加了params注解，函数的参数可以什么都不传，直接使用结构体的默认值
 	button3 := new_button()
 	println(button3) //所有参数都使用默认值
 }
@@ -445,7 +484,7 @@ pub fn width() int {
 }
 ```
 
-详细参考：[调用C代码库](./c.md)
+详细参考：[调用C代码库](./c.md)。
 
 ### 匿名/内部函数
 
@@ -519,11 +558,11 @@ pub fn (p Point) position() (int, int) {
 
 #### [unsafe]
 
-参考[不安全代码章节](unsafe.md)
+参考[不安全代码章节](unsafe.md)。
 
 #### [trusted]
 
-参考[不安全代码章节](unsafe.md)
+参考[不安全代码章节](unsafe.md)。
 
 #### [live]
 
@@ -618,7 +657,7 @@ fn main() {
 
 ### 内置函数
 
-V内置了一些函数，可以全局使用，所有的内置函数可以在vlib/builtin目录中找到定义：
+V在内置模块builtin中，内置了一些函数，可以全局使用，所有的内置函数可以在vlib/builtin目录中找到定义：
 
 ```v
 pub fn print(s string)		// 打印字符串，不换行
@@ -636,9 +675,9 @@ pub fn panic(s string) 		// 抛出错误
 pub fn panic_error_number(basestr string, errnum int) 	// 抛出错误及错误码
 ```
 
-#### dump
+dump函数
 
-跟C语言中的dump函数功能一样,把某个表达式的数据转储，并输出，dump函数主要用于调试，比println函数更为方便，清晰。
+跟C语言中的dump函数功能一样：把某个表达式的数据转储，并输出，dump函数主要用于调试，比println函数更为方便，清晰。
 
 表达式被调用了几次，每次的结果如何，代码的位置，都会被清楚地打印出来。
 
@@ -669,4 +708,3 @@ fn main() {
 [xxx/main.v:5] n * factorial(n - 1): 24
 [xxx/main.v:5] n * factorial(n - 1): 120
 ```
-
