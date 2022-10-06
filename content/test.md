@@ -98,6 +98,19 @@ main_test.v:3: ✗ fn abc
     Right value: 2
 ```
 
+也可以使用命令行参数来实现相同的效果，而不用每个函数都加assert_continues注解。
+
+```shell
+v -assert continues test . 
+```
+
+另外-assert也有别的选项：
+
+```shell
+v -assert aborts test .  #默认的行为，碰到断言不通过，停止测试
+v -assert backtraces test . #碰到断言不通过，停止测试，并调用print_backtrace()显示堆栈信息
+```
+
 ### 执行测试
 
 执行单个测试文件：
