@@ -4,13 +4,13 @@
 
 模块目录中：
 
-测试文件:以 xxx_test.v结尾。
+测试文件：以xxx_test.v结尾。
 
-测试函数:以test_xxx()开头。
+测试函数：以test_xxx()开头。
 
 ### assert 断言语句
 
-如果assert语句后面的表达式结果为true，表示测试通过；如果为false，表示测试不通过。
+如果assert语句后面的表达式结果为true，表示测试通过，如果为false，表示测试不通过。
 
 示例：vlib/builtin/string_test.v
 
@@ -62,6 +62,42 @@ fn test_abc() {
     Message: i: 123
 ```
 
+### 断言继续
+
+如果测试函数加了assert_continues注解，当断言不为真时，仍然继续往下执行，只是把所有断言不通过时的表达式左值和右值打印出来。如果没有这个注解，碰到第一个不通过的条件，测试就会停止，只打印出第一个不通过时的表达式。
+
+```v
+[assert_continues]
+fn abc(ii int) {
+	assert ii == 2
+}
+
+fn test_abc() {
+	for i in 0 .. 4 {
+		abc(i)
+	}
+}
+```
+
+输出所有断言不通过的表达式值：
+
+```shell
+main_test.v:3: ✗ fn abc
+   > assert ii == 2
+     Left value: 0
+    Right value: 2
+
+main_test.v:3: ✗ fn abc
+   > assert ii == 2
+     Left value: 1
+    Right value: 2
+
+main_test.v:3: ✗ fn abc
+   > assert ii == 2
+     Left value: 3
+    Right value: 2
+```
+
 ### 执行测试
 
 执行单个测试文件：
@@ -96,10 +132,7 @@ v -stats test xxx.v
 
 执行测试的时候，只有满足操作系统条件的测试函数才执行。
 
-具体可以使用的操作系统，可以参考[跨平台交叉编译章节](./crossplatform.md)。
-
 ```v
-
 [if macos]  //只有macos系统中才执行测试
 pub fn test_in_macos() {
 	println("test in macos")
