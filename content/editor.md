@@ -49,6 +49,12 @@ vls支持：
   }
   ```
 
+### idea插件
+
+安装插件：https://github.com/i582/vlang-idea
+
+idea的这个插件是jetbrains内部员工开发的，预计2023年1月发布第一个beta版本，目前还处在早期阶段。
+
 ### ved
 
 编辑器：[https://github.com/vlang/ved](https://github.com/vlang/ved)
