@@ -87,8 +87,6 @@
 
 * [数据库开发](content/db.md)
 
-* [在浏览器运行V代码](content/run_in_web.md)
-
 ##### 常用标准库
 
 * [builtin](content/std_builtin.md)
