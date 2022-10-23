@@ -244,22 +244,39 @@ fn exec(stmt string) ! {
 
 ### 向上抛转错误
 
-```v
-resp := http.get(url) ! //在调用函数后加上!或?,表示如果函数执行出现错误,当前调用层级不处理,直接向上抛转错误
-println(resp.body)
-```
+调用函数时，可以在调用时不处理，而是向调用链的上级函数抛转错误，如果向上抛转到main主函数还没有处理错误，那么就会以panic的方式报错。
 
-http.get函数中，定义的返回值是：!Response
-
-当用上面的方式调用get函数时，如果触发了错误，错误会被向上抛转给调用get函数的上级函数。
-
-上级函数的返回类型必须也有错误处理，如果上级函数是main主函数，那么就会以panic的方式处理错误。
-
-类似以下的代码：
+向上抛转时，上级函数的返回值必须也是对应的错误或空值，否则编译时会报错。
 
 ```v
-resp := http.get(url) or {
-	panic(err)
+//函数定义
+fn my_fn(i int) !int {
+	if i == 0 {
+		return error('Not ok') //抛出错误,err的值为Not ok
+	}
+	return i //正常返回
 }
-println(resp.body)
+
+fn my_fn2(i int) ?int {
+	if i == 0 {
+		return none //返回空值
+	}
+	return i //正常返回
+}
+
+fn my_fn3() ?int {
+	v := my_fn2(0)? //本级不处理空值,向上抛转,函数返回的错误类型必须也是?,而不能是!
+	return v
+}
+
+fn main() {
+	v1 := my_fn(1)! //本级不处理,向上抛转错误
+	println(v1)
+
+	v2 := my_fn2(0) or { 0 } //本级处理空值
+	println(v2)
+
+	v3 := my_fn3() or { -1 } //下级函数向上抛转,未处理的空值,必须在main中处理,否则报错
+	println(v3)
+}
 ```

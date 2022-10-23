@@ -1,4 +1,4 @@
-## 快速总览
+### 快速总览
 
 本章节试图展示V语言的总体特性，形成对V语言的一个总体印象，后续章节再展开逐个部分详细介绍。
 
@@ -71,9 +71,7 @@ pub fn main() {
 
 	go my_fn(1, 2) // 跟go一样的并发
 
-	my_fn2(1) // 匿名联合类型作为参数或返回值
-
-	my_fn3(0) or { // or代码块,进行错误处理
+	my_fn2(0) or { // or代码块,进行错误处理
 		panic(err.msg())
 	}
 }
@@ -108,14 +106,8 @@ pub fn my_fn(x int, y int) int {
 	return a
 }
 
-// 3.函数-匿名联合类型作为参数或返回值
-pub fn my_fn2(x int | string | bool) int | string | bool {
-	println(x)
-	return x
-}
-
 // 3.函数-简洁的错误处理
-pub fn my_fn3(x int) !int {
+pub fn my_fn2(x int) !int {
 	if x == 0 {
 		return error('this is an error.') // 抛出错误,然后在调用函数的or代码块进行错误处理
 	}
@@ -193,5 +185,9 @@ pub type Expr = BinExpr | BoolExpr | UnaryExpr
 pub type MyOption<T> = Error | None | T
 
 struct None {}
-
 ```
+
+### 在线体验
+
+V提供了在线体验代码的环境：[V Playground](https://play.vlang.io/)，可以在不安装V环境的情况下，在线体验代码。
+
