@@ -151,8 +151,8 @@ println(s) //输出hello world
 
 ```v
 name:='Bob'
-println('hello $name') //方式1
-println('hello ${name}') //方式2，效果一样，更常用于复杂的表达式，把表达式放在{}里面
+println('hello {name}')
+println("hello {name}")
 ```
 
 判断字符串是否包含子字符串:

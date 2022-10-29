@@ -11,18 +11,14 @@ pub interface IError {
 	code() int //返回错误码
 }
 //内置的消息错误类型
-struct MessageError {
-pub:
-	msg  string
-	code int
+pub struct Error {}
+
+pub fn (err Error) msg() string {
+	return ''
 }
 
-pub fn (err MessageError) msg() string {
-	return err.msg
-}
-
-pub fn (err MessageError) code() int {
-	return err.code
+pub fn (err Error) code() int {
+	return 0
 }
 //内置函数,创建一个错误，错误的类型为内置的MessageError
 pub fn error(msg string) IError //抛出带消息的错误
@@ -280,3 +276,56 @@ fn main() {
 	println(v3)
 }
 ```
+
+### 自定义错误类型
+
+```v
+module main
+
+struct MyError { //组合内置的Error类型,来自定义错误类型
+	Error
+}
+
+pub fn (error MyError) msg() string { //定义错误消息
+	return 'my error message'
+}
+
+struct MyError2 {} //通过实现IError接口,来自定义错误类型
+
+pub fn (error MyError2) msg() string {
+	return 'my error2 message'
+}
+
+pub fn (error MyError2) code() int {
+	return 11
+}
+
+pub fn my_fn(name string) !string {
+	if name == '' {
+		return MyError{} //抛出自定义错误
+	} else {
+		return name
+	}
+}
+
+pub fn my_fn2(name string) !string {
+	if name == '' {
+		return MyError2{}
+	} else {
+		return name
+	}
+}
+
+fn main() {
+	name := ''
+	// my_fn(name) or {
+	// 	println(err.code())
+	// 	panic(err)
+	// }
+	my_fn2(name) or {
+		println(err.code())
+		panic(err)
+	}
+}
+```
+
