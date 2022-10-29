@@ -250,6 +250,33 @@ fn main() {
 }
 ```
 
+**原始字符串**
+
+在单引号或双引号前加上小写r，就表示是raw字符串，在原始字符串中不支持插值和转译。
+
+```v
+module main
+
+fn main() {
+	name := 'tom'
+	str := 'name is: {name} \n' //字符串插值和转译
+	raw_str := r'name is: {name} \n' //原始字符串,在单引号或双引号之前加上r前缀
+	raw_str2 := r"name is: {name} \n" //原始字符串,在单引号或双引号之前加上r前缀
+	println(str)
+	println(raw_str)
+	println(raw_str2)
+}
+```
+
+输出：
+
+```
+name is: tom 
+
+name is: {name} \n
+name is: {name} \n
+```
+
 ### rune类型
 
 rune是u32的类型别名，用4个字节来表示一个unicode字符/码点，跟string不是同一个类型。
@@ -335,7 +362,7 @@ fn main() {
 
 只有在unsafe代码块中，V编译器不进行任何检查，允许指针像C那样可以进行指针运算，指针偏移，多级指针。
 
-详细内容可以参考:[不安全代码](./unsafe.md)。
+详细内容可以参考：[不安全代码](./unsafe.md)。
 
 ### 类型占用内存大小sizeof()
 
