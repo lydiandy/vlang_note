@@ -66,6 +66,59 @@ fn main() {
 }
 ```
 
+### 枚举值类型
+
+枚举值默认是int类型，也可以使用as来明确指定枚举值的类型，枚举值的类型只能是内置的整数类型。
+
+```v
+enum Color { //默认是int类型
+	red
+	green = 2147483646
+	blue
+}
+
+enum ColorI8 as i8 {
+	red
+	green = 126
+	blue
+}
+
+enum ColorI16 as i16 {
+	red
+	green = 32766
+	blue
+}
+
+enum ColorI32 {
+	red
+	green = 2147483646
+	blue
+}
+
+enum ColorI64 as i64 {
+	red
+	green = 9223372036854775806
+	blue
+}
+
+enum ColorU8 as u8 {
+	green = 127
+}
+
+enum ColorU16 as u16 {
+	green = 32768
+}
+
+enum ColorU32 as u32 {
+	green = 2147483647
+}
+
+enum ColorU64 as u64 {
+	green = 9223372036854775807
+}
+
+```
+
 ### 枚举方法
 
 枚举也可以像结构体那样添加方法：
