@@ -128,6 +128,33 @@ fn main() {
 
 ```
 
+也可以通过match语句来匹配不同的错误，进行错误处理：
+
+```v
+module main
+
+import semver
+
+fn main() {
+	semver.from('asd') or { check_error(err) }
+	semver.from('') or { check_error(err) }
+}
+
+fn check_error(err IError) {
+	match err { //匹配不同的错误类型,进行错误处理
+		semver.InvalidVersionFormatError {
+			println('wrong format')
+		}
+		semver.EmptyInputError {
+			println('empty input')
+		}
+		else {
+			println('unknown error')
+		}
+	}
+}
+```
+
 if guard守护条件处理错误：
 
 ```v
