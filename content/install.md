@@ -71,9 +71,9 @@ sudo ./v symlink
 
 ### 安装可选依赖
 
-#### openssl
+如果要使用v install安装模块，或使用net.http, net.websocket模块，就需要ssl库，编译器默认使用内置的轻量级ssl库[mbedtls](https://github.com/Mbed-TLS/mbedtls)。
 
-如果需要执行v install安装模块或编译net.http, net.websocket模块，需要安装openssl：
+如果不想使用内置的ssl库，而是使用openssl，可以先安装openssl，然后在编译时加上编译选项：-d use_openssl。
 
 ```shell
 #macOS:
@@ -99,8 +99,6 @@ make
 make install
 ```
 
-预计0.4版本中，会将openssl内置到V编译器中，到时就可以省略掉这一步。
-
 ### 后续升级
 
 方式一:
@@ -118,7 +116,7 @@ make
 
 ### 预编译版本
 
-在[官网](https://vlang.io/)直接下载对应平台的预编译压缩文件，这个目前不推荐使用，更新太慢。
+在[官网](https://vlang.io/)直接下载对应平台的预编译版本，这个目前不推荐使用，更新比较慢，只有发布了新版本才会更新，也可以下载[周版本](https://github.com/vlang/v/releases)。
 
 下载预编译的压缩文件后，只要解压缩，然后把解压缩文件中的v可执行文件加入到PATH路径中就可以使用了。
 
