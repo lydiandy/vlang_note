@@ -172,7 +172,6 @@ fn main() {
 	println(typeof(iii).name)
 	println(iii)
 }
-
 ```
 
 ### 枚举类型数组
