@@ -1,6 +1,6 @@
 ## 附录1 关键字
 
-V语言目前一共有43个关键字：
+V语言目前一共有44个关键字：
 
 ```v
 as
@@ -37,6 +37,7 @@ rlock
 select
 shared
 sizeof
+spawn
 static
 struct
 thread

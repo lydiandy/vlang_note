@@ -1,6 +1,39 @@
 ## 并发
 
-V语言并发的思路和语法跟go一样，甚至关键字也一样：go/chan/select。
+V语言并发的思路和语法跟go语言基本一致，不过有两种不同的并发方式：
+
+- 使用spawn关键字创建操作系统线程(OS thread)
+
+- 使用go关键字创建轻量级线程(coroutines)
+
+目前spawn和go的使用方式基本一致。
+
+### 操作系统线程
+
+```v
+module main
+const (
+	num_iterations = 10000
+)
+
+fn do_send(ch chan int) {
+	for i in 0 .. num_iterations {
+		ch <- i //写入channel，也叫发送消息
+	}
+}
+
+fn main() {
+	ch := chan int{cap: 1000}
+	spawn do_send(ch) //在函数调用前使用spawn关键字，即可创建操作系统线程
+	mut sum := i64(0)
+	for _ in 0 .. num_iterations {
+		sum += <-ch //读取channel，也叫接收消息
+	}
+	println(sum)
+}
+```
+
+### 轻量级线程
 
 go可以添加在函数调用，方法调用，匿名函数调用前，即可创建并发任务单元。
 
