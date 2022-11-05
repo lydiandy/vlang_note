@@ -213,8 +213,6 @@ v install xxx模块 #从https://vpm.vlang.io官方VPM安装指定的模块
 v install --git https://github.com/vlang/markdown  #从git代码库安装模块
 v install --hg  xxx代码库url #从hg代码库安装模块
 
-v fmt -w main.v #统一格式化指定源文件或目录中的代码
-
 v where fn main #查找main函数的位置
 v where struct User #查找User结构体的位置
 v where method User.get_name #查找get_name方法的位置
@@ -253,6 +251,57 @@ v self -prod #编译器自己编译自己
 v -d time_v self #编译器自己编译自己，并增加自定义编译选项
 v -d trace_gen_source_line_info self #编译器编译自己，并增加生成的C源代码行信息
 v -d show_fps run main_with_gg.v #为使用gg库开发的ui程序实时显示FPS
+```
+
+### 代码格式化工具
+
+命令行中提供了代码格式化子命令，用来格式化代码：
+
+```shell
+v fmt -w main.v #统一格式化指定源文件或目录中的代码
+v fmt -w .			#格式化当前目录中的所有源文件代码
+```
+
+关于代码格式化工具，还有一个非常实用的功能，可以在代码中使用vfmt off/on来控制某段代码是否要自动格式化，这样就可以保留手工编写的格式。
+
+```v
+pub fn look_at(eye Vec4, center Vec4, up Vec4) Mat4 {
+	f := (center - eye).normalize3()
+	s := (f % up).normalize3()
+	u := (s % f)
+
+	return Mat4{ e: [
+			/* [0][0] */ s.e[0],
+			/* [0][1] */ u.e[0],
+			/* [0][2] */ - f.e[0],
+			/* [0][3] */ 0,
+
+			/* [1][1] */ s.e[1],
+			/* [1][1] */ u.e[1],
+			/* [1][2] */ - f.e[1],
+			/* [1][3] */ 0,
+
+			/* [2][0] */ s.e[2],
+			/* [2][1] */ u.e[2],
+			/* [2][2] */ - f.e[2],
+			/* [2][3] */ 0,
+
+			/* [3][0] */ - (s * eye),
+			/* [3][1] */ - (u * eye),
+			/* [3][2] */ f * eye,
+			/* [3][3] */ 1,
+		]!
+	}
+	//使用vfmt off和vmft on注释来告诉vfmt命令行,这段代码不要自动格式化
+	// vfmt off
+	return Mat4{e: [
+			/* [0][0] */ s.e[0],      /* [0][1] */ u.e[0],      /* [0][2] */ -f.e[0],   /* [0][3] */ 0,
+			/* [1][1] */ s.e[1],      /* [1][1] */ u.e[1],      /* [1][2] */ -f.e[1],   /* [1][3] */ 0,
+			/* [2][0] */ s.e[2],      /* [2][1] */ u.e[2],      /* [2][2] */ -f.e[2],   /* [2][3] */ 0,
+			/* [3][0] */ -(s * eye),  /* [3][1] */ -(u * eye),  /* [3][2] */ f * eye,   /* [3][3] */ 1,
+	]!}
+	// vfmt on
+}
 ```
 
 ### 工具命令行
