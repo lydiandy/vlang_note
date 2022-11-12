@@ -149,12 +149,12 @@ println(s) //输出hello world
 
 字符串插值：
 
-字符串插值只会有一种格式，即{变量名}，之前旧的\$\{变量名\}和$变量名格式会被取消。
+字符串插值只会有一种格式，即\${变量名}
 
 ```v
 name:='Bob'
-println('hello {name}')
-println("hello {name}")
+println('hello ${name}')
+println("hello ${name}")
 ```
 
 判断字符串是否包含子字符串：
