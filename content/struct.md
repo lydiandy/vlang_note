@@ -195,6 +195,36 @@ fn main(){
 }
 ```
 
+选项字段：
+
+跟函数的返回值类似：字段类型前加问号?表示：字段可能返回正常的类型或返回空值，即 T  |  none，如果字段返回none，则会触发空值错误，进入or代码块。
+
+```v
+module main
+
+struct Foo {
+mut:
+	x ?int = 1 //字段可以返回正常类型或者none
+	y ?int = none //字段默认值为none，触发空值错误，进入or代码块
+}
+
+fn main() {
+	mut f := Foo{}
+	println(f.x?) //不处理错误,向上抛转错误
+	f = Foo{
+		x: 2
+		y: none
+	}
+	a := f.x or { 123 }
+	println(a)
+	b := f.y or { 9999 }
+	println(b)
+	mut sum := f.x? + 1
+	sum = f.x or { 123 } + 1
+	println(sum)
+}
+```
+
 ### 访问控制
 
 结构体默认是模块级别的，使用pub关键字定义公共级别。
@@ -365,8 +395,6 @@ fn main() {
 	println(w)
 }
 ```
-
-
 
 ### 泛型结构体
 
