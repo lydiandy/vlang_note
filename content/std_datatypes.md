@@ -22,7 +22,7 @@ module main
 import datatypes as dt
 
 fn main() {
-	mut stack := dt.Stack<int>{} //基于泛型的栈
+	mut stack := dt.Stack[int]{} //基于泛型的栈
 	println(stack.is_empty()) //判断栈是否为空
 	stack.push(1) //压栈
 	stack.push(2)

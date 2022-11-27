@@ -54,14 +54,14 @@ pub interface Encodable {
 
 ```v
 //泛型版本的编码函数,将类型为T的变量编码为json字符串
-pub fn encode<T>(typ T) string //类型需要实现Encodable接口
+pub fn encode[T](typ T) string //类型需要实现Encodable接口
 ```
 
 #### 解码
 
 ```v
 //泛型版本的解码函数
-pub fn decode<T>(src string) ?T //返回类型为T的变量,类型需要实现Decodable接口
+pub fn decode[T](src string) ?T //返回类型为T的变量,类型需要实现Decodable接口
 
 //解码函数,会自动转换节点的值为对应类型
 pub fn raw_decode(src string) ?Any //仅仅返回Any类型
@@ -109,11 +109,11 @@ pub fn (mut e Employee) from_json(any json2.Any) {
 
 fn main() {
 	x := Employee{'Peter', 28, 95000.5, .worker}
-	s := json2.encode<Employee>(x)
+	s := json2.encode[Employee](x)
 	// s := json2.encode(x) //也可以省略泛型类型
 	println(s)
 	// generic decode
-	gy := json2.decode<Employee>(s) or { panic(err) }
+	gy := json2.decode[Employee](s) or { panic(err) }
 	println('Employee y: ${gy}')
 	// raw_decode
 	y := json2.raw_decode(s) or { panic(err) }
@@ -168,9 +168,9 @@ pub fn (p Person) json_str() string {
 }
 
 fn main() {
-    person := json2.decode<Person>(person_str)! //泛型版本的解码
+    person := json2.decode[Person](person_str)! //泛型版本的解码
     println(person)
-    person_json := json2.encode<Person>(person) //泛型版本的编码
+    person_json := json2.encode[Person](person) //泛型版本的编码
     println(person_json)
 }
 ```

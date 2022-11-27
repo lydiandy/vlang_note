@@ -411,7 +411,7 @@ mut:
 	name string
 }
 
-fn comptime_field_selector_read<T>() []string {
+fn comptime_field_selector_read[T]() []string {
 	mut t := T{}
 	t.name = '2'
 	t.test = '1'
@@ -425,10 +425,10 @@ fn comptime_field_selector_read<T>() []string {
 }
 
 fn test_comptime_field_selector_read() {
-	assert comptime_field_selector_read<Foo>() == ['1', '2']
+	assert comptime_field_selector_read[Foo]() == ['1', '2']
 }
 
-fn comptime_field_selector_write<T>() T {
+fn comptime_field_selector_write[T]() T {
 	mut t := T{}
 	$for f in T.fields {
 		$if f.typ is string {
@@ -442,7 +442,7 @@ fn comptime_field_selector_write<T>() T {
 }
 
 fn test_comptime_field_selector_write() {
-	res := comptime_field_selector_write<Foo>()
+	res := comptime_field_selector_write[Foo]()
 	assert res.immutable == 1
 	assert res.test == '1'
 	assert res.name == '1'
@@ -452,7 +452,7 @@ struct Foo2 {
 	f Foo
 }
 
-fn nested_with_parentheses<T>() T {
+fn nested_with_parentheses[T]() T {
 	mut t := T{}
 	$for f in T.fields {
 		$if f.typ is Foo {
@@ -463,7 +463,7 @@ fn nested_with_parentheses<T>() T {
 }
 
 fn test_nested_with_parentheses() {
-	res := nested_with_parentheses<Foo2>()
+	res := nested_with_parentheses[Foo2]()
 	assert res.f.test == '1'
 }
 
@@ -545,7 +545,7 @@ fn main() {
 ```v
 module main
 
-fn kind<T>() {
+fn kind[T]() {
 	$if T is $Int {
 		println('Int')
 	}
@@ -584,15 +584,15 @@ enum Xyz {
 
 type Sumtype = Abc | f32 | int
 
-struct GenericStruct<T> {
+struct GenericStruct[T] {
 	x T
 }
 
-pub fn (s GenericStruct<T>) m() {
+pub fn (s GenericStruct[T]) m() {
 	$if T is $Int {
 		println('Int in method')
 	}
-	
+
 	$if T is $Array {
 		println('Array in method')
 	} $else {
@@ -602,38 +602,39 @@ pub fn (s GenericStruct<T>) m() {
 
 fn main() {
 	// int
-	kind<i8>()
-	kind<i16>()
-	kind<int>()
-	kind<i64>()
+	kind[i8]()
+	kind[i16]()
+	kind[int]()
+	kind[i64]()
 	// int
-	kind<u8>()
-	kind<u16>()
-	kind<u32>()
-	kind<u64>()
+	kind[u8]()
+	kind[u16]()
+	kind[u32]()
+	kind[u64]()
 	// float
-	kind<f32>()
-	kind<f64>()
+	kind[f32]()
+	kind[f64]()
 	// array
-	kind<[]int>()
+	kind[[]int]()
 	// map
-	kind<map[string]string>()
+	kind[map[string]string]()
 	// struct
-	kind<Abc>()
+	kind[Abc]()
 	// interface
-	kind<Def>()
+	kind[Def]()
 	// enum
-	kind<Xyz>()
+	kind[Xyz]()
 	// sumtype
-	kind<Sumtype>()
+	kind[Sumtype]()
 	// generic struct
-	s1 := GenericStruct<int>{}
+	s1 := GenericStruct[int]{}
 	s1.m()
-	s2 := GenericStruct<[]string>{}
+	s2 := GenericStruct[[]string]{}
 	s2.m()
-	s3 := GenericStruct<f32>{}
+	s3 := GenericStruct[f32]{}
 	s3.m()
 }
+
 ```
 
 ### 编译时全局变量

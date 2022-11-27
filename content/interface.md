@@ -253,7 +253,7 @@ interface Speaker {
 	speak() string //普通的接口方法
 }
 
-interface Iterator<T> {
+interface Iterator[T] {
 	next() ?T //带错误处理的接口方法,问号也是接口方法签名的一部分
 }
 
@@ -432,7 +432,7 @@ interface Speaker {
 	speak() string
 }
 
-fn my_fn<T>() {
+fn my_fn[T]() {
 	$if T is Speaker { //使用$if,在泛型函数中判断类型是否实现了某个接口
 		println('type T implements Speaker interface')
 	} $else {
@@ -441,8 +441,8 @@ fn my_fn<T>() {
 }
 
 fn main() {
-	my_fn<Dog>()
-	// my_fn<Foo>()
+	my_fn[Dog]()
+	// my_fn[Foo]()
 
 	// $if Dog is Speaker {
 	// 	println('type Dog implements Speaker interface')

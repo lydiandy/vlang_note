@@ -101,22 +101,22 @@
 ```v
 module main
 
-struct Matrix<T> {
+struct Matrix[T] {
 	row int
 	col int
 mut:
 	data [][]T
 }
 
-fn from_array<T>(arr [][]T) Matrix<T> {
-	return Matrix<T>{
+fn from_array[T](arr [][]T) Matrix[T] {
+	return Matrix[T]{
 		row: arr.len
 		col: arr[0].len
 		data: arr.clone()
 	}
 }
 
-fn (m1 Matrix<T>) + (m2 Matrix<T>) Matrix<T> { //对泛型结构体进行运算符重载
+fn (m1 Matrix[T]) + (m2 Matrix[T]) Matrix[T] { //对泛型结构体进行运算符重载
 	if m1.row != m2.row || m1.col != m2.col {
 		panic('Addition can only be performed on matrix with same size')
 	}
@@ -129,11 +129,11 @@ fn (m1 Matrix<T>) + (m2 Matrix<T>) Matrix<T> { //对泛型结构体进行运算�
 	return res
 }
 
-fn (m1 Matrix<T>) == (m2 Matrix<T>) bool {
+fn (m1 Matrix[T]) == (m2 Matrix[T]) bool {
 	return m1.row == m2.row && m1.col == m2.col && m1.data == m2.data
 }
 
-fn (m1 Matrix<T>) < (m2 Matrix<T>) bool {
+fn (m1 Matrix[T]) < (m2 Matrix[T]) bool {
 	return m1.row < m2.row && m1.col < m2.col
 }
 

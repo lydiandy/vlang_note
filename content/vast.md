@@ -796,7 +796,7 @@ fn main() {
 	s := add(1, 3)
 	println(s)
 	s2 := add_generic(2, 4)
-	s3 := add_generic<int>(2, 4)
+	s3 := add_generic[int](2, 4)
 	println(s2)
 	println(s3)
 }
@@ -819,7 +819,7 @@ pub fn (p Point) move(a int, b int) (int, int) {
 }
 
 // generic function
-fn add_generic<T>(x T, y T) T {
+fn add_generic[T](x T, y T) T {
 	return x + y
 }
 ```

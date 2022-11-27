@@ -183,7 +183,7 @@ V内置sql的好处有：
   		insert new_user into User
   	}
   
-  	// db.insert<User>(user2)
+  	// db.insert[User](user2)
   	x := sql db {
   		select from User where id == 4
   	}

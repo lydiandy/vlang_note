@@ -69,7 +69,7 @@ pub fn main() {
 	println(os.args) // 使用os模块的args变量
 	println(time.now()) // 调用time模块的now函数
 
-	go my_fn(1, 2) // 跟go一样的并发
+	spawn my_fn(1, 2) // 跟go一样的并发
 
 	my_fn2(0) or { // or代码块,进行错误处理
 		panic(err.msg())
@@ -79,7 +79,8 @@ pub fn main() {
 //模块内6个一级元素：常量，枚举，函数/方法，结构体，接口，类型
 // 1.常量
 // 单行常量
-pub const usage = 'usage ...' 
+pub const usage = 'usage ...'
+
 // 常量组
 pub const (
 	version             = '0.1.21'
@@ -115,7 +116,7 @@ pub fn my_fn2(x int) !int {
 }
 
 // 3.函数-泛型函数
-pub fn g_fn<T, U>(x T, y U) (T, U) {
+pub fn g_fn[T, U](x T, y U) (T, U) {
 	return x, y
 }
 
@@ -146,7 +147,7 @@ __global:
 }
 
 // 4.结构体-泛型结构体
-pub struct Repo<T> {
+pub struct Repo[T] {
 	db DB
 mut:
 	model T
@@ -162,7 +163,7 @@ pub interface Walker {
 }
 
 // 5.接口-泛型接口，跟泛型结构体使用基本一致
-pub interface Gettable<T> {
+pub interface Gettable[T] {
 	get() T
 }
 
@@ -177,14 +178,15 @@ pub struct BinExpr {}
 
 pub struct BoolExpr {}
 
-pub struct UnaryExpr {} 
+pub struct UnaryExpr {}
 
 pub type Expr = BinExpr | BoolExpr | UnaryExpr
 
 // 6.类型-泛型联合类型
-pub type MyOption<T> = Error | None | T
+pub type MyOption[T] = Error | None | T
 
 struct None {}
+
 ```
 
 ### 在线体验

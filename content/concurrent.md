@@ -447,13 +447,13 @@ import time
 struct Point {
 }
 
-fn (p Point) add<T>(c chan int, x T, y T) T {
+fn (p Point) add[T](c chan int, x T, y T) T {
 	println('from generic method')
 	c <- 1
 	return x + y
 }
 
-fn add<T>(c chan int, x T, y T) T {
+fn add[T](c chan int, x T, y T) T {
 	println('from generic function')
 	c <- 2
 	return x + y
@@ -462,12 +462,12 @@ fn add<T>(c chan int, x T, y T) T {
 fn main() {
 	ch := chan int{}
 	//泛型函数
-	go add<int>(ch, 1, 3)
-	go add<f64>(ch, 1.1, 3.3)
+	go add[int](ch, 1, 3)
+	go add[f64](ch, 1.1, 3.3)
 	//泛型方法
 	p := Point{}
-	go p.add<int>(ch, 2, 4)
-	go p.add<f64>(ch, 2.2, 4.4)
+	go p.add[int](ch, 2, 4)
+	go p.add[f64](ch, 2.2, 4.4)
 	i := <-ch
 	println(i)
 	time.sleep(1*time.second)
@@ -640,7 +640,7 @@ println(Abc{})
 
 ```v
 //使用sync模块创建channel
-mut ch := sync.new_channel<int>(0) //泛型风格
+mut ch := sync.new_channel[int](0) //泛型风格
 ch.cap //返回channel的缓冲区大小
 ch.len() //返回channel当前已使用的缓冲大小
 ch.push(&i) //写channel，一定要使用指针引用

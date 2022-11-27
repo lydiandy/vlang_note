@@ -121,9 +121,9 @@ mut:
 fn main() {
 	toml_doc := toml.parse_text(toml_text) or { panic(err) }
 
-	mut user := toml_doc.reflect<User>()
-	user.bio = toml_doc.value('bio').reflect<Bio>()
-	user.remap = toml_doc.value('field_remap').reflect<FieldRemap>() //根据自定义toml字段名进行反射解析
+	mut user := toml_doc.reflect[User]()
+	user.bio = toml_doc.value('bio').reflect[Bio]()
+	user.remap = toml_doc.value('field_remap').reflect[FieldRemap]() //根据自定义toml字段名进行反射解析
 
 	assert user.name == 'Tom'
 	assert user.age == 45

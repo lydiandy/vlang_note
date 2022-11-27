@@ -34,15 +34,15 @@ module main
 
 fn main() {}
 
-fn simple<T>(p T) T { // 泛型作为函数的参数,返回值
+fn simple[T](p T) T { // 泛型作为函数的参数,返回值
 	return p
 }
 
-fn multi<T, U>(a T, b U) (T, U) { // 多个泛型
+fn multi[T, U](a T, b U) (T, U) { // 多个泛型
 	return a, b
 }
 
-fn max<T>(brug string, a ...T) T { //泛型作为不确定参数的类型
+fn max[T](brug string, a ...T) T { //泛型作为不确定参数的类型
 	mut max := a[0]
 	for item in a[1..] {
 		if max < item {
@@ -52,25 +52,25 @@ fn max<T>(brug string, a ...T) T { //泛型作为不确定参数的类型
 	return max
 }
 
-fn get_element<T>(arr [3]T) string { // 泛型作为固定大小数组的类型
+fn get_element[T](arr [3]T) string { // 泛型作为固定大小数组的类型
 	return '${arr[1]}'
 }
 
-fn f_array<T>(a []T) T { // 泛型作为数组的类型
+fn f_array[T](a []T) T { // 泛型作为数组的类型
 	return a[0]
 }
 
-fn example2<T>(data [][]T) [][][]T { // 泛型作为多维数组的类型
+fn example2[T](data [][]T) [][][]T { // 泛型作为多维数组的类型
 	return [data]
 }
 
-fn generic_return_map<M>() map[string]M { // 泛型作为map的value类型
+fn generic_return_map[M]() map[string]M { // 泛型作为map的value类型
 	return {
 		'': M{}
 	}
 }
 
-fn generic_return_nested_map<M>() map[string]map[string]M { //泛型作为嵌套的map类型
+fn generic_return_nested_map[M]() map[string]map[string]M { //泛型作为嵌套的map类型
 	return {
 		'': {
 			'': M{}
@@ -78,23 +78,23 @@ fn generic_return_nested_map<M>() map[string]map[string]M { //泛型作为嵌套
 	}
 }
 
-fn opt<T>(v T) ?T { //泛型作为返回值,并结合错误处理
+fn opt[T](v T) ?T { //泛型作为返回值,并结合错误处理
 	if sizeof(T) > 1 {
 		return v
 	}
 	return none
 }
 
-fn mk_chan<T>(f fn () T) chan T { // 泛型作为chan类型
+fn mk_chan[T](f fn () T) chan T { // 泛型作为chan类型
 	gench := chan T{cap: 1}
 	return gench
 }
 
-struct Test<T> {
+struct Test[T] {
 	v T
 }
 
-fn get_test<T>(v T) Test<T> { // 泛型函数和泛型结构体组合使用
+fn get_test[T](v T) Test[T] { // 泛型函数和泛型结构体组合使用
 	return Test{
 		v: v
 	}
@@ -112,33 +112,32 @@ fn get_test<T>(v T) Test<T> { // 泛型函数和泛型结构体组合使用
 module main
 
 //泛型函数
-fn get<T>(typ T) T {
+fn get[T](typ T) T {
 	return typ
 }
 
 //多个类型的泛型函数,参数,函数体,返回值都可以使用
-fn get_multi<T, U>(typ T, user U) (T, U) {
+fn get_multi[T, U](typ T, user U) (T, U) {
 	println(typ)
 	println(user)
 	return typ, user
 }
 
 fn main() {
-	a1 := get<string>('hello') //标准的泛型调用方式,带<T>
-	a2 := get<int>(1)
+	a1 := get[string]('hello') //标准的泛型调用方式,带[T]
+	a2 := get[int](1)
 	println(a1)
 	println(a2)
-	b1 := get('hello') //简短的泛型调用方式,不用带<T>,就像调用普通函数那样,编译器会根据参数的类型,作为泛型的类型
+	b1 := get('hello') //简短的泛型调用方式,不用带[T],就像调用普通函数那样,编译器会根据参数的类型,作为泛型的类型
 	b2 := get(1)
 	println(b1)
 	println(b2)
 
-	x, y := get_multi<int, f64>(2, 2.2) //标准的泛型调用方式,带<T,U>
-	println('x is $x,y is $y')
-	c, d := get_multi(3, 3.3) //简短的泛型调用方式,不用带<T,U>
-	println('c is $c,d is $d')
+	x, y := get_multi[int, f64](2, 2.2) //标准的泛型调用方式,带[T,U]
+	println('x is ${x},y is ${y}')
+	c, d := get_multi(3, 3.3) //简短的泛型调用方式,不用带[T,U]
+	println('c is ${c},d is ${d}')
 }
-
 ```
 
 ### 泛型结构体
@@ -159,38 +158,38 @@ fn main() {
 ```v
 module main
 
-struct Info<T> { //泛型结构体
+struct Info[T] { //泛型结构体
 	data T //泛型作为字段的类型
 }
 
-struct Foo<A, B> {
+struct Foo[A, B] {
 mut: // 多个泛型
 	a A
 	b B
 }
 
-struct MyStruct<T> {
+struct MyStruct[T] {
 	arr  []T  // 泛型作为结构体字段的数组
 	arr2 [3]T //泛型作为结构体字段的固定大小数组
 	m1   map[string]T //泛型作为结构体字段的map
 	c    chan T       //泛型作为结构体字段的chan
 }
 
-struct Scope<T> {
+struct Scope[T] {
 	before fn () T    // 泛型作为结构体函数类型字段的返回值
 	specs  []fn (T) T //// 泛型作为结构体函数类型字段的参数和返回值
 	after  fn (T)     // 泛型作为结构体函数类型字段的参数
 }
 
-struct Item<T> {
+struct Item[T] {
 	value T
 }
 
-fn (i Item<T>) unwrap() T {
+fn (i Item[T]) unwrap() T {
 	return i.value
 }
 
-fn process<T>(i Item<T>) { //泛型函数和泛型结构体组合使用,泛型结构体作为泛型函数的返回值
+fn process[T](i Item[T]) { //泛型函数和泛型结构体组合使用,泛型结构体作为泛型函数的返回值
 	n := i.unwrap()
 	println(n)
 }
@@ -211,30 +210,30 @@ mut:
 }
 
 //结构体是普通结构体,方法是泛型方法
-fn (mut p Point) translate<T>(x T, y T) {
+fn (mut p Point) translate[T](x T, y T) {
 	p.x += x
 	p.y += y
 }
 
-struct Abc<T> {
+struct Abc[T] {
 	value T
 }
 
-//结构体是泛型结构体,方法的接收者都要带上<T>
-fn (s Abc<T>) get_value() T { //泛型结构体的泛型方法
+//结构体是泛型结构体,方法的接收者都要带上[T]
+fn (s Abc[T]) get_value() T { //泛型结构体的泛型方法
 	return s.value
 }
 
-fn (s Abc<T>) normal_fn() { //泛型结构体的普通方法
+fn (s Abc[T]) normal_fn() { //泛型结构体的普通方法
 	println('from normal_fn')
 }
 
 fn main() {
 	mut pot := Point{}
-	pot.translate<int>(1, 3)
+	pot.translate[int](1, 3)
 	println(pot)
 
-	s := Abc<string>{'hello'}
+	s := Abc[string]{'hello'}
 	println(s.get_value())
 	s.normal_fn()
 }
@@ -252,11 +251,11 @@ struct Some {
 	i int
 }
 
-struct App<M> {
+struct App[M] {
 	f M
 }
 
-fn (mut self App<M>) next1<M, T>(input T) f64 { // 结构体泛型为M,方法泛型为M,T
+fn (mut self App[M]) next1[M, T](input T) f64 { // 结构体泛型为M,方法泛型为M,T
 	$if M is Something {
 		return 0
 	} $else {
@@ -266,7 +265,7 @@ fn (mut self App<M>) next1<M, T>(input T) f64 { // 结构体泛型为M,方法泛
 	return 1
 }
 
-fn (mut self App<M>) next2<T, M>(input T) f64 { // 结构体泛型为M,方法泛型为T,M
+fn (mut self App[M]) next2[T, M](input T) f64 { // 结构体泛型为M,方法泛型为T,M
 	$if M is Something {
 		return 0
 	} $else {
@@ -276,7 +275,7 @@ fn (mut self App<M>) next2<T, M>(input T) f64 { // 结构体泛型为M,方法泛
 	return 1
 }
 
-fn (mut self App<M>) next3<T>(input T) f64 { // 结构体泛型为M,方法泛型为T
+fn (mut self App[M]) next3[T](input T) f64 { // 结构体泛型为M,方法泛型为T
 	$if M is Something {
 		return 0
 	} $else {
@@ -287,7 +286,7 @@ fn (mut self App<M>) next3<T>(input T) f64 { // 结构体泛型为M,方法泛型
 }
 
 fn main() {
-	mut app := App<Some>{
+	mut app := App[Some]{
 		f: Some{
 			i: 10
 		}
@@ -296,33 +295,35 @@ fn main() {
 	assert app.next2(1) == 0
 	assert app.next3(1) == 0
 }
+
 ```
 
 泛型方法可以嵌套调用：
 
 ```v
-struct SSS<T> {
+struct SSS[T] {
 mut:
 	x T
 }
 
-fn (s SSS<T>) inner() T {
+fn (s SSS[T]) inner() T {
 	return s.x
 }
 
-fn (s SSS<T>) outer() string {
-	ret := s.inner<T>() //泛型方法可以嵌套调用
+fn (s SSS[T]) outer() string {
+	ret := s.inner[T]() //泛型方法可以嵌套调用
 	println(ret)
-	return '$ret'
+	return '${ret}'
 }
 
 fn main() {
-	s1 := SSS<int>{100}
+	s1 := SSS[int]{100}
 	s1.outer()
 
-	s2 := SSS<string>{'hello'}
+	s2 := SSS[string]{'hello'}
 	s2.outer()
 }
+
 ```
 
 除了可以对V结构体定义泛型方法，也可以对C结构体定义泛型方法：
@@ -341,7 +342,7 @@ fn (f &C.FILE) show() {
 }
 
 // C结构体的泛型方法
-fn (f &C.FILE) show_with_generic<T>(p T) {
+fn (f &C.FILE) show_with_generic[T](p T) {
 	println(f)
 	println(p)
 }
@@ -352,6 +353,7 @@ fn main() {
 	a.show_with_generic(123)
 	a.show_with_generic('abc')
 }
+
 ```
 
 ### 泛型接口
@@ -362,52 +364,52 @@ fn main() {
 
 ```v
 //定义泛型接口
-interface Gettable<T> {
+interface Gettable[T] {
 	get() T
 }
 
-struct Animal<T> {
+struct Animal[T] {
 	metadata T
 }
 
 // Animal实现泛型接口
-fn (a Animal<T>) get<T>() T {
+fn (a Animal[T]) get[T]() T {
 	return a.metadata
 }
 
-struct Mineral<T> {
+struct Mineral[T] {
 	value T
 }
 
 // Mineral也实现泛型接口
-fn (m Mineral<T>) get<T>() T {
+fn (m Mineral[T]) get[T]() T {
 	return m.value
 }
 
-fn extract<T>(xs []Gettable<T>) []T { //使用泛型接口
+fn extract[T](xs []Gettable[T]) []T { //使用泛型接口
 	return xs.map(it.get())
 }
 
-fn extract_basic<T>(xs Gettable<T>) T { //使用泛型接口
+fn extract_basic[T](xs Gettable[T]) T { //使用泛型接口
 	return xs.get()
 }
 
 fn main() {
-	a := Animal<int>{123}
-	b := Animal<int>{456}
-	c := Mineral<int>{789}
+	a := Animal[int]{123}
+	b := Animal[int]{456}
+	c := Mineral[int]{789}
 
-	arr := [Gettable<int>(a), Gettable<int>(b), Gettable<int>(c)]
-	println(typeof(arr).name) //输出:[]Gettable<int>
+	arr := [Gettable[int](a), Gettable[int](b), Gettable[int](c)]
+	println(typeof(arr).name) //输出:[]Gettable[int]
 
-	x := extract<int>(arr)
+	x := extract[int](arr)
 	println(x)
 
 	aa := extract_basic(a)
 	bb := extract_basic(b)
 	cc := extract_basic(c)
 
-	println('$aa | $bb | $cc') //输出:123 | 456 | 789
+	println('${aa} | ${bb} | ${cc}') //输出:123 | 456 | 789
 }
 
 ```
@@ -420,27 +422,27 @@ fn main() {
 struct None {}
 
 //定义泛型联合类型,把泛型作为联合类型中的子类
-type MyOption<T> = Error | None | T
+type MyOption[T] = Error | None | T
 
-struct Foo<T> {
+struct Foo[T] {
 	x T
 }
 
-struct Bar<T> {
+struct Bar[T] {
 	x T
 }
 
 //定义泛型联合类型,把泛型作为联合类型中的泛型子类
-type MyType<T> = Bar<T> | Foo<T>
+type MyType[T] = Bar[T] | Foo[T]
 
-fn unwrap_if<T>(o MyOption<T>) T {
+fn unwrap_if[T](o MyOption[T]) T {
 	if o is T {
 		return o
 	}
 	panic('no value')
 }
 
-fn unwrap_match<T>(o MyOption<T>) string {
+fn unwrap_match[T](o MyOption[T]) string {
 	match o {
 		None {
 			return 'none'
@@ -455,16 +457,17 @@ fn unwrap_match<T>(o MyOption<T>) string {
 }
 
 fn main() {
-	y := MyOption<bool>(false)
+	y := MyOption[bool](false)
 
-  println(unwrap_if(y)) //输出false
-  println(unwrap_match(y)) //输出value
+	println(unwrap_if(y)) //输出false
+	println(unwrap_match(y)) //输出value
 
-	f := Foo<string>{'hi'}
-	t := MyType<string>(f)
-	println(t.type_name()) //输出Foo<string>
-	println(t.x)	//输出hi
+	f := Foo[string]{'hi'}
+	t := MyType[string](f)
+	println(t.type_name()) //输出Foo[string]
+	println(t.x) //输出hi
 }
+
 ```
 
 ### 动态判断泛型的具体类型
@@ -474,7 +477,7 @@ fn main() {
 ```v
 module main
 
-fn kind<T>() {
+fn kind[T]() {
 	$if T is $Int {
 		println('Int')
 	}
@@ -513,15 +516,15 @@ enum Xyz {
 
 type Sumtype = Abc | f32 | int
 
-struct GenericStruct<T> {
+struct GenericStruct[T] {
 	x T
 }
 
-pub fn (s GenericStruct<T>) m() {
+pub fn (s GenericStruct[T]) m() {
 	$if T is $Int {
 		println('Int in method')
 	}
-	
+
 	$if T is $Array {
 		println('Array in method')
 	} $else {
@@ -531,38 +534,39 @@ pub fn (s GenericStruct<T>) m() {
 
 fn main() {
 	// int
-	kind<i8>()
-	kind<i16>()
-	kind<int>()
-	kind<i64>()
+	kind[i8]()
+	kind[i16]()
+	kind[int]()
+	kind[i64]()
 	// int
-	kind<u8>()
-	kind<u16>()
-	kind<u32>()
-	kind<u64>()
+	kind[u8]()
+	kind[u16]()
+	kind[u32]()
+	kind[u64]()
 	// float
-	kind<f32>()
-	kind<f64>()
+	kind[f32]()
+	kind[f64]()
 	// array
-	kind<[]int>()
+	kind[[]int]()
 	// map
-	kind<map[string]string>()
+	kind[map[string]string]()
 	// struct
-	kind<Abc>()
+	kind[Abc]()
 	// interface
-	kind<Def>()
+	kind[Def]()
 	// enum
-	kind<Xyz>()
+	kind[Xyz]()
 	// sumtype
-	kind<Sumtype>()
+	kind[Sumtype]()
 	// generic struct
-	s1 := GenericStruct<int>{}
+	s1 := GenericStruct[int]{}
 	s1.m()
-	s2 := GenericStruct<[]string>{}
+	s2 := GenericStruct[[]string]{}
 	s2.m()
-	s3 := GenericStruct<f32>{}
+	s3 := GenericStruct[f32]{}
 	s3.m()
 }
+
 ```
 
 ### 泛型的实现方式
@@ -581,28 +585,28 @@ V泛型代码：
 module main
 
 //泛型函数
-fn simple<T>(p T) T {
+fn simple[T](p T) T {
 	return p
 }
 
 //泛型结构体
-struct Info<T> {
+struct Info[T] {
 	data T
 }
 
 fn main() {
-	simple<int>(1)
-	simple<int>(1 + 0)
-	simple<string>('g')
-	simple<[]int>([1])
-	simple<map[string]string>({
+	simple[int](1)
+	simple[int](1 + 0)
+	simple[string]('g')
+	simple[[]int]([1])
+	simple[map[string]string]({
 		'a': 'b'
 	})
 
-	info1 := Info<bool>{true}
-	info2 := Info<int>{1}
-	info3 := Info<f32>{1.1}
-	println('$info1,$info2,$info3')
+	info1 := Info[bool]{true}
+	info2 := Info[int]{1}
+	info3 := Info[f32]{1.1}
+	println('${info1},${info2},${info3}')
 }
 
 ```
