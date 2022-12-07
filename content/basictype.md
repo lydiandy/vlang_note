@@ -366,7 +366,7 @@ fn main() {
 
 详细内容可以参考：[不安全代码](./unsafe.md)。
 
-### 类型占用内存大小sizeof()
+### 获取类型占用内存大小
 
 使用内置函数sizeof(T)来返回类型占用内存大小。
 
@@ -376,9 +376,10 @@ println(sizeof(u8)) //1
 println(sizeof(bool)) //1
 ```
 
-### 变量类型typeof().name
+### 获取变量的类型
 
-使用内置函数typeof(var).name来返回变量的类型。
+- typeof(var).name   //可以返回变量的类型
+- typeof(var).idx       //可以返回变量类型的id
 
 ```v
 module main
@@ -406,7 +407,9 @@ fn main() {
 	astruct_static := [2]Point{}
 	astruct_dynamic := [Point{}, Point{}]
 
+	//使用typeof().idx获取变量类型的id
 	//使用typeof().name获取变量的类型
+	println(typeof(a).idx) // 7
 	println(typeof(a).name) // int
 	println(typeof(s).name) // string
 	println(typeof(aint).name) // array_int
@@ -417,6 +420,41 @@ fn main() {
 	//函数类型
 	println(typeof(myfn).name) // fn (int) int
 	println(typeof(myfn2).name) // fn ()
+}
+```
+
+### 获取类型的id和名字
+
+可以使用typeof函数的泛型版本返回类型的id和名字，id是由编译器内部生成的唯一标识。
+
+```v
+module main
+
+struct MyStruct {}
+
+struct MyGenericStruct2[T, U] {}
+
+type Abc = int | string
+type AnAlias = int
+
+enum EFoo {
+	a
+	b
+	c
+}
+
+fn main() {
+	println(typeof[int]().idx) //返回类型的id,int类型在编译器内部的id是7
+	println(typeof[int]().name) //返回类型的名字: int
+	println(typeof[?string]().name) //返回类型的名字: ?string
+	println(typeof[[]string]().name) //返回数组类型的名字: []string
+	println(typeof[map[string]int]().name) //返回字典类型的名字: map[string]int
+	println(typeof[fn (s string, x u32) (int, f32)]().name) //返回函数类型的名字: fn (string, u32) (int, f32)
+	println(typeof[MyGenericStruct]().name) //返回结构体类型的名字: MyStruct
+	println(typeof[MyGenericStruct2[string, int]]().name) //返回泛型结构体类型的名字: MyGenericStruct2[string, int]
+	println(typeof[Abc]().name) //返回联合体类型的名字: Abc
+	println(typeof[EFoo]().name) //返回枚举类型的名字: EFoo
+	println(typeof[AnAlias]().name) //返回类型别名名字: AnAlias
 }
 ```
 
@@ -467,14 +505,14 @@ fn main() {
 	println(isreftype(i)) //基本类型除了string，都不是引用类型
 
 	s := 'abc'
-	println((isreftype(s))) // string是引用类型
+	println((isreftype(s))) // string是引用类型,因为字符串是使用结构体来实现的
 
-	mut m := map[string]string{} // map是引用类型
+	mut m := map[string]string{} // map是引用类型,因为字典是使用结构体来实现的
 	m['name'] = 'tom'
 	println(isreftype(m))
 
-	a := [1,2,3]
-	println(isreftype(a)) // array是引用类型
+	a := [1, 2, 3]
+	println(isreftype(a)) // array是引用类型,因为数组是使用结构体来实现的
 
 	p := Point{
 		x: 1
