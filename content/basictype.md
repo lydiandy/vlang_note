@@ -366,20 +366,80 @@ fn main() {
 
 详细内容可以参考：[不安全代码](./unsafe.md)。
 
-### 获取类型占用内存大小
-
-使用内置函数sizeof(T)来返回类型占用内存大小。
+### 类型推断及类型转换
 
 ```v
-println(sizeof(int)) //4
-println(sizeof(u8)) //1
-println(sizeof(bool)) //1
+module main
+
+fn main() {
+	i := 8 // 默认类型推断为int
+	b := u8(8) // 明确指定类型为u8
+	ii := int(b) // 强制转换为int
+	f := 3.2 // 默认推断类型为f64
+	ff := f32(3.2) // 明确指定类型为f32
+	f3 := f64(f) // 强制转换为f64
+	s := 'abc' // 默认推断为string
+	c := `c` // 默认推断为u8，也就是单字符类型
+
+	// 布尔类型可以转换为u8/int或其他整数类型
+	yes := true
+	no := false
+  yes_u8 := u8(yes) // 输出1
+	no_u8 := u8(no) // 输出0
+	yes_int := int(yes)  // 输出1
+	no_int := int(no) // 输出0
+	// 将字节数组转成字符串
+	mut u8_arr := []u8{} // 字节数组
+	u8_arr << `a`
+	u8_arr << `b`
+	println(u8_arr) // 输出[a,b]
+	str := u8_arr.str() // 将字节数组转成字符串
+	println(str) // 输出[a,b]
+}
 ```
 
-### 获取变量的类型
+### 获取变量和类型占用内存大小
 
-- typeof(var).name   //可以返回变量的类型
-- typeof(var).idx       //可以返回变量类型的id
+使用内置函数sizeof来获取变量和类型占用内存大小：
+
+- 普通函数，获取变量的占用内存大小
+  - `sizeof(var)`
+- 泛型函数，获取类型的占用内存大小
+  - `sizeof[T]()`
+
+```v
+module main
+
+fn main() {
+	x := 1
+	u := u8(1)
+	b := true
+	//普通函数
+	println(sizeof(x)) // 4
+	println(sizeof(u)) // 1
+	println(sizeof(b)) // 1
+	//泛型函数
+	println(get_size[int]()) // 4
+	println(get_size[u8]()) // 1
+	println(get_size[bool]()) // 1
+}
+
+fn get_size[T]() u32 {
+	return sizeof(T) //泛型函数
+}
+
+```
+
+### 获取变量和类型的类型信息
+
+使用内置函数typeof来返回变量的类型和类型的id
+
+- 普通函数，获取变量的类型和类型的id
+  - `typeof(var).name``
+  - `typeof(var).idx`
+- 泛型函数，获取类型的类型和类型的id
+  - `typeof[T]().name`
+  - `typeof[T]().idx`
 
 ```v
 module main
@@ -423,9 +483,7 @@ fn main() {
 }
 ```
 
-### 获取类型的id和名字
-
-可以使用typeof函数的泛型版本返回类型的id和名字，id是由编译器内部生成的唯一标识。
+获取类型的名字和id：
 
 ```v
 module main
@@ -458,39 +516,15 @@ fn main() {
 }
 ```
 
-### 类型推断及类型转换
+### 判断变量和类型是否为引用类型
 
-```v
-module main
+- 普通函数，判断变量是否为引用类型
 
-fn main() {
-	i := 8 // 默认类型推断为int
-	b := u8(8) // 明确指定类型为u8
-	ii := int(b) // 强制转换为int
-	f := 3.2 // 默认推断类型为f64
-	ff := f32(3.2) // 明确指定类型为f32
-	f3 := f64(f) // 强制转换为f64
-	s := 'abc' // 默认推断为string
-	c := `c` // 默认推断为u8，也就是单字符类型
+  `isreftype(var)`	
 
-	// 布尔类型可以转换为u8/int或其他整数类型
-	yes := true
-	no := false
-  yes_u8 := u8(yes) // 输出1
-	no_u8 := u8(no) // 输出0
-	yes_int := int(yes)  // 输出1
-	no_int := int(no) // 输出0
-	// 将字节数组转成字符串
-	mut u8_arr := []u8{} // 字节数组
-	u8_arr << `a`
-	u8_arr << `b`
-	println(u8_arr) // 输出[a,b]
-	str := u8_arr.str() // 将字节数组转成字符串
-	println(str) // 输出[a,b]
-}
-```
+- 泛型函数，判断类型是否为引用类型
 
-### 判断变量是否为引用类型
+  `isreftype[T]()`
 
 ```v
 module main
@@ -524,6 +558,23 @@ fn main() {
 	}
 	println(isreftype(p)) // p不是引用类型
 	println(isreftype(pp)) // pp是引用类型
+}
+```
+
+判断类型是否为引用类型：
+
+```v
+module main
+
+fn main() {
+	println(isreftype(int))
+	println(isreftype[string]())
+	println(get_is_ref_type[array]())
+
+}
+
+fn get_is_ref_type[T]() bool {
+	return isreftype[T]()
 }
 ```
 
