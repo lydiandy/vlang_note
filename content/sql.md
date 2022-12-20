@@ -6,7 +6,7 @@ V语言在编译器中实现了对sql的支持，这种在语言编译器内实�
 
 V内置sql的好处有：
 
-- 针对不同的数据库,统一的一套语法，这样迁移到其他数据库变得更容易。
+- 针对不同的数据库，统一的一套语法，这样迁移到其他数据库变得更容易。
 
 - SQL语法内置在V语言的语法中，不需要学习其他的语法。
 
@@ -26,7 +26,7 @@ V内置sql的好处有：
   import sqlite
   
   // 数据库表对应到结构体,结构体名目前要求跟表名一致
-  struct Module { 
+  struct Module {
   	id           int       [primary; sql: serial] // 第一个字段必须是一个整型的id字段
   	name         string
   	nr_downloads int
@@ -35,8 +35,8 @@ V内置sql的好处有：
   	created      time.Time
   }
   
-  
-  [table: 'userlist']	//自定义表名
+  //自定义表名
+  [table: 'userlist']
   struct User {
   	id             int    [primary; sql: serial]
   	age            int
@@ -55,15 +55,13 @@ V内置sql的好处有：
   }
   
   fn main() {
-  	
-  	//sqlite
+  	// sqlite
   	//连接数据库,返回DB类型
   	db := sqlite.connect(':memory:') or { panic(err) } //使用sqlite的内存数据库
   
   	// db := sqlite.connect('./database.sqlite') or { // 使用文件数据库
-  		// panic(err)
+  	// panic(err)
   	// }
-  
   
   	// 定义表结构
   	db.exec('drop table if exists User')
@@ -105,19 +103,19 @@ V内置sql的好处有：
   		select count from User
   	}
   	assert nr_all_users == 3
-  	println('nr_all_users=$nr_all_users')
+  	println('nr_all_users=${nr_all_users}')
   	//
   	nr_users1 := sql db {
   		select count from User where id == 1
   	}
   	assert nr_users1 == 1
-  	println('nr_users1=$nr_users1')
+  	println('nr_users1=${nr_users1}')
   	//
   	nr_peters := sql db {
   		select count from User where id == 2 && name == 'Peter'
   	}
   	assert nr_peters == 1
-  	println('nr_peters=$nr_peters')
+  	println('nr_peters=${nr_peters}')
   	//
   	nr_peters2 := sql db {
   		select count from User where id == 2 && name == name
@@ -382,5 +380,3 @@ V内置sql的好处有：
   }
   
   ```
-
-更详细的SQL内容，可以参考[pg章节](./pg.md)。
