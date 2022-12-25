@@ -39,3 +39,8 @@ sudo apt install -y `libsqlite3-dev`
 ### 内置sql支持
 
 除了使用数据库驱动库，V编译器也内置了sql代码块语句，具体可以参考：[内置sql支持](sql.md)。
+
+### 社区库
+
+vsql：https://github.com/elliotchance/vsql
+
