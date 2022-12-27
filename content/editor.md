@@ -61,6 +61,12 @@ idea的这个插件是jetbrains内部员工开发的，预计2023年1月发布�
 
 这是V语言的作者用V开发的编辑器，目前只支持V语言的开发，有兴趣的也可以尝试一下。
 
+默认是全屏打开，也可以使用-window，以窗口方式打开。
+
+```shell
+./ved -window
+```
+
 ### micro
 
 编辑器：[https://github.com/zyedidia/micro](https://github.com/zyedidia/micro)

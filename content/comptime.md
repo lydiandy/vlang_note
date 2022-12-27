@@ -469,28 +469,105 @@ fn test_nested_with_parentheses() {
 
 ```
 
-### 编译时获取结构体字段
+### 编译时获取结构体字段信息
 
-可以在$for循环中使用内置函数：sizeof()，isreftype()，typeof(T).name来获取字段大小，字段类型，字段是否为引用类型。
+可以在$for循环中获取结构体字段的信息：
 
 ```v
 module main
 
-struct App {
-	a int
-	b string
-	c f32
+struct Abc {
+	x    int
+	y    int
+	name string
+}
+
+struct MyStruct {
+	s        string     [primary; sql: serial]
+	i        int
+	ch_i     chan int
+	atomic_i atomic int
+	//
+	pointer1_i &int   = unsafe { nil }
+	pointer2_i &&int  = unsafe { nil }
+	pointer3_i &&&int = unsafe { nil }
+	//
+	array_i          []int
+	map_i            map[int]int
+	my_struct        Abc
+	my_struct_shared shared Abc
+	//
+	o_s          ?string
+	o_i          ?int
+	o_ch_i       ?chan int = chan int{cap: 10}
+	o_pointer1_i ?&int     = unsafe { nil }
+	o_pointer2_i ?&&int    = unsafe { nil }
+	o_pointer3_i ?&&&int   = unsafe { nil }
+	//
+	o_array_i          ?[]int
+	o_map_i            ?map[int]int
+	o_my_struct        ?Abc
+	o_my_struct_shared ?shared Abc
 }
 
 fn main() {
-	$for field in App.fields {
-		println(field.name) //字段名字
+	$for field in MyStruct.fields {
+		println("field: ${field.name}")
+		//使用内置函数可以得到的字段信息
 		println(sizeof(field)) //字段内存大小
+		println(typeof(field).idx) //字段类型的id
 		println(typeof(field).name) //字段类型名字
-		println(isreftype(field)) //字段是否引用类型
+		println(isreftype(field)) //字段类型是否为引用类型
+
+		//使用FieldData可以得到的字段信息
+		println(field.name) //字段名字
+		println(field.typ) //字段的类型id
+		println(field.unaliased_typ) //如果字段类型是类型别名,返回类型别名最原始类型的类型id
+		println(field.attrs) //字段的属性注解
+		println(field.is_pub) //字段是否为pub
+		println(field.is_mut) //字段是否为mut
+		println(field.is_shared) //字段是否为share
+		println(field.is_atomic) //字段是否为atomic
+		println(field.is_optional) //字段是否为可选字段,带?
+		println(field.is_array) //字段是否为数组
+		println(field.is_map) //字段是否为字典
+		println(field.is_chan) //字段是否为chan类型
+		println(field.is_struct) //字段是否为结构体类型
+		println(field.indirections) //字段是否为指针类型,且是几级指针:0表示非指针,1表示一级指针,2表示2级指针...
+
+		println('---')
 	}
 }
+
 ```
+
+可获取的字段的信息，查看vlib/builtin.v源文件中的FieldData结构体：
+
+```v
+pub struct FieldData {
+pub:
+	name          string // the name of the field f
+	typ           int    // the internal TypeID of the field f,
+	unaliased_typ int    // if f's type was an alias of int, this will be TypeID(int)
+	//
+	attrs  []string // the attributes of the field f
+	is_pub bool     // f is in a `pub:` section
+	is_mut bool     // f is in a `mut:` section
+	//
+	is_shared   bool // `f shared Abc`
+	is_atomic   bool // `f atomic int` , TODO
+	is_optional bool // `f ?string` , TODO
+	//
+	is_array  bool // `f []string` , TODO
+	is_map    bool // `f map[string]int` , TODO
+	is_chan   bool // `f chan int` , TODO
+	is_struct bool // `f Abc` where Abc is a struct , TODO
+	//
+	indirections u8 // 0 for `f int`, 1 for `f &int`, 2 for `f &&int` , TODO
+}
+```
+
+
 
 ### 编译时动态调用方法
 
