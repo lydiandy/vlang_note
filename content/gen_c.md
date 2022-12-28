@@ -22,6 +22,8 @@ V语言的开发重点在编译器前端，C就是编译器后端。
 v -o main.c ./main.v 
 ```
 
+V代码编译后，生成单个文件的C代码。
+
 通过查看V代码生成的C代码，可以更容易理解V编译器是如何编译的。
 
 ### 基本类型对应
@@ -78,21 +80,39 @@ typedef struct sync__Channel* chan;
 
 #### 常量
 
-int类型常量，生成C的宏定义：
+int类型常量，生成C的宏定义，其他类型常量，生成C的全局变量。这样就很好理解，V语言中的常量可以是任何类型，跟变量一样，甚至可以是函数调用的结果。
+
+常量的不可修改，由V编译器负责检查。
+
+V代码：
 
 ```v
-//V代码
 const (
-	i=1 //int类型的常量
+	i  = 1 // int类型的常量
+	pi = 3.14 //非int类型的常量
+	s  = 'abc' //非int类型的常量
 )
-
-//C代码
-#define _const_i 1 //整数类型的常量通过C宏定义
 ```
 
-其他类型常量，生成C的全局变量，常量的不可修改，由V编译器负责检查。
+C代码：
 
-这样就很好理解，V语言中的常量可以是任何类型，跟变量一样，甚至可以是函数调用的结果。
+```c
+//整数类型的常量通过C宏定义
+#define _const_main__i 1
+
+const f64 _const_main__pi = 3.14;
+
+string _const_main__s;
+_const_main__s = _SLIT("abc");
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	println(int_literal_str(_const_main__i));
+	println(float_literal_str(_const_main__pi));
+	println(_const_main__s);
+}
+```
+
+
 
 ```v
 //V代码
@@ -136,73 +156,141 @@ void _vinit() { //然后在_vinit函数进行初始化
 
 #### 枚举
 
+V的枚举生成等价的C枚举，枚举的pub属性在C中没有对应，由V编译器负责控制。
+
+V代码：
+
 ```v
-//V代码
 pub enum Color {
-	blue =1			//如果没有指定初始值，默认从0开始，然后往下递增1
+	blue = 1 //如果没有指定初始值，默认从0开始，然后往下递增1
 	green
 	white
 	black
 }
-c := Color.blue
-  
-//C代码
-typedef enum {
-	Color_blue = 1 ,
-	Color_green, // 1
-	Color_white, // 2
-	Color_black, // 3
-} Color;
 
-Color c = Color_blue;
+fn main() {
+	c := Color.blue
+	println(c)
+}
+```
+
+C代码：
+
+```c
+typedef enum {
+	main__Color__blue = 1, // 1
+	main__Color__green, // 1+1
+	main__Color__white, // 1+2
+	main__Color__black, // 1+3
+}  main__Color;
+ 
+main__Color c = main__Color__blue;
 ```
 
 #### 模块
 
 V的模块，在生成对应C代码后，只是对应元素名称的前缀，毕竟C语言中没有模块的概念。
 
-常量，结构体，接口，类型等一级元素生成C代码后的名称规则是:"模块名__名称"，用双下划线区隔。
+常量，结构体，接口，类型等一级元素生成C代码后的名称规则是：`模块名__名称`，用双下划线区隔。例如：mymodule模块中的add()函数生成C代码后的名称为：`mymodule__add()`。
 
-模块中的add()函数生成C代码后的名称为:mymodule__add()。
+结构体的方法等二级元素生成C代码后的名称规则是：`模块名__类名_方法名`，用单下划线区隔。例如：模块中的Color结构体的str()方法生成C代码后的名称为：`mymodule__Color_str()`。
 
-结构体的方法等二级元素生成C代码后的名称规则是:"模块名 __ 类名 _ 方法名"，用单下划线区隔，例如：模块中的Color结构体的str()方法生成C代码后的名称为：mymodule__Color_str()。
+V代码：
+
+```v
+module main
+
+pub fn main() {
+	println('abcd')
+}
+
+struct MyStruct {
+	x int
+	y int
+}
+
+pub fn (my_struct MyStruct) add() {
+}
+
+```
+
+C代码：
+
+```c
+void main__main(void) {
+	println(_SLIT("abcd"));
+}
+
+struct main__MyStruct {
+	int x;
+	int y;
+};
+
+void main__MyStruct_add(main__MyStruct my_struct) {
+}
+```
+
+
 
 #### 函数
 
-主模块中的主函数和函数，生成等价的C的函数。
+模块中的函数，生成等价的C的函数。
+
+V代码：
 
 ```v
-//V代码
-module main 
+module main
+
 fn main() {
 	println('from main')
-	add(1,3)
-} 
-
-pub fn add(x,y int) int { //pub的模块访问控制由V编译器负责检查,C没有pub的对应
-	if x>0 {
-		return x+y
+	add(1, 3)
+}
+// pub的模块访问控制由V编译器负责检查，C没有pub的对应
+pub fn add(x int, y int) int { 
+	if x > 0 {
+		return x + y
 	} else {
-		return x+y
+		return x + y
 	}
 }
+```
 
-//C代码
-int add(int x, int y); //函数声明
+C代码：
 
-int main(int ___argc, char** ___argv) {  //主函数生成主函数
-	_vinit(); //先执行初始化函数
-	println(tos3("from main"));
-	add(1, 3);
+```c
+//生成函数声明段
+VV_LOCAL_SYMBOL void main__main(void);
+int add(int x, int y); 
+
+//主函数生成主函数
+int main(int ___argc, char** ___argv){ 
+	g_main_argc = ___argc;
+	g_main_argv = ___argv;
+#if defined(_VGCBOEHM)
+	GC_set_pages_executable(0);
+	GC_INIT();
+#endif
+	_vinit(___argc, (voidptr)___argv);
+	main__main();
+	_vcleanup();
 	return 0;
 }
 
-int add(int x, int y) { 
+//函数实现段
+VV_LOCAL_SYMBOL void main__main(void) {
+	println(_SLIT("from main"));
+	main__add(1, 3);
+}
+
+int main__add(int x, int y) {
 	if (x > 0) {
-		return x + y;
+		int _t1 = x + y;
+		return _t1;
 	} else {
-		return x + y;
+		int _t2 = x + y;
+		return _t2;
 	}
+	return 0;
 }
 ```
 
@@ -510,8 +598,9 @@ void main__main () {
 
 生成对应的C结构体：
 
+V代码：
+
 ```v
-//V代码
 pub struct Point {
 	x int
 	y int
@@ -529,52 +618,51 @@ fn main() {
 	println(p)
 }
 
-//C代码
-struct Point {
+```
+
+C代码：
+
+```c
+//结构体和函数声明段
+typedef struct main__Point main__Point;
+string main__Point_str(main__Point p);
+
+//结构体和函数实现段
+struct main__Point {
 	int x;
 	int y;
 };
-string Point_str (Point p); //函数声明
 
-string Point_str (Point p) { //函数定义,默认第一个参数是自己
-	return  _STR("x is %d,y is:%d", p .x, p .y) ;
+string main__Point_str(main__Point p) {
+	string _t1 =  str_intp(3, _MOV((StrIntpData[]){{_SLIT("x is "), /*100 &int*/0xfe07, {.d_i32 = p.x}}, {_SLIT(",y is:"), /*100 &int*/0xfe07, {.d_i32 = p.y}}, {_SLIT0, 0, { .d_c = 0 }}}));
+	return _t1;
 }
-void main__main () {
-	Point p= (Point) { .x =  1 , .y =  3 } ;
- 	println (Point_str( p ) ) ;
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	main__Point p = ((main__Point){.x = 1,.y = 3,});
+	println(main__Point_str(p));
 }
 ```
 
 #### 结构体方法
 
-生成对应的C函数，默认第一个参数是对应的结构体类型的指针，
+结构体方法生成C函数，只是函数的第一个参数是对应结构体类型的指针，
 
-生成的C函数的命名规则是："结构体名_方法名"。
+生成的C函数命名规则是：`结构体名_方法名`。
+
+V代码：
 
 ```v
-//V代码
 pub fn (mut a array) insert(i int, val voidptr) {
-	if i < 0 || i > a.len {
-		panic('array.insert: index out of range (i == $i, a.len == $a.len)')
-	}
-	a.ensure_cap(a.len + 1)
-	size := a.element_size
-	C.memmove(a.data + (i + 1) * size, a.data + i * size, (a.len - i) * size)
-	C.memcpy(a.data + i * size, val, size)
-	a.len++
+...
 }
-//C代码
+```
+
+C代码：
+
+```v
 void array_insert(array *a, int i, void *val) { //默认第一个参数是对应类型指针
-  if (i < 0 || i > a->len) {
-    v_panic(_STR("array.insert: index out of range (i == %d, a.len == %d)", i,
-                 a->len));
-  };
-  array_ensure_cap(a, a->len + 1);
-  int size = a->element_size;
-  memmove((byte *)a->data + (i + 1) * size, (byte *)a->data + i * size,
-          (a->len - i) * size);
-  memcpy((byte *)a->data + i * size, val, size);
-  a->len++;
+...
 }
 ```
 
@@ -582,29 +670,34 @@ void array_insert(array *a, int i, void *val) { //默认第一个参数是对应
 
 访问控制在C代码中没有体现，全部在V编译器中控制。
 
+V代码：
+
 ```v
-//V代码
 struct Foo {
-	a int     //私有,不可变(默认).在模块内部可访问,不可修改;模块外不可访问,不可修改
-mut: 
-	b int     // 私有,可变.在模块内部可访问,可修改,模块外部不可访问,不可修改
-	c int     // (相同访问控制的字段可以放在一起)   
-pub: 
-	d int   // 公共,不可变,只读.在模块内部和外部都可以访问,但是不可修改
-pub mut: 
-	e int  //公共,模块内部可访问,可修改;模块外部可访问,但是不可修改
+	a int //私有,不可变(默认).在模块内部可访问,不可修改;模块外不可访问,不可修改
+mut:
+	b int // 私有,可变.在模块内部可访问,可修改,模块外部不可访问,不可修改
+	c int // (相同访问控制的字段可以放在一起)
+pub:
+	d int // 公共,不可变,只读.在模块内部和外部都可以访问,但是不可修改
+pub mut:
+	e int //公共,模块内部可访问,可修改;模块外部可访问,但是不可修改
 __global:
 	f int // 全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用
-}    
-
-fn main() {
-	f:=Foo{}
-	println(f)
 }
 
-//C代码
-typedef struct Foo Foo;
-struct Foo {
+fn main() {
+	f := Foo{}
+	println(f)
+}
+```
+
+C代码：
+
+```c
+typedef struct main__Foo main__Foo;
+
+struct main__Foo {
 	int a;
 	int b;
 	int c;
@@ -612,14 +705,11 @@ struct Foo {
 	int e;
 	int f;
 };
-string Foo_str();
-void main__main() {
-   Foo f = (Foo){.a = 0, .b = 0, .c = 0, .d = 0, .e = 0, .f = 0};
-   println(Foo_str(f));
- }
-string Foo_str(Foo a) {
-   return _STR("{\n	a: %d\n	b: %d\n	c: %d\n	d: %d\n	e: %d\n	f: %d\n}", a.a,a.b, a.c, a.d, a.e, a.f);
- }
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	main__Foo f = ((main__Foo){.a = 0,.b = 0,.c = 0,.d = 0,.e = 0,.f = 0,});
+	println(main__Foo_str(f));
+}
 ```
 
 #### 流程控制语句
