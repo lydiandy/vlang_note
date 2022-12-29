@@ -294,89 +294,146 @@ int main__add(int x, int y) {
 }
 ```
 
-函数defer语句
+#### 函数defer语句
 
-C没有defer语句，V编译的时候就是把函数中的defer语句去掉，然后按后进先出的顺序放在defer语句之后的所有return语句前以及函数末尾，有各自独立的代码块。
+C没有defer语句，V编译的时候就是把函数中的defer语句去掉，然后按后进先出的顺序，放在defer语句之后的所有return语句前，以及函数末尾，有各自独立的代码块。
+
+V代码：
 
 ```v
-//V代码
-fn main(){
-	defer {defer_fn1()} 
-  defer {defer_fn2()}
-    println('main start')
-	if 1<2 {
+fn main() {
+	defer {
+		defer_fn1()
+	}
+	defer {
+		defer_fn2()
+	}
+	println('main start')
+	if 1 < 2 {
 		return
 	}
-	if 1==1 {
+	if 1 == 1 {
 		return
 	}
-    
-    println('main end')
+
+	println('main end')
 }
 
-fn defer_fn1(){
-    println('from defer_fn1')
+fn defer_fn1() {
+	println('from defer_fn1')
 }
 
-fn defer_fn2(){
-    println('from defer_fn2')
-}
-//C代码
-int main(int ___argc, char** ___argv) { 
-	_vinit();
-	println(tos3("main start"));
-	if (1 < 2) {
-		// defer
-			defer_fn1();//defer语句之后的所有return语句之前
-		// defer
-			defer_fn2();//defer语句之后的所有return语句之前
-		return 0;
-	}
-	if (1 == 1) {
-		// defer
-			defer_fn1();//defer语句之后的所有return语句之前
-		// defer
-			defer_fn2();//defer语句之后的所有return语句之前
-		return 0;
-	}
-	println(tos3("main end"));
-  // defer
-	defer_fn1();//函数末尾
-	// defer
-	defer_fn2();//函数末尾
-	return 0;
-}
-
-void defer_fn1() { 
-	println(tos3("from defer_fn1"));
-}
-
-void defer_fn2() { 
-	println(tos3("from defer_fn2"));
+fn defer_fn2() {
+	println('from defer_fn2')
 }
 ```
 
-函数不确定个数参数
+C代码：
 
-不确定参数就是根据返回值的类型和调用的最大参数数量，编译时动态生成一个结构体。
+```c
+VV_LOCAL_SYMBOL void main__main(void) {
+	bool main__main_defer_0 = false;
+	bool main__main_defer_1 = false;
+	main__main_defer_0 = true;
+	main__main_defer_1 = true;
+	println(_SLIT("main start"));
+  //defer语句之后的所有return语句之前
+	if (true) {
+			// Defer begin
+			if (main__main_defer_1) {
+				main__defer_fn2();
+			}
+			// Defer end
+			// Defer begin
+			if (main__main_defer_0) {
+				main__defer_fn1();
+			}
+			// Defer end
+		return;
+	}
+  //defer语句之后的所有return语句之前
+	if (true) {
+			// Defer begin
+			if (main__main_defer_1) {
+				main__defer_fn2();
+			}
+			// Defer end
+			// Defer begin
+			if (main__main_defer_0) {
+				main__defer_fn1();
+			}
+			// Defer end
+		return;
+	}
+	println(_SLIT("main end"));
+  //放在函数的最后
+	// Defer begin
+	if (main__main_defer_1) {
+		main__defer_fn2();
+	}
+	// Defer end
+	// Defer begin
+	if (main__main_defer_0) {
+		main__defer_fn1();
+	}
+	// Defer end
+}
 
-然后把最后一个参数变为这个结构体的指针类型。
+VV_LOCAL_SYMBOL void main__defer_fn1(void) {
+	println(_SLIT("from defer_fn1"));
+}
 
-不确定参数结构体，会重用，如果有别的函数也是返回了相同类型的不确定参数，会直接使用，同时修改args数组的长度为调用过参数的最大值。
+VV_LOCAL_SYMBOL void main__defer_fn2(void) {
+	println(_SLIT("from defer_fn2"));
+}
+```
+
+#### 函数不确定个数参数
+
+不确定参数就是根据返回值的类型，编译时动态生成一个C数组，作为函数的最后一个参数。
+
+V代码：
 
 ```v
-//V代码
-fn my_fn(i int,s string, others ...string) {
-    println(i)
-    println(s)
-    println(others[0])
-    println(others[1])
-    println(others[2])
+fn my_fn(i int, s string, others ...string) {
+	println(i)
+	println(s)
+	println(others[0])
+	println(others[1])
+	println(others[2])
 }
 
 fn main() {
-    my_fn(1,'abc','de','fg','hi')
+	my_fn(1, 'abc', 'de', 'fg', 'hi')
 }
+```
+
+C代码：
+
+```c
+struct array {
+	int element_size;
+	voidptr data;
+	int offset;
+	int len;
+	int cap;
+	ArrayFlags flags;
+};
+
+typedef array Array_string;
+
+VV_LOCAL_SYMBOL void main__my_fn(int i, string s, Array_string others) {
+	println(int_str(i));
+	println(s);
+	println((*(string*)array_get(others, 0)));
+	println((*(string*)array_get(others, 1)));
+	println((*(string*)array_get(others, 2)));
+}
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	main__my_fn(1, _SLIT("abc"), new_array_from_c_array(3, 3, sizeof(string), _MOV((string[3]){_SLIT("de"), _SLIT("fg"), _SLIT("hi")})));
+}
+
 //C代码
 struct varg_string { //自动生成不确定参数结构体
   int len;
@@ -398,200 +455,226 @@ struct varg_string { //自动生成不确定参数结构体
  }
 ```
 
-函数多返回值
+#### 函数多返回值
 
-C的函数返回值只有1个，V的函数多返回值，就是把多返回值的组合，编译时动态生成一个结构体，然后返回结构体。
+C的函数返回值只有1个，V的函数多返回值，就是把多返回值的组合，编译时动态生成一个结构体，然后返回结构体。并且生成的返回值组合的结构体，还可以给其他相同类型的多返回值的函数公用。
+
+V代码：
 
 ```v
-//V代码
 fn foo() (int, int) { //多返回值
 	return 2, 3
 }
 
-fn some_multiret_fn(a int, b int) (int, int) {
-	return a+1, b+1 //可以返回表达式
+fn multi_return_fn(a int, b int) (int, int) {
+	return a + 1, b + 1 //可以返回表达式
 }
+
 fn main() {
 	a, b := foo()
 	println(a) // 2
 	println(b) // 3
 }
-//C代码
-typedef struct _V_MulRet_int_V_int _V_MulRet_int_V_int;
-struct _V_MulRet_int_V_int { //生成的返回值组合的结构体,还可以给其他函数共用
-	int var_0;
-	int var_1;
-};
-
- _V_MulRet_int_V_int main__foo() {
-   return (_V_MulRet_int_V_int){.var_0 = 2, .var_1 = 3};
- }
- _V_MulRet_int_V_int main__some_multiret_fn(int a, int b) {
-   return (_V_MulRet_int_V_int){.var_0 = a + 1, .var_1 = b + 1};
- }
- void main__main() {
-   _V_MulRet_int_V_int _V_mret_49_a_b = main__foo();
-   int a = _V_mret_49_a_b.var_0;
-   int b = _V_mret_49_a_b.var_1;
-   /*opt*/ printf("%d\n", a);
-   /*opt*/ printf("%d\n", b);
- }
 ```
 
+C代码：
 
+```c
+typedef struct multi_return_int_int multi_return_int_int;
+
+struct multi_return_int_int {
+	int arg0;
+	int arg1;
+};
+
+VV_LOCAL_SYMBOL multi_return_int_int main__multi_return_fn(int a, int b);
+
+//生成的返回值组合的结构体,还可以给其他函数共用
+VV_LOCAL_SYMBOL multi_return_int_int main__multi_return_fn(int a, int b) {
+	return (multi_return_int_int){.arg0=a + 1, .arg1=b + 1};
+}
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	multi_return_int_int mr_271 = main__foo();
+	int a = mr_271.arg0;
+	int b = mr_271.arg1;
+	println(int_str(a));
+	println(int_str(b));
+}
+```
 
 #### 数组
 
 V的数组是用struct来实现的，生成C代码也是struct。
 
+V代码：
+
 ```v
-//V代码
 fn main() {
-	a:=[1,3,5]
-	b:=['a','b','c']
+	a := [1, 3, 5]
+	b := ['a', 'b', 'c']
 	println(a)
 	println(b)
 }
-//C代码
+```
+
+C代码：
+
+```v
 //第一部分: 从内置的vlib/built/array.v生成
+typedef struct array array;
 struct array {
-	void* data;
+	int element_size;
+	voidptr data;
+	int offset;
 	int len;
 	int cap;
-	int element_size;
+	ArrayFlags flags;
 };
+
 //第二部分:从内置的vlib/built/array.v生成
-typedef struct array array;
-typedef array array_string;
-typedef array array_int;
-typedef array array_byte;
-typedef array array_f32;
-typedef array array_f64;
-typedef array array_u16;
-typedef array array_u32;
-typedef array array_u64;
+typedef array Array_string;
+typedef array Array_u8;
+typedef array Array_int;
+typedef array Array_voidptr;
+typedef array Array_VCastTypeIndexName;
+typedef array Array_MethodArgs;
+typedef array Array_u8_ptr;
+typedef array Array_rune;
+typedef array Array_u64;
+typedef array Array_u32;
+typedef array Array_strconv__Uint128;
+typedef array Array_f64;
+
 //第三部分:数组使用的代码,字面量方式创建
-array_int a=new_array_from_c_array(3, 3, sizeof(int), EMPTY_ARRAY_OF_ELEMS( int, 3 ) {  1 ,  3 ,  5  }) ;
-array_string b=new_array_from_c_array(3, 3, sizeof(string), EMPTY_ARRAY_OF_ELEMS( string, 3 ) {  tos3("a") ,  tos3("b") ,  tos3("c")  }) ;
- println (array_int_str( a ) ) ;
- println (array_string_str( b ) ) ;
- }
+VV_LOCAL_SYMBOL void main__main(void) {
+	Array_int a = new_array_from_c_array_noscan(3, 3, sizeof(int), _MOV((int[3]){1, 3, 5}));
+	Array_string b = new_array_from_c_array(3, 3, sizeof(string), _MOV((string[3]){_SLIT("a"), _SLIT("b"), _SLIT("c")}));
+	println(Array_int_str(a));
+	println(Array_string_str(b));
+}
 ```
 
 #### 字符串
 
 V的字符串是用struct来实现的，生成C代码也是struct。
 
+V代码：
+
 ```v
-//V代码
-//vlib/builtin/string.v
-pub struct string {
-	// var:
-	// hash_cache int
-pub:
-	str &byte // points to a C style 0 terminated string of bytes.
-	len int // the length of the .str field, excluding the ending 0 byte. It is always equal to strlen(.str).
-}
-//string的各种内置方法:
-...
-//使用代码:
 fn main(){
 	mystr:='abc'
 	mystr2:="def"
 	println(mystr)
 	println(mystr2)
 }
+```
 
-//C代码
-//第一部分:vlib/builtin/string.v生成:
+C代码：
+
+```c
+#define _SLIT(s) ((string){.str=(byteptr)("" s), .len=(sizeof(s)-1), .is_lit=1})
+
 typedef struct string string;
-struct string {
-	byte* str;
-	int len;
-};
-//string的各种内置方法生成:
-string string_left (string s, int n);
-string string_right (string s, int n);
-string string_substr2 (string s, int start, int _end, bool end_max);
-string string_substr (string s, int start, int end);
 
-//第二部分,使用代码:
-void main__main () {
-string mystr= tos3("abc") ;
-string mystr2= tos3("def") ;
- println ( mystr ) ;
- println ( mystr2 ) ;
- }
+struct string {
+	u8* str;
+	int len;
+	int is_lit;
+};
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	string mystr = _SLIT("abc");
+	string mystr2 = _SLIT("def");
+	println(mystr);
+	println(mystr2);
+}
 ```
 
 #### 字典
 
 V的字典是用struct来实现的，生成C代码也是struct。
 
+V代码：
+
 ```v
-//V代码
-//第一部分:定义map
-pub struct map {
-	element_size int
-	root         &mapnode
-pub:
-	size         int
-}
-
-struct mapnode {
-	left     &mapnode
-	right    &mapnode
-	is_empty bool // set by delete()
-	key      string
-	val      voidptr
-}
-//其他map内置方法
-...
-//第二部分:使用map
 fn main() {
-    mut m := map[string]int
-    m['one'] = 1
-    m['two'] = 2
-    println(m['one']) 
-    println(m['bad_key'])
+	mut m := map[string]int{}
+	m['one'] = 1
+	m['two'] = 2
+	println(m['one'])
+	println(m['bad_key'])
 }
+```
 
-//C代码
-//第一部分:定义map
+C代码：
+
+```c
 typedef struct map map;
-typedef struct mapnode mapnode;
-
-typedef map map_int;
-typedef map map_string;
+typedef map Map_string_int;
 
 struct map {
-	int element_size;
-	mapnode* root;
-	int size;
+	int key_bytes;
+	int value_bytes;
+	u32 even_index;
+	u8 cached_hashbits;
+	u8 shift;
+	DenseArray key_values;
+	u32* metas;
+	u32 extra_metas;
+	bool has_string_keys;
+	MapHashFn hash_fn;
+	MapEqFn key_eq_fn;
+	MapCloneFn clone_fn;
+	MapFreeFn free_fn;
+	int len;
 };
-struct mapnode {
-	mapnode* left;
-	mapnode* right;
-	bool is_empty;
-	string key;
-	void* val;
+
+struct DenseArray {
+	int key_bytes;
+	int value_bytes;
+	int cap;
+	int len;
+	u32 deletes;
+	u8* all_deleted;
+	u8* keys;
+	u8* values;
 };
 
-//map的各种内置方法
-...
-//第二部分:使用map:
-void main__main () {
-	map_int m= new_map(1, sizeof(int)) ;
-	map_set(& m , tos3("one") , & (int []) {  1 }) ;
-	map_set(& m , tos3("two") , & (int []) {  2 }) ; 
- 	int tmp1 = 0; bool tmp2 = map_get(m , tos3("one"), & tmp1); 
+typedef u64 (*MapHashFn)(voidptr);
+typedef bool (*MapEqFn)(voidptr, voidptr);
+typedef void (*MapCloneFn)(voidptr, voidptr);
+typedef void (*MapFreeFn)(voidptr);
 
- 	printf ("%d\n",  tmp1 ) ; 
- 	int tmp3 = 0; bool tmp4 = map_get(m , tos3("bad_key"), & tmp3); 
+VV_LOCAL_SYMBOL map new_map_noscan_value(int key_bytes, int value_bytes, u64 (*hash_fn)(voidptr ), bool (*key_eq_fn)(voidptr , voidptr ), void (*clone_fn)(voidptr , voidptr ), void (*free_fn)(voidptr )) {
+	int metasize = ((int)(sizeof(u32) * (_const_init_capicity + _const_extra_metas_inc)));
+	bool has_string_keys = _us32_lt(sizeof(voidptr),key_bytes);
+	return ((map){
+		.key_bytes = key_bytes,
+		.value_bytes = value_bytes,
+		.even_index = _const_init_even_index,
+		.cached_hashbits = _const_max_cached_hashbits,
+		.shift = _const_init_log_capicity,
+		.key_values = new_dense_array_noscan(key_bytes, false, value_bytes, true),
+		.metas = ((u32*)(vcalloc_noscan(metasize))),
+		.extra_metas = _const_extra_metas_inc,
+		.has_string_keys = has_string_keys,
+		.hash_fn = (voidptr)hash_fn,
+		.key_eq_fn = (voidptr)key_eq_fn,
+		.clone_fn = (voidptr)clone_fn,
+		.free_fn = (voidptr)free_fn,
+		.len = 0,
+	});
+}
 
- 	printf ("%d\n",  tmp3 ) ;
- }
-
+VV_LOCAL_SYMBOL void main__main(void) {
+	Map_string_int m = new_map_noscan_value(sizeof(string), sizeof(int), &map_hash_string, &map_eq_string, &map_clone_string, &map_free_string)
+	;
+	map_set(&m, &(string[]){_SLIT("one")}, &(int[]) { 1 });
+	map_set(&m, &(string[]){_SLIT("two")}, &(int[]) { 2 });
+	println(int_str((*(int*)map_get(ADDR(map, m), &(string[]){_SLIT("one")}, &(int[]){ 0 }))));
+	println(int_str((*(int*)map_get(ADDR(map, m), &(string[]){_SLIT("bad_key")}, &(int[]){ 0 }))));
+}
 ```
 
 #### 结构体
