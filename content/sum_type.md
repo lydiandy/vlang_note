@@ -70,7 +70,7 @@ struct User {
 }
 
 fn (m &User) str() string {
-	return 'name:$m.name,age:$m.age'
+	return 'name:${m.name},age:${m.age}'
 }
 
 // 联合类型声明
@@ -80,7 +80,8 @@ fn (ms MySum) str() string {
 	if ms is int { // 使用is关键字,判断联合类型具体是哪种类型
 		println('ms type is int')
 	}
-	match ms { // 对接收到的联合类型,使用match语句进行类型判断,每个match分支的ms变量都会被自动造型为分支中对应的类型
+	match ms {
+		// 对接收到的联合类型,使用match语句进行类型判断,每个match分支的ms变量都会被自动造型为分支中对应的类型
 		int { return ms.str() }
 		string { return ms }
 		User { return ms.str() }
@@ -88,10 +89,11 @@ fn (ms MySum) str() string {
 }
 
 fn add(ms MySum) { // 联合类型作为参数
-	match ms { // 可以对接收到的联合类型,使用match语句进行类型判断,每个match分支的ms变量都会被自动造型为分支中对应的类型
-		int { println('ms is int,value is $ms') }
-		string { println('ms is string,value is $ms') }
-		User { println('ms is User,value is $ms.str()') }
+	match ms {
+		// 可以对接收到的联合类型,使用match语句进行类型判断,每个match分支的ms变量都会被自动造型为分支中对应的类型
+		int { println('ms is int,value is ${ms}') }
+		string { println('ms is string,value is ${ms}') }
+		User { println('ms is User,value is ${ms.str()}') }
 	}
 }
 
@@ -108,94 +110,9 @@ fn main() {
 		name: 'tom'
 		age: 33
 	}
-	mut res := MySum{} // 声明联合类型变量
-	res = i
-	println(res) // 输出123
-	res = s
-	println(res) // 输出abc
-	res = u
-	println(res) // 输出name:tom,age:33
-	match res { // 判断具体类型
-		int { println('res is:$res.str()') }
-		string { println('res is:$res') }
-		User { println('res is:$res.str()') }
-	}
-	match mut res { // 如果需要在分支中修改res,需要加mut
-		int {
-			res = MySum(3)
-			println('new res value is: $res')
-		}
-		string {
-			res = 'abc'
-			println('new res value is: $res')
-		}
-		User {
-			res = User{
-				name: 'jack'
-				age: 12
-			}
-			println('new res value is:$res.str()')
-		}
-	}
-	user := res as User // 也可以通过as,进行显示造型
-	println(user.name)
 	add(i)
 	add(s)
-}
-
-```
-
-### inline联合类型
-
-匿名联合类型在0.3.1版本中被删除，因为会把编译器代码搞得太复杂。
-
-除了命名联合类型，还可以直接使用inline联合类型，而不用事先定义。有了inline联合类型确实非常的灵活，
-
-不过如果inline联合类型的个数太多，确实看起来不好，很冗长，建议使用命名联合类型。
-
-目前inline联合类型如果超过3个，编译器会警告，建议使用命名联合类型。
-
-```v
-fn returns_sumtype() int | string {
-	return 1
-}
-
-fn returns_sumtype_reverse() int | string { //函数参数或返回值使用inline联合类型
-	return 1
-}
-
-fn stringification() {
-	x := returns_sumtype()
-	y := returns_sumtype_reverse()
-	assert '$x' == '$y'
-}
-
-struct Milk {
-	egg int | string //结构体字段使用inline联合类型
-}
-
-fn struct_with_inline_sumtype() {
-	m := Milk{
-		egg: 1
-	}
-	assert m.egg is int
-}
-
-interface IMilk {
-	egg int | string 	//接口字段使用inline联合类型
-}
-
-fn receive_imilk(milk IMilk) {}
-
-fn main() {
-	m := Milk{
-		egg: 1
-	}
-	receive_imilk(m)
-}
-
-fn returns_sumtype_in_multireturn() (int | string, string) {
-	return 1, ''
+	add(u)
 }
 ```
 
@@ -359,18 +276,17 @@ type Node = Expr | Stmt //联合类型嵌套
 ```v
 module main
 
+type Mysumtype = int | string
+
 fn main() {
-	mut m := Mysumtype{}
+	mut m := Mysumtype(11)
 	m = int(11)
 	println(m.str())
 }
 
-type Mysumtype = int | string
-
 pub fn (mysum Mysumtype) str() string { // 联合类型的方法
 	return 'from mysumtype'
 }
-
 ```
 
 ### 联合类型注解

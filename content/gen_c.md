@@ -797,65 +797,75 @@ VV_LOCAL_SYMBOL void main__main(void) {
 
 #### 流程控制语句
 
+##### 条件
+
 if语句，生成C if语句：
 
+V代码：
+
 ```v
-//V代码
 fn main() {
 	a := 10
 	b := 20
 	if a < b {
-		println('$a < $b')
-	}
-	else if a > b {
-		println('$a > $b')
-	}
-	else {
-		println('$a == $b')
+		println('a<b')
+	} else if a > b {
+		println('a>b')
+	} else {
+		println('a=b')
 	}
 }
+```
 
-//C代码
-void main__main () {
-	int a= 10 ;
-	int b= 20 ;
-	 if ( a < b ) {
-		printf( "%d < %d\n", a, b ) ;
- 	}
- 	 else  if ( a > b ) {
-		printf( "%d > %d\n", a, b ) ;
-	 }
- 	 else { 
-		printf( "%d == %d\n", a, b ) ;
+C代码：
+
+```c
+VV_LOCAL_SYMBOL void main__main(void) {
+	int a = 10;
+	int b = 20;
+	if (a < b) {
+		println(_SLIT("a<b"));
+	} else if (a > b) {
+		println(_SLIT("a>b"));
+	} else {
+		println(_SLIT("a=b"));
+	}
 }
 ```
 
 if表达式语句，生成C的三元运算符 ? :
 
+V代码：
+
 ```v
-//V代码
 fn main() {
 	num := 777
 	s := if num % 2 == 0 {
-	'even'
-	}
-	else {
-	'odd'
+		'even'
+	} else {
+		'odd'
 	}
 	println(s) // "odd"
 }
-//C代码
-void main__main() {
-  int num = 777;
-  string s = ((num % 2 == 0) ? (tos3("even")) : (tos3("odd")));
-  println(s);
+```
+
+C代码：
+
+```c
+VV_LOCAL_SYMBOL void main__main(void) {
+	int num = 777;
+	string s = (num % 2 == 0 ? (_SLIT("even")) : (_SLIT("odd")));
+	println(s);
 }
 ```
 
-match语句
+##### 分支
+
+match语句，生成C的if-else if-else语句。
+
+V代码：
 
 ```v
-//V代码
 fn main() {
 os:='macos'
 match os {
@@ -872,119 +882,134 @@ match os {
    	 println('unknow')
 	}
 }
-}
-//C代码
-void main__main() {
-  string os = tos3("macos");
-  string tmp1 = os;
 
-  if (string_eq(tmp1, tos3("windows"))) {
-    println(tos3("windows"));
-  } else if (string_eq(tmp1, tos3("linux"))) {
-    println(tos3("linux"));
-  } else if (string_eq(tmp1, tos3("macos"))) {
-    println(tos3("macos"));
-  } else // default:
-  {
-    println(tos3("unknow"));
-  };
+```
+
+C代码：
+
+```c
+VV_LOCAL_SYMBOL void main__main(void) {
+	string os = _SLIT("macos");
+
+	if (string__eq(os, _SLIT("windows"))) {
+		println(_SLIT("windows"));
+	}
+	else if (string__eq(os, _SLIT("linux"))) {
+		println(_SLIT("linux"));
+	}
+	else if (string__eq(os, _SLIT("macos"))) {
+		println(_SLIT("macos"));
+	}
+	else {
+		println(_SLIT("unknow"));
+	}
 }
 ```
 
-match表达式语句
+match表达式语句，生成嵌套的三元运算符语句。
+
+V代码：
 
 ```v
-//V代码
 fn main() {
-os:='macos'
-price:=match os {
-    'windows' {
-        100
-    }
-    'linux' {
-        120
-    }
-    'macos' {
-        150
-    }
-    else {
-        0
-    }
-}
-println(price) //输出150
-}
-
-//C代码 
-//生成嵌套的三元表达式
-void main__main() {
-  string os = tos3("macos");
-  string tmp1 = os;
-
-  int price = ((string_eq(tmp1, tos3("windows")))
-                   ? (100)
-                   : ((string_eq(tmp1, tos3("linux")))
-                          ? (120)
-                          : ((string_eq(tmp1, tos3("macos"))) ? (150) : (0))));
-  /*opt*/ printf("%d\n", price);
+	os := 'macos'
+	price := match os {
+		'windows' {
+			100
+		}
+		'linux' {
+			120
+		}
+		'macos' {
+			150
+		}
+		else {
+			0
+		}
+	}
+	println(price) //输出150
 }
 ```
 
-for循环
+C代码：
 
-传统的：for i=0;i<100;i++ {}
-
-```v
-//V代码
-fn main() {
-  for i := 0; i < 10; i++ { 
-   	//跳过6
-   	if i == 6 {
-   		continue
-   	}
-   	println(i)
-   }
-}
-
-//C代码
-void main__main() {
-  for (int i = 0; i < 10; i++) {
-
-    if (i == 6) {
-      continue;
-    };
-    /*opt*/ printf("%d\n", i);
-  };
+```c
+VV_LOCAL_SYMBOL void main__main(void) {
+	string os = _SLIT("macos");
+	int price = ((string__eq(os, _SLIT("windows")))? (100) : (string__eq(os, _SLIT("linux")))? (120) : (string__eq(os, _SLIT("macos")))? (150) : (0));
+	println(int_str(price));
 }
 ```
 
-替代while：for i<100 {}
+##### 循环
+
+步长：for i=0;i<100;i++ {}
+
+V代码：
 
 ```v
-//V代码
 fn main() {
-   mut sum := 0
-   mut i := 0
-   for i <= 100 {
-   	sum += i
-   	i++
-   }
-   println(sum) // 输出"5050"
+	for i := 0; i < 10; i++ {
+		//跳过6
+		if i == 6 {
+			continue
+		}
+		println(i)
+	}
 }
-//C代码
-void main__main () {
-	int sum= 0 ;
-	int i= 0 ;
-	 while ( i <= 100 ) {
- 
- 	sum  +=  i ;
- 	i ++ ;
- }
+
+```
+
+C代码：
+
+```c
+VV_LOCAL_SYMBOL void main__main(void) {
+	for (int i = 0; i < 10; i++) {
+		if (i == 6) {
+			continue;
+		}
+		println(int_str(i));
+	}
+}
+```
+
+循环：for i<100 {}
+
+V代码：
+
+```v
+fn main() {
+	mut sum := 0
+	mut i := 0
+	for i <= 100 {
+		sum += i
+		i++
+	}
+	println(sum) // 输出"5050"
+}
+
+```
+
+C代码：
+
+```c
+VV_LOCAL_SYMBOL void main__main(void) {
+	int sum = 0;
+	int i = 0;
+	for (;;) {
+		if (!(i <= 100)) break;
+		sum += i;
+		i++;
+	}
+	println(int_str(sum));
+}
 ```
 
 无限循环：for {}
 
+V代码：
+
 ```v
-//V代码
 fn main() {
 	mut num := 0
 	for {
@@ -995,175 +1020,252 @@ fn main() {
 	}
 	println(num) // "10"
 }
-//C代码
- void main__main() {
-   int num = 0;
-   while (1) {
-     num++;
-     if (num >= 10) {
-       break;
-     };
-   };
-   /*opt*/ printf("%d\n", num);
- }
+
+```
+
+C代码：
+
+```v
+VV_LOCAL_SYMBOL void main__main(void) {
+	int num = 0;
+	for (;;) {
+		num++;
+		if (num >= 10) {
+			break;
+		}
+	}
+	println(int_str(num));
+}
 ```
 
 遍历：for i in xxx {}
 
+V代码：
+
 ```v
-//V代码
 fn main() {
 	numbers := [1, 2, 3, 4, 5]
-	for i,num in numbers {
-		println('i:$i,num:$num')
+	for i, num in numbers {
+		println('for-in')
 	}
 }
-//C代码
-void main__main() {
-   array_int numbers = new_array_from_c_array(
-       5, 5, sizeof(int), EMPTY_ARRAY_OF_ELEMS(int, 5){1, 2, 3, 4, 5});
-   array_int tmp1 = numbers;
-   for (int i = 0; i < tmp1.len; i++) {
-     int num = ((int *)tmp1.data)[i];
+```
 
-     printf("i:%d,num:%d\n", i, num);
-   };
- }
+C代码：
+
+```c
+VV_LOCAL_SYMBOL void main__main(void) {
+	Array_int numbers = new_array_from_c_array_noscan(5, 5, sizeof(int), _MOV((int[5]){1, 2, 3, 4, 5}));
+	for (int i = 0; i < numbers.len; ++i) {
+		int num = ((int*)numbers.data)[i];
+		println(_SLIT("for-in"));
+	}
+}
 ```
 
 #### 类型定义
 
 类型定义type生成C的类型别名typedef。
 
+V代码：
+
 ```v
-//V代码
 pub struct Point {
 	x int
 	y int
 }
-type myint=int
-type myPoint=Point
-   
-//C代码
-struct Point {
+
+type Myint = int
+type MyPoint = Point
+
+```
+
+C代码：
+
+```c
+typedef struct main__Point main__Point;
+typedef int main__Myint;
+typedef main__Point main__MyPoint;
+
+struct main__Point {
 	int x;
 	int y;
 };
-typedef  int myint;
-typedef  Point myPoint;
 ```
 
 #### 接口
 
-```v
-//V代码
+V代码：
 
-//C代码
+```v
+
+```
+
+C代码：
+
+```c
+
 ```
 
 #### 泛型
 
-```v
-//V代码
+V代码：
 
-//C代码
+```v
+
+```
+
+C代码：
+
+```c
+
 ```
 
 #### 错误处理
 
-```v
-//V代码
+V代码：
 
-//C代码
+```v
+
+```
+
+C代码：
+
+```c
+
 ```
 
 #### 联合类型
 
+联合类型，使用C结构体，结构体中包含一个匿名联合体，以及类型id。并且为联合类型的每一个类型，自动生成一个创建函数。
+
+V代码：
+
 ```v
-//V代码
 struct User {
 	name string
-	age int
+	age  int
 }
+
 pub fn (m &User) str() string {
-	return 'name:$m.name,age:$m.age'
+	return 'name:${m.name},age:${m.age}'
 }
-type MySum= int|string|User //联合类型声明
-	i:=123
-	s:='abc'
-	u:=User{name:'tom',age:33}
-	mut res:=MySum{} //声明联合类型变量
-	res=i
-	res=s
-	res=u
 
-pub fn add(ms MySum) { 
-match ms { 
-	int { 
-			println('ms is int,value is $it.str()')	
-	}
-	string {
-			println('ms is string,value is $it')	
-	}
-	User {
-			println('ms is User,value is $it.str()')	
-	}
-	else {
-			println('unknown')
+type MySum = User | int | string //联合类型声明
+
+pub fn add(ms MySum) {
+	match ms {
+		int {
+			println('ms is int,value is ${ms.str()}')
+		}
+		string {
+			println('ms is string,value is ${ms}')
+		}
+		User {
+			println('ms is User,value is ${ms.str()}')
+		}
 	}
 }
+
+pub fn main() {
+	i := 1
+	add(i)
+	s := 'abc'
+	add(s)
+	u := User{
+		name: 'n'
+		age: 10
+	}
+	add(u)
 }
-    
-//C代码
-#define SumType_int 1    // DEF2
-#define SumType_string 2 // DEF2
-#define SumType_User 3   // DEF2
-  
-typedef struct {
-  void *obj; //存储变量指针
-  int typ; //联合类型中对应的类型常量,就是上面的宏定义
-} MySum;
+```
 
+C代码：
 
-//声明联合类型变量
-MySum res = (MySum){EMPTY_STRUCT_INITIALIZATION};
-//变量赋值
-res = /*SUM TYPE CAST2*/ (MySum){.obj = memdup(&(int[]){i}, sizeof(int)),
-                                   .typ = SumType_int};
-res = /*SUM TYPE CAST2*/ (MySum){.obj = memdup(&(string[]){s}, sizeof(string)), .typ = SumType_string};
-res = /*SUM TYPE CAST2*/ (MySum){.obj = memdup(&(User[]{u},sizeof(User)),
-                                   .typ = SumType_User};
-  //match类型判断                                             
-  if (tmp3.typ == SumType_int) {
-    int *it = (int *)tmp3.obj;
-    printf("res is:%.*s\n", int_str(*it).len, int_str(*it).str);
-  } else if (tmp3.typ == SumType_string) {
-    string *it = (string *)tmp3.obj;
-    printf("res is:%p\n", it);
-  } else if (tmp3.typ == SumType_User) {
-    User *it = (User *)tmp3.obj;
-    printf("res is:%.*s\n", User_str(&/* ? */ *it).len,
-           User_str(&/* ? */ *it).str);
-  } else // default:
-  {
-    println(tos3("unknown"));
-  };
+```c
+typedef struct main__MySum main__MySum;
+void main__add(main__MySum ms);
+
+struct main__User {
+	string name;
+	int age;
+};
+
+struct main__MySum { //联合类型结构体
+	union {  //匿名联合体
+		main__User* _main__User;
+		int* _int;
+		string* _string;
+	};
+	int _typ;
+};
+
+string main__User_str(main__User* m) {
+	string _t1 =  str_intp(3, _MOV((StrIntpData[]){{_SLIT("name:"), /*115 &string*/0xfe10, {.d_s = m->name}}, {_SLIT(",age:"), /*100 &int*/0xfe07, {.d_i32 = m->age}}, {_SLIT0, 0, { .d_c = 0 }}}));
+	return _t1;
+}
+
+void main__add(main__MySum ms) {
+	if (ms._typ == 7 /* int */) {
+		println( str_intp(2, _MOV((StrIntpData[]){{_SLIT("ms is int,value is "), /*115 &string*/0xfe10, {.d_s = int_str((*ms._int))}}, {_SLIT0, 0, { .d_c = 0 }}})));
+	}
+	else if (ms._typ == 20 /* string */) {
+		println( str_intp(2, _MOV((StrIntpData[]){{_SLIT("ms is string,value is "), /*115 &string*/0xfe10, {.d_s = (*ms._string)}}, {_SLIT0, 0, { .d_c = 0 }}})));
+	}
+	else if (ms._typ == 94 /* main.User */) {
+		println( str_intp(2, _MOV((StrIntpData[]){{_SLIT("ms is User,value is "), /*115 &string*/0xfe10, {.d_s = main__User_str(&(*ms._main__User))}}, {_SLIT0, 0, { .d_c = 0 }}})));
+	}
+	
+}
+
+//整型的创建函数
+static inline main__MySum int_to_sumtype_main__MySum(int* x) {
+	int* ptr = memdup(x, sizeof(int));
+	return (main__MySum){ ._int = ptr, ._typ = 7};
+}
+
+//字符串类型的创建函数
+static inline main__MySum string_to_sumtype_main__MySum(string* x) {
+	string* ptr = memdup(x, sizeof(string));
+	return (main__MySum){ ._string = ptr, ._typ = 20};
+}
+//User类型的创建函数
+static inline main__MySum main__User_to_sumtype_main__MySum(main__User* x) {
+	main__User* ptr = memdup(x, sizeof(main__User));
+	return (main__MySum){ ._main__User = ptr, ._typ = 94};
+}
+
+void main__main(void) {
+	int i = 1;
+	main__add(int_to_sumtype_main__MySum(&i));
+	string s = _SLIT("abc");
+	main__add(string_to_sumtype_main__MySum(&s));
+	main__User u = ((main__User){.name = _SLIT("n"),.age = 10,});
+	main__add(main__User_to_sumtype_main__MySum(&u));
+}
 ```
 
 #### 运算符重载
 
-```v
-//V代码
+V代码：
 
-//C代码
+```v
+
+```
+
+C代码：
+
+```c
+
 ```
 
 #### 条件编译
 
-生成等价的C宏定义：
+##### 判断操作系统
+
+V代码：
 
 ```v
-//V代码
 fn main() {
 	$if windows {
 		println('windows')
@@ -1175,26 +1277,21 @@ fn main() {
 		println('mac')
 	}
 }
-//C代码
-VV_LOCAL_SYMBOL void main__main() {
-	#if defined(_WIN32)
-	{
-	}
-	#endif
-	#if defined(__linux__)
-	{
-	}
-	#endif
-	#if defined(__APPLE__)
-	{
-		println(tos_lit("mac"));
-	}
-	#endif
+```
+
+C代码：
+
+```c
+VV_LOCAL_SYMBOL void main__main(void) {
+	println(_SLIT("mac"));
 }
 ```
 
+##### 判断操作系统位数
+
+V代码：
+
 ```v
-//V代码
 fn main() {
 	mut x := 0
 	$if x32 {
@@ -1207,23 +1304,41 @@ fn main() {
 	}
 }
 
-//C代码
-void main__main() {
-   int x = 0;
-	#ifdef TARGET_IS_32BIT
-  	 println(tos3("system is 32 bit"));
-   	x = 1;
-	#endif
-   	;
-	#ifdef TARGET_IS_64BIT
-   	println(tos3("system is 64 bit"));
-   	x = 2;
-	#endif
-   	;
 ```
 
+C代码：
+
+```c
+#if INTPTR_MAX == INT32_MAX
+	#define TARGET_IS_32BIT 1
+#elif INTPTR_MAX == INT64_MAX
+	#define TARGET_IS_64BIT 1
+#else
+	#error "The environment is not 32 or 64-bit."
+#endif
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	int x = 0;
+	#if defined(TARGET_IS_32BIT)
+	{
+		println(_SLIT("system is 32 bit"));
+		x = 1;
+	}
+	#endif
+	#if defined(TARGET_IS_64BIT)
+	{
+		println(_SLIT("system is 64 bit"));
+		x = 2;
+	}
+	#endif
+}
+```
+
+##### 判断大端序/小端序
+
+V代码：
+
 ```v
-//V代码
 fn main() {
 	mut x := 0
 	$if little_endian {
@@ -1236,71 +1351,78 @@ fn main() {
 	}
 }
 
-//C代码
- void main__main() {
-   int x = 0;
-	#ifdef TARGET_ORDER_IS_LITTLE
-   println(tos3("system is little endian"));
-   x = 1;
+```
+
+C代码：
+
+```c
+#if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__ || defined(__BYTE_ORDER) && __BYTE_ORDER == __BIG_ENDIAN || defined(__BIG_ENDIAN__) || defined(__ARMEB__) || defined(__THUMBEB__) || defined(__AARCH64EB__) || defined(_MIBSEB) || defined(__MIBSEB) || defined(__MIBSEB__)
+	#define TARGET_ORDER_IS_BIG 1
+#elif defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__ || defined(__BYTE_ORDER) && __BYTE_ORDER == __LITTLE_ENDIAN || defined(__LITTLE_ENDIAN__) || defined(__ARMEL__) || defined(__THUMBEL__) || defined(__AARCH64EL__) || defined(_MIPSEL) || defined(__MIPSEL) || defined(__MIPSEL__) || defined(_M_AMD64) || defined(_M_X64) || defined(_M_IX86)
+	#define TARGET_ORDER_IS_LITTLE 1
+#else
+	#error "Unknown architecture endianness"
+#endif
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	int x = 0;
+	#if defined(TARGET_ORDER_IS_LITTLE)
+	{
+		println(_SLIT("system is little endian"));
+		x = 1;
+	}
 	#endif
-   ;
-	#ifdef TARGET_ORDER_IS_BIG
-   println(tos3("system is big endian"));
-   x = 2;
+	#if defined(TARGET_ORDER_IS_BIG)
+	{
+		println(_SLIT("system is big endian"));
+		x = 2;
+	}
 	#endif
-   ;
+}
 ```
 
 #### 内联汇编代码
 
-生成等价的C内联汇编的代码：
+生成等价的C内联汇编代码：
+
+V代码：
 
 ```v
-//V代码
 fn main() {
-	a := 10
-	b := 0
-	unsafe {	//unsafe代码块
-		asm {	//asm代码块,里面可以直接写汇编代码
-			"movl %1, %%eax;"
-			"movl %%eax, %0;"
-			:"=r"(b)
-			:"r"(a)
-			:"%eax"
-		}
+	a := 100
+	b := 20
+	mut c := 0
+	asm amd64 {
+		mov eax, a
+		add eax, b
+		mov c, eax
+		; =r (c) // output
+		; r (a) // input
+		  r (b)
 	}
-	println(a) //返回10
-	println(b) //返回10,直接通过汇编代码修改了b的值
-
-	e := 0
-	unsafe {
-		asm {
-			"movl $5, %0"
-			:"=a"(e)
-		}
-	}
-	println(e) //返回5,直接通过汇编代码修改了e的值
+	println('a: ${a}') // 100
+	println('b: ${b}') // 20
+	println('c: ${c}') // 120
 }
+```
 
-//C代码
- void main__main() {
-   int a = 10;
-   int b = 0;
-   {
-     asm("movl %1, %%eax;"
-         "movl %%eax, %0;"
-         : "=r"(b)
-         : "r"(a)
-         : "%eax");
-     ;
-   };
-   /*opt*/ printf("%d\n", a);
-   /*opt*/ printf("%d\n", b);
-   int e = 0;
-   {
-     asm("movl $5, %0" : "=a"(e));
-     ;
-   };
-   /*opt*/ printf("%d\n", e);
- }
+C代码：
+
+```c
+VV_LOCAL_SYMBOL void main__main(void) {
+	int a = 100;
+	int b = 20;
+	int c = 0;
+	__asm__ (
+		"mov %[a], %%eax;"
+		"add %[b], %%eax;"
+		"mov %%eax, %[c];"
+		: [c] "=r" (c)
+		: [a] "r" (a),
+		[b] "r" (b)
+	);
+	println( str_intp(2, _MOV((StrIntpData[]){{_SLIT("a: "), /*100 &int*/0xfe07, {.d_i32 = a}}, {_SLIT0, 0, { .d_c = 0 }}})));
+	println( str_intp(2, _MOV((StrIntpData[]){{_SLIT("b: "), /*100 &int*/0xfe07, {.d_i32 = b}}, {_SLIT0, 0, { .d_c = 0 }}})));
+	println( str_intp(2, _MOV((StrIntpData[]){{_SLIT("c: "), /*100 &int*/0xfe07, {.d_i32 = c}}, {_SLIT0, 0, { .d_c = 0 }}})));
+}
 ```

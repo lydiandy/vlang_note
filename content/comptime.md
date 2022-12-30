@@ -523,6 +523,7 @@ fn main() {
 		println(field.name) //字段名字
 		println(field.typ) //字段的类型id
 		println(field.unaliased_typ) //如果字段类型是类型别名,返回类型别名最原始类型的类型id
+    
 		println(field.attrs) //字段的属性注解
 		println(field.is_pub) //字段是否为pub
 		println(field.is_mut) //字段是否为mut
@@ -533,6 +534,7 @@ fn main() {
 		println(field.is_map) //字段是否为字典
 		println(field.is_chan) //字段是否为chan类型
 		println(field.is_struct) //字段是否为结构体类型
+    println(field.is_alias) //字段是否为类型别名
 		println(field.indirections) //字段是否为指针类型,且是几级指针:0表示非指针,1表示一级指针,2表示2级指针...
 
 		println('---')
@@ -562,6 +564,7 @@ pub:
 	is_map    bool // `f map[string]int` , TODO
 	is_chan   bool // `f chan int` , TODO
 	is_struct bool // `f Abc` where Abc is a struct , TODO
+	is_alias  bool // `f MyInt` where `type MyInt = int`, TODO
 	//
 	indirections u8 // 0 for `f int`, 1 for `f &int`, 2 for `f &&int` , TODO
 }
