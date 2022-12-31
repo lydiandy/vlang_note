@@ -1095,44 +1095,756 @@ struct main__Point {
 
 #### 接口
 
+在编译时穷举所有实现了接口的结构体，构造接口的结构体，接口结构体包含了一个匿名联合体和类型id。然后为每一个实现了接口的联合体生成一个创建函数，返回接口的结构体，并通过类型id标识具体的类型。
+
 V代码：
 
 ```v
+module main
 
+//接口要求结构体要实现方法为 pub fn (s MyStruct) write(a string) string
+pub interface Foo {
+	write(string) string
+}
+
+struct MyStruct {}
+
+pub fn (s MyStruct) write(a string) string {
+	return a
+}
+
+fn main() {
+	s1 := MyStruct{}
+	fn1(s1)
+}
+
+fn fn1(s Foo) {
+	println(s.write('Foo'))
+}
 ```
 
 C代码：
 
 ```c
+static char * v_typeof_interface_main__Foo(int sidx);
 
+typedef struct main__Foo main__Foo;
+typedef struct main__MyStruct main__MyStruct;
+typedef struct main__MyStruct2 main__MyStruct2;
+//实现了接口的结构体
+struct main__MyStruct {
+	EMPTY_STRUCT_DECLARATION;
+};
+
+struct main__MyStruct2 {
+	EMPTY_STRUCT_DECLARATION;
+};
+//结构体的接口实现方法
+string main__MyStruct_write(main__MyStruct s, string a) {
+	return a;
+}
+//结构体的接口实现方法
+string main__MyStruct2_write(main__MyStruct2 s, string a) {
+	return a;
+}
+//接口的结构体，编译时穷举所有实现了该接口的结构体，包在匿名联合体内，并通过类型id标识
+struct main__Foo {
+	union {
+		void* _object;
+		main__MyStruct* _main__MyStruct;
+		voidptr* _voidptr;
+		main__MyStruct2* _main__MyStruct2;
+	};
+	int _typ;
+};
+
+// Methods wrapper for interface "main__Foo"
+static inline string main__MyStruct_write_Interface_main__Foo_method_wrapper(main__MyStruct* s, string a) {
+	return main__MyStruct_write(*s, a);
+}
+static inline string main__MyStruct2_write_Interface_main__Foo_method_wrapper(main__MyStruct2* s, string a) {
+	return main__MyStruct2_write(*s, a);
+}
+
+struct _main__Foo_interface_methods {
+	string (*_method_write)(void* _, string );
+};
+
+ struct _main__Foo_interface_methods main__Foo_name_table[3] = {
+	{
+		._method_write = (void*) main__MyStruct_write_Interface_main__Foo_method_wrapper,
+	},
+	{
+		._method_write = (void*) 0,
+	},
+	{
+		._method_write = (void*) main__MyStruct2_write_Interface_main__Foo_method_wrapper,
+	},
+};
+//把具体的结构体转换成接口结构体函数
+static main__Foo I_main__MyStruct_to_Interface_main__Foo(main__MyStruct* x);
+ const int _main__Foo_main__MyStruct_index = 0;
+
+static main__Foo I_voidptr_to_Interface_main__Foo(voidptr* x);
+ const int _main__Foo_voidptr_index = 1;
+
+static main__Foo I_main__MyStruct2_to_Interface_main__Foo(main__MyStruct2* x);
+ const int _main__Foo_main__MyStruct2_index = 2;
+
+// Casting functions for converting "main__MyStruct" to interface "main__Foo"
+static inline main__Foo I_main__MyStruct_to_Interface_main__Foo(main__MyStruct* x) {
+	return (main__Foo) {
+		._main__MyStruct = x,
+		._typ = _main__Foo_main__MyStruct_index,
+	};
+}
+
+// Casting functions for converting "voidptr" to interface "main__Foo"
+static inline main__Foo I_voidptr_to_Interface_main__Foo(voidptr* x) {
+	return (main__Foo) {
+		._voidptr = x,
+		._typ = _main__Foo_voidptr_index,
+	};
+}
+
+// Casting functions for converting "main__MyStruct2" to interface "main__Foo"
+static inline main__Foo I_main__MyStruct2_to_Interface_main__Foo(main__MyStruct2* x) {
+	return (main__Foo) {
+		._main__MyStruct2 = x,
+		._typ = _main__Foo_main__MyStruct2_index,
+	};
+}
+//
+static char * v_typeof_interface_main__Foo(int sidx) { /* main.Foo */ 
+	if (sidx == _main__Foo_main__MyStruct_index) return "MyStruct";
+	if (sidx == _main__Foo_voidptr_index) return "voidptr";
+	if (sidx == _main__Foo_main__MyStruct2_index) return "MyStruct2";
+	return "unknown Foo";
+}
+
+static int v_typeof_interface_idx_main__Foo(int sidx) { /* main.Foo */ 
+	if (sidx == _main__Foo_main__MyStruct_index) return 95;
+	if (sidx == _main__Foo_voidptr_index) return 2;
+	if (sidx == _main__Foo_main__MyStruct2_index) return 96;
+	return 94;
+}
+//主函数
+VV_LOCAL_SYMBOL void main__main(void) {
+	main__MyStruct *s1 = HEAP(main__MyStruct, (((main__MyStruct){EMPTY_STRUCT_INITIALIZATION})));
+	main__fn1(/*&main.Foo*/I_main__MyStruct_to_Interface_main__Foo(&(*(s1))));
+}
+
+VV_LOCAL_SYMBOL void main__fn1(main__Foo s) {
+	println(main__Foo_name_table[s._typ]._method_write(s._object, _SLIT("Foo")));
+}
 ```
 
 #### 泛型
 
+##### 泛型函数/方法
+
+编译时，穷举所有泛型函数实际调用的所有类型，为每一个实际调用的类型，生成对应版本的C函数。
+
 V代码：
 
 ```v
+module main
+
+fn simple[T](p T) T { // 泛型作为函数的参数,返回值
+	return p
+}
+
+fn multi[T, U](a T, b U) (T, U) { // 多个泛型
+	return a, b
+}
+
+fn main() {
+  //实际调用过：int，string，bool类型
+	simple(1) 
+	simple('abc')
+	simple(true)
+	//实际调用过：int+string，f64+bool这两种类型的组合
+	multi(1,'abc')
+	multi(1.2,true)
+
+}
+```
+
+C代码：
+
+```c
+VV_LOCAL_SYMBOL int main__simple_T_int(int p);
+VV_LOCAL_SYMBOL string main__simple_T_string(string p);
+VV_LOCAL_SYMBOL bool main__simple_T_bool(bool p);
+VV_LOCAL_SYMBOL multi_return_int_string main__multi_T_int_string(int a, string b);
+VV_LOCAL_SYMBOL multi_return_f64_bool main__multi_T_f64_bool(f64 a, bool b);
+ //实际调用过：int，string，bool类型
+VV_LOCAL_SYMBOL int main__simple_T_int(int p) {
+	return p;
+}
+VV_LOCAL_SYMBOL string main__simple_T_string(string p) {
+	return p;
+}
+VV_LOCAL_SYMBOL bool main__simple_T_bool(bool p) {
+	return p;
+}
+//实际调用过：int+string，f64+bool这两种类型的组合
+VV_LOCAL_SYMBOL multi_return_int_string main__multi_T_int_string(int a, string b) {
+	return (multi_return_int_string){.arg0=a, .arg1=b};
+}
+VV_LOCAL_SYMBOL multi_return_f64_bool main__multi_T_f64_bool(f64 a, bool b) {
+	return (multi_return_f64_bool){.arg0=a, .arg1=b};
+}
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	main__simple_T_int(1);
+	main__simple_T_string(_SLIT("abc"));
+	main__simple_T_bool(true);
+	main__multi_T_int_string(1, _SLIT("abc"));
+	main__multi_T_f64_bool(1.2, true);
+}
+```
+
+##### 泛型结构体
+
+编译时，穷举所有泛型类型实际调用的所有类型，为每一个实际调用的类型，生成对应版本的C结构体。
+
+V代码：
+
+```v
+module main
+
+struct Info[T] { //泛型结构体
+	data T //泛型作为字段的类型
+}
+
+struct Foo[A, B] {
+mut: // 多个泛型
+	a A
+	b B
+}
+
+fn main() {
+	i := Info[int]{
+		data: 1
+	}
+	s := Info[string]{
+		data: 'abc'
+	}
+	b := Info[bool]{
+		data: true
+	}
+	println(i)
+	println(s)
+	println(b)
+
+	x := Foo[int, string]{
+		a: 1
+		b: 'abc'
+	}
+	y := Foo[f64, bool]{
+		a: 1.2
+		b: true
+	}
+	println(x)
+	println(y)
+}
+```
+
+C代码：
+
+```c
+typedef struct main__Info_T_string main__Info_T_string;
+typedef struct main__Info_T_int main__Info_T_int;
+typedef struct main__Info_T_bool main__Info_T_bool;
+typedef struct main__Foo_T_int_string main__Foo_T_int_string;
+typedef struct main__Foo_T_f64_bool main__Foo_T_f64_bool;
+
+struct main__Info_T_string {
+	string data;
+};
+struct main__Info_T_int {
+	int data;
+};
+struct main__Info_T_bool {
+	bool data;
+};
+
+struct main__Foo_T_int_string {
+	int a;
+	string b;
+};
+struct main__Foo_T_f64_bool {
+	f64 a;
+	bool b;
+};
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	main__Info_T_int i = ((main__Info_T_int){.data = 1,});
+	main__Info_T_string s = ((main__Info_T_string){.data = _SLIT("abc"),});
+	main__Info_T_bool b = ((main__Info_T_bool){.data = true,});
+	println(main__Info_T_int_str(i));
+	println(main__Info_T_string_str(s));
+	println(main__Info_T_bool_str(b));
+	main__Foo_T_int_string x = ((main__Foo_T_int_string){.a = 1,.b = _SLIT("abc"),});
+	main__Foo_T_f64_bool y = ((main__Foo_T_f64_bool){.a = 1.2,.b = true,});
+	println(main__Foo_T_int_string_str(x));
+	println(main__Foo_T_f64_bool_str(y));
+}
+```
+
+##### 泛型接口
+
+编译时，穷举所有泛型接口实际调用的所有类型，为每一个实际调用的类型，生成对应版本的C结构体。
+
+V代码：
+
+```v
+//定义泛型接口
+interface Gettable[T] {
+	get() T
+}
+
+struct Animal[T] {
+	metadata T
+}
+
+// Animal实现泛型接口
+fn (a Animal[T]) get[T]() T {
+	return a.metadata
+}
+
+struct Mineral[T] {
+	value T
+}
+
+// Mineral也实现泛型接口
+fn (m Mineral[T]) get[T]() T {
+	return m.value
+}
+
+fn extract[T](xs []Gettable[T]) []T { //使用泛型接口
+	return xs.map(it.get())
+}
+
+fn extract_basic[T](xs Gettable[T]) T { //使用泛型接口
+	return xs.get()
+}
+
+fn main() {
+	a := Animal[int]{123}
+	b := Animal[int]{456}
+	c := Mineral[int]{789}
+
+	arr := [Gettable[int](a), Gettable[int](b), Gettable[int](c)]
+	println(typeof(arr).name) //输出:[]Gettable[int]
+
+	x := extract[int](arr)
+	println(x)
+
+	aa := extract_basic(a)
+	bb := extract_basic(b)
+	cc := extract_basic(c)
+
+	println('${aa} | ${bb} | ${cc}') //输出:123 | 456 | 789
+}
 
 ```
 
 C代码：
 
 ```c
+#define HEAP(type, expr) ((type*)memdup((void*)&((type[]){expr}[0]), sizeof(type)))
+//
+typedef struct main__Animal_T_int main__Animal_T_int;
+typedef struct main__Mineral_T_int main__Mineral_T_int;
 
+typedef struct main__Gettable main__Gettable;
+typedef struct main__Gettable_T_int main__Gettable_T_int;
+
+static char * v_typeof_interface_main__Gettable_T_int(int sidx);
+
+VV_LOCAL_SYMBOL Array_int main__extract_T_int(Array_main__Gettable_T_int xs);
+VV_LOCAL_SYMBOL int main__extract_basic_T_int(main__Gettable_T_int xs);
+
+static main__Gettable_T_int I_main__Animal_T_int_to_Interface_main__Gettable_T_int(main__Animal_T_int* x);
+ const int _main__Gettable_T_int_main__Animal_T_int_index = 0;
+static main__Gettable_T_int I_voidptr_to_Interface_main__Gettable_T_int(voidptr* x);
+ const int _main__Gettable_T_int_voidptr_index = 1;
+static main__Gettable_T_int I_main__Mineral_T_int_to_Interface_main__Gettable_T_int(main__Mineral_T_int* x);
+ const int _main__Gettable_T_int_main__Mineral_T_int_index = 2;
+// ^^^ number of types for interface main__Gettable_T_int: 3
+
+// Methods wrapper for interface "main__Gettable_T_int"
+static inline int main__Animal_T_int_get_T_int_Interface_main__Gettable_T_int_method_wrapper(main__Animal_T_int* a) {
+	return main__Animal_T_int_get_T_int(*a);
+}
+static inline int main__Mineral_T_int_get_T_int_Interface_main__Gettable_T_int_method_wrapper(main__Mineral_T_int* m) {
+	return main__Mineral_T_int_get_T_int(*m);
+}
+
+struct _main__Gettable_T_int_interface_methods {
+	int (*_method_get)(void* _);
+};
+
+ struct _main__Gettable_T_int_interface_methods main__Gettable_T_int_name_table[3] = {
+	{
+		._method_get = (void*) main__Animal_T_int_get_T_int_Interface_main__Gettable_T_int_method_wrapper,
+	},
+	{
+		._method_get = (void*) 0,
+	},
+	{
+		._method_get = (void*) main__Mineral_T_int_get_T_int_Interface_main__Gettable_T_int_method_wrapper,
+	},
+};
+
+
+// Casting functions for converting "main__Animal_T_int" to interface "main__Gettable_T_int"
+static inline main__Gettable_T_int I_main__Animal_T_int_to_Interface_main__Gettable_T_int(main__Animal_T_int* x) {
+	return (main__Gettable_T_int) {
+		._main__Animal_T_int = x,
+		._typ = _main__Gettable_T_int_main__Animal_T_int_index,
+	};
+}
+
+// Casting functions for converting "voidptr" to interface "main__Gettable_T_int"
+static inline main__Gettable_T_int I_voidptr_to_Interface_main__Gettable_T_int(voidptr* x) {
+	return (main__Gettable_T_int) {
+		._voidptr = x,
+		._typ = _main__Gettable_T_int_voidptr_index,
+	};
+}
+
+// Casting functions for converting "main__Mineral_T_int" to interface "main__Gettable_T_int"
+static inline main__Gettable_T_int I_main__Mineral_T_int_to_Interface_main__Gettable_T_int(main__Mineral_T_int* x) {
+	return (main__Gettable_T_int) {
+		._main__Mineral_T_int = x,
+		._typ = _main__Gettable_T_int_main__Mineral_T_int_index,
+	};
+}
+
+VV_LOCAL_SYMBOL Array_int main__extract_T_int(Array_main__Gettable_T_int xs) {
+	Array_int _t2 = {0};
+	Array_main__Gettable_T_int _t2_orig = xs;
+	int _t2_len = _t2_orig.len;
+	_t2 = __new_array_noscan(0, _t2_len, sizeof(int));
+
+	for (int _t3 = 0; _t3 < _t2_len; ++_t3) {
+		main__Gettable_T_int it = ((main__Gettable_T_int*) _t2_orig.data)[_t3];
+		int ti = main__Gettable_T_int_name_table[it._typ]._method_get(it._object);
+		array_push_noscan((array*)&_t2, &ti);
+	}
+	Array_int _t1 =_t2;
+	return _t1;
+}
+
+VV_LOCAL_SYMBOL int main__extract_basic_T_int(main__Gettable_T_int xs) {
+	int _t1 = main__Gettable_T_int_name_table[xs._typ]._method_get(xs._object);
+	return _t1;
+}
+
+VV_LOCAL_SYMBOL Array_int main__extract_T_int(Array_main__Gettable_T_int xs) {
+	Array_int _t2 = {0};
+	Array_main__Gettable_T_int _t2_orig = xs;
+	int _t2_len = _t2_orig.len;
+	_t2 = __new_array_noscan(0, _t2_len, sizeof(int));
+
+	for (int _t3 = 0; _t3 < _t2_len; ++_t3) {
+		main__Gettable_T_int it = ((main__Gettable_T_int*) _t2_orig.data)[_t3];
+		int ti = main__Gettable_T_int_name_table[it._typ]._method_get(it._object);
+		array_push_noscan((array*)&_t2, &ti);
+	}
+	Array_int _t1 =_t2;
+	return _t1;
+}
+
+VV_LOCAL_SYMBOL int main__extract_basic_T_int(main__Gettable_T_int xs) {
+	int _t1 = main__Gettable_T_int_name_table[xs._typ]._method_get(xs._object);
+	return _t1;
+}
+//泛型结构体，实际调用的结构体
+struct main__Animal_T_int {
+	int metadata;
+};
+struct main__Mineral_T_int {
+	int value;
+};
+//泛型接口，实际调用的结构体
+struct main__Gettable_T_int {
+	union {
+		void* _object;
+		main__Animal_T_int* _main__Animal_T_int;
+		voidptr* _voidptr;
+		main__Mineral_T_int* _main__Mineral_T_int;
+	};
+	int _typ;
+};
+
+//主函数
+VV_LOCAL_SYMBOL void main__main(void) {
+	main__Animal_T_int *a = HEAP(main__Animal_T_int, (((main__Animal_T_int){.metadata = 123,})));
+	main__Animal_T_int *b = HEAP(main__Animal_T_int, (((main__Animal_T_int){.metadata = 456,})));
+	main__Mineral_T_int *c = HEAP(main__Mineral_T_int, (((main__Mineral_T_int){.value = 789,})));
+	Array_main__Gettable_T_int arr = new_array_from_c_array(3, 3, sizeof(main__Gettable_T_int), _MOV((main__Gettable_T_int[3]){/*&main.Gettable[int]*/I_main__Animal_T_int_to_Interface_main__Gettable_T_int(&(*(a))), /*&main.Gettable[int]*/I_main__Animal_T_int_to_Interface_main__Gettable_T_int(&(*(b))), /*&main.Gettable[int]*/I_main__Mineral_T_int_to_Interface_main__Gettable_T_int(&(*(c)))}));
+	println(_SLIT("[]Gettable[int]"));
+	Array_int x = main__extract_T_int(arr);
+	println(Array_int_str(x));
+	int aa = main__extract_basic_T_int(/*&main.Gettable[int]*/I_main__Animal_T_int_to_Interface_main__Gettable_T_int(&(*(a))));
+	int bb = main__extract_basic_T_int(/*&main.Gettable[int]*/I_main__Animal_T_int_to_Interface_main__Gettable_T_int(&(*(b))));
+	int cc = main__extract_basic_T_int(/*&main.Gettable[int]*/I_main__Mineral_T_int_to_Interface_main__Gettable_T_int(&(*(c))));
+	println( str_intp(4, _MOV((StrIntpData[]){{_SLIT0, /*100 &int*/0xfe07, {.d_i32 = aa}}, {_SLIT(" | "), /*100 &int*/0xfe07, {.d_i32 = bb}}, {_SLIT(" | "), /*100 &int*/0xfe07, {.d_i32 = cc}}, {_SLIT0, 0, { .d_c = 0 }}})));
+}
+```
+
+##### 泛型联合类型
+
+编译时，也是穷举所有实际调用的类型，生成对应的C结构体。
+
+V代码：
+
+```v
+struct None {}
+
+//定义泛型联合类型,把泛型作为联合类型中的子类
+type MyOption[T] = Error | None | T
+
+fn unwrap_if[T](o MyOption[T]) T {
+	if o is T {
+		return o
+	}
+	panic('no value')
+}
+
+
+fn main() {
+	y := MyOption[bool](false)
+	println(unwrap_if(y)) //输出false
+}
+```
+
+C代码：
+
+```c
+typedef struct main__MyOption_T_bool main__MyOption_T_bool;
+VV_LOCAL_SYMBOL bool main__unwrap_if_T_bool(main__MyOption_T_bool o);
+
+struct main__MyOption_T_bool {
+	union {
+		Error* _Error;
+		main__None* _main__None;
+		bool* _bool;
+	};
+	int _typ;
+};
+
+static inline main__MyOption_T_bool bool_to_sumtype_main__MyOption_T_bool(bool* x) {
+	bool* ptr = memdup(x, sizeof(bool));
+	return (main__MyOption_T_bool){ ._bool = ptr, ._typ = 18};
+}
+
+char * v_typeof_sumtype_main__MyOption_T_bool(int sidx) { /* main.MyOption[bool] */ 
+	switch(sidx) {
+		case 97: return "MyOption[bool]";
+		case 75: return "Error";
+		case 94: return "None";
+		case 18: return "bool";
+		default: return "unknown MyOption[bool]";
+	}
+}
+
+int v_typeof_sumtype_idx_main__MyOption_T_bool(int sidx) { /* main.MyOption[bool] */ 
+	switch(sidx) {
+		case 97: return 97;
+		case 75: return 75;
+		case 94: return 94;
+		case 18: return 18;
+		default: return 97;
+	}
+}
+//
+VV_LOCAL_SYMBOL bool main__unwrap_if_T_bool(main__MyOption_T_bool o) {
+	if ((o)._typ == 18 /* bool */) {
+		return (*o._bool);
+	}
+	_v_panic(_SLIT("no value"));
+	VUNREACHABLE();
+	return 0;
+}
+//
+VV_LOCAL_SYMBOL void main__main(void) {
+	main__MyOption_T_bool y = bool_to_sumtype_main__MyOption_T_bool(ADDR(bool, (false)));
+	println(main__unwrap_if_T_bool(y) ? _SLIT("true") : _SLIT("false"));
+}
 ```
 
 #### 错误处理
 
+跟函数的多返回值类似，编译器为每一种返回类型，生成一个对应类型的结构体，全局共用。
+
 V代码：
 
 ```v
+module main
 
+// ?表示疑问,表示可能返回期望的类型,也可能返回一个空值none
+pub fn return_type_or_none(x int) ?int { 
+	match x {
+		0 { return none }
+		else { return x }
+	}
+}
+
+// !表示警告,表示可能返回期望的类型,也可能返回一个错误IError
+pub fn return_type_or_error(x int) !int { 
+	match x {
+		0 { return error('error: x can not be 0') }
+		else { return x }
+	}
+}
+
+fn main() {
+	v1 := return_type_or_none(0) or {
+		match err {
+			none { 10 } //如果返回空值none,可以指定默认值
+			else { panic(err) }
+		}
+	}
+	println(v1)
+
+	v2 := return_type_or_none(1) or {
+		match err {
+			none { 10 } //如果返回空值none,可以指定默认值
+			else { panic(err) }
+		}
+	}
+	println(v2)
+
+	v3 := return_type_or_error(2) or { panic(err) }
+	println(v3)
+
+	v4 := return_type_or_error(0) or { panic(err) }
+	println(v4)
+}
 ```
 
 C代码：
 
 ```c
+typedef struct _option_int _option_int; 
+typedef struct _result_int _result_int;
 
+struct IError {
+	union {
+		void* _object;
+		None__* _None__;
+		voidptr* _voidptr;
+		Error* _Error;
+		MessageError* _MessageError;
+	};
+	int _typ;
+	string* msg;
+	int* code;
+};
+
+struct _option_int { //整型的选项类型
+	byte state;
+	IError err;
+	byte data[sizeof(int) > 1 ? sizeof(int) : 1];
+};
+
+struct _result_int { //整型的错误类型
+	bool is_error;
+	IError err;
+	byte data[sizeof(int) > 1 ? sizeof(int) : 1];
+};
+
+_option_int main__return_type_or_none(int x) {
+	switch (x) {
+		case 0: {
+				return (_option_int){ .state=2, .err=_const_none__, .data={EMPTY_STRUCT_INITIALIZATION} };
+		}
+		default: {
+				_option_int _t2;
+				_option_ok(&(int[]) { x }, (_option*)(&_t2), sizeof(int));
+				return _t2;
+		}
+	}
+	
+	return (_option_int){0};
+}
+
+_result_int main__return_type_or_error(int x) {
+	switch (x) {
+		case 0: {
+				return (_result_int){ .is_error=true, .err=_v_error(_SLIT("error: x can not be 0")), .data={EMPTY_STRUCT_INITIALIZATION} };
+		}
+		default: {
+				_result_int _t2;
+				_result_ok(&(int[]) { x }, (_result*)(&_t2), sizeof(int));
+				return _t2;
+		}
+	}
+	
+	return (_result_int){0};
+}
+
+VV_LOCAL_SYMBOL void main__main(void) {
+	_option_int _t1 = main__return_type_or_none(0);
+	if (_t1.state != 0) {
+		IError err = _t1.err;
+		int_literal _t2 = 0;
+		if (err._typ == _IError_None___index) {
+			_t2 = 10;
+		}
+		
+		else {
+			_v_panic(IError_str(err));
+			VUNREACHABLE();
+		}
+		*(int*) _t1.data = _t2;
+	}
+	
+ 	int v1 =  (*(int*)_t1.data);
+	println(int_str(v1));
+	_option_int _t3 = main__return_type_or_none(1);
+	if (_t3.state != 0) {
+		IError err = _t3.err;
+		int_literal _t4 = 0;
+		if (err._typ == _IError_None___index) {
+			_t4 = 10;
+		}
+		
+		else {
+			_v_panic(IError_str(err));
+			VUNREACHABLE();
+		}
+		*(int*) _t3.data = _t4;
+	}
+	
+ 	int v2 =  (*(int*)_t3.data);
+	println(int_str(v2));
+	_result_int _t5 = main__return_type_or_error(2);
+	if (_t5.is_error) {
+		IError err = _t5.err;
+		_v_panic(IError_str(err));
+		VUNREACHABLE();
+	;
+	}
+	
+ 	int v3 =  (*(int*)_t5.data);
+	println(int_str(v3));
+	_result_int _t6 = main__return_type_or_error(0);
+	if (_t6.is_error) {
+		IError err = _t6.err;
+		_v_panic(IError_str(err));
+		VUNREACHABLE();
+	;
+	}
+	
+ 	int v4 =  (*(int*)_t6.data);
+	println(int_str(v4));
+}
 ```
 
 #### 联合类型
@@ -1197,7 +1909,7 @@ struct main__MySum { //联合类型结构体
 		int* _int;
 		string* _string;
 	};
-	int _typ;
+	int _typ; //类型id
 };
 
 string main__User_str(main__User* m) {
@@ -1218,6 +1930,7 @@ void main__add(main__MySum ms) {
 	
 }
 
+//联合类型有几个类型，就有几个创建函数，统一转换成联合体类型
 //整型的创建函数
 static inline main__MySum int_to_sumtype_main__MySum(int* x) {
 	int* ptr = memdup(x, sizeof(int));
@@ -1247,16 +1960,148 @@ void main__main(void) {
 
 #### 运算符重载
 
+编译时，将重载运算符，转换成普通C函数。
+
 V代码：
 
 ```v
+  module main
 
+struct Vec {
+	x int
+	y int
+}
+
+//四则运算符
+pub fn (a Vec) + (b Vec) Vec {
+	return Vec{a.x + b.x, a.y + b.y}
+}
+
+pub fn (a Vec) - (b Vec) Vec {
+	return Vec{a.x - b.x, a.y - b.y}
+}
+
+pub fn (a Vec) * (b Vec) Vec {
+	return Vec{a.x * b.x, a.y * b.y}
+}
+
+pub fn (a Vec) / (b Vec) Vec {
+	return Vec{a.x / b.x, a.y / b.y}
+}
+
+fn (a Vec) % (b Vec) Vec {
+	return Vec{a.x % b.x, a.y % b.y}
+}
+
+//比较运算符,只需要重载<和==，其他比较运算符不用自己定义，编译器会基于<和==自动生成
+fn (a Vec) == (b Vec) bool {
+	return a.x == b.x && a.y == b.y
+}
+
+fn (a Vec) < (b Vec) bool {
+	return a.x < b.x && a.y < b.y
+}
+
+fn (a Vec) str() string {
+	return '{${a.x}, ${a.y}}'
+}
+
+fn main() {
+	mut a := Vec{8, 15}
+	b := Vec{4, 5}
+	//四则运算符
+	println(a + b) // {12,20}
+	println(a - b) // {4,10}
+	println(a * b) // {32,75}
+	println(a / b) // {2,3}
+	println(a % b) // {0,0}
+	//分配运算符,分配运算符不用自己定义,会基于四则运算符自动生成
+	a += b
+	println('a+=b is: ${a}')
+	a -= b
+	println('a-=b is: ${a}')
+	a *= b
+	println('a*=b is: ${a}')
+	a /= b
+	println('a/=b is: ${a}')
+	//比较运算符
+	println(a == b) // false
+	println(a != b) // true
+	println(a > b) // true
+	println(a >= b) // true
+	println(a < b) // false
+	println(a <= b) // false
+}
 ```
 
 C代码：
 
 ```c
+typedef struct main__Vec main__Vec;
 
+struct main__Vec {
+	int x;
+	int y;
+};
+//将重载运算符，转换成普通C函数
+main__Vec main__Vec__plus(main__Vec a, main__Vec b) {
+	main__Vec _t1 = ((main__Vec){.x = a.x + b.x,.y = a.y + b.y,});
+	return _t1;
+}
+main__Vec main__Vec__minus(main__Vec a, main__Vec b) {
+	main__Vec _t1 = ((main__Vec){.x = a.x - b.x,.y = a.y - b.y,});
+	return _t1;
+}
+main__Vec main__Vec__mult(main__Vec a, main__Vec b) {
+	main__Vec _t1 = ((main__Vec){.x = a.x * b.x,.y = a.y * b.y,});
+	return _t1;
+}
+main__Vec main__Vec__div(main__Vec a, main__Vec b) {
+	main__Vec _t1 = ((main__Vec){.x = a.x / b.x,.y = a.y / b.y,});
+	return _t1;
+}
+VV_LOCAL_SYMBOL main__Vec main__Vec__mod(main__Vec a, main__Vec b) {
+	main__Vec _t1 = ((main__Vec){.x = a.x % b.x,.y = a.y % b.y,});
+	return _t1;
+}
+VV_LOCAL_SYMBOL bool main__Vec__eq(main__Vec a, main__Vec b) {
+	bool _t1 = a.x == b.x && a.y == b.y;
+	return _t1;
+}
+VV_LOCAL_SYMBOL bool main__Vec__lt(main__Vec a, main__Vec b) {
+	bool _t1 = a.x < b.x && a.y < b.y;
+	return _t1;
+}
+
+VV_LOCAL_SYMBOL string main__Vec_str(main__Vec a) {
+	string _t1 =  str_intp(3, _MOV((StrIntpData[]){{_SLIT("{"), /*100 &int*/0xfe07, {.d_i32 = a.x}}, {_SLIT(", "), /*100 &int*/0xfe07, {.d_i32 = a.y}}, {_SLIT("}"), 0, { .d_c = 0 }}}));
+	return _t1;
+}
+
+//主函数
+VV_LOCAL_SYMBOL void main__main(void) {
+	main__Vec a = ((main__Vec){.x = 8,.y = 15,});
+	main__Vec b = ((main__Vec){.x = 4,.y = 5,});
+	println(main__Vec_str(main__Vec__plus(a, b)));
+	println(main__Vec_str(main__Vec__minus(a, b)));
+	println(main__Vec_str(main__Vec__mult(a, b)));
+	println(main__Vec_str(main__Vec__div(a, b)));
+	println(main__Vec_str(main__Vec__mod(a, b)));
+	a = main__Vec__plus(a, b);
+	println( str_intp(2, _MOV((StrIntpData[]){{_SLIT("a+=b is: "), /*115 &main.Vec*/0xfe10, {.d_s = main__Vec_str(a)}}, {_SLIT0, 0, { .d_c = 0 }}})));
+	a = main__Vec__minus(a, b);
+	println( str_intp(2, _MOV((StrIntpData[]){{_SLIT("a-=b is: "), /*115 &main.Vec*/0xfe10, {.d_s = main__Vec_str(a)}}, {_SLIT0, 0, { .d_c = 0 }}})));
+	a = main__Vec__mult(a, b);
+	println( str_intp(2, _MOV((StrIntpData[]){{_SLIT("a*=b is: "), /*115 &main.Vec*/0xfe10, {.d_s = main__Vec_str(a)}}, {_SLIT0, 0, { .d_c = 0 }}})));
+	a = main__Vec__div(a, b);
+	println( str_intp(2, _MOV((StrIntpData[]){{_SLIT("a/=b is: "), /*115 &main.Vec*/0xfe10, {.d_s = main__Vec_str(a)}}, {_SLIT0, 0, { .d_c = 0 }}})));
+	println(main__Vec__eq(a, b) ? _SLIT("true") : _SLIT("false"));
+	println(!main__Vec__eq(a, b) ? _SLIT("true") : _SLIT("false"));
+	println(main__Vec__lt(b, a) ? _SLIT("true") : _SLIT("false"));
+	println(!main__Vec__lt(a, b) ? _SLIT("true") : _SLIT("false"));
+	println(main__Vec__lt(a, b) ? _SLIT("true") : _SLIT("false"));
+	println(!main__Vec__lt(b, a) ? _SLIT("true") : _SLIT("false"));
+}
 ```
 
 #### 条件编译

@@ -32,8 +32,6 @@ V的泛型目前支持五种：
 ```v
 module main
 
-fn main() {}
-
 fn simple[T](p T) T { // 泛型作为函数的参数,返回值
 	return p
 }
@@ -100,6 +98,10 @@ fn get_test[T](v T) Test[T] { // 泛型函数和泛型结构体组合使用
 	}
 }
 
+fn main() {
+	p:= 1
+	simple(p)
+}
 ```
 
 泛型函数的调用方式有**标准方式**和**简洁方式**这两种。
@@ -194,6 +196,20 @@ fn process[T](i Item[T]) { //泛型函数和泛型结构体组合使用,泛型�
 	println(n)
 }
 
+fn main() {
+	i := Info[int] {
+		data:1
+	}
+	s := Info[string] {
+		data:'abc'
+	}
+	b := Info[bool] {
+		data:true
+	}
+	println(i)
+	println(s)
+	println(b)
+}
 ```
 
 ### 泛型方法

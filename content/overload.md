@@ -26,74 +26,73 @@
 ###结构体运算符重载
 
   ```v
-  module main
-  
-  struct Vec {
-  	x int
-  	y int
-  }
-  
-  //四则运算符
-  pub fn (a Vec) + (b Vec) Vec {
-  	return Vec{a.x + b.x, a.y + b.y}
-  }
-  
-  pub fn (a Vec) - (b Vec) Vec {
-  	return Vec{a.x - b.x, a.y - b.y}
-  }
-  
-  pub fn (a Vec) * (b Vec) Vec {
-  	return Vec{a.x * b.x, a.y * b.y}
-  }
-  
-  pub fn (a Vec) / (b Vec) Vec {
-  	return Vec{a.x / b.x, a.y / b.y}
-  }
-  
-  fn (a Vec) % (b Vec) Vec {
-  	return Vec{a.x % b.x, a.y % b.y}
-  }
-  
-  //比较运算符,只需要重载<和==，其他比较运算符不用自己定义，编译器会基于<和==自动生成
-  fn (a Vec) == (b Vec) bool {
-		return a.x == b.x && a.y == b.y
-  }
-  
-  fn (a Vec) < (b Vec) bool {
-  	return a.x < b.x && a.y < b.y
-  }
-  
-  fn (a Vec) str() string {
-  	return '{$a.x, $a.y}'
-  }
-  
-  fn main() {
-  	mut a := Vec{8, 15}
-  	b := Vec{4, 5}
-  	//四则运算符
-  	println(a + b) // {12,20}
-  	println(a - b) // {4,10}
-  	println(a * b) // {32,75}
-  	println(a / b) // {2,3}
-  	println(a % b) // {0,0}
-  	//分配运算符,分配运算符不用自己定义,会基于四则运算符自动生成
-  	a += b
-  	println('a+=b is: $a')
-  	a -= b
-  	println('a-=b is: $a')
-  	a *= b
-  	println('a*=b is: $a')
-  	a /= b
-  	println('a/=b is: $a')
-  	//比较运算符
-  	println(a == b) // false
-  	println(a != b) // true
-  	println(a > b) // true
-  	println(a >= b) // true
-  	println(a < b) // false
-  	println(a <= b) // false
-  }
-  
+module main
+
+struct Vec {
+	x int
+	y int
+}
+
+//四则运算符
+pub fn (a Vec) + (b Vec) Vec {
+	return Vec{a.x + b.x, a.y + b.y}
+}
+
+pub fn (a Vec) - (b Vec) Vec {
+	return Vec{a.x - b.x, a.y - b.y}
+}
+
+pub fn (a Vec) * (b Vec) Vec {
+	return Vec{a.x * b.x, a.y * b.y}
+}
+
+pub fn (a Vec) / (b Vec) Vec {
+	return Vec{a.x / b.x, a.y / b.y}
+}
+
+fn (a Vec) % (b Vec) Vec {
+	return Vec{a.x % b.x, a.y % b.y}
+}
+
+//比较运算符,只需要重载<和==，其他比较运算符不用自己定义，编译器会基于<和==自动生成
+fn (a Vec) == (b Vec) bool {
+	return a.x == b.x && a.y == b.y
+}
+
+fn (a Vec) < (b Vec) bool {
+	return a.x < b.x && a.y < b.y
+}
+
+fn (a Vec) str() string {
+	return '{${a.x}, ${a.y}}'
+}
+
+fn main() {
+	mut a := Vec{8, 15}
+	b := Vec{4, 5}
+	//四则运算符
+	println(a + b) // {12,20}
+	println(a - b) // {4,10}
+	println(a * b) // {32,75}
+	println(a / b) // {2,3}
+	println(a % b) // {0,0}
+	//分配运算符,分配运算符不用自己定义,会基于四则运算符自动生成
+	a += b
+	println('a+=b is: ${a}')
+	a -= b
+	println('a-=b is: ${a}')
+	a *= b
+	println('a*=b is: ${a}')
+	a /= b
+	println('a/=b is: ${a}')
+	//比较运算符
+	println(a == b) // false
+	println(a != b) // true
+	println(a > b) // true
+	println(a >= b) // true
+	println(a < b) // false
+	println(a <= b) // false
+}
   ```
 
 ### 泛型结构体运算符重载
