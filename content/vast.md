@@ -12,6 +12,8 @@ V语言所有的语法树结构体都在标准库的v.ast模块中定义，主�
 v ast main.v       //生成json格式的AST语法树文件main.json
 v ast -w main.v    //生成main.json,并且监控源文件变化，保存后自动重新生成
 v ast -c main.v    //同时生成AST语法树文件main.json和C源代码main.c,并监控源文件变化，保存后自动重新生成
+v ast -p main.v    //直接在终端中输出AST语法树
+v ast -t main.v    //输出简洁版的AST语法树文件main.json[]
 ```
 
 使用v ast子命令，将本章节中的示例代码生成语法树，即可查看到各种不同代码对应的语法树。
