@@ -1,6 +1,6 @@
 ## V开发工具
 
-目前V语言最好的开发环境是vscode和Idea/CLine，由V语言核心团队负责开发插件和语言服务，而且一直在更新中。
+目前V语言最好的开发环境是vscode和Idea/CLion，由V语言核心团队负责开发插件和语言服务，而且一直在更新中。
 
 基本的功能都有：
 
@@ -13,7 +13,7 @@
 
 ### vls
 
-V语言核心团队实现了语言服务协议LSP v3.15版本，叫V Language Server(VLS)。可以提供给所有开发工具使用，目前支持得比较好的是vscode和Idea/CLine。
+V语言核心团队实现了语言服务协议LSP v3.15版本，叫V Language Server(VLS)。可以提供给所有开发工具使用，目前支持得比较好的是vscode和Idea/CLion。
 
 源代码：[https://github.com/vlang/vls](https://github.com/vlang/vls)
 
@@ -31,7 +31,7 @@ vls支持：参考[V语言服务章节](vls.md)
 
 idea的这个插件是jetbrains内部员工开发的，已经发布，可以使用。
 
-可以搭配CLine开发环境使用，可以运行，调试，从功能上看是目前比较方便，完整的一个IDE。
+可以搭配CLion开发环境使用，可以运行，调试，从功能上看是目前比较方便，完整的一个IDE。
 
 ### sublime text插件
 
