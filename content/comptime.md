@@ -291,12 +291,29 @@ $for用来实现反射的效果，目前只实现了结构体的反射，可以�
 遍历结构体字段,返回字段信息数组：[]FieldData
 
 ```v
-FieldData {
-    name: 'a' 		//字段名称
-    attrs: [] 		//字段注解
-    is_pub: false //是否公共
-    is_mut: false //是否可变
-    typ: 18		 	//字段类型
+// FieldData holds information about a field. Fields reside on structs.
+pub struct FieldData {
+pub:
+	name          string // the name of the field f
+	typ           int    // the internal TypeID of the field f,
+	unaliased_typ int    // if f's type was an alias of int, this will be TypeID(int)
+	//
+	attrs  []string // the attributes of the field f
+	is_pub bool     // f is in a `pub:` section
+	is_mut bool     // f is in a `mut:` section
+	//
+	is_shared bool // `f shared Abc`
+	is_atomic bool // `f atomic int` , TODO
+	is_option bool // `f ?string` , TODO
+	//
+	is_array  bool // `f []string` , TODO
+	is_map    bool // `f map[string]int` , TODO
+	is_chan   bool // `f chan int` , TODO
+	is_enum   bool // `f Enum` where Enum is an enum
+	is_struct bool // `f Abc` where Abc is a struct , TODO
+	is_alias  bool // `f MyInt` where `type MyInt = int`, TODO
+	//
+	indirections u8 // 0 for `f int`, 1 for `f &int`, 2 for `f &&int` , TODO
 }
 ```
 
@@ -529,18 +546,18 @@ fn main() {
 		println(field.is_mut) //字段是否为mut
 		println(field.is_shared) //字段是否为share
 		println(field.is_atomic) //字段是否为atomic
-		println(field.is_optional) //字段是否为可选字段,带?
+		println(field.is_option) //字段是否为可选字段,带?
 		println(field.is_array) //字段是否为数组
 		println(field.is_map) //字段是否为字典
 		println(field.is_chan) //字段是否为chan类型
 		println(field.is_struct) //字段是否为结构体类型
-    println(field.is_alias) //字段是否为类型别名
+ 		println(field.is_alias) //字段是否为类型别名
+		println(field.is_enum)  //字段是否为枚举类型
 		println(field.indirections) //字段是否为指针类型,且是几级指针:0表示非指针,1表示一级指针,2表示2级指针...
 
 		println('---')
 	}
 }
-
 ```
 
 可获取的字段的信息，查看vlib/builtin.v源文件中的FieldData结构体：
@@ -618,21 +635,21 @@ fn main() {
 
 ```
 
-### 编译时动态判断泛型类型
+### 编译时判断泛型类型
 
-可以使用编译时来动态判断泛型的具体类型：
+可以使用编译时判断泛型的具体类型：
 
 ```v
 module main
 
 fn kind[T]() {
-	$if T is $Int {
+	$if T is $Int { 
 		println('Int')
 	}
-	$if T is $Float {
+	$if T is $Float { 
 		println('Float')
 	}
-	$if T is $Array {
+	$if T is $Array { 
 		println('Array')
 	}
 	$if T is $Map {
@@ -649,6 +666,42 @@ fn kind[T]() {
 	}
 	$if T is $Sumtype {
 		println('Sumtype')
+	}
+	$if T is $Function {
+		println('Function')
+	}
+	$if T is $Alias {
+		println('Alias')
+	}
+}
+
+fn kind_detail[T] () {
+	$if T is u8 {
+		println('u8')
+	}
+	$if T is int {
+		println('int')
+	}
+	$if T is ?int {
+		println('?int')
+	}
+	// $if T is !int {
+	// 	println('!int')
+	// }
+	$if T in [u8,int] {
+		println('u8 or int')
+	}
+	$if T !in [u8,int] {
+		println('not u8 or int')
+	}
+	$if T in [int $Int] {
+		println('int or Int')
+	}
+	$if T in [$Sumtype,$Map] {
+		println('Sumtype or Map')
+	}
+	$if T in [Abc,Def] {
+		println('Abc or Def')
 	}
 }
 
@@ -713,8 +766,8 @@ fn main() {
 	s2.m()
 	s3 := GenericStruct[f32]{}
 	s3.m()
+	kind_detail[Abc]()
 }
-
 ```
 
 ### 编译时全局变量
