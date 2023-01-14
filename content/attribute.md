@@ -48,8 +48,13 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
   
 - [packed]
   
-  
   参考：[结构体章节](struct.md)
+  
+- [autostr: allowrecurse]
+
+  参考：[结构体章节](struct.md)
+
+
 
 #### 结构体字段注解
 

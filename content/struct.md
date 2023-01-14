@@ -569,6 +569,60 @@ pub fn main() {
 }
 ```
 
+#### [autostr: allowrecurse]
+
+这个注解告诉编译器，允许解析嵌套自身的结构体，而不用担心循环引用，确保结构体的print相关函数正确输出。
+
+```v
+[autostr: allowrecurse]
+struct Node {
+	a &Node = unsafe { nil }
+	b &Node = unsafe { nil }
+}
+
+fn main() {
+	abc := &Node{
+		a: &Node{
+			b: &Node{}
+		}
+		b: &Node{
+			a: &Node{}
+		}
+	}
+	println(abc)
+} 
+```
+
+输出：
+
+```
+&Node{
+    a: &Node{
+        a: &nil
+        b: &Node{
+            a: &nil
+            b: &nil
+        }
+    }
+    b: &Node{
+        a: &Node{
+            a: &nil
+            b: &nil
+        }
+        b: &nil
+    }
+}
+```
+
+如果没有这个这个注解，则会输出：
+
+```
+&Node{
+    a: &<circular>
+    b: &<circular>
+}
+```
+
 ### 结构体字段注解
 
 #### [required]
