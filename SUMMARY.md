@@ -126,10 +126,10 @@
 ##### 数据库相关库
 
 
-* [pg](content/pg.md)
-* [mysql](content/mysql.md)
-* [mssql](content/mssql.md)
-* [sqlite](content/sqlite.md)
+* [db.pg](content/pg.md)
+* [db.mysql](content/mysql.md)
+* [db.mssql](content/mssql.md)
+* [db.sqlite](content/sqlite.md)
 * [orm](content/orm.md)
 
 ##### GUI相关库

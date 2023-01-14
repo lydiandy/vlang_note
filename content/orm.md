@@ -9,7 +9,7 @@
 // import pg
 // import term
 import time
-import sqlite
+import db.sqlite
 
 struct Module {
 	id           int       [primary; sql: serial]

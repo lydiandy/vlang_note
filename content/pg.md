@@ -14,20 +14,23 @@ mac安装:
 
 ```shell
 brew install postgresql
-brew services start postgresql
 ```
 
 ### C客户端库
 
 使用的是postgres官方发布的C版本postgres客户端库。
 
-如果没有安装postgresql数据库，则import pg时会报错：缺失<libpq-fe.h>。
+如果没有安装postgresql数据库，则import db.pg时会报错：缺失<libpq-fe.h>。
 
 具体API可以参考C头文件：<libpg-fe.h>。
 
+```shell
+brew install libpq
+```
+
 ### 使用pg库
 
-vlib/pg.v：
+vlib/db/pg.v：
 
 ```v
 pub struct Config { //数据库连接配置结构体
@@ -63,7 +66,7 @@ pub fn (db DB) exec_param_many(query string, params []string) []pg.Row //带多�
 ``` v
 module main
 
-import pg
+import db.pg
 
 struct User {
 	id   int

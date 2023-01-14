@@ -694,7 +694,7 @@ fn kind_detail[T] () {
 	$if T !in [u8,int] {
 		println('not u8 or int')
 	}
-	$if T in [int $Int] {
+	$if T in [int,$Int] {
 		println('int or Int')
 	}
 	$if T in [$Sumtype,$Map] {
