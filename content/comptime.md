@@ -587,7 +587,40 @@ pub:
 }
 ```
 
+### 获取结构体选项类型字段值
 
+```v
+struct FixedStruct {
+	a int
+	b string
+	c ?int
+	d ?string
+}
+
+struct Encoder {}
+
+fn main() {
+	fixed := FixedStruct{123, '456', 789, '321'}
+	println(fixed.a.str())
+	println(fixed.c?.str()) //返回选项类型字段的值
+
+	println(fixed.b.int())
+	println(fixed.d?.int()) //返回选项类型字段的值
+
+	e := Encoder{}
+	e.encode_struct(fixed)
+}
+
+fn (e &Encoder) encode_struct[T](val T) {
+	$for field in T.fields {
+		mut value := val.$(field.name) //动态获取结构体字段的值
+		$if field.is_option {
+			println('>> ${value ?.str()}') //动态输出结构体选项字段的值
+			println(val.$(field.name) ?.str()) //动态输出结构体选项字段的值
+		}
+	}
+}
+```
 
 ### 编译时动态调用方法
 
