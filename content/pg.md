@@ -116,19 +116,8 @@ db.update
 
 但是pg库是基于postgres官方的C客户端库，可以把里面的C函数和结构体直接拿来使用，或者进行进一步的封装，开发起来还是比较快的。
 
-目前需要注意的2个坑：
-
-1. 定义模型结构体时，如果结构体的字段多于对应数据库表的字段，执行db.exec()的时候不会返回结果，也没有提示。
-
 ### libpg客户端库使用参考
 
 官方中文参考：http://www.postgres.cn/docs/14/libpq.html
 
 教程：https://geek-docs.com/postgresql/postgresql-postgresql/postgresqlc.html
-
-
-
-
-
-
-
