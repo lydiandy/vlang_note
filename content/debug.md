@@ -66,6 +66,12 @@ https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
 
   ![screenshot visual debugger](debug.assets/vscode-debugger.png)
 
+### clion/idea IDE调试
+
+idea系列中有专门的V语言开发插件：[https://github.com/i582/vlang-idea](https://github.com/i582/vlang-idea)。
+
+如果结合clion使用，就可以直接进行调试，并且功能强大，稳定。
+
 ### C后端调试
 
 常用编译带调试选项：
@@ -161,4 +167,4 @@ Interfacing the Javascript Backend code generation, passing options to it:
 
 ### native后端调试
 
-目前native后端还在开发中，目前没有还不支持调试。
+目前native后端还在开发中，目前还不支持调试。
