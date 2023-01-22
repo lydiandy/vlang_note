@@ -1,8 +1,6 @@
 ## 集成C代码库
 
-### 优势
-
-V的代码库很多都直接调用C标准库函数来实现，对C标准库的依赖还是很重的。
+V代码库很多都直接调用C标准库函数来实现，对C标准库的依赖还是很重的。
 
 由于V代码编译后生成的是C代码，然后再调用C编译器编译成可执行文件，这样的机制决定了V语言可以很方便地调用C世界的各种代码库。
 
@@ -12,25 +10,27 @@ V的代码库很多都直接调用C标准库函数来实现，对C标准库的�
 
 在V代码里调用C代码也非常简单，在V标准库里随处可见，以下是调用C代码库的基本步骤：
 
-1. **定义#flag**
+1. **使用#flag添加编译标志**
 
-    定义flag这一步是可选的，比如调用C标准库的函数就不需要，一般调用第三方库才需要用到，flag的定义要放在C语言宏之前。
+    这一步是可选的，比如调用C标准库的函数就不需要，一般调用第三方库才需要用到。
+
+    flag编译标志的定义要放在C语言宏之前。
 
 2. **在V代码中使用C语言宏**
 
     比如#include宏或#define宏，编译时这些宏会被原封不动地搬到生成的C代码中。
 
 
-3. **使用V的语法定义要使用的C函数或C结构体的声明**
+3. **使用V语法定义要使用的C函数或结构体声明**
 
-    函数名或结构体名一定要在C名称的基础上添加C.前缀。
+    函数名或结构体名一定要在C名称的基础上添加`C.`前缀，主要是给V编译器使用，看到这个标记V编译器就知道这是C函数或结构体，会根据函数或结构体签名进行参数和返回值的类型检查。
 
 
-4. **在V代码中使用C函数或结构体**
+4. **在V代码中调用C函数或结构体**
 
-    调用时，名称前要使用C.作为前缀。
+    调用时，名称前要使用`C.`作为前缀。
 
-    原理其实很简单：V编译时，会统一把函数和结构体名称前面的C.前缀统一去掉，这样在C代码里面就可以正常调用了。
+    原理其实很简单：V编译器会统一把函数和结构体名称前面的C.前缀去掉，这样在C代码里面就可以正常调用。
 
 
 调用标准库的例子：
@@ -51,9 +51,10 @@ fn main() {
 myslq库中的参考代码：
 
 ```v
-//宏
-#flag -lmysqlclient
-#flag linux -I/usr/include/mysql
+//flag编译标志，提供给C编译器使用
+#flag -lmysqlclient //C编译器链接时，就会查找libmysqlclient.a的库文件
+#flag linux -I/usr/include/mysql //特定操作系统的编译标志
+//宏定义
 #include <mysql.h>
 //声明要使用的C结构体
 struct C.MYSQL
@@ -120,12 +121,12 @@ fn C.XDestroyWindow(d &Display, w C.Window)
 
 ### 使用$env编译时函数
 
-$env也可以在#flay和#include等C宏中使用，让C宏的定义更灵活。
+$env也可以在#flay和#include等C宏中使用，让C宏定义更灵活。
 
 ```v
 module main
 
-//可以在C宏语句中使用,让C宏的定义更灵活
+//可以在C宏语句中使用,让C宏定义更灵活
 #flag linux -I $env('JAVA_HOME')/include
 
 fn main() {
@@ -137,17 +138,15 @@ fn main() {
 
 ### 简单封装
 
-其实，直接在V代码中使用C函数或者结构体也是可以的。
+由于命名风格不一致的原因，习惯上会对C函数或结构体进行一层简单封装，名字可以重新改为V风格(小写加下划线的小蛇风格)，或者更为简短的名字。
 
-不过，由于命名方式不一致的原因，习惯上会对C函数或结构体进行一层简单封装，名字可以重新改为V风格(小写加下划线的小蛇风格)，或者更为简短的名字。
+一般来说，对一个C代码库中的简单封装会涉及到：结构体，联合体，函数，枚举这4大类，经过封装，就可以得到一个V风格的封装库。
 
-一般来说，对一个C代码库中的简单封装会涉及到：结构体，联合体，函数，枚举这4大类，经过集成和封装，就可以得到一个V风格的封装库。
-
-如果是小的C代码库，可以直接把这3类的简单封装都放在一个V源文件中。
+如果是简单的C代码库，可以直接把这3类的简单封装都放在一个V源文件中。
 
 如果C代码库规模大一些，也可以这3类，各自单独一个V源文件，归属于同一个V模块。
 
-以下代码是GUI代码库中引用了sokol C代码库后，进行的简单封装：
+以下代码是GUI代码库中引用了sokol C代码库，进行了简单封装：
 
 vlib/sokol/sokol.v部分代码：
 
@@ -182,7 +181,7 @@ pub fn width() int {
 
 ### 启用全局变量
 
-默认情况下编译器是没有全局变量声明的，但是为了跟C代码集成，有时候需要定义全局变量，可以在调用编译器时，通过增加 -enable-globals选项来启用。
+默认情况下编译器禁止全局变量声明，为了跟C代码集成，有时需要定义全局变量，可以在调用编译器时，通过增加 -enable-globals选项来启用。
 
 ```
 v -enable-globals run main.v
@@ -216,9 +215,7 @@ fn main() {
 
 内联函数有些类似于宏，内联函数的代码会被直接嵌入在它被调用的地方，调用几次就嵌入几次，没有使用call指令。
 
-这样省去了函数调用时的一些额外开销，不过调用次数多的话，会使可执行文件变大，这样会降低整个程序的运行速度。
-
-像上面那个简单的封装，函数只有1行代码，嵌入到被调用的地方也还是1行代码，既能省去函数调用时的额外开销，提升性能，又不会使可执行文件变大。
+inline函数能省去函数调用时的额外开销，提升性能。不过调用次数多的话，会使可执行文件变大。
 
 同时也可以统一和简化C函数的命名，变为V风格的简短命名，一举多得。
 
@@ -233,11 +230,9 @@ pub fn width() int {
 
 定义C结构体等价的V版本结构体，V版本结构体名称以C.做前缀，这样就可以直接使用V版本的结构体来创建变量。
 
-**用V版本的结构体创建变量，编译生成的C代码中，就是用C版本结构体创建了变量**。
-
 C代码库中的结构体：
 
-```v
+```c
 typedef struct sapp_event {
     uint64_t frame_count;
     sapp_event_type type;
@@ -259,9 +254,9 @@ typedef struct sapp_event {
 } sapp_event;
 ```
 
-定义等价的V版本结构体：字段数量一样，字段名称一样，字段类型一样，
+定义等价的V版本结构体：
 
-如果字段类型是枚举的，也可以再定义等价的V版本枚举，
+V版本结构体可以不用所有的字段都定义一遍，可以只定义V代码中要使用的字段。
 
 ```v
 pub struct C.sapp_event {
@@ -288,7 +283,7 @@ pub:
 
 ### 联合体简单封装
 
-基本的原理和步骤跟结构体的封装一样，就是关键字为union。
+基本的原理和步骤跟结构体的封装一样，关键字为union。
 
 ```v
 //如果不需要访问到联合体内部的字段，只是类型引用，定义一个联合体声明就可以
@@ -309,7 +304,7 @@ pub mut:
 
 ### 枚举简单封装
 
-其实就是定义一个跟C版本枚举一样的枚举，枚举名可以按V的风格自由定义，枚举项的整数值一定要跟C版本的枚举值对应正确，其实最后都是把枚举项的值转为整数，传递给C代码使用。
+其实就是定义一个跟C版本枚举一样的枚举，枚举名可以按V的风格自由定义，枚举项的整数值一定要跟C版本的枚举值对应正确，最后都是把枚举项的值转为整数，传递给C代码使用。
 
 ```v
 pub enum MouseButton {
@@ -322,7 +317,7 @@ pub enum MouseButton {
 
 ### 类型别名封装
 
-可以对C.xxx的结构体和联合体进一步定义类型别名，这样在使用的时候，可以用更简洁的类型名
+可以对C结构体和联合体进一步定义类型别名，这样在使用的时候，可以用更简洁的类型名
 
 ```v
 pub type Context = C.MIR_context_t
@@ -375,17 +370,17 @@ for s in string_array {
 
 以上2种情况，目前只能自己动手写个C代码，在C代码中封装好以后，再集成到V代码中。
 
-### 关于#flag标记
+### flag编译标记
 
-这个#flag标记跟v编译器的-cflags选项的用法是一样的，用于传递额外的flag参数给C编译器。
+flag编译标记跟V编译器的-cflags选项的用法一样，用于传递额外的编译标记给C编译器。
 
-关于C编译器的flag参数可以参考：https://colobu.com/2018/08/28/15-Most-Frequently-Used-GCC-Compiler-Command-Line-Options/。
+关于C编译器的flag参数可以参考[帖子](https://colobu.com/2018/08/28/15-Most-Frequently-Used-GCC-Compiler-Command-Line-Options/)。
 
 1. 要在使用C宏之前先定义#flag。
 
 2. `-L` 在库文件的搜索路径列表中添加指定的路径。
 
-   `-l` 在要链接的库名称。
+   `-l` 要链接的库名称。
 
    `-I` 在头文件的搜索路径中添加指定的路径。
 
@@ -406,7 +401,7 @@ for s in string_array {
 
 ```v
 //mysql包里面的:
-#flag -lmysqlclient //-l开头，表示在库文件的搜索路径中添加mysqlclient
+#flag -lmysqlclient //-l开头，表示在库文件的搜索路径中添加mysqlclient库文件
 #flag linux -I /usr/include/mysql //-I开头，在头文件的搜索路径中添加指定的路径， 针对linux平台，这样才可以搜索到下面的mysql.h头文件
 #include <mysql.h>
 ```
@@ -416,16 +411,13 @@ for s in string_array {
 #flag -I @VROOT/thirdparty/sokol //@VROOT指向v编译器的根路径
 #flag -I @VROOT/thirdparty/sokol/util
 
+#flag darwin -fobjc-arc  //针对mac平台，提供额外的flag编译标记:-fobjc-arc
+#flag linux -lX11 -lGL    //针对linux平台，提供额外的flag编译标记
 
-#flag darwin -fobjc-arc  //针对mac平台，提供额外的flag参数:-fobjc-arc
-#flag linux -lX11 -lGL    //针对linux平台，提供额外的flag参数
-
-
-#flag windows -lgdi32 //针对window平台，提供额外的flag参数:-l开头，表示链接gdi32
-
+#flag windows -lgdi32 //针对window平台，提供额外的flag编译标记:-l开头，表示链接gdi32
 
 // OPENGL
-#flag -DSOKOL_GLCORE33 //提供额外的flag参数:-DSOKOL_GLCORE33
+#flag -DSOKOL_GLCORE33 //提供额外的编译变量:SOKOL_GLCORE33
 #flag darwin -framework OpenGL -framework Cocoa -framework QuartzCore
 ```
 ### 集成自己的C库
@@ -464,13 +456,13 @@ module main
 
 //添加库文件搜索路径
 #flag -LD:\linkcTest\myClib
-//添加库文件名(前缀lib和后缀名.a不要指定)	
+//添加库文件名(前缀lib和后缀名.a不用指定)	
 #flag -ltestlib
 //添加头文件搜索路径
 #flag -ID:\linkcTest\myCheader
 //引入头文件test.h
 #include <test.h>
-//在v中声明一下自定义C函数
+//在v中声明自定义C函数
 fn C.TestFunc() int
 
 fn main() {
@@ -532,11 +524,11 @@ c2v wrapper file.c
 
 ### pkgconfig
 
-pkg-config是C广泛使用的编译依赖配置工具，V也实现了V版本的pkgconfig，使用方法基本跟C版本保持了兼容。
+pkg-config是C广泛使用的编译依赖配置工具，V也实现了V版本的pkgconfig，使用方法跟C版本保持了兼容。
 
 #### 命令行
 
-V版本的pkgconfig的源代码位于V源代码中的：vlib/v/pkgconfig
+V版本的pkgconfig源代码位于：vlib/v/pkgconfig
 
 - 编译pkgconfig
 
@@ -548,23 +540,26 @@ v ./bin/pkgconfig.v
 
 - 使用pkgconfig命令行
 
-  基本跟C版本的使用兼容，具体使用参考：
+  跟C版本的使用兼容，具体使用参考：
 
 ```shell
 ./bin/pkgconfig --help
 ```
 
-一般来说pkgconfig命令行比较少直接使用，一般都是通过在V源代码中加载pc配置文件。
+一般来说，pkgconfig命令行比较少直接使用，一般都是通过在V源代码中加载pc配置文件。
 
 #### 加载pc配置文件
 
-V版本的pkgconfig配置文件跟C版本一致，配置文件的扩展名也是.pc。
+V版本的pkgconfig配置文件跟C版本一致，配置文件的扩展名也是.pc(package configuration)。
 
 直接在V源代码中加载.pc配置文件，就可以更方便地实现跟C代码库实现集成，能够正确编译。
 
-一般来说，在加载之前先使用$pkgconfig('xxx')编译时函数来检查xxx.pc配置文件是否存在，如果存在，就可以使用#pkgconfig标记来加载.pc配置文件，
+一般来说，在加载之前先使用$pkgconfig()编译时函数来检查pc配置文件是否存在，如果存在，就可以使用#pkgconfig标记来加载.pc配置文件。
 
-配置文件的搜索路径跟C版本一样，默认会搜索/usr/lib/pkg-config目录，若找不到，则会去PKG_CONFIG_PATH环境变量指定的路径下查找。
+配置文件的搜索路径跟C版本一样：
+
+- 默认会搜索/usr/lib/pkg-config和/usr/local/lib/pkg-config目录
+- 若找不到，则会去PKG_CONFIG_PATH环境变量指定的路径下查找
 
 ```v
 $if $pkgconfig('mysqlclient') {	//编译时判断mysqlclient.pc配置文件是否存在
@@ -577,7 +572,7 @@ $if $pkgconfig('mysqlclient') {	//编译时判断mysqlclient.pc配置文件是�
 在实际的例子中，V编译器的可选垃圾收集器使用了C版本的bdw-gc，在vlib/builtin/builtin_d_gcboehm.c.v源代码中有这么一段代码：
 
 ```v
-	$if macos { 	//在mac系统中
+	$if macos {
 		#pkgconfig bdw-gc		//加载bdw-gc.pc配置文件到C源代码中
 	} $else $if openbsd || freebsd {
 		#flag -I/usr/local/include
@@ -587,9 +582,9 @@ $if $pkgconfig('mysqlclient') {	//编译时判断mysqlclient.pc配置文件是�
 
 #### 解析pc配置文件内容
 
-除了可以在源代码中直接加载pc配置文件到生成的C源代码中，还可以使用v.pkgconig模块来解析pc配置文件中的内容：
+除了可以在源代码中直接加载pc配置文件到生成的C源代码中，还可以使用v.pkgconig模块来解析pc配置文件中的内容。
 
-Vlib/v/pkgconfig/test_sample目录中有许多pc配置的示例，通过以下代码解析出配置文件对应字段的内容，效果跟解析v.mod类似。
+Vlib/v/pkgconfig/test_sample目录中有许多pc配置的示例：
 
 ```v
 import os
@@ -606,6 +601,7 @@ fn main() {
 	assert pc_files.len > 0
 	for pc in pc_files {
 		pcname := os.file_name(pc).replace('.pc', '')
+    //加载pc文件，并解析
 		x := pkgconfig.load(pcname, use_default_paths: false, path: samples_dir) or {
 			if pcname == 'dep-resolution-fail' {
 				continue

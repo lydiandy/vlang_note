@@ -831,11 +831,9 @@ fn main() {
 
 ### 编译时获取环境变量
 
-可以使用$env编译时函数获取环境变量，
+可以使用$env()编译时函数获取环境变量。运行时代码中os.get_env()函数也可以实现相同的效果。
 
-运行时代码中os.get_env函数也可以实现相同的效果，
-
-比较特别的是$env也可以在#flay和#include等C宏中使用,让C宏的定义更灵活。
+比较特别的是$env()也可以在#flay和#include等C宏中使用，让C宏定义更灵活。
 
 ```v
 module main
@@ -847,20 +845,21 @@ fn main() {
 	compile_time_env := $env('PATH')
 	println(compile_time_env)
 }
-
 ```
 
 ### 编译时获取pkgconfig配置文件
 
-可以使用$pkgconfig编译时函数，来判断配置文件是否存在。
+可以使用$pkgconfig()编译时函数，来判断配置文件是否存在。
 
 具体代码参考：[集成C代码库章节](c.md)。
 
 ### 编译时嵌入静态文件
 
-可以使用$embed_file编译时函数，把各种类型的文件在编译时嵌入到二进制文件中，更方便编译打包成单一可执行文件，方便部署，目前vweb框架中有使用到。
+可以使用$embed_file()编译时函数，把各种类型的文件在编译时嵌入到二进制文件中，更方便编译打包成单一可执行文件，方便部署，目前vweb框架中有使用到。
 
-如果没有特别指定，使用-prod进行生产编译时，$embed_file函数会使用zlib对嵌入二进制的静态文件进行压缩。
+$embed_file()函数返回的类型为EmbedFileData，详细的使用可参考：vlib/v/embed_file/embed_file.v源文件。
+
+如果没有特别指定，使用-prod进行生产编译时，$embed_file()函数会使用zlib对嵌入二进制的静态文件进行压缩。
 
 ```v
 module main
@@ -868,10 +867,10 @@ module main
 import os
 
 fn main() {
-	mut embedded_file := $embed_file('v.png',.zlib) //可以使用zlib进行压缩
+	mut embedded_file := $embed_file('v.png', .zlib) //可以使用zlib进行压缩
 	mut fw := os.create('exported.png') or { panic(err) }
-  //data函数返回字节数据，len是字节长度
-	unsafe { fw.write_ptr(embedded_file.data(), embedded_file.len) }
+	// data函数返回字节数据，len是字节长度
+	unsafe { fw.write_ptr(embedded_file.data(), embedded_file.len) } //使用data函数获取数据
 	fw.close()
 }
 ```
@@ -935,4 +934,3 @@ fn main() {
 	}
 }
 ```
-
