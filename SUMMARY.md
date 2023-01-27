@@ -108,6 +108,7 @@
 * [log](content/std_log.md)
 * [io](content/std_io.md)
 * [readline](content/std_readline.md)
+* [reflection](content/std_reflection.md)
 * [net](content/std_net.md)
 * [net.http](content/std_http.md)
 * [eventbus](content/std_eventbus.md)

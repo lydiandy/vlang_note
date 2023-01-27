@@ -155,8 +155,6 @@ println(s) //输出hello world
 
 字符串插值：
 
-字符串插值只会有一种格式，即\${变量名}
-
 ```v
 name:='Bob'
 println('hello ${name}')

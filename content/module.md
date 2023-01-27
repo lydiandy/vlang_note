@@ -151,11 +151,11 @@ fn main() {
 }
 ```
 
-### 模块初始化函数
+### 模块初始化/清除函数
 
-如果在模块中定义了init函数，当模块被导入时,init函数会被自动调用。
+如果在模块中定义了init函数，当模块被导入时，init函数会被自动调用；如果定义了cleanup函数，当程序退出时，cleanup函数会被自动调用。
 
-同一个模块内只能定义一个init函数，如果在模块中定义了多个init函数，编译会不通过。
+同一个模块内只能定义一个init函数或cleanup函数，如果定义了多个，编译会不通过。
 
 mymodule.v
 
@@ -163,11 +163,15 @@ mymodule.v
 module mymodule
 
 fn init() {
-    println('from init')
+	println('from init')
+}
+
+fn cleanup() {
+	println('from cleanup')
 }
 
 pub fn my_fn() {
-    println('from my_fn')
+	println('from my_fn')
 }
 ```
 
@@ -188,6 +192,7 @@ fn main() {
 ```shell
 from init
 from my_fn
+from cleanup
 ```
 
 ### 模块作废
