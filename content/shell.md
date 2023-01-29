@@ -8,13 +8,13 @@ V脚本的文件名后缀为 .vsh，跟.v源文件相比在.vsh中：
 
 - 不用定义主模块
 - 不用定义主函数
-- 不用导入os模块，调用os模块函数时，可以省略os前缀，就像使用内置函数那样
+- 不用导入os模块，可以直接调用os模块函数，省略os前缀，就像内置函数
 - 跟shell脚本一样，可以在首行中使用#!来设置执行脚本的工具
 
 script.vsh
 
 ```v
-#!/usr/local/bin/v
+#! /Users/zhijiayou02/v/src/v
 
 for _ in 0 .. 5 {
 	println('V script')
@@ -24,36 +24,35 @@ println('Files')
 foo := ls('.') or { panic(err) }
 println(foo)
 println('')
-rm('a.out')
+rm('a.out') or { panic(err) }
 println('Making dir name and creating foo.txt')
-mkdir('name') ?
-// TODO mkdir()
-create('foo.txt') ?
+mkdir('name')!
+create('foo.txt')!
 foo_ls := ls('.') or { panic(err) }
 println(foo_ls)
 println('')
 println('Entering into name')
-chdir('name')
+chdir('name') or { panic(err) }
 foo_ls2 := ls('.') or { panic(err) }
 println(foo_ls2)
 println('')
 println('Removing name and foo.txt')
 println('')
-chdir('../')
-rmdir('name')
-rm('foo.txt')
+chdir('../') or { panic(err) }
+rmdir('name') or { panic(err) }
+rm('foo.txt') or { panic(err) }
 again := ls('.') or { panic(err) }
 println(again)
 
 ```
 
-直接运行:
+直接运行：
 
 ```shell
-v script.vsh	//执行脚本，默认是使用crun子命令，可以省略
-./script.vsh //执行脚本，如果脚本首行有设置指定v命令行来执行，可以直接运行
-v run script.vsh //执行脚本，先自动编译生成可执行文件，然后执行，执行完删除
-v crun script.vsh //执行脚本，先自动编译生成可执行文件，然后执行，执行完保留可执行文件，如果下次再执行，脚本源代码没有改动，则跳过编译，直接运行可执行文件，这样运行速度更快
+v script.vsh	#执行脚本，默认是使用crun子命令，可以省略
+./script.vsh #执行脚本，如果脚本首行有设置指定v命令行来执行，可以直接运行
+v run script.vsh #执行脚本，先自动编译生成可执行文件，然后执行，执行完删除
+v crun script.vsh #执行脚本，先自动编译生成可执行文件，然后执行，执行完保留可执行文件，如果下次再执行，脚本源代码没有改动，则跳过编译，直接运行可执行文件，这样运行速度更快
 ```
 
 以下是[vls](https://github.com/vlang/vls)的构建脚本：
@@ -85,4 +84,4 @@ println('> VLS built successfully!')
 
 ```
 
-os模块常用的函数可以参考[标准库os模块](std_os.md)章节的介绍。
+os模块函数可以参考[标准库os模块](std_os.md)章节。
