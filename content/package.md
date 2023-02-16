@@ -68,7 +68,7 @@ v install -help
 
 ```shell
 git clone https://github.com/xxx #下载源代码
-ln -s xxx ~/.vmodules/xxx #创建目录链接，记得使用绝对路径
+ln -s xxx ~/.vmodules/xxx #在vmodules目录中，创建目录链接，xxx记得使用绝对路径
 ```
 
 ### 模块描述文件

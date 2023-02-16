@@ -81,6 +81,8 @@
 
 * [裸机环境](content/bare_metal.md)
 
+* [生成wasm](content/wasm.md)
+
 * [GUI开发](content/gui.md)
 
 * [web开发](content/vweb.md)
