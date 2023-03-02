@@ -2,7 +2,15 @@
 
 V编译器支持wasm后端，将V源代码编译生成wasm代码。
 
-编译器后端使用[binaryen](https://github.com/WebAssembly/binaryen)来生成wasm代码，安装步骤如下：
+### 安装依赖
+
+当第一次运行 `v -b wasm xxx.v`时，编译器会提示，缺少外部依赖库[binaryen](https://github.com/WebAssembly/binaryen)，需要先执行脚本下载对应平台的预编译版本。安装脚本会下载并解压到path_to_v/thirdparty/binaryen目录中。
+
+```shell
+path_to_v/cmd/tools/install_binaryen.vsh
+```
+
+也可以直接下载binaryen源代码，自行编译，编译步骤如下：
 
 ```shell
 git clone https://github.com/WebAssembly/binaryen.git
@@ -12,10 +20,11 @@ cmake . && make #需要提前安装好cmake
 make install
 ```
 
-安装binaryen封装库：
+### 编译目标系统
 
 ```shell
-git clone https://github.com/l1mey112/binaryen-v.git
+v -b wasm -os wasi #编译为符合wasi标准的代码，不特别指定-os选项值，默认是wasi
+v -b wasm -os browser #编译为浏览器环境的代码
 ```
 
 示例代码：
@@ -23,20 +32,16 @@ git clone https://github.com/l1mey112/binaryen-v.git
 mandelbrot.v
 
 ```v
-// v -b wasm -no-builtin mandelbrot.v # create `mandelbrot.wasm`
-// 
-// python -m http.server 8080
-// emrun mandelbrot.html
-// ....
-// ....
-
 fn JS.canvas_x() int
 fn JS.canvas_y() int
 fn JS.setpixel(x int, y int, c f64)
 
-fn main() {
+// `main` must be public!
+pub fn main() {
 	max_x := JS.canvas_x()
 	max_y := JS.canvas_y()
+
+	println('starting main.main!')
 
 	mut y := 0
 	for y < max_y {
@@ -65,6 +70,8 @@ fn main() {
 			JS.setpixel(x, y, c)
 		}
 	}
+
+	panic('reached the end!')
 }
 ```
 
@@ -84,19 +91,33 @@ mandelbrot.html
 	<script>
 		var canvas = document.getElementById("canvas");
 		var ctx = canvas.getContext("2d");
+		var memory;
+
+		function get_string(ptr, len) {
+			const buf = new Uint8Array(memory.buffer, ptr, len);
+			const str = new TextDecoder("utf8").decode(buf);
+
+			return str
+		}
 
 		const env = {
-			__vsp: new WebAssembly.Global({value: "i32", mutable: true}, 0),
-			__vmem: new WebAssembly.Memory({initial: 256, maximum: 256}),
 			canvas_x: () => canvas.width,
 			canvas_y: () => canvas.height,
 			setpixel: (x, y, c) => {
 				ctx.fillStyle = "rgba(1,1,1,"+(c/255)+")";
 				ctx.fillRect(x, y, 1, 1);
+			},
+			__writeln: (ptr, len) => {
+				console.log(get_string(ptr, len))
+			},
+			__panic_abort: (ptr, len) => {
+				throw get_string(ptr, len);
 			}
 		}
 
 		WebAssembly.instantiateStreaming(fetch("mandelbrot.wasm"), {env: env}).then((res) => {
+			memory = res.instance.exports['memory'];
+			
 			console.time('main.main')
 			res.instance.exports['main.main']()
 			console.timeEnd('main.main')
@@ -106,10 +127,10 @@ mandelbrot.html
 </html>
 ```
 
-编译，生成wasm文件：
+编译生成wasm文件：
 
 ```shell
-v -b wasm mandelbrot.v
+v -b wasm -os browser mandelbrot.v
 ```
 
 就可以打开mandelbrot.html运行wasm文件。
