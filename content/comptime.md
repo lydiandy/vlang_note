@@ -676,39 +676,42 @@ fn main() {
 module main
 
 fn kind[T]() {
-	$if T is $Int { 
-		println('Int')
+	$if T is $int {
+		println('int')
 	}
-	$if T is $Float { 
-		println('Float')
+	$if T is $float {
+		println('float')
 	}
-	$if T is $Array { 
-		println('Array')
+	$if T is $array {
+		println('array')
 	}
-	$if T is $Map {
-		println('Map')
+	$if T is $map {
+		println('map')
 	}
-	$if T is $Struct {
-		println('Struct')
+	$if T is $struct {
+		println('struct')
 	}
-	$if T is $Interface {
-		println('Interface')
+	$if T is $interface {
+		println('interface')
 	}
-	$if T is $Enum {
-		println('Enum')
+	$if T is $enum {
+		println('enum')
 	}
-	$if T is $Sumtype {
-		println('Sumtype')
+	$if T is $sumtype {
+		println('sumtype')
 	}
-	$if T is $Function {
-		println('Function')
+	$if T is $function {
+		println('function')
 	}
-	$if T is $Alias {
-		println('Alias')
+	$if T is $alias {
+		println('alias')
+	}
+	$if T is $option {
+		println('option')
 	}
 }
 
-fn kind_detail[T] () {
+fn kind_detail[T]() {
 	$if T is u8 {
 		println('u8')
 	}
@@ -721,19 +724,19 @@ fn kind_detail[T] () {
 	// $if T is !int {
 	// 	println('!int')
 	// }
-	$if T in [u8,int] {
+	$if T in [u8, int] {
 		println('u8 or int')
 	}
-	$if T !in [u8,int] {
+	$if T !in [u8, int] {
 		println('not u8 or int')
 	}
-	$if T in [int,$Int] {
+	$if T in [int, $int] {
 		println('int or Int')
 	}
-	$if T in [$Sumtype,$Map] {
+	$if T in [$sumtype, $map] {
 		println('Sumtype or Map')
 	}
-	$if T in [Abc,Def] {
+	$if T in [Abc, Def] {
 		println('Abc or Def')
 	}
 }
@@ -755,11 +758,11 @@ struct GenericStruct[T] {
 }
 
 pub fn (s GenericStruct[T]) m() {
-	$if T is $Int {
+	$if T is $int {
 		println('Int in method')
 	}
 
-	$if T is $Array {
+	$if T is $array {
 		println('Array in method')
 	} $else {
 		println('other')
@@ -801,6 +804,7 @@ fn main() {
 	s3.m()
 	kind_detail[Abc]()
 }
+
 ```
 
 ### 编译时全局变量
