@@ -210,18 +210,18 @@ mut:
 
 fn main() {
 	mut f := Foo{}
-	println(f.x?) //不处理错误,向上抛转错误
+	println(f.x?) //输出1
 	f = Foo{
 		x: 2
 		y: none
 	}
 	a := f.x or { 123 }
-	println(a)
-	b := f.y or { 9999 }
-	println(b)
+	println(a) // 输出2
+	b := f.y or { 9999 } // f.y返回空值none，触发空值错误，进入or代码块
+	println(b) // 输出9999
 	mut sum := f.x? + 1
 	sum = f.x or { 123 } + 1
-	println(sum)
+	println(sum) // 输出3
 }
 ```
 

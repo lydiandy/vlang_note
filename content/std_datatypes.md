@@ -29,10 +29,10 @@ fn main() {
 	stack.push(3)
 	println(stack)
 	println(stack.len()) //返回栈的长度
-	e := stack.pop() ? //出栈,并返回出栈的元素,如果栈为空,则抛出错误
+	e := stack.pop() ! //出栈,并返回出栈的元素,如果栈为空,则抛出错误
 	println(e)
 	println(stack)
-	p := stack.peek() ? //返回栈尾,如果栈为空,则抛出错误
+	p := stack.peek() ! //返回栈尾,如果栈为空,则抛出错误
 	println(p)
 }
 ```

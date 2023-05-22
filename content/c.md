@@ -74,7 +74,7 @@ fn C.mysql_real_escape_string_quote(mysql &C.MYSQL, to &u8, from &u8, len u64, q
 fn C.mysql_close(sock &C.MYSQL)
 
 //调用C函数或结构体
-pub fn connect(server, user, passwd, dbname string) ?DB {
+pub fn connect(server, user, passwd, dbname string) !DB {
 	conn := C.mysql_init(0)
 	if isnil(conn) {
 		return error_with_code(get_error_msg(conn), get_errno(conn))
@@ -121,7 +121,7 @@ fn C.XDestroyWindow(d &Display, w C.Window)
 
 ### 使用$env编译时函数
 
-$env也可以在#flay和#include等C宏中使用，让C宏定义更灵活。
+$env也可以在#flag和#include等C宏中使用，让C宏定义更灵活。
 
 ```v
 module main

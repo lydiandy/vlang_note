@@ -191,9 +191,9 @@ fn main() {
 	myfn() or { panic(err) }
 }
 
-fn myfn() ? {
+fn myfn() ! {
 	mm := map[string]int{}
-	x := mm['bad_key']? //也可以本层级不处理,向上抛转错误
+	x := mm['bad_key']! //也可以本层级不处理,向上抛转错误
 	println(x)
 }
 ```

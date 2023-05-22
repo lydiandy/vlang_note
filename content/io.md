@@ -6,14 +6,14 @@
 
 可读接口表示一个可以被读取的对象，比如文件或网络。
 
-读取的内容会被写入到参数中的buf字节数组，返回值表示已读取的字节数，如果全部读取完成，即EOF，则返回none，可在调用的or代码块中进行读取完毕的操作。
+读取的内容会被写入到参数中的buf字节数组，返回值表示已读取的字节数，如果全部读取完成，即EOF，则抛出错误，可在调用的or代码块中进行读取完毕的操作。
 
 相对于随机读，可读取对象只能从头开始读取。
 
 ```v
 pub interface Reader {
 mut:
-	read(mut buf []u8) ?int
+	read(mut buf []u8) !int
 }
 ```
 
@@ -21,14 +21,14 @@ mut:
 
 可写接口表示一个可以被写入的对象，比如文件或网络。
 
-把参数中的buf字节数组，逐字节写入到可写入对象中，返回值表示已写入的字节数，如果全部写入完成，则返回none，可在调用的or代码块中进行写入完毕的操作。
+把参数中的buf字节数组，逐字节写入到可写入对象中，返回值表示已写入的字节数，如果全部写入完成，则抛出错误，可在调用的or代码块中进行写入完毕的操作。
 
 相对于随机写，可写对象只能从头开始写入。
 
 ```v
 pub interface Writer {
 mut:
-	write(buf []u8) ?int
+	write(buf []u8) !int
 }
 ```
 
@@ -49,7 +49,7 @@ pub interface ReaderWriter {
 
 ```v
 pub interface RandomReader {
-	read_from(pos u64, mut buf []u8) ?int
+	read_from(pos u64, mut buf []u8) !int
 }
 ```
 
@@ -59,7 +59,7 @@ pub interface RandomReader {
 
 ```v
 pub interface RandomWriter {
-	write_to(pos u64, buf []u8) ?int
+	write_to(pos u64, buf []u8) !int
 }
 ```
 
@@ -78,11 +78,11 @@ for {
 ```v
 //读取所有字节，如果ReadAllConfig选项中read_to_end_of_stream设置
 //为true,就算是read函数读取不到任何字节，也不退出，继续等待读取，
-//直到读取完Reader的所有字节,返回none才退出。如果read_to_end_of_stream
+//直到读取完Reader的所有字节,抛出错误才退出。如果read_to_end_of_stream
 //设置为false，并且read函数读取不到任何字节，就会退出
-pub fn read_all(config ReadAllConfig) ?[]u8	
+pub fn read_all(config ReadAllConfig) ![]u8	
 //读取所有字节，但是只要中途出现调用read函数时返回0字节就退出
-pub fn read_any(mut r Reader) ?[]u8	
+pub fn read_any(mut r Reader) ![]u8	
 ```
 
 read_all的参数配置
@@ -133,10 +133,10 @@ pub fn new_buffered_reader(o BufferedReaderConfig) &BufferedReader
 
 ```v
 //从缓冲中读取数据到参数中的字节数组，返回值表示已读取的字节数，如果已读取
-//完毕，则返回none
-pub fn (mut r BufferedReader) read(mut buf []u8) ?int		
+//完毕，则抛出错误
+pub fn (mut r BufferedReader) read(mut buf []u8) !int		
 //从缓冲区读取一行，返回读取的字符串
-pub fn (mut r BufferedReader) read_line() ?string		
+pub fn (mut r BufferedReader) read_line() !string		
 //是否读取完毕
 pub fn (r BufferedReader) end_of_stream() bool		
 //释放缓冲区占用的内存资源

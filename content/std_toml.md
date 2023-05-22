@@ -7,13 +7,13 @@ V标准库包含了toml模块，toml模块是用纯V开发实现的，没有任�
 解析指定的toml文件：
 
 ```v
-pub fn parse_file(path string) ?Doc
+pub fn parse_file(path string) !Doc
 ```
 
 解析指定的toml文本：
 
 ```v
-pub fn parse_text(text string) ?Doc
+pub fn parse_text(text string) !Doc
 ```
 
 ### 获取节点的值

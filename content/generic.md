@@ -76,7 +76,7 @@ fn generic_return_nested_map[M]() map[string]map[string]M { //泛型作为嵌套
 	}
 }
 
-fn opt[T](v T) ?T { //泛型作为返回值,并结合错误处理
+fn opt[T](v T) ?T { //泛型作为返回值,并结合空值处理
 	if sizeof(T) > 1 {
 		return v
 	}

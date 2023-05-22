@@ -84,9 +84,9 @@ pub mut:
 构造函数：
 
 ```v
-pub fn new_request(method Method, url_ string, data string) ?Request
+pub fn new_request(method Method, url_ string, data string) !Request
 //解析raw HTTP request，变成一个Request对象
-pub fn parse_request(mut reader io.BufferedReader) ?Request 
+pub fn parse_request(mut reader io.BufferedReader) !Request 
 ```
 
 方法：
@@ -94,7 +94,7 @@ pub fn parse_request(mut reader io.BufferedReader) ?Request
 ```v
 pub fn (mut req Request) add_header(key CommonHeader, val string) 
 //执行请求，把请求发送到服务端，返回响应
-pub fn (req &Request) do() ?Response 
+pub fn (req &Request) do() !Response 
 ```
 
 #### http响应
@@ -161,7 +161,7 @@ pub fn (mut h Header) add(key CommonHeader, value string)
 pub fn (mut h Header) set(key CommonHeader, value string)
 pub fn (mut h Header) delete(key CommonHeader)
 pub fn (h Header) contains(key CommonHeader) bool
-pub fn (h Header) get(key CommonHeader) ?string
+pub fn (h Header) get(key CommonHeader) !string
 pub fn (h Header) values(key CommonHeader) []string
 pub fn (h Header) keys() []string
 pub fn (h Header) join(other Header) Header
@@ -216,18 +216,18 @@ pub mut:
 发起客户端请求函数：
 
 ```v
-pub fn fetch(config FetchConfig) ?Response	//通用的发起请求函数，给以下函数统一调用
+pub fn fetch(config FetchConfig) !Response	//通用的发起请求函数，给以下函数统一调用
 
-pub fn get(url string) ?Response	//http.get
-pub fn post(url string, data string) ?Response	//http.post
-pub fn put(url string, data string) ?Response	//http.put
-pub fn head(url string) ?Response	//http.head
-pub fn patch(url string, data string) ?Response	//http.patch
-pub fn delete(url string) ?Response	//http.delete
+pub fn get(url string) !Response	//http.get
+pub fn post(url string, data string) !Response	//http.post
+pub fn put(url string, data string) !Response	//http.put
+pub fn head(url string) !Response	//http.head
+pub fn patch(url string, data string) !Response	//http.patch
+pub fn delete(url string) !Response	//http.delete
 
-pub fn post_json(url string, data string) ?Response  //传输json数据
-pub fn post_form(url string, data map[string]string) ?Response	//传输表单数据
-pub fn post_multipart_form(url string, conf PostMultipartFormConfig) ?Response//附件
+pub fn post_json(url string, data string) !Response  //传输json数据
+pub fn post_form(url string, data map[string]string) !Response	//传输表单数据
+pub fn post_multipart_form(url string, conf PostMultipartFormConfig) !Response//附件
 ```
 
 ### http服务端

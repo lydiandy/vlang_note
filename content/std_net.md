@@ -28,7 +28,7 @@ pub:
 方法：
 
 ```v
-pub fn (mut c TcpConn) close() ?	//关闭连接，一般在函数的defer中调用
+pub fn (mut c TcpConn) close() !	//关闭连接，一般在函数的defer中调用
 
 pub fn (mut c TcpConn) set_read_timeout(t time.Duration)	//设置读超时的时间
 pub fn (mut c TcpConn) set_write_timeout(t time.Duration)	//设置写超时的时间
@@ -39,14 +39,14 @@ pub fn (c &TcpConn) write_timeout() time.Duration	//获取写超时的时间
 pub fn (mut c TcpConn) set_read_deadline(deadline time.Time) //设置读的限制时间点
 pub fn (mut c TcpConn) set_write_deadline(deadline time.Time) //设置写的限制时间点
 
-pub fn (mut c TcpConn) write_deadline() ?time.Time //获取写的限制时间点
+pub fn (mut c TcpConn) write_deadline() !time.Time //获取写的限制时间点
 ```
 
 #### 客户端
 
 ```v
 //客户端拨号，成功则返回一个TCP连接
-pub fn dial_tcp(address string) ?&TcpConn
+pub fn dial_tcp(address string) !&TcpConn
 ```
 
 客户端连接例子:
@@ -58,13 +58,13 @@ import net
 import io
 
 fn main() {
-	mut client_conn := net.dial_tcp('baidu.com:80') ?
+	mut client_conn := net.dial_tcp('baidu.com:80') !
 	defer {
-		client_conn.close() ?
+		client_conn.close() or { println(err) }	// defer中，不可向上抛转错误
 	}
-	client_conn.write_string('GET /index.html HTTP/1.0\r\n\r\n') ?
+	client_conn.write_string('GET /index.html HTTP/1.0\r\n\r\n') !
 	client_conn.set_read_timeout(net.infinite_timeout)
-	result := io.read_all(io.ReadAllConfig{ reader: client_conn }) ?
+	result := io.read_all(io.ReadAllConfig{ reader: client_conn }) !
 	println(result.bytestr())
 }
 
@@ -74,7 +74,7 @@ fn main() {
 
 ```v
 //服务端启动监听
-pub fn listen_tcp(family AddrFamily, saddr string) ?&TcpListener 
+pub fn listen_tcp(family AddrFamily, saddr string) !&TcpListener 
 ```
 
 ```v
@@ -92,7 +92,7 @@ mut:
 
 ```v
 //监听成功后，等待客户端请求,调用accept以后,开始监听,接收一次请求成功后，返回TCP连接，
-pub fn (l TcpListener) accept() ?TcpConn
+pub fn (l TcpListener) accept() !TcpConn
 
 pub fn (mut c TcpListener) set_accept_deadline(deadline time.Time) 
 pub fn (mut c TcpListener) set_accept_timeout(t time.Duration)
@@ -138,12 +138,12 @@ fn main() {
 	}
 	message := 'Hello World'
 	// server
-	server.write_string(message) ?
+	server.write_string(message) !
 	println('message send: $message')
 	println('server socket: $server.sock.handle')
 	// client
 	mut buf := []u8{len: 1024}
-	nbytes := client.read(mut buf) ?
+	nbytes := client.read(mut buf) !
 	received := buf[0..nbytes].bytestr()
 	println('message received: $received')
 	println('client socket: $client.sock.handle')
@@ -158,7 +158,7 @@ fn main() {
 
 ```v
 //客户端拨号
-pub fn dial_udp(raddr string) ?&UdpConn 
+pub fn dial_udp(raddr string) !&UdpConn 
 ```
 
 ```v
@@ -178,11 +178,13 @@ mut:
 ```v
 //udp socket对象
 struct UdpSocket {
-	handle int //socket的文件描述符
-
+        Socket
+        l Addr
+        // TODO(emily): replace with option again
+        // when i figure out how to coerce it properly
 mut:
-	has_r bool
-	r ?Addr //remote addr
+        has_r bool
+        r     Addr
 }
 ```
 
@@ -190,7 +192,7 @@ mut:
 
 ```v
 //服务端启动监听,返回udp连接,udp不需要accept,直接开始
-pub fn listen_udp(laddr string) ?&UdpConn
+pub fn listen_udp(laddr string) !&UdpConn
 ```
 
 服务端连接例子:
@@ -217,9 +219,9 @@ fn echo_server(mut c &net.UdpConn) {
 	}
 }
 
-fn echo() ? {
+fn echo() ! {
 	//客户端拨号
-	mut c := net.dial_udp(remote_addr) ?
+	mut c := net.dial_udp(remote_addr) !
 	defer {
 		c.close() or {}
 	}
@@ -228,16 +230,16 @@ fn echo() ? {
 	c.set_write_timeout(10 * time.second)
 
 	data := 'Hello from vlib/net!'
-	c.write_string(data) ?
+	c.write_string(data) !
 	mut buf := []u8{len: 100, init: 0}
-	read, addr := c.read(mut buf) ?
+	read, addr := c.read(mut buf) !
 	assert read == data.len
 	println('Got address $addr')
 	for i := 0; i < read; i++ {
 		assert buf[i] == data[i]
 	}
 	println('Got "$buf.bytestr()"')
-	c.close() ?
+	c.close() !
 	return
 }
 
@@ -258,7 +260,7 @@ fn main() {
 
 ```v
 //创建websocket客户端
-pub fn new_client(address string) ?&Client
+pub fn new_client(address string) !&Client
 ```
 
 ```v
@@ -291,27 +293,27 @@ pub mut:
 
 ```v
 //定义4个回调函数
-ws.on_open(fn (mut ws websocket.Client) ? 	//连接回调
-ws.on_error(fn (mut ws websocket.Client, err string) ?	//报错回调
-ws.on_message(fn (mut ws websocket.Client, msg &websocket.Message) ? //接收消息回调
-ws.on_close(fn (mut ws websocket.Client, code int, reason string) ? //关闭连接回调
+ws.on_open(fn (mut ws websocket.Client)  !	//连接回调
+ws.on_error(fn (mut ws websocket.Client, err string) !	//报错回调
+ws.on_message(fn (mut ws websocket.Client, msg &websocket.Message) ! //接收消息回调
+ws.on_close(fn (mut ws websocket.Client, code int, reason string) ! //关闭连接回调
 
 ```
 
 ```v
 //跟服务端建立连接
-pub fn (mut ws Client) connect() ?
+pub fn (mut ws Client) connect() !
 ```
 
 ```v
 //监听服务端发送的消息
-pub fn (mut ws Client) listen() ?
+pub fn (mut ws Client) listen() !
 ```
 
 ```v
 //实现io模块的读写接口,读写消息
-pub fn (mut ws Client) write(bytes []u8, code OPCode) ?
-pub fn (mut ws Client) write_str(str string) ?
+pub fn (mut ws Client) write(bytes []u8, code OPCode) !
+pub fn (mut ws Client) write_str(str string) !
 
 ```
 
@@ -356,14 +358,14 @@ pub mut:
 
 ```v
 //创建3个回调函数
-s.on_connect(fn (mut s websocket.ServerClient) ?bool //连接回调
-s.on_message(fn (mut ws websocket.Client, msg &websocket.Message) ? //消息接收回调
-s.on_close(fn (mut ws websocket.Client, code int, reason string) ?  //关闭连接回调            
+s.on_connect(fn (mut s websocket.ServerClient) !bool //连接回调
+s.on_message(fn (mut ws websocket.Client, msg &websocket.Message) ! //消息接收回调
+s.on_close(fn (mut ws websocket.Client, code int, reason string) !  //关闭连接回调            
 ```
 
 ```v
 //开始启动监听
-pub fn (mut s Server) listen() ?
+pub fn (mut s Server) listen() !
 ```
 
 #### 演示实例代码
@@ -377,13 +379,13 @@ import time
 fn main() {
 	go start_server()
 	time.sleep(100 * time.millisecond)
-	ws_client('ws://127.0.0.1:30000') ?
+	ws_client('ws://127.0.0.1:30000') ! 
 }
 
-fn start_server() ? {
+fn start_server() ! {
 	mut s := websocket.new_server(.ip6, 30000, '')
 	s.ping_interval = 100
-	s.on_connect(fn (mut s websocket.ServerClient) ?bool {
+	s.on_connect(fn (mut s websocket.ServerClient) !bool {
 		// Here you can look att the client info and accept or not accept
 		// just returning a true/false
 		if s.resource_name != '/' {
@@ -391,31 +393,31 @@ fn start_server() ? {
 			return false
 		}
 		return true
-	}) ?
-	s.on_message(fn (mut ws websocket.Client, msg &websocket.Message) ? {
+	}) !
+	s.on_message(fn (mut ws websocket.Client, msg &websocket.Message) ! {
 		ws.write(msg.payload, msg.opcode) or { panic(err) }
 	})
-	s.on_close(fn (mut ws websocket.Client, code int, reason string) ? {
+	s.on_close(fn (mut ws websocket.Client, code int, reason string) ! {
 		println('client ($ws.id) closed connection')
 	})
 	s.listen() or { println('error on server listen: $err') }
 }
 
-fn ws_client(uri string) ? {
+fn ws_client(uri string) ! {
 	eprintln('connecting to $uri ...')
-	mut ws := websocket.new_client(uri) ?
-	ws.on_open(fn (mut ws websocket.Client) ? {
+	mut ws := websocket.new_client(uri) !
+	ws.on_open(fn (mut ws websocket.Client) ! {
 		println('open!')
 		ws.pong() or { panic(err) }
 	})
-	ws.on_error(fn (mut ws websocket.Client, err string) ? {
+	ws.on_error(fn (mut ws websocket.Client, err string) ! {
 		println('error: $err')
 		// this can be thrown by internet connection problems
 	})
-	ws.on_close(fn (mut ws websocket.Client, code int, reason string) ? {
+	ws.on_close(fn (mut ws websocket.Client, code int, reason string) ! {
 		println('closed')
 	})
-	ws.on_message(fn (mut ws websocket.Client, msg &websocket.Message) ? {
+	ws.on_message(fn (mut ws websocket.Client, msg &websocket.Message) ! {
 		println('client got type: $msg.opcode payload:\n$msg.payload')
 		if msg.opcode == .text_frame {
 			smessage := msg.payload.bytestr()
@@ -443,7 +445,7 @@ fn ws_client(uri string) ? {
 把url字符串解析成URL类型：
 
 ```v
-pub fn parse(rawurl string) ?URL
+pub fn parse(rawurl string) !URL
 ```
 
 URL结构体：
@@ -481,7 +483,7 @@ pub fn (u &URL) query() Values
 其他函数：
 
 ```v
-pub fn parse_query(query string) ?Values
+pub fn parse_query(query string) !Values
 
 ```
 

@@ -61,12 +61,12 @@ pub fn encode[T](typ T) string //类型需要实现Encodable接口
 
 ```v
 //泛型版本的解码函数
-pub fn decode[T](src string) ?T //返回类型为T的变量,类型需要实现Decodable接口
+pub fn decode[T](src string) !T //返回类型为T的变量,类型需要实现Decodable接口
 
 //解码函数,会自动转换节点的值为对应类型
-pub fn raw_decode(src string) ?Any //仅仅返回Any类型
+pub fn raw_decode(src string) !Any //仅仅返回Any类型
 //快速解码函数,忽略类型转换,节点的值都是字符串
-pub fn fast_raw_decode(src string) ?Any
+pub fn fast_raw_decode(src string) !Any
 ```
 
 编码示例:
