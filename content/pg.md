@@ -52,10 +52,10 @@ pub mut:
 }
 
 
-pub fn connect(config pg.Config) ?DB //连接数据库函数,返回DB对象
+pub fn connect(config pg.Config) !DB //连接数据库函数,返回DB对象
 //然后就是DB的各种方法:
 pub fn (db DB) exec(query string) []pg.Row //执行SQL语句
-pub fn (db DB) exec_one(query string) ?pg.Row //执行SQL语句,返回结果的第一行
+pub fn (db DB) exec_one(query string) !pg.Row //执行SQL语句,返回结果的第一行
 pub fn (db DB) exec_param(query string, param string) []pg.Row //带1个参数
 pub fn (db DB) exec_param2(query string, param, param2 string) []pg.Row //带2个参数
 pub fn (db DB) exec_param_many(query string, params []string) []pg.Row //带多个参数
@@ -63,7 +63,7 @@ pub fn (db DB) exec_param_many(query string, params []string) []pg.Row //带多�
 
 测试代码：
 
-``` v
+```v
 module main
 
 import db.pg
@@ -74,7 +74,7 @@ struct User {
 	age  int
 }
 
-pub fn (user User) next() ?User {
+pub fn (user User) next() User {
 	return user
 }
 
@@ -96,7 +96,7 @@ fn main() {
 
 	users := sql db {
 		select from User where id == 1
-	}
+	}!
 	println(users)
 	for u in users {
 		println(u)

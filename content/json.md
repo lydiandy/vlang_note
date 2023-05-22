@@ -19,7 +19,7 @@ json.encode(object) string
 ### 解码
 
 ```v
- json.decode(Type,s) ?Type   
+ json.decode(Type,s) !Type   
 ```
 
 第一个参数是结构体类型，作为模板，第二个参数是要解码的json字符串。如果解码成功，返回结构体类型的变量。如果解码失败，抛出错误。

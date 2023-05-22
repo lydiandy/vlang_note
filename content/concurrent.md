@@ -94,13 +94,14 @@ fn main() {
 ```v
 fn main() {
 	ch := chan int{cap: 100}
-	sum := <-ch //读取channel
-	println(sum)
+	//sum := <-ch //读取channel，会阻塞，不会继续执行了
+	//println(sum)
+
 	//也可以使用try_pop()
 	//尝试读channel，把channel的值，读取到i变量中，并返回ChanState枚举:.success/.not_ready/.colsed
-	i := 0
-	res := ch.try_pop(&i)
-	println(res)
+	mut i := 0
+	res := ch.try_pop(mut i) // 注意，必须是mut变量
+	println(res) // not_ready
 }
 
 ```
@@ -114,7 +115,7 @@ fn main() {
 	//也可以使用try_push()
 	//尝试写channel，把i的值写入到channel中，并返回ChanState枚举:.success/.not_ready/.colsed
 	i := 3
-	res := ch.try_push(&i)
+	res := ch.try_push(i)
 	println(res)
 }
 
@@ -242,13 +243,13 @@ module main
 import time
 
 //无返回值的函数
-fn do_something() ? {  //函数带错误处理
+fn do_something() ! {  //函数带错误处理
   println('start do_something...')
 	time.sleep(2*time.second) //休眠2秒，模拟并发持续的时间
 	println('end do_something')
 }
 //有返回值的函数
-fn add(x int, y int) ?int {  //函数带错误处理
+fn add(x int, y int) !int {  //函数带错误处理
 	println('add并发开始...')
 	time.sleep(4*time.second) //休眠4秒，模拟并发持续的时间
 	println('add并发完成')
@@ -543,7 +544,7 @@ fn f() shared St { //函数可以返回shared的变量，用于线程之间的�
 	return x
 }
 
-fn g(good bool) ?shared St { //函数可以返回shared的变量，用于线程之间的读写锁，结合错误处理
+fn g(good bool) !shared St { //函数可以返回shared的变量，用于线程之间的读写锁，结合错误处理
 	if !good {
 		return error('no shared St created')
 	}
@@ -551,8 +552,8 @@ fn g(good bool) ?shared St { //函数可以返回shared的变量，用于线程�
 	return x
 }
 
-fn shared_opt_propagate(good bool) ?f64 {
-	shared x := g(good) ?
+fn shared_opt_propagate(good bool) !f64 {
+	shared x := g(good) !
 	ret := rlock x { x.x }
 	return ret
 }

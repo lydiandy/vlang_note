@@ -40,9 +40,9 @@
 
     返回当前用户的主目录
     
-- config_dir() ?
+- config_dir() !string
   
-    返回对应操作系统的用户配置目录，window返回%AppData%，macos/ios返回~/Library/Application Support，其他操作系统优先返回XDG_CONFIG_HOME环境变量设置的值，如果没有设置XDG_CONFIG_HOME，则返回~/.config。如果返回的值为空，则抛出错误。
+    返回对应操作系统的用户配置目录，window返回%AppData%，macos/ios返回~/Library/Application Support，其他操作系统优先返回XDG_CONFIG_HOME环境变量设置的值，如果没有设置XDG_CONFIG_HOME，则返回~/.config。如果无法确定，则抛出错误。
 
 ### 执行命令
 
@@ -52,7 +52,7 @@
 
 - os.system(string) int
 
-  运行命令,将命令运行结果输出到终端,然后返回结果码,跟exit()的结果码一样
+  运行命令，将命令运行结果输出到终端，然后返回结果码，跟exit()的结果码一样
   
   ```
   os.system('ln -sf $vexe $link_path')
@@ -103,11 +103,11 @@
 
     移动文件
 
-- cp(old, new string) ?bool
+- cp(old, new string) !
 
     复制文件
 
-- mkdir(path string, params MkdirParams) ?bool
+- mkdir(path string, params MkdirParams) !
 
     创建目录
 
@@ -123,7 +123,7 @@
 
     获取该目录的所有文件和文件夹
 
-- is_writable_folder(folder string) ?bool
+- fn ensure_folder_is_writable(folder string) !
 
     判断目录是否可写
 
@@ -161,11 +161,11 @@
 
     返回文件夹或者文件的绝对路径
 
-- open(path string) ?File 
+- open(path string) !File 
 
     打开文件,返回文件对象
 
-- create(path string) ?File
+- create(path string) !File
 
     创建文件,返回文件对象
 
@@ -173,11 +173,11 @@
 
     删除文件
 
-- read_file(path string) ?string
+- read_file(path string) !string
 
   读取文件,返回文件的内容
 
-- read_bytes(path string) ?[]u8
+- read_bytes(path string) ![]u8
 
   读取文件,返回字节数组
 
@@ -189,7 +189,7 @@
 
   获取文件的大小
 
-- File.write(buf []u8) ?int
+- File.write(buf []u8) !int
 
     写入文件
 

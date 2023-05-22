@@ -1191,12 +1191,9 @@ IfGuardExpr if守护条件表达式
 module main
 
 //带错误的函数
-fn my_fn(i int) ?int {
+fn my_fn(i int) !int {
 	if i == 0 {
 		return error('Not ok!') //抛出错误
-	}
-	if i == 1 {
-		return none //抛出错误
 	}
 	return i //正常返回
 }
@@ -1219,7 +1216,7 @@ fn main() {
 	} else {
 		println('from else')
 	}
-	if c := my_fn(1) { // if守护条件，调用函数时，抛出错误，执行else分支
+	if c := my_fn(0) { // if守护条件，调用函数时，抛出错误，执行else分支
 		println('$c')
 	} else {
 		println('from else')
@@ -1235,7 +1232,7 @@ fn main() {
 	// if expr
 	num := 777
 	s := if num % 2 == 0 { 'even' } else { 'odd' }
-	x, y, z := if true { 1, 'awesome'， 13 } else { 0, 'bad'， 0 }
+	x, y, z := if true { 1, 'awesome', 13 } else { 0, 'bad', 0 }
 	// compile time if
 	$if macos {
 	} $else {
@@ -1411,12 +1408,9 @@ None none表达式
 示例代码
 
 ```v
-fn my_fn(i int) ?int {
+fn my_fn(i int) !int {
 	if i == 0 {
 		return error('Not ok!')
-	}
-	if i == 1 {
-		return none
 	}
 	return i
 }
@@ -1427,15 +1421,15 @@ fn main() {
 		println('from 0')
 		panic(err)
 	}
-	v2 := my_fn(1) or { 
-		println('from 1') 
+	v2 := my_fn(0) or { 
+		println('from 0') 
 		panic('error msg is $err')	
 	}
 	v3 := my_fn(2) or {
 		println('from 2')
 		return
 	}
-	v4 := my_fn(3) ? // OrKind is propagate
+	v4 := my_fn(3) ! // OrKind is propagate
 }
 
 ```

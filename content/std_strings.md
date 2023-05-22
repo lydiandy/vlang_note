@@ -21,7 +21,7 @@ pub mut:
 
 字符串生成器的方法:
 
-- Builder.write(data []u8)  ?int
+- Builder.write(data []u8)  !int
 
     追加写入字节数组
 

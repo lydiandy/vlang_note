@@ -206,8 +206,8 @@ fn main() {
 	println(range_check(s) or { 'out of range' })
 }
 
-fn range_check(s string) ?string {
-	return s[..20] ?
+fn range_check(s string) !string {
+	return s[..20] !
 }
 ```
 
@@ -400,7 +400,7 @@ fn main() {
 	ff := f32(3.2) // 明确指定类型为f32
 	f3 := f64(f) // 强制转换为f64
 	s := 'abc' // 默认推断为string
-	c := `c` // 默认推断为u8，也就是单字符类型
+	c := `c` // 默认推断为rune
 
 	// 布尔类型可以转换为u8/int或其他整数类型
 	yes := true
@@ -413,9 +413,9 @@ fn main() {
 	mut u8_arr := []u8{} // 字节数组
 	u8_arr << `a`
 	u8_arr << `b`
-	println(u8_arr) // 输出[a,b]
-	str := u8_arr.str() // 将字节数组转成字符串
-	println(str) // 输出[a,b]
+	println(u8_arr) // 输出[97,98]
+	str := u8_arr.bytestr() // 将字节数组转成字符串
+	println(str) // 输出ab
 }
 ```
 
@@ -526,6 +526,7 @@ fn main() {
 	println(typeof[int]().idx) //返回类型的id,int类型在编译器内部的id是7
 	println(typeof[int]().name) //返回类型的名字: int
 	println(typeof[?string]().name) //返回类型的名字: ?string
+	println(typeof[!string]().name) //返回类型的名字: !string
 	println(typeof[[]string]().name) //返回数组类型的名字: []string
 	println(typeof[map[string]int]().name) //返回字典类型的名字: map[string]int
 	println(typeof[fn (s string, x u32) (int, f32)]().name) //返回函数类型的名字: fn (string, u32) (int, f32)

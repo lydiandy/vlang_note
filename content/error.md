@@ -160,7 +160,7 @@ if guard守护条件处理错误：
 ```v
 module main
 
-//带错误的函数
+//带空值的函数
 fn my_fn(i int) ?int {
 	if i == 0 {
 		return none //返回空值
@@ -176,14 +176,14 @@ fn create() ?(int, string, bool) {
 fn main() {
 	// if guard expr
 	if c := my_fn(2) { // if guard守护条件,调用函数时,正常返回,执行if分支
-		println('$c')
+		println('$c') // 输出2
 	} else {
 		println('$err')
 	}
-	if c := my_fn(0) { // if guard守护条件,调用函数时,抛出错误,执行else分支
-		println('$c')
+	if c := my_fn(0) { // if guard守护条件,调用函数时,返回none,执行else分支
+		println('$c') 
 	} else {
-		println('$err')
+		println('$err') // 输出none
 	}
 
 	if r1, r2, r3 := create() { // 多返回值的if guard守护条件

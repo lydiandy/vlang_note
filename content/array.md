@@ -225,10 +225,10 @@ fn main() {
 	myfn() or { panic('myfn error') } //处理myfn向上抛转的错误
 }
 
-fn myfn() ? {
+fn myfn() ! {
 	arr := [1, 2, 3]
 	large_index := 999
-	x := arr[large_index]? //也可以本层级不处理,向上抛转错误
+	x := arr[large_index]! //也可以本层级不处理,向上抛转错误
 	println(x)
 }
 

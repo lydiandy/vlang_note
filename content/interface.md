@@ -154,11 +154,11 @@ fn main() {
 module main
 
 pub interface Reader {
-	read(mut buf []u8) ?int
+	read(mut buf []u8) !int
 }
 
 pub interface Writer {
-	write(buf []u8) ?int
+	write(buf []u8) !int
 }
 
 // 接口组合
@@ -254,7 +254,7 @@ interface Speaker {
 }
 
 interface Iterator[T] {
-	next() ?T //带错误处理的接口方法,问号也是接口方法签名的一部分
+	next() !T //带错误处理的接口方法,感叹号也是接口方法签名的一部分
 }
 
 fn perform(s Speaker) {
