@@ -4,7 +4,7 @@
 
 - getenv(key string) string    
 
-    获取指定的环境变量,如果没有指定的环境变量,则返回空字符串
+    获取指定的环境变量，如果没有指定的环境变量，则返回空字符串
 
 - environ() map[string] string
 
@@ -12,7 +12,7 @@
 
 - setenv(name string, value string,overwrite bool) int 
 
-    设置环境变量,如果overwrite为true则覆盖原来的环境变量,如果为false,若环境变量已存在,则不覆盖,若环境变量未存在,则新增
+    设置环境变量，如果overwrite为true则覆盖原来的环境变量，如果为false，若环境变量已存在，则不覆盖，若环境变量未存在，则新增
 
 - unsetenv(name string) int 
 
@@ -22,7 +22,7 @@
 
 - os.args 			
 
-    os模块常量,运行后只读,返回命令行的参数数组
+    os模块常量，运行后只读，返回命令行的参数数组
 
 - os.getpid()
 
@@ -48,7 +48,7 @@
 
 - os.execute(string) Result 
 
-    运行命令,运行完成后返回Result, Result.exit_code为运行结果码,Result.output为运行结果的字符串内容,运行结果并不输出到终端中
+    运行命令，运行完成后返回Result， Result.exit_code为运行结果码，Result.output为运行结果的字符串内容，运行结果并不输出到终端中
 
 - os.system(string) int
 
@@ -63,7 +63,7 @@
 
 - os.new_process() &Process
 
-  创建一个新的进程对象,此时并未实际创建进程,而是执行p.run()方法以后,才会实际创建,创建后才会生成对应的进程ID,可以通过p.pid访问到
+  创建一个新的进程对象，此时并未实际创建进程，而是执行p.run()方法以后，才会实际创建，创建后才会生成对应的进程ID，可以通过p.pid访问到
 
 ### 目录相关
 
@@ -123,13 +123,21 @@
 
     获取该目录的所有文件和文件夹
 
+- Is_dir_empty(path string) bool 
+
+    判断目录是否为空
+
 - fn ensure_folder_is_writable(folder string) !
 
     判断目录是否可写
 
+- walk(path string,f fn(file string))
+
+    遍历该目录及其子目录中所有的文件，并调用回调函数
+    
 - walk_ext(path string,ext string) []string
 
-    返回改目录,及其下级子目录中所有,文件扩展名为ext的所有文件
+    返回该目录及其下级子目录中所有文件扩展名为ext的所有文件
 
 ### 文件相关
 
@@ -163,11 +171,11 @@
 
 - open(path string) !File 
 
-    打开文件,返回文件对象
+    打开文件，返回文件对象
 
 - create(path string) !File
 
-    创建文件,返回文件对象
+    创建文件，返回文件对象
 
 - rm(path string)
 
@@ -175,15 +183,15 @@
 
 - read_file(path string) !string
 
-  读取文件,返回文件的内容
+  读取文件，返回文件的内容
 
 - read_bytes(path string) ![]u8
 
-  读取文件,返回字节数组
+  读取文件，返回字节数组
 
 - write_file(path string,text string) 
 
-  创建文件,并写入text内容
+  创建文件，并写入text内容
 
 - file_size(path string) int 
 
@@ -206,19 +214,19 @@
 
 - get_row_line() string
 
-    获取控制台输入的一行字符串,回车换行结束,通过C.getline实现
+    获取控制台输入的一行字符串，回车换行结束，通过C.getline实现
 
 - get_line() string
 
-    获取控制台输入的一行字符串,回车换行结束
+    获取控制台输入的一行字符串，回车换行结束
 
 - get_lines() []string
 
-    获取控制台输入的多行字符串,空行时回车换行结束,返回字符串数组
+    获取控制台输入的多行字符串，空行时回车换行结束，返回字符串数组
 
 - get_lines_joined() string
 
-    获取控制台输入的多行字符串,空行时换行结束,返回连接后的字符串
+    获取控制台输入的多行字符串，空行时换行结束，返回连接后的字符串
 
 ### 控制台输出相关
 
@@ -234,29 +242,29 @@
 
 ### 子模块os.cmdline
 
-目前一共有6个公共函数,用于获取选项之后/之前的参数
+目前一共有6个公共函数，用于获取选项之后/之前的参数
 
 - cmdline.options(args []string,param string) []string
 
-  获取数组args中,param之后的参数值,如果param在数组中多次出现,之后的参数值都取出来,按顺序保存在返回的参数值数组中
+  获取数组args中，param之后的参数值，如果param在数组中多次出现，之后的参数值都取出来，按顺序保存在返回的参数值数组中
 
 - cmdline.option(args []string,param string,default string) string
 
-  获取数组args中,param之后的参数值,如果param没有出现在数组args中,则返回default 默认值
+  获取数组args中，param之后的参数值，如果param没有出现在数组args中，则返回default 默认值
 
 - cmdline.options_before(args []string,what []string) []string
 
-  获取数组args中,如果元素有包含在数组what中,返回元素之前的参数值
+  获取数组args中，如果元素有包含在数组what中，返回元素之前的参数值
 
 - cmdline.options_after(args []string,what []string) []string
 
-  获取数组args中,如果元素有包含在数组what中,返回元素之后的参数值
+  获取数组args中，如果元素有包含在数组what中，返回元素之后的参数值
 
 - cmdline.only_non_options(args []string) []string
 
-  获取数组args中,所有不是以-开头的元素
+  获取数组args中，所有不是以-开头的元素
 
 - cmdline.only_options(args []string) []string
 
-  获取数组arg中,所有以-开头的元素
+  获取数组arg中，所有以-开头的元素
 

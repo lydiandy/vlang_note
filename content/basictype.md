@@ -182,7 +182,7 @@ for s in str {
 }
 //遍历index和value
 for i， s in str {
-	println('index:$i，value:$s。str()')
+	println('index:$i，value:$s.str()')
 }
 ```
 
