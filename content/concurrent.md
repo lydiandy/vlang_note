@@ -8,6 +8,57 @@ V语言并发的思路和语法跟go语言基本一致，不过有两种不同�
 
 目前spawn和go的使用方式基本一致。
 
+### 轻量级线程实现
+
+目前(2023-05-28)V语言初步实现了轻量级线程，基于阿里开源的[PhotonLibOS](https://github.com/alibaba/PhotonLibOS)协程库。目前仅支持mac和linux操作系统。
+
+协程库参考：https://developer.aliyun.com/article/1208390
+
+演示代码：
+
+```shell
+v -gc none -use-coroutines main.v
+./main
+```
+
+```v
+import coroutines
+import time
+
+fn foo(a int) {
+    for {
+        println('hello from foo() a=$a')
+        coroutines.sleep(1 * time.second)
+    }
+}
+
+fn foo2(a int) {
+    for {
+        println('hello from foo2() a=$a')
+        coroutines.sleep(2 * time.second)
+    }
+}
+
+fn foo3(a int) {
+    for {
+        println('hello from foo3() a=$a')
+        coroutines.sleep(3 * time.second)
+    }
+}
+
+
+fn main() {
+    go foo(10)
+    go foo2(20)
+    go foo3(30)
+    for {
+        println('hello from MAIN')
+        coroutines.sleep(1 * time.second)
+    }
+    println('done')
+}
+```
+
 ### 操作系统线程
 
 ```v
