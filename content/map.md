@@ -9,34 +9,68 @@
 vlib/builtin/map.v
 
 ```v
-struct map {
-	root &mapnode //字典第一个键值对的地址
-	element_size int //一个键值对元素占用的内存大小
-pub:
-	size int //字典的大小,也就是键值对的数量,这是map唯一可以对外直接访问的属性,只读
+pub struct map {
+	// Number of bytes of a key
+	key_bytes int
+	// Number of bytes of a value
+	value_bytes int
+mut:
+	// Highest even index in the hashtable
+	even_index u32
+	// Number of cached hashbits left for rehashing
+	cached_hashbits u8
+	// Used for right-shifting out used hashbits
+	shift u8
+	// Array storing key-values (ordered)
+	key_values DenseArray
+	// Pointer to meta-data:
+	// - Odd indices store kv_index.
+	// - Even indices store probe_count and hashbits.
+	metas &u32
+	// Extra metas that allows for no ranging when incrementing
+	// index in the hashmap
+	extra_metas     u32
+	has_string_keys bool
+	hash_fn         MapHashFn
+	key_eq_fn       MapEqFn
+	clone_fn        MapCloneFn
+	free_fn         MapFreeFn
+pub mut:
+	// Number of key-values currently in the hashmap
+	len int  //字典的大小,也就是键值对的数量,这是map唯一可以对外直接访问的属性,只读
 }
-struct mapnode {  //键值对节点
-	left &mapnode 
-	right &mapnode
-	is_empty bool
-	key string //键,目前只能是string类型
-	value voidptr //值的地址,值可以是任何类型
+
+struct DenseArray {
+	key_bytes   int
+	value_bytes int
+mut:
+	cap     int
+	len     int
+	deletes u32 // count
+	// array allocated (with `cap` bytes) on first deletion
+	// has non-zero element when key deleted
+	all_deleted &u8 = unsafe { nil }
+	keys        &u8 = unsafe { nil }
+	values      &u8 = unsafe { nil }
 }
 ```
+
+
 
 ### map定义
 
 ```v
 fn main() {
-  	mut m := map[string]int{}
-    m['one'] = 1
-    m['two'] = 2
-    println(m['one']) //返回对应的value
-    println(m['bad_key']) // 如果指定key不存在,返回0
+	mut m := map[string]int{} //字面量创建字典
+	m['one'] = 1 //如果key不存在，则是新增
+	m['one'] = 11 //如果key存在，则是修改
+	m['two'] = 2
+	println(m['one']) //返回对应的value
+	println(m['bad_key']) // 如果指定key不存在,返回该类型的默认值，0
 }
 ```
 
-map的key除了string类型，也可以是其他类型。
+map的key除了string类型，也可以是其他任何类型。
 
 string类型的key：
 
@@ -93,10 +127,9 @@ fn main() {
 	m6[Token.bb] = 'def'
 	println(m6)
 }
-
 ```
 
-map字面量初始化：
+map字面量初始化，编译器会进行类型推断：
 
 ```v
 fn main() {
@@ -113,7 +146,6 @@ fn main() {
 	println(m)
 	println(m2)
 }
-
 ```
 
 map.len返回字典的大小：
@@ -181,7 +213,7 @@ fn main() {
 	//也可以加上or代码块来进行错误处理
 	mut mm := map[string]int{}
 	mm['abc'] = 1
-	// val2 := mm['bad_key'] or { panic('key not found') } //如果元素不存在,在or代码块中进行错误处理
+	val2 := mm['bad_key'] or { panic('key not found') } //如果元素不存在,在or代码块中进行错误处理
 	val3 := mm['bad_key'] or { 100 } //如果元素不存在,也可以在or代码块中返回默认值,类型必须和字典的value类型一致
 	// println(val2)
 	println(val3)
@@ -205,14 +237,27 @@ fn main() {
 	mut m := {'xy': 5, 'zu': 7}
 	mut res := []int{cap:2}
 	for k in ['jk', 'zu'] {
-    //检查字典m[k]是否存在,如果存在,则赋值,if条件返回true,如果不存在,则返回false
-		if x := m[k] { 
+		if x := m[k] {  //检查字典m[k]是否存在,如果存在,则赋值,if条件返回true,如果不存在,则返回false
 			res << x
 		} else {
 			res << -17
 		}
 	}
 	println(res) //[-17,7]
+}
+```
+
+### 删除字典成员
+
+```v
+fn main() {
+	mut m := map[string]int{} //字面量创建字典
+	m['one'] = 1 //如果key不存在，则是新增
+	m['one'] = 11 //如果key存在，则是修改
+	m['two'] = 2
+	println(m['two'])
+	m.delete('two') //删除字典成员
+	println(m['two']) //不存在返回默认值0
 }
 ```
 

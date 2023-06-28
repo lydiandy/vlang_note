@@ -288,7 +288,7 @@ v  -d abc -d time_v -d value='0' main.v #也可以使用‘1’或‘0’，等�
 
 $for用来实现反射的效果，目前只实现了结构体的反射，可以在运行时获得某一个结构体所有字段和方法的信息。
 
-遍历结构体字段,返回字段信息数组：[]FieldData
+遍历结构体字段，返回字段信息数组：[]FieldData
 
 ```v
 // FieldData holds information about a field. Fields reside on structs.
