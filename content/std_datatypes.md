@@ -1,8 +1,27 @@
 ## 数据类型
 
-数据类型模块使用泛型实现了常用的抽象数据类型ADT：栈，队列，链表，双链表，堆，Btree。
+datatypes数据类型模块使用泛型实现了常用的抽象数据类型ADT：集合，栈，队列，链表，双链表，堆，Btree。
 
-### 栈
+### 集合 Set
+
+集合的常用操作：
+
+```v
+mut set := Set[string]{} //创建集合
+s.add(element T) //添加元素
+s.remove(element T) //删除元素
+s.size() int //返回集合大小
+s.exists(element T) bool //判断元素是否存在集合中
+s.is_empty() bool //是否为空
+s.copy() Set[T] Set[T]//拷贝集合
+s.subset(Set[T]) bool //参数中的集合是否是s的子集
+s.@union(Set[T]) Set[T]  //并集
+s.intersection(Set[T]) Set[T] //交集
+s1==s2 //判断集合是否相等，重载了==运算符
+s3=s1-s2  //差集
+```
+
+### 栈 Stack
 
 栈的常用操作：
 
@@ -37,7 +56,7 @@ fn main() {
 }
 ```
 
-### 队列
+### 队列 Queue
 
 常用操作：
 
@@ -51,7 +70,7 @@ fn main() {
 
 ```
 
-### 链表
+### 链表 LinkedList
 
 常用操作：
 
@@ -65,7 +84,7 @@ fn main() {
 
 ```
 
-### 双链表
+### 双链表 DoublyLinkedList
 
 常用操作：
 
@@ -79,7 +98,7 @@ fn main() {
 
 ```
 
-### 堆
+### 堆 Head
 
 队列的常用操作：
 
@@ -92,3 +111,10 @@ fn main() {
 ```v
 
 ```
+
+B树 BTree
+
+```v
+
+```
+

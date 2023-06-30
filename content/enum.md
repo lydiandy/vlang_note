@@ -200,6 +200,30 @@ fn main() {
 
 ```
 
+### 遍历枚举值
+
+可以使用$for in语句来遍历所有的枚举值：
+
+```v
+enum Color {
+	red = 1
+	green
+	blue
+}
+
+fn main() {
+	$for e in Color.values { // $for in语句可以用来遍历所有的枚举值,内置的values,表示所有的枚举值,
+		if e.name == 'red' { //内置的name,表示当前枚举名
+			println(e.value == Color.red) //内置的value,表示当前枚举值
+		} else if e.name == 'green' {
+			println(e.value == Color.green)
+		} else if e.name == 'blue' {
+			println(e.value == Color.blue)
+		}
+	}
+}
+```
+
 ###  枚举注解
 
 #### [flag]注解
@@ -254,16 +278,38 @@ fn main() {
 
 #### 自定义注解
 
-可以像结构体和函数那样，给枚举添加自定义注解，然后自己解析使用。
+可以像结构体和函数那样，给枚举和枚举值添加自定义注解，然后自己解析使用。
 
 关于注解的进一步使用，可以参考[注解章节](attribute.md)。
+
+枚举注解：
 
 ```v
 [attr1]
 [attr2]
 pub enum Color {
-	black
+	black 【attr3】
 	white
 	blue
 }
 ```
+
+枚举值注解：
+
+```v
+enum Color {
+	red = 1 + 1  [json: 'Red'] //枚举值注解
+	blue = 10 / 2  [json: 'Blue']
+}
+
+fn main() {
+	$for e in Color.values {
+		if e.name == 'red' {
+			println(e.value == Color.red)
+		} else if e.name == 'blue' {
+			println(e.value == Color.blue)
+		}
+	}
+}
+```
+

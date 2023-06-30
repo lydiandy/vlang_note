@@ -17,32 +17,33 @@ V语言并发的思路和语法跟go语言基本一致，不过有两种不同�
 演示代码：
 
 ```shell
-v -gc none -use-coroutines main.v
+#目前轻量级线程还不支持gc，默认不启用，暂时需要加上-gc -use-coroutines
+v -gc none -use-coroutines main.v 
 ./main
 ```
 
 ```v
-import coroutines
+import coroutines as co
 import time
 
 fn foo(a int) {
     for {
         println('hello from foo() a=$a')
-        coroutines.sleep(1 * time.second)
+        co.sleep(1 * time.second)
     }
 }
 
 fn foo2(a int) {
     for {
         println('hello from foo2() a=$a')
-        coroutines.sleep(2 * time.second)
+        co.sleep(2 * time.second)
     }
 }
 
 fn foo3(a int) {
     for {
         println('hello from foo3() a=$a')
-        coroutines.sleep(3 * time.second)
+        co.sleep(3 * time.second)
     }
 }
 
@@ -53,13 +54,13 @@ fn main() {
     go foo3(30)
     for {
         println('hello from MAIN')
-        coroutines.sleep(1 * time.second)
+        co.sleep(1 * time.second)
     }
     println('done')
 }
 ```
 
-实现在轻量级线程中执行网络请求和文件IO：
+目前仅实现在轻量级线程中执行网络请求和文件IO：
 
 ```v
 // Build with
@@ -82,11 +83,10 @@ fn foo2(a int) {
 	mut i := 0
 	for {
 		println('hello from foo2() a=${a}')
-		// C.printf(c'hello from foo2() a=%d\n', a)
+		C.printf(c'hello from foo2() a=%d\n', a)
 		coroutines.sleep(2 * time.second)
 		i++
 		resp := http.get('https://vlang.io/utc_now') or { panic(err) }
-		// resp := http.get('https://vlang.io/utc_now') or { panic(err) }
 		println(resp)
 		mut f := os.create('/tmp/FOO2_a${i}') or { panic(err) }
 		f.write_string(resp.body) or { panic(err) }
@@ -97,25 +97,17 @@ fn foo2(a int) {
 fn foo3(a int) {
 	for {
 		println('hello from foo3() a=${a}')
-		// C.printf(c'hello from foo3() a=%d\n', a)
+		C.printf(c'hello from foo3() a=%d\n', a)
 		coroutines.sleep(3 * time.second)
 	}
 }
 
-fn foo4(a int) {
-	for {
-		println('hello from foo4() a=${a}')
-		// C.printf(c'hello from foo4() a=%d\n', a)
-		coroutines.sleep(3 * time.second)
-	}
-}
 
 fn main() {
 	go foo(10)
 	go foo2(20)
 	go foo3(30)
-	go foo3(40)
-	$if is_coroutine ? {
+	$if is_coroutine {  //is_coroutine用来判断是否启用了轻量级线程
 		println('IS COROUTINE=true')
 	} $else {
 		println('IS COROUTINE=false')
@@ -129,7 +121,15 @@ fn main() {
 
 ```
 
+判断是否启用了轻量级线程：
 
+```v
+$if is_coroutine {  //is_coroutine用来判断是否启用了轻量级线程
+	println('IS COROUTINE=true')
+} $else {
+	println('IS COROUTINE=false')
+}
+```
 
 ### 操作系统线程
 

@@ -36,19 +36,19 @@ println(c)
 
 likely/unlikely
 
-_likely_和_unlikely_这两个内置函数实现的是跟C的likely一样的效果,可以实现给条件分支的性能做优化,一般的代码来说,使用的场景不多
+_likely_和_unlikely_这两个内置函数实现的是跟C的likely一样的效果，可以实现给条件分支的性能做优化，一般的代码来说，使用的场景不多
 
 ```v
 module main
 
 fn main() {
 	x := 1
-	if _likely_(x == 1) { //告诉编译器,大部分情况的分支是这个,做代码优化
+	if _likely_(x == 1) { //告诉编译器，大部分情况的分支是这个，做代码优化
 		println('a')
 	} else {
 		println('b')
 	}
-	if _unlikely_(x == 1) { //告诉编译器,大部分情况的分支不是这个,做代码优化
+	if _unlikely_(x == 1) { //告诉编译器，大部分情况的分支不是这个，做代码优化
 		println('a')
 	} else {
 		println('b')
@@ -60,7 +60,7 @@ fn main() {
 
 ### match分支语句
 
-match要求穷尽所有可能,所以基本都要带上else语句
+match要求穷尽所有可能，所以基本都要带上else语句，else语句只能有一个。
 
 ```v
 fn main() {
@@ -75,7 +75,7 @@ fn main() {
 
 ```
 
-匹配的值也可以多个,用逗号分隔:
+匹配的值也可以多个，用逗号分隔:
 
 ```v
 fn main() {
@@ -112,7 +112,7 @@ println(c)
 
 ```
 
-match的同时,加上mut ,可以修改匹配变量,通常是配合for in 语句结合使用
+match的同时，加上mut ，可以修改匹配变量，通常是配合for in 语句结合使用
 
 ```v
 //参考代码
@@ -143,7 +143,7 @@ pub fn (m &User) str() string {
 type MySum = User | int | string //联合类型声明
 
 pub fn (ms MySum) str() string {
-	match ms { //如果函数的参数或者接收者是联合类型,可以使用match进一步判断类型
+	match ms { //如果函数的参数或者接收者是联合类型，可以使用match进一步判断类型
 		int {
 			return ms.str()
 		}
@@ -153,7 +153,7 @@ pub fn (ms MySum) str() string {
 		User {
 			return ms.str() // ms的类型是User
 		}
-		// else { //如果之前的分支已经穷尽了所有可能,else语句不需要,如果没有穷尽所有可能,则else语句是必须的
+		// else { //如果之前的分支已经穷尽了所有可能，else语句不需要，如果没有穷尽所有可能，则else语句是必须的
 		// 	return 'unknown'
 		// }
 	}
@@ -186,7 +186,7 @@ fn main() {
 }
 ```
 
-   为了简洁的目的,for里面的i默认就是mut可变的,不需要特别声明为mut,如果声明了编译器会报错
+   为了简洁的目的，for里面的i默认就是mut可变的，不需要特别声明为mut，如果声明了编译器会报错
 
 2. 替代while：for i<100 {}
 
@@ -263,7 +263,7 @@ for a in arr { //使用for in遍历固定长度数组
 
 ```v
 mut sum := 0
-for i in 1 .. 11 { // 左闭右开,遍历区间
+for i in 1 .. 11 { // 左闭右开，遍历区间
 	sum += i
 }
 println(sum)	// 55
@@ -284,9 +284,9 @@ for key, value in m {
 
 ```
 
-跟其他语言一样continue用来重新继续当前循环,break用来跳出当前循环
+跟其他语言一样continue用来重新继续当前循环，break用来跳出当前循环
 
-如果存在多层嵌套的循环,也可以使用continue label和break label来控制重新/跳出标签那一层的循环
+如果存在多层嵌套的循环，也可以使用continue label和break label来控制重新/跳出标签那一层的循环
 
 ```v
 fn main() {
@@ -323,7 +323,7 @@ fn main() {
 
 ### for is语句
 
-用于联合类型的类型循环判断(感觉没啥用,就是一个语法糖而已)
+用于联合类型的类型循环判断(感觉没啥用，就是一个语法糖而已)
 
 ```v
 module main
@@ -379,7 +379,7 @@ module main
 import os
 
 fn main() {
-  //for循环结合or代码块,更简洁一些
+  //for循环结合or代码块，更简洁一些
 	for line in os.read_lines(@FILE) or { panic('文件不存在') } { 
 	// 报错
   // for line in os.read_lines('不存在的文件') or { panic('文件不存在') } { 
@@ -389,7 +389,7 @@ fn main() {
 
 ### for select语句
 
-for select语句主要在并发中使用,用来循环监听多个chanel,更多内容可以参考[并发章节](concurrent.md)
+for select语句主要在并发中使用，用来循环监听多个chanel，更多内容可以参考[并发章节](concurrent.md)
 
 ```v
 fn main() {
@@ -398,7 +398,7 @@ fn main() {
 	go do_send(ch1, ch2)
 	mut a := 0
 	mut b := 0
-	for select { // 循环监听channel的写入,写入后执行for代码块,直到所有监听的channel都已关闭
+	for select { // 循环监听channel的写入，写入后执行for代码块，直到所有监听的channel都已关闭
 		x := <-ch1 {
 			a += x
 		}

@@ -210,6 +210,41 @@ fn main() {
 }
 ```
 
+### 静态方法/类型方法
+
+V语言支持静态方法，也叫类型方法，可以用来作为结构体的构造器，使用静态方法的好处是，静态方法的前缀默认是类名，这样就可以让调用时，静态方法名有了类名的限定，看起来更直观，更易理解。
+
+不过，如果是跨模块调用，就会变为：模块名.类名.方法名，多了一个层级，除非使用短名称导入类。大规模使用短名称导入，又会导致导入方式不一致，看起来不是那么的统一。
+
+```v
+module main
+
+pub struct Point {
+	x int
+	y int
+}
+
+//静态方法或类型方法,作为构造器
+pub fn Point.new(x int, y int) Point {
+	return Point{x, y}
+}
+
+//普通函数作为构造器
+pub fn new_point(x int, y int) Point {
+	return Point{x, y}
+}
+
+pub fn main() {
+	p := Point.new(1, 2) //静态方法作为构造器
+	println(p)
+	p2 := new_point(2, 3) //普通函数作为构造器
+	println(p2)
+}
+
+```
+
+
+
 ### 方法链式调用
 
 V语言支持方法链式调用。

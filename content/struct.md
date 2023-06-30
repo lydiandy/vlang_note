@@ -306,9 +306,12 @@ module main
 
 struct Book {
 	x      string
-	author struct  { //匿名结构体
+	author struct { //匿名结构体
 		name string
 		age  int
+	}
+
+	author2 struct { //匿名结构体也可以是空结构体
 	}
 
 	title string
@@ -317,12 +320,12 @@ struct Book {
 fn main() {
 	book := Book{
 		author: struct {'sdf', 23} // 初始化匿名结构体字段时，也需要使用struct关键字
-	} 
+		author2: struct {}
+	}
+	println(book)
 	println(book.author.age)
 }
 ```
-
-
 
 ### 结构体初始化
 

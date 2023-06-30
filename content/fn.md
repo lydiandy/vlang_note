@@ -265,6 +265,35 @@ from defer_fn2
 from defer_fn1
 ```
 
+可以使用$res()函数，在defer语句中取得函数的返回值：
+
+```v
+module main
+
+pub fn fn1(i int) int {
+	defer {
+		println($res()) //在defer函数中,使用$res函数来取得函数的返回值
+	}
+	return i
+}
+
+pub fn fn2(x int, s string) (int, string) {
+	defer {
+		println($res(0)) //如果是多返回值的,使用$res(0),$res(1)的方式，来取得第几个返回值
+		println($res(1))
+	}
+	return x, s
+}
+
+pub fn main() {
+	fn1(2)
+	fn2(3, 'abc')
+}
+
+```
+
+
+
 ### 函数类型
 
 相同的函数签名表示同一类函数，可以用type定义为函数类型。

@@ -638,7 +638,7 @@ fn (t TestStruct) two_args(a string, b int) {
 fn main() {
 	t := TestStruct{}
 	$for method in TestStruct.methods { // 获取结构体的所有方法
-    	if method.name == 'two_args' {
+    	if method.name == 'two_args' { //当前方法的名字
       	  t.$method('hello', 42) // 动态调用方法
     	}
 	}
