@@ -39,8 +39,6 @@ pub interface MyReader { // 公共接口
 }
 
 pub type Myint = int  // 公共类型别名
-
-
 ```
 
 ### 结构体字段访问控制
@@ -64,7 +62,6 @@ pub mut:
 __global:
 	f int // 全局字段,模块内部和外部都可访问,可修改,这样等于破坏了封装性,不推荐使用
 }
-          
 ```
 
 看看string结构体的定义：

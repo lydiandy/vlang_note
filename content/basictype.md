@@ -453,12 +453,13 @@ fn get_size[T]() u32 {
 
 ### 获取变量和类型的类型信息
 
-使用内置函数typeof来返回变量的类型和类型的id
+使用内置函数typeof来返回变量的类型和类型的idx和name
 
-- 普通函数，获取变量的类型和类型的id
-  - `typeof(var).name``
+- 普通函数，获取变量的类型的idx和name
+  - `typeof(var).name`
   - `typeof(var).idx`
-- 泛型函数，获取类型的类型和类型的id
+  - var.type_name()
+- 泛型函数，获取类型的类型的idx和name
   - `typeof[T]().name`
   - `typeof[T]().idx`
 
@@ -504,7 +505,7 @@ fn main() {
 }
 ```
 
-获取类型的名字和id：
+获取类型的idx和name：
 
 ```v
 module main
