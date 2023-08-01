@@ -35,7 +35,7 @@ idea的这个插件是jetbrains内部员工开发的，已经发布，可以使�
 
 ### helix
 
-编辑器：https://helix-editor.com/[](https://helix-editor.com/)
+编辑器：[https://helix-editor.com](https://helix-editor.com)
 
 helix内置了v语言的语法高亮，并内置支持[v-analyzer](https://github.com/v-analyzer/v-analyzer)，是目前除vscode和idea外，最好的v代码编辑器，喜欢的人会非常喜欢。
 
@@ -63,9 +63,9 @@ cd v-analyzer
 v build.vsh release --编译，需要v编译器
 ```
 
-配置PATH环境变量:
+配置PATH环境变量：
 
-这样helix才能正常启动v-analyzer可执行文件：
+配置好环境变量后，helix才能正常启动v-analyzer可执行文件。
 
 ```shell
 PATH=$HOME/v/v-analyzer/bin:$PATH
