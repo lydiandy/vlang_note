@@ -15,7 +15,7 @@
 
 V语言核心团队实现了语言服务协议LSP v3.15版本，叫V Language Server(VLS)。可以提供给所有开发工具使用，目前支持得比较好的是vscode和Idea/CLion。
 
-源代码：https://github.com/v-analyzer/v-analyzer
+源代码：[https://github.com/v-analyzer/v-analyzer](https://github.com/v-analyzer/v-analyzer)
 
 安装vls：参考[V语言服务章节](vls.md)
 
@@ -35,13 +35,13 @@ idea的这个插件是jetbrains内部员工开发的，已经发布，可以使�
 
 ### helix
 
-编辑器：https://helix-editor.com/
+编辑器：https://helix-editor.com/[](https://helix-editor.com/)
 
 helix内置了v语言的语法高亮，并内置支持[v-analyzer](https://github.com/v-analyzer/v-analyzer)，是目前除vscode和idea外，最好的v代码编辑器，喜欢的人会非常喜欢。
 
 helix安装：
 
-直接使用预编译
+直接使用预编译版本
 
 ```shell
 https://github.com/helix-editor/helix/releases
@@ -153,12 +153,6 @@ vls支持：
 ```shell
 ./ved -window
 ```
-
-### micro
-
-编辑器：[https://github.com/zyedidia/micro](https://github.com/zyedidia/micro)
-
-micro是基于终端的编辑器，内置了V语言的语法高亮。
 
 ### vim
 
