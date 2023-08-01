@@ -15,7 +15,7 @@
 
 V语言核心团队实现了语言服务协议LSP v3.15版本，叫V Language Server(VLS)。可以提供给所有开发工具使用，目前支持得比较好的是vscode和Idea/CLion。
 
-源代码：[https://github.com/vlang/vls](https://github.com/vlang/vls)
+源代码：https://github.com/v-analyzer/v-analyzer
 
 安装vls：参考[V语言服务章节](vls.md)
 
@@ -32,6 +32,91 @@ vls支持：参考[V语言服务章节](vls.md)
 idea的这个插件是jetbrains内部员工开发的，已经发布，可以使用。
 
 可以搭配CLion开发环境使用，可以运行，调试，从功能上看是目前比较方便，完整的一个IDE。
+
+### helix
+
+编辑器：https://helix-editor.com/
+
+helix内置了v语言的语法高亮，并内置支持[v-analyzer](https://github.com/v-analyzer/v-analyzer)，是目前除vscode和idea外，最好的v代码编辑器，喜欢的人会非常喜欢。
+
+helix安装：
+
+直接使用预编译
+
+```shell
+https://github.com/helix-editor/helix/releases
+```
+
+源代码编译
+
+```shell
+git clone https://github.com/helix-editor/helix.git
+ce helix
+cargo install --path helix-term --locked
+```
+
+v-analyzer安装：
+
+```shell
+git clone https://github.com/v-analyzer/v-analyzer --下载源代码
+cd v-analyzer
+v build.vsh release --编译，需要v编译器
+```
+
+配置PATH环境变量:
+
+这样helix才能正常启动v-analyzer可执行文件：
+
+```shell
+PATH=$HOME/v/v-analyzer/bin:$PATH
+```
+
+配置confg.toml：
+
+helix的配置文件路径默认存放在：~/.config/helix/目录中
+
+```toml
+theme = "onedark"
+
+[editor]
+cursorline = true
+line-number = "absolute"
+mouse = true
+true-color = true
+bufferline = "multiple"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.lsp]
+display-inlay-hints = true
+```
+
+配置language.toml：
+
+因为v的文件名后缀和verilog语言一样，需要配置language.toml，这样默认打开v文件，才能正确识别为v源代码。
+
+```toml
+[language-server]
+vlang-language-server = {command = "v-analyzer", args = [""]}
+
+[[language]]
+auto-format = true
+comment-token = "//"
+file-types = ["v", "vv", "vsh"]
+indent = {tab-width = 4, unit = "\t"}
+language-servers = ["vlang-language-server"]
+name = "v"
+roots = ["v.mod"]
+scope = "source.v"
+shebangs = ["v run"]
+
+[[grammar]]
+name = "v"
+source = {git = "https://github.com/v-analyzer/v-analyzer", subpath = "tree_sitter_v", rev = "e14fdf6e661b10edccc744102e4ccf0b187aa8ad"}
+```
 
 ### sublime text插件
 
