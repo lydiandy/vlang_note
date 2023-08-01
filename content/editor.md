@@ -94,9 +94,9 @@ select = "underline"
 display-inlay-hints = true
 ```
 
-配置language.toml：
+配置languages.toml：
 
-因为v的文件名后缀和verilog语言一样，需要配置language.toml，这样默认打开v文件，才能正确识别为v源代码。
+因为v的文件名后缀和verilog语言一样，需要配置languages.toml，这样默认打开v文件，才能正确识别为v源代码。
 
 ```toml
 [language-server]
