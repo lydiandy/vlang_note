@@ -37,7 +37,7 @@ idea的这个插件是jetbrains内部员工开发的，已经发布，可以使�
 
 编辑器：[https://helix-editor.com](https://helix-editor.com)
 
-helix内置了v语言的语法高亮，并内置支持[v-analyzer](https://github.com/v-analyzer/v-analyzer)，是目前除vscode和idea外，最好的v代码编辑器，喜欢的人会非常喜欢。
+helix内置了v语言的语法高亮，并内置支持v-analyzer，是目前除vscode和idea外，最好的v代码编辑器，喜欢的人会非常喜欢。
 
 helix安装：
 

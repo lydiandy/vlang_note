@@ -34,6 +34,6 @@ v build.vsh release --编译
 
 v-analyzer基于tree-sitter实现，tree-sitter相关代码库:
 
-**tree-sitter:** https://github.com/tree-sitter/tree-sitter
+tree-sitter: https://github.com/tree-sitter/tree-sitter
 
-**tree-sitter-v:** https://github.com/v-analyzer/v-analyzer/tree/main/tree_sitter_v
+tree-sitter-v: https://github.com/v-analyzer/v-analyzer/tree/main/tree_sitter_v
