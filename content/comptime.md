@@ -35,6 +35,7 @@ V语言中编译时代码以$开头。
   | _macos或 _darwin | mac下才会参与编译                                            |
   | _linux           | linux下才会参与编译                                          |
   | _solaris         | solaris下才会参与编译                                        |
+  | _plan9           | plan9下才会参与编译                                          |
   | _windows         | windows下才会参与编译                                        |
   | _android         | android平台下才会参与编译                                    |
   | _ios             | ios平台下才会参与编译                                        |
@@ -119,7 +120,7 @@ V语言中编译时代码以$开头。
 
 | OS                                      | Compilers        | Platforms          | Other                     |
 | --------------------------------------- | ---------------- | ------------------ | ------------------------- |
-| `windows`, `linux`, `macos`             | `gcc`, `tinyc`   | `amd64`, `aarch64` | `debug`, `prod`, `test`   |
+| `windows`, `linux`, macos，plan9        | `gcc`, `tinyc`   | `amd64`, `aarch64` | `debug`, `prod`, `test`   |
 | `mac`, `darwin`, `ios`,                 | `clang`, `mingw` | `x64`, `x32`       | `js`, `glibc`, `prealloc` |
 | `android`,`mach`, `dragonfly`，`termux` | `msvc`           | `little_endian`    | `no_bounds_checking`      |
 | `gnu`, `hpux`, `haiku`, `qnx`           | `cplusplus`      | `big_endian`       | freestanding              |

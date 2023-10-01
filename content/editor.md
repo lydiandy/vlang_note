@@ -68,7 +68,7 @@ v build.vsh release --编译，需要v编译器
 配置好环境变量后，helix才能正常启动v-analyzer可执行文件。
 
 ```shell
-PATH=$HOME/v/v-analyzer/bin:$PATH
+PATH=your/path/v-analyzer/bin:$PATH
 ```
 
 配置confg.toml：
