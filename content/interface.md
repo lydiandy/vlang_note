@@ -73,9 +73,16 @@ mut:
     // ErrorField int //接口字段不能使用大写字母，只能使用蛇形命名
 }
 
+interface Foo {
+	field struct { //接口字段支持匿名结构体
+		bar int
+	}
+}
+
 struct Point {
+//接口字段实现
 mut:
-	x int //接口字段实现
+	x int 
 	y int
 
 }
