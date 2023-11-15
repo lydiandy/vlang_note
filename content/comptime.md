@@ -345,11 +345,11 @@ pub mut:
 	h u8
 }
 
-['foo/bar/three']
+@['foo/bar/three']
 fn (mut app App) run() {
 }
 
-['attr2']
+@['attr2']
 fn (mut app App) method2() {
 }
 
@@ -824,6 +824,7 @@ fn main() {
 	println('file: ${@FILE}')					//当前源代码文件名
 	println('line: ${@LINE}')					//当前代码所在的行
 	println('column: ${@COLUMN}')				//当前代码在当前行中的列数
+    println('location:${@LOCATION}')            //当前位置，包括当前文件，当前行，当前模块，当前函数
   
 	println('vhash: ${@VHASH}')					//当前V编译器的hash版本号	
  	println('vexe: ${@VEXE}')					//当前V编译器命令行文件

@@ -210,8 +210,8 @@ from cleanup
 如果模块被作废，可以通过使用deprecated或deprecated_after注解来进行标注，编译时会提示模块使用者作废信息。
 
 ```v
-[deprecated: 'use xxx.yyy']
-[deprecated_after: '2999-01-01']
+@[deprecated: 'use xxx.yyy']
+@[deprecated_after: '2999-01-01']
 module ttt
 
 pub fn f() int {

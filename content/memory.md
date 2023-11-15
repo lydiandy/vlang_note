@@ -102,7 +102,7 @@ $if gcboehm  {
 也可以在模块或函数，使用[manualfree]注解，针对某个具体模块或函数，进行手动管理内存，如果进行手动内存管理，需要自行调用变量的free()方法进行释放。
 
 ```v
-[manualfree] // 如果注解在模块上，该模块的所有函数都进行手动内存管理
+@[manualfree] // 如果注解在模块上，该模块的所有函数都进行手动内存管理
 module main
 
 fn abc() {
@@ -110,7 +110,7 @@ fn abc() {
 	println(x)
 }
 
-[manualfree] // 如果注解在函数/方法上，该函数内进行手动内存管理
+@[manualfree] // 如果注解在函数/方法上，该函数内进行手动内存管理
 fn xyz() {
 	x := 'xyz should do its own memory management'
 	println(x)

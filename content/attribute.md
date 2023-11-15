@@ -2,23 +2,23 @@
 
 V语言可以对模块，枚举，结构体，结构体字段，函数/方法，变量增加注解。
 
-注解的格式统一是：[注解名] 或 [注解名:注解扩展内容]。
+注解的格式统一是：@[注解名] 或 [注解名:注解扩展内容]。
 
 ### 编译器内置注解
 
 #### 模块注解
 
-- [deprecated]
+- @[deprecated]
 
   参考：[模块章节](module.md)
 
-- [deprecated_after]
+- @[deprecated_after]
 
   参考：[模块章节](module.md)
 
 #### 枚举注解
 
-- [flag]注解
+- @[flag]注解
 
   参考：[枚举章节](enum.md)
 
@@ -26,31 +26,31 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
 
 结构体注解统一放在结构体定义前。
 
-- [typedef]
+- @[typedef]
 
   参考：[结构体章节](struct.md)
   
-- [heap]
+- @[heap]
 
   参考：[结构体章节](struct.md)
   
-- [noinit]
+- @[noinit]
 
   参考：[结构体章节](struct.md)
 
-- [params]
+- @[params]
 
   参考：[结构体章节](struct.md)
 
-- [table]
+- @[table]
 
-  参考：[结构体章节](struct.md)
-  
-- [packed]
-  
   参考：[结构体章节](struct.md)
   
-- [autostr: allowrecurse]
+- @[packed]
+  
+  参考：[结构体章节](struct.md)
+  
+- @[autostr: allowrecurse]
 
   参考：[结构体章节](struct.md)
 
@@ -60,28 +60,28 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
 
 结构体字段注解统一放在字段定义后。
 
-- [required]
+- @[required]
 
   参考：[结构体章节-字段注解](struct.md)
   
-- [deprecated]
+- @[deprecated]
 
   参考：[结构体章节-字段注解](struct.md)
   
-- [json]
+- @[json]
 
   参考：[json章节](json.md)
   
-- [toml]
+- @[toml]
   
   
   参考：[toml章节](std_toml.md)
   
-- [skip]
+- @[skip]
 
   参考：[json章节](json.md)
   
-- [row]
+- @[row]
 
   参考：[json章节](json.md)
 
@@ -89,72 +89,72 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
 
 函数注解统一放在函数定义之前。
 
-- [deprecated]
+- @[deprecated]
 
   参考：[函数章节](fn.md)
   
-- [inline]
+- @[inline]
 
   参考：[函数章节](fn.md)
 
-- [live]
+- @[live]
 
   参考：[函数章节](fn.md)
 
-- [unsafe]
+- @[unsafe]
 
   参考：[unsafe章节](unsafe.md)
 
-- [trusted]
+- @[trusted]
 
   参考：[unsafe章节](unsafe.md)
   
-- [export]
+- @[export]
   
   
   参考：[函数章节](fn.md)
   
-- [weak]
+- @[weak]
 
   参考：[函数章节](fn.md)
 
-- [if xxx平台]
+- @[if xxx平台]
 
   参考：[函数章节](fn.md)
 
-- [if debug]
+- @[if debug]
 
-  这个注解表示该函数只有在编译时加上了-d 调试模式的时候，才会被编译生成，并且可以调用。加上[if debug]注解后函数不可以有返回值。
+  这个注解表示该函数只有在编译时加上了-d 调试模式的时候，才会被编译生成，并且可以调用。加上@[if debug]注解后函数不可以有返回值。
 
   ```v
-  [if debug]
+  @[if debug]
   fn foo() {
   }
   ```
 
-- [windows_stdcall]
+- @[windows_stdcall]
 
   这个注解只能用于Win32 API，如果需要传递回调函数的时候使用。
   
   ```v
-  [windows_stdcall]
+  @[windows_stdcall]
   fn C.DefWindowProc(hwnd int, msg int, lparam int, wparam int)
   ```
 
-- [console]
+- @[console]
 
   这个注解只能用在main函数前，导入了图形库模块(比如gg,ui)后，命令行窗口就不再显示了，查看不到命令行输出,加上这个注解，命令行窗口就会出现。
 
   ```v
-  [console]
+  @[console]
   fn main() {}
   ```
 
-- [noinline]
+- @[noinline]
 
   
 
-- [direct_array_access]
+- @[direct_array_access]
 
   加了这个注解的函数，在生成C代码时会直接使用C语言中的数组操作，省略边界检查，这样在遍历数组元素时速度会提高不少，代价是不会进行边界检查，函数是不安全的，边界检查由用户代码自己判断。
 
@@ -174,7 +174,7 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
   	foo[2] -= 2
   }
   
-  [direct_array_access] 
+  @[direct_array_access] 
   fn direct_modification2() { // 带direct_array_access
   	mut foo := [2, 0, 5]
   	foo[1] = 3
@@ -210,35 +210,35 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
   }
   ```
 
-- [manualfree]
+- @[manualfree]
 
   参考[内存管理章节-手动内存管理](memory.md)。
 
 
-- [noreturn]
+- @[noreturn]
 
   表示这个函数不会有返回值给函数的调用方，一般来说是函数内有存在exit，panic，无限循环for {}，或调用了另一个没有返回值的函数。标记了noreturn的函数，调用方就不会等待该函数返回。
 
   ```v
-  [noreturn]
+  @[noreturn]
   fn forever() {
   	for {}
   }
   ```
 
-- [keep_args_alive]
+- @[keep_args_alive]
 
   函数加上这个注解后，函数的指针参数在函数返回之前不会被GC释放。
 
   ```v
-  [keep_args_alive]
+  @[keep_args_alive]
   fn C.calc_expr_after_delay(voidptr, int, voidptr) int
   ```
 #### 变量注解
 
-- [c_extern]
+- @[c_extern]
 
-  使用 [c_extern]注解，在生成的C代码中，给全局变量增加extern关键字。
+  使用@ [c_extern]注解，在生成的C代码中，给全局变量增加extern关键字。
 
   具体内容可以参考：[变量章节](var.md)
 
@@ -249,58 +249,58 @@ V语言可以对模块，枚举，结构体，结构体字段，函数/方法，
 注解的扩展性还是比较灵活的，目前结构体注解和结构体字段注解，已经可以通过$for编译时反射来获取所有的注解内容，具体内容可以参考：[编译时反射章节](comptime.md)。
 
 ```v
-[testing]
+@[testing]
 struct StructAttrTest {
 	foo string [attr1;required] //结构体字段自定义注解
 	bar int [attr1; attr2; required]
 }
 
-[testing]
+@[testing]
 struct PubStructAttrTest {
 	foo string
 	bar int
 }
 
-[testing]
+@[testing]
 type Name = string
 
-[testing]
+@[testing]
 type SumType = int | string | bool
 
-[testing]
+@[testing]
 enum EnumAttrTest {
 	one
 	two
 }
 
-[testing]
+@[testing]
 enum PubEnumAttrTest {
 	one
 	two
 }
 
-[attrone] 
-[attrtwo] //可以同时有多个注解
+@[attrone] 
+@[attrtwo] //可以同时有多个注解
 enum EnumMultiAttrTest {
 	one
 	two
 }
 
-[attr1;attr2] //在同一个注解中括号内,注解用分号来区隔
+@[attr1;attr2] //在同一个注解中括号内,注解用分号来区隔
 fn fn_attribute() {
 }
 
-[testing]
+@[testing]
 fn pub_fn_attribute() {
 }
 
-[attrone]
-[attrtwo]
+@[attrone]
+@[attrtwo]
 fn fn_multi_attribute() {
 }
 
-[attrone]
-[attrtwo]
+@[attrone]
+@[attrtwo]
 fn fn_multi_attribute_single() {
 }
 ```

@@ -197,7 +197,7 @@ fn f() int {
 }
 
 //一定要在unsafe函数中
-[unsafe]
+@[unsafe]
 fn f_static() int {
 	unsafe { //在unsafe代码块中定义
 		mut static x := 1 //静态局部变量
@@ -256,11 +256,11 @@ fn main() {
 module main
 
 // 增加extern关键字
- [c_extern]
+ @[c_extern]
 __global g1 int
 
 // 组定义全局变量，类似常量组的定义
- [c_extern]
+ @[c_extern]
 __global (
 	g2 u8 
 	g3 u8 

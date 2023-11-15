@@ -568,22 +568,22 @@ fn main() {
 
 ### 函数注解
 
-#### [deprecated]
+#### @[deprecated]
 
 模块发布给其他用户使用后，如果模块的某个函数想要声明作废或者被代替，可以使用作废注解。
 
 ```v
-[deprecated] //函数作废注解
+@[deprecated] //函数作废注解
 pub fn ext(path string) string {
 	panic('Use `filepath.ext` instead of `os.ext`') //结合panic进行报错提示
 }
-[deprecated:'可以在这里写说明'] //带说明的作废注解,编译器提示函数作废的时候会显示出来
+@[deprecated:'可以在这里写说明'] //带说明的作废注解,编译器提示函数作废的时候会显示出来
 pub fn (p Point) position() (int, int) {
 	return p.x, p.y
 }
 
-[deprecated:'这是作废说明']
-[deprecated_after: '2021-03-01']  //在某个日期后开始作废,一定要放在deprecated后,才会警告
+@[deprecated:'这是作废说明']
+@[deprecated_after: '2021-03-01']  //在某个日期后开始作废,一定要放在deprecated后,才会警告
 pub fn fn1() (int, int) (int, int) {
 	return p.x, p.y
 }
@@ -591,31 +591,31 @@ pub fn fn1() (int, int) (int, int) {
 // warning: function `fn1` has been deprecated since 2021-03-01; 这是作废说明
 ```
 
-#### [inline]
+#### @[inline]
 
 inline注解的功能跟C函数的inline函数一样。
 
 ```v
-[inline] //函数inline注解
+@[inline] //函数inline注解
 pub fn sum(x y int) int {
   return x+y
 }
 
-[inline] //方法inline注解
+@[inline] //方法inline注解
 pub fn (p Point) position() (int, int) {
 	return p.x, p.y
 }
 ```
 
-#### [unsafe]
+#### @[unsafe]
 
 参考[不安全代码章节](unsafe.md)。
 
-#### [trusted]
+#### @[trusted]
 
 参考[不安全代码章节](unsafe.md)。
 
-#### [live]
+#### @[live]
 
 代码热更新功能，只对函数内的代码热更新生效，改变结构体是不行的。实际生产用处不大，开发时可以使用，像脚本语言那样，保存即生效，不用重新运行程序。`v watch run .` 也有类似效果，差别是watch实际上是自动监控文件变化，自动重新运行程序。
 
@@ -624,7 +624,7 @@ module main
 
 import time
 
-[live]
+@[live]
 fn print_message() {
 	println('更新时间:${time.now()}')
 	println('该函数范围内的代码修改后,不需要重新编译运行,保存即生效')
@@ -644,7 +644,7 @@ fn main() {
 v -live run  main.v
 ```
 
-#### [export]
+#### @[export]
 
 一般来说V函数编译生成C代码时，C函数名会自动变为[模块名+双下划线+函数名]，比如在main模块中的add函数会变为main__add。
 
@@ -657,7 +657,7 @@ fn main() {
 	add(1,2)
 }
 
-[export:'add']
+@[export:'add']
 fn add(x int,y int) int {
 	return x+y
 }
@@ -683,11 +683,11 @@ int add(int x, int y) {
 }
 ```
 
-#### [weak]
+#### @[weak]
 
 weak注解目前只支持函数函数和全局变量，weak注解告诉C编译器，该函数或全局变量是一个弱类型的，跟其他C代码一起编译时，在链接的时候，如果编译生成的C代码中存在一个同名的函数或全局变量(强类型的)，则使用这个强类型的，链接器不会报重复定义的错误。目前看这个注解大部分的情况用在c2v的代码中，而且一般跟[export]注解一起使用，一般的V代码很少用到这种场景。
 
-#### [if xxx平台]
+#### @[if xxx平台]
 
 如果函数加上这个注解，只有在对应的平台上才编译生成这个函数，其他平台不会生成，函数的调用也会忽略。
 
@@ -696,7 +696,7 @@ module main
 
 // [if linux] 		//只有linux平台才生成这个函数
 // [if windows] 	//只有windows平台才生成这个函数
-[if macos] 			//只有macos平台才生成这个函数
+@[if macos] 			//只有macos平台才生成这个函数
 pub fn add()  {
 	println('from add')
 }
