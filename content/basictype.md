@@ -267,7 +267,7 @@ module main
 
 fn main() {
 	name := 'tom'
-	str := 'name is: {name} \n' //字符串插值和转译
+	str := 'name is: ${name} \n' //字符串插值和转译
 	raw_str := r'name is: {name} \n' //原始字符串,在单引号或双引号之前加上r前缀
 	raw_str2 := r"name is: {name} \n" //原始字符串,在单引号或双引号之前加上r前缀
 	println(str)
