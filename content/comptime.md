@@ -816,23 +816,28 @@ fn main() {
 module main
 
 fn main() {
-	println('module: ${@MOD}')					//当前模块
-	println('fn: ${@FN}')						//当前函数
-	println('sturct: ${@STRUCT}')				//当前结构体
-	println('method: ${@METHOD}')				//当前方法
-  
-	println('file: ${@FILE}')					//当前源代码文件名
-	println('line: ${@LINE}')					//当前代码所在的行
-	println('column: ${@COLUMN}')				//当前代码在当前行中的列数
-    println('location:${@LOCATION}')            //当前位置，包括当前文件，当前行，当前模块，当前函数
-  
-	println('vhash: ${@VHASH}')					//当前V编译器的hash版本号	
- 	println('vexe: ${@VEXE}')					//当前V编译器命令行文件
-	println('vexeroot: ${@VEXEROOT}')			//当前V编译器命令行所在的目录
-	
-	println('vmod_file: ${@VMOD_FILE}')	//当前文件所处项目的v.mod文件内容
-	println('vmodroot: ${@VMODROOT}')		//当前文件所处项目的v.mod文件所在的目录
+	println('module: ${@MOD}') //当前模块
+	println('fn: ${@FN}') //当前函数
+	println('sturct: ${@STRUCT}') //当前结构体
+	println('method: ${@METHOD}') //当前方法
+
+	println('file: ${@FILE}') //当前源代码文件名
+	println('line: ${@LINE}') //当前代码所在的行
+	println('column: ${@COLUMN}') //当前代码在当前行中的列数
+	println('location:${@LOCATION}') //当前位置，包括当前文件，当前行，当前模块，当前函数
+
+	println('vhash: ${@VHASH}') //当前V编译器的hash版本号	
+	println('vexe: ${@VEXE}') //当前V编译器命令行文件
+	println('vexeroot: ${@VEXEROOT}') //当前V编译器命令行所在的目录
+
+	println('build_date: ${@BUILD_DATE}') //当前编译日期
+	println('build_time: ${@BUILD_TIME}') //当前编译时间
+	println('build_timestamp: ${@BUILD_TIMESTAMP}') //当前编译时间戳
+
+	println('vmod_file: ${@VMOD_FILE}') //当前文件所处项目的v.mod文件内容
+	println('vmodroot: ${@VMODROOT}') //当前文件所处项目的v.mod文件所在的目录
 }
+
 ```
 
 ### 编译时获取环境变量

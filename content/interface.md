@@ -277,6 +277,40 @@ fn main() {
 
 ```
 
+0.4.8版本开始，结构体可以有一个`可选`的关键字implements，用来明确标记结构体实现了哪些接口：
+
+```python
+module main
+
+struct Dog implements Speaker {} //可选的实现接口声明
+
+struct Cat implements Speaker {} 
+
+fn (d Dog) speak() string {
+	return 'woof'
+}
+
+fn (c Cat) speak() string {
+	return 'meow'
+}
+
+interface Speaker{
+	speak() string //普通的接口方法
+}
+
+fn perform(s Speaker) {
+	println(s.speak())
+}
+
+fn main() {
+	dog := Dog{}
+	cat := Cat{}
+	perform(dog) // "woof"
+	perform(cat) // "meow"
+}
+
+```
+
 接口可以作为结构体字段类型使用：
 
 ```v
